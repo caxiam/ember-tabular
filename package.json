@@ -47,6 +47,7 @@
     "json api"
   ],
   "dependencies": {
+    "ember-cli-babel": "^5.1.5",
     "pagination-pager": "2.4.1",
     "ember-truth-helpers": "1.2.0"
   },

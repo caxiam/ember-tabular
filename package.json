@@ -33,8 +33,16 @@
     "ember-export-application-global": "^1.0.2"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "table",
+    "sort",
+    "filter",
+    "json api"
   ],
+  "dependencies": {
+    "pagination-pager": "2.4.1",
+    "ember-truth-helpers": "1.2.0"
+  },
   "ember-addon": {
     "configPath": "tests/dummy/config"
   }

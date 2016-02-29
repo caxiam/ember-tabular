@@ -1,0 +1,31 @@
+{{#ember-table-jsonapi columns=columns modelType="user" bindModel=users hasActions="true" as |section|}}
+    {{#if section.isBody}}
+        {{#each users as |row|}}
+            <tr>
+                <td>{{row.username}}</td>
+                <td>{{row.emailAddress}}</td>
+                <td>{{row.firstName}}</td>
+                <td>{{row.lastName}}</td>
+                <td>
+                    {{#if row.isAdmin}}
+                        Yes
+                    {{else}}
+                        No
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if row.updatedAt}}
+                        {{moment-format row.updatedAt momentInputFormat}}
+                    {{else}}
+                        {{moment-format row.createdAt momentInputFormat}}
+                    {{/if}}
+                </td>
+                <td>
+                    {{#link-to "index" row class="btn btn-default btn-xs" role="button"}}
+                        <span class="glyphicon glyphicon-edit"></span> Edit
+                    {{/link-to}}
+                </td>
+            </tr>
+        {{/each}}
+    {{/if}}
+{{/ember-table-jsonapi}}

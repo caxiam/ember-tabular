@@ -1,0 +1,70 @@
+{{#if isFailure}}
+    {{#app-alert type="danger"}}
+        {{failureMessage}}
+        {{#if errors}}
+            <ul>
+                {{#each error in errors}}
+                    <li>
+                        {{error}}
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    {{/app-alert}}
+{{/if}}
+
+{{yield header}}
+
+<div class="table-responsive">
+    {{#if searchable}}
+        {{app-table-global-filter query=query filter=filter filterProperty=filterProperty filterPlaceholder=filterPlaceholder}}
+    {{/if}}
+    <table class="table {{if tableClass tableClass 'table-bordered table-hover'}}">
+            {{#if columns}}
+                <thead>
+                    <tr>
+                        {{#each columns as |header|}}
+                            {{#if header.property}}
+                                <th {{action "sortBy" header.property}} id="{{dot-to-dash-filter header.property}}" class="{{sortableClass}}">{{header.label}}</th>
+                            {{else}}
+                                <th>{{header.label}}</th>
+                            {{/if}}
+                        {{/each}}
+                        {{#if hasActions}}
+                            <th>Actions</th>
+                        {{/if}}
+                    </tr>
+                    <tr>
+                        {{#each columns as |header|}}
+                            {{#if header.property}}
+                                {{app-table-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                            {{/if}}
+                        {{/each}}
+                        {{#if (and hasActions header.property)}}
+                            {{!-- Blank to reserve table column --}}
+                            <th></th>
+                        {{/if}}
+                    </tr>
+                </thead>
+            {{/if}}
+            <tbody>
+                {{#if bindModel}}
+                    {{yield body}}
+                {{else}}
+                    <tr>
+                        <td class="text-center" colspan="{{columnLength}}">
+                            {{#if isBindModelLoaded}}
+                                {{tableLoadedMessage}}
+                            {{else}}
+                                Loading...
+                            {{/if}}
+                        </td>
+                    </tr>
+                {{/if}}
+            </tbody>
+    </table>
+</div>
+
+{{yield footer}}
+
+{{pagination-pager current=page count=pageLimit}}

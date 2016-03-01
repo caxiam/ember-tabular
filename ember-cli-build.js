@@ -1,6 +1,8 @@
 /*jshint node:true*/
 /* global require, module */
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+var pickFiles = require('broccoli-static-compiler');
+var mergeTrees = require('broccoli-merge-trees');
 
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
@@ -13,6 +15,16 @@ module.exports = function(defaults) {
     This build file does *not* influence how the addon or the app using it
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
+  // Copy non-compiled bootstrap dependency
+  var vendor = pickFiles('bower_components/bootstrap/dist/css/', {
+      srcDir: '/',
+      files: ['bootstrap.css.map'],
+      destDir: '/assets'
+  });
 
-  return app.toTree();
+    // Bootstrap - https://github.com/twbs/bootstrap
+  app.import('bower_components/bootstrap/dist/css/bootstrap.css');
+  app.import('bower_components/bootstrap/dist/js/bootstrap.js');
+
+  return mergeTrees([app.toTree(), vendor]);
 };

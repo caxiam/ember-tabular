@@ -37,7 +37,7 @@
                     <tr>
                         {{#each columns as |header|}}
                             {{#if header.property}}
-                                {{app-table-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                                {{ember-table-jsonapi modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
                             {{/if}}
                         {{/each}}
                         {{#if (and hasActions header.property)}}

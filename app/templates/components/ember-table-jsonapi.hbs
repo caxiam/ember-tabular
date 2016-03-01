@@ -1,5 +1,5 @@
 {{#if isFailure}}
-    {{#app-alert type="danger"}}
+    {{#ember-table-jsonapi-alert type="danger"}}
         {{failureMessage}}
         {{#if errors}}
             <ul>
@@ -10,7 +10,7 @@
                 {{/each}}
             </ul>
         {{/if}}
-    {{/app-alert}}
+    {{/ember-table-jsonapi-alert}}
 {{/if}}
 
 {{yield header}}
@@ -37,7 +37,7 @@
                     <tr>
                         {{#each columns as |header|}}
                             {{#if header.property}}
-                                {{ember-table-jsonapi modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                                {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
                             {{/if}}
                         {{/each}}
                         {{#if (and hasActions header.property)}}

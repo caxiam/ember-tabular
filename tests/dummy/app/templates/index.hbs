@@ -7,21 +7,14 @@
                 <td>{{row.firstName}}</td>
                 <td>{{row.lastName}}</td>
                 <td>
-                    {{#if row.isAdmin}}
-                        Yes
-                    {{else}}
-                        No
-                    {{/if}}
-                </td>
-                <td>
                     {{#if row.updatedAt}}
-                        {{moment-format row.updatedAt momentInputFormat}}
+                        {{moment-format row.updatedAt 'MM/DD/YYYY'}}
                     {{else}}
-                        {{moment-format row.createdAt momentInputFormat}}
+                        {{moment-format row.createdAt 'MM/DD/YYYY'}}
                     {{/if}}
                 </td>
                 <td>
-                    {{#link-to "index" row class="btn btn-default btn-xs" role="button"}}
+                    {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
                         <span class="glyphicon glyphicon-edit"></span> Edit
                     {{/link-to}}
                 </td>

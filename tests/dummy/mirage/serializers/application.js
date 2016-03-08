@@ -8,7 +8,7 @@ export default JSONAPISerializer.extend({
             serializedResponse = {},
             meta = {'total': collection.length};;
 
-        // sort, filter etc
+        // json api sort/pagination
         if (where) {
             // remove any null/undefined/empty/false values in query/where object
             for (var i in where) {

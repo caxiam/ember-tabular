@@ -20,6 +20,8 @@ test('Check for expected content /', function(assert) {
         assert.equal(cells.eq(3).html(), 'McClane', 'Check for last name');
         assert.equal(cells.eq(4).text().trim(), '01/02/2017', 'Check for date');
         assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+
+        assert.equal(find('table tbody tr').length, 2, 'Check for 2 items in table');
     });
 });
 

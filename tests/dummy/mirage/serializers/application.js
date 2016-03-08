@@ -56,14 +56,12 @@ export default JSONAPISerializer.extend({
 
     // Sort attribute.property based on property
     _dynamicSort(property) {
-        console.log('property', property);
         let sortOrder = 1;
 
         if (property[0] === "-") {
             sortOrder = -1;
             property = property.substr(1);
         }
-        console.log('property', property);
         return function (a,b) {
             let result = (a['attributes'][property] < b['attributes'][property]) ? -1 :
                 (a['attributes'][property] > b['attributes'][property]) ? 1 : 0;

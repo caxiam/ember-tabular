@@ -28,7 +28,6 @@ export default Ember.Controller.extend({
             property: 'updated-at',
             label: 'Last Updated',
             type: 'date',
-            defaultSort: '-updated_at',
         },
     ],
 });

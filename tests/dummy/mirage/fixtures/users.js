@@ -119,5 +119,16 @@ export default [
         'isAdmin': false,
         'createdAt': '2006-07-22',
         'updatedAt': '2006-07-23'
-    }
+    },
+    {
+        'id': 12,
+        'type': 'users',
+        'username': 'mcclane.jr',
+        'emailAddress': 'jack.mcclane@domain.com',
+        'firstName': 'Jack',
+        'lastName': 'McClane',
+        'isAdmin': true,
+        'createdAt': '2017-01-01',
+        'updatedAt': '2017-01-02'
+    },
 ];

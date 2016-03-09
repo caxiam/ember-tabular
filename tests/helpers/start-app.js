@@ -1,6 +1,10 @@
 import Ember from 'ember';
 import Application from '../../app';
 import config from '../../config/environment';
+import util from './util';
+
+// Initialize helpers
+util();
 
 export default function startApp(attrs) {
   let application;

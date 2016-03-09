@@ -22,7 +22,11 @@
     "andThen",
     "currentURL",
     "currentPath",
-    "currentRouteName"
+    "currentRouteName",
+    "getLastPretenderRequest",
+    "getPretenderRequest",
+    "getPretenderRequestBody",
+    "assertIn"
   ],
   "node": false,
   "browser": false,

@@ -219,7 +219,6 @@ test('Check table-basic-global-filter for expected content after filtering', fun
         assert.equal(cells.eq(2).html(), 'John', 'Check for first name');
         assert.equal(cells.eq(3).html(), 'McClane', 'Check for last name');
         assert.equal(cells.eq(4).text().trim(), '01/02/2017', 'Check for date');
-        assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
 
         assert.equal(find('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
     });

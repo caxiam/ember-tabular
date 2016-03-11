@@ -155,3 +155,17 @@ test('Do not render filter component', function(assert) {
     var $component = this.$();
     assert.equal($component.find('thead tr').length, 1, 'Do not render filter row');
 });
+
+test('Render global filter component', function(assert) {
+    this.set('columns', columns);
+    this.render(hbs`
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel searchable="true" hasActions="true" as |section|}}
+            {{#if section.isFooter}}
+                ...
+            {{/if}}
+        {{/ember-table-jsonapi}}
+    `);
+
+    var $component = this.$();
+    assert.equal($component.find('.table-filter').length, 1, 'Test global filter');
+});

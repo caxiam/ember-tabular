@@ -51,6 +51,23 @@ let columns = [
         type: 'date',
     },
 ];
+let columnsLabels = [
+    {
+        label: 'Username',
+    },
+    {
+        label: 'Email',
+    },
+    {
+        label: 'First Name',
+    },
+    {
+        label: 'Last Name',
+    },
+    {
+        label: 'Last Updated',
+    },
+];
 
 moduleForComponent('ember-table-jsonapi', 'Integration | Component | ember table jsonapi', {
     integration: true,
@@ -123,4 +140,19 @@ test('Render filter component', function(assert) {
     assert.equal($component.find('thead tr:eq(1) th:eq(3) input').length, 1, 'Table Filter Input - Last Name');
     assert.equal($component.find('thead tr:eq(1) th:eq(4) input').length, 1, 'Table Filter Input - Last Updated');
     assert.equal($component.find('thead tr:eq(1) th:eq(5) input').length, 0, 'Table Filter No Input - Actions');
+});
+
+test('Do not render filter component', function(assert) {
+    this.set('columnsLabels', columnsLabels);
+    this.render(hbs`
+        {{#ember-table-jsonapi columns=columnsLabels bindModel=bindModel hasActions="true" as |section|}}
+            {{#if section.isFooter}}
+                ...
+            {{/if}}
+        {{/ember-table-jsonapi}}
+    `);
+
+    var $component = this.$();
+    console.log($component.html());
+    assert.equal($component.find('thead tr').length, 1, 'Do not render filter row');
 });

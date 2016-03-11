@@ -34,17 +34,19 @@
                             <th>Actions</th>
                         {{/if}}
                     </tr>
-                    <tr>
-                        {{#each columns as |header|}}
-                            {{#if header.property}}
-                                {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                    {{#if isColumnFilters}}
+                        <tr>
+                            {{#each columns as |header|}}
+                                {{#if header.property}}
+                                    {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                                {{/if}}
+                            {{/each}}
+                            {{#if (and hasActions header.property)}}
+                                {{!-- Blank to reserve table column --}}
+                                <th></th>
                             {{/if}}
-                        {{/each}}
-                        {{#if (and hasActions header.property)}}
-                            {{!-- Blank to reserve table column --}}
-                            <th></th>
-                        {{/if}}
-                    </tr>
+                        </tr>
+                    {{/if}}
                 </thead>
             {{/if}}
             <tbody>

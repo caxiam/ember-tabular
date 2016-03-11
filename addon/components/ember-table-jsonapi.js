@@ -78,6 +78,18 @@ export default Ember.Component.extend({
         return false;
     }),
 
+    isColumnFilters: Ember.computed('columns', function() {
+        let columns = this.get('columns');
+
+        for (var i = columns.length - 1; i >= 0; i--) {
+            if (columns[i].hasOwnProperty('property')) {
+                return true;
+            }
+        }
+
+        return false;
+    }),
+
     defaultSort: Ember.on('init', function() {
         this.get('columns').map(function(el) {
             if (el.hasOwnProperty('defaultSort')) {

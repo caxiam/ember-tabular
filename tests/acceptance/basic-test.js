@@ -5,7 +5,36 @@ moduleForAcceptance('Acceptance: Simple Table', {
     integration: true,
 });
 
-test('Check for expected content /', function(assert) {
+test('Check table pagination - 0 pages', function(assert) {
+    server.createList('user', 0);
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+
+        var cells = find('table tbody tr').eq(0).find('td');
+
+        assert.equal(find('table tbody tr').length, 1, 'Check for 1 items in table');
+        assert.equal(cells.eq(0).html().trim(), 'No Data.', 'No Data.');
+        assert.equal(find('.pagination').hasClass('hidden'), true, 'Pagination is hidden')
+    });
+});
+
+test('Check table pagination - 5 pages', function(assert) {
+    server.createList('user', 50);
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+
+        var cells = find('table tbody tr').eq(0).find('td');
+
+        assert.equal(find('table tbody tr').length, 10, 'Check for 10 items in table');
+        assert.equal(find('.pagination > *').length, 7, 'Pagination is 5 pages')
+    });
+});
+
+test('Check for expected content', function(assert) {
     server.loadFixtures('users');
     visit('/');
 
@@ -25,7 +54,7 @@ test('Check for expected content /', function(assert) {
     });
 });
 
-test('Check table rendering of / for no data or loading', function(assert) {
+test('Check table rendering for no data or loading', function(assert) {
     server.loadFixtures('users');
     visit('/');
 
@@ -45,7 +74,7 @@ test('Check table rendering of / for no data or loading', function(assert) {
     });
 });
 
-test('Check table rendering of / for pagination', function(assert) {
+test('Check table rendering for pagination', function(assert) {
     server.loadFixtures('users');
     visit('/');
 
@@ -69,7 +98,7 @@ test('Check table rendering of / for pagination', function(assert) {
     });
 });
 
-test('Check for expected content sorting /', function(assert) {
+test('Check for expected content sorting', function(assert) {
     server.loadFixtures('users');
     visit('/');
 
@@ -101,7 +130,7 @@ test('Check for expected content sorting /', function(assert) {
     });
 });
 
-test('Check for expected content filter /', function(assert) {
+test('Check for expected content filter', function(assert) {
     server.loadFixtures('users');
     visit('/');
 
@@ -134,7 +163,7 @@ test('Check for expected content filter /', function(assert) {
     });
 });
 
-test('Check for expected content filter /', function(assert) {
+test('Check for expected content filter', function(assert) {
     server.loadFixtures('users');
     visit('/');
 

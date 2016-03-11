@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     users: null,
+    users2: null,
     columns: [
         {
             property: 'username',
@@ -28,6 +29,23 @@ export default Ember.Controller.extend({
             property: 'updated-at',
             label: 'Last Updated',
             type: 'date',
+        },
+    ],
+    columns2: [
+        {
+            label: 'Username',
+        },
+        {
+            label: 'Email',
+        },
+        {
+            label: 'First Name',
+        },
+        {
+            label: 'Last Name',
+        },
+        {
+            label: 'Last Updated',
         },
     ],
 });

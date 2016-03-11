@@ -1,6 +1,33 @@
+<h1>Table - Default</h1>
 {{#ember-table-jsonapi columns=columns modelType="user" bindModel=users hasActions="true" as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
+            <tr>
+                <td>{{row.username}}</td>
+                <td>{{row.emailAddress}}</td>
+                <td>{{row.firstName}}</td>
+                <td>{{row.lastName}}</td>
+                <td>
+                    {{#if row.updatedAt}}
+                        {{moment-format row.updatedAt 'MM/DD/YYYY'}}
+                    {{else}}
+                        {{moment-format row.createdAt 'MM/DD/YYYY'}}
+                    {{/if}}
+                </td>
+                <td>
+                    {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
+                        Edit
+                    {{/link-to}}
+                </td>
+            </tr>
+        {{/each}}
+    {{/if}}
+{{/ember-table-jsonapi}}
+
+<h1>Table - Basic - Global Filter</h1>
+{{#ember-table-jsonapi columns=columns2 modelType="user" bindModel=users2 searchable="true" searchFilter=q filterProperty="username" filterPlaceholder="Search by Username" hasActions="true" as |section|}}
+    {{#if section.isBody}}
+        {{#each users2 as |row|}}
             <tr>
                 <td>{{row.username}}</td>
                 <td>{{row.emailAddress}}</td>

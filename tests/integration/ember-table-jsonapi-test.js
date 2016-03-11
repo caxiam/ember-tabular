@@ -1,8 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-let component;
-let model = [
+let bindModel = [
     {
         id: 1,
         username: 'YippieKiYay',
@@ -12,7 +11,8 @@ let model = [
         isAdmin: true,
         createdAt: '2017-01-01',
         updatedAt: '2017-01-02'
-    }, {
+    },
+    {
         id: 2,
         username: 'HanSolo',
         emailAddress: 'smugglerOne@domain.com',
@@ -58,9 +58,8 @@ moduleForComponent('ember-table-jsonapi', 'Integration | Component | ember table
 
 test('Render header yield', function(assert) {
     this.set('columns', columns);
-    this.set('bindModel', model);
     this.render(hbs`
-        {{#ember-table-jsonapi columns=columns bindModel=model hasActions="true" as |section|}}
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel hasActions="true" as |section|}}
             {{#if section.isHeader}}
                 <div class="header">
                     Test Header Yield
@@ -73,11 +72,28 @@ test('Render header yield', function(assert) {
     assert.equal($component.find('.header').text().trim(), 'Test Header Yield');
 });
 
+test('Render body yield', function(assert) {
+    this.set('columns', columns);
+    this.render(hbs`
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel hasActions="true" as |section|}}
+            {{#if section.isBody}}
+                <div class="body">
+                    Test Body Yield
+                </div>
+            {{/if}}
+        {{/ember-table-jsonapi}}
+    `);
+    // Set bindModel after render b/c of component this.reset()
+    this.set('bindModel', bindModel);
+
+    var $component = this.$();
+    assert.equal($component.find('.body').text().trim(), 'Test Body Yield');
+});
+
 test('Render footer yield', function(assert) {
     this.set('columns', columns);
-    this.set('bindModel', model);
     this.render(hbs`
-        {{#ember-table-jsonapi columns=columns bindModel=model hasActions="true" as |section|}}
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel hasActions="true" as |section|}}
             {{#if section.isFooter}}
                 <div class="footer">
                     Test Footer Yield
@@ -92,9 +108,8 @@ test('Render footer yield', function(assert) {
 
 test('Render filter component', function(assert) {
     this.set('columns', columns);
-    this.set('bindModel', model);
     this.render(hbs`
-        {{#ember-table-jsonapi columns=columns bindModel=model hasActions="true" as |section|}}
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel hasActions="true" as |section|}}
             {{#if section.isFooter}}
                 ...
             {{/if}}

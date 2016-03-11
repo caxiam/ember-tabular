@@ -16,7 +16,7 @@ test('Check table pagination - 0 pages', function(assert) {
 
         assert.equal(find('table tbody tr').length, 1, 'Check for 1 items in table');
         assert.equal(cells.eq(0).html().trim(), 'No Data.', 'No Data.');
-        assert.equal(find('.pagination').hasClass('hidden'), true, 'Pagination is hidden')
+        assert.equal(find('.pagination').hasClass('hidden'), true, 'Pagination is hidden');
     });
 });
 
@@ -27,10 +27,8 @@ test('Check table pagination - 5 pages', function(assert) {
     andThen(function() {
         assert.equal(currentPath(), 'index');
 
-        var cells = find('table tbody tr').eq(0).find('td');
-
         assert.equal(find('table tbody tr').length, 10, 'Check for 10 items in table');
-        assert.equal(find('.pagination > *').length, 7, 'Pagination is 5 pages')
+        assert.equal(find('.pagination > *').length, 7, 'Pagination is 5 pages');
     });
 });
 

@@ -153,6 +153,5 @@ test('Do not render filter component', function(assert) {
     `);
 
     var $component = this.$();
-    console.log($component.html());
     assert.equal($component.find('thead tr').length, 1, 'Do not render filter row');
 });

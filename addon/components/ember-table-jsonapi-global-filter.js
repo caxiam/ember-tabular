@@ -3,35 +3,49 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     tagName: '',
     action: null,
+    filterProperty: null,
 
     query: null,
     filter: null,
 
     actions: {
         clearFilter() {
-            this.set('headerFilter', null);
+            this.set('searchFilter', null);
         }
     },
-    filterBy: Ember.observer('headerFilter', function() {
+    filterTable: Ember.observer('searchFilter', function() {
         Ember.run.debounce(this, 'filterName', 750);
     }),
-    isClearable: Ember.computed('headerFilter', function() {
-        if (this.get('headerFilter')) {
+    isClearable: Ember.computed('searchFilter', function() {
+        if (this.get('searchFilter')) {
             return true;
         }
         return false;
     }),
-    inputPlaceholder: Ember.computed('header.type', function() {
-        var type = this.get('header.type');
+    // filterName() {
+    //     var value = this.get('searchFilter'),
+    //         property = this.get('filterProperty'),
+    //         filter = this.get('filter');
 
-        if (type === 'date') {
-            return 'YYYY-MM-DD';
-        }
-    }),
+    //     if (!filter) {
+    //         filter = {};
+    //     }
+
+    //     // Set the query on the filter object
+    //     filter[property] = value;
+
+    //     // Remove filter if value is an empty string
+    //     // to prevent empty request from being sent
+    //     if (value === '' || value === null) {
+    //         delete filter[property];
+    //     }
+
+    //     this.set('filter', filter);
+    // },
     filterName() {
         var query = this.get('query'),
-            property = this.get('property'),
-            value = this.get('headerFilter'),
+            property = this.get('filterProperty'),
+            value = this.get('searchFilter'),
             filter;
 
         // Set the query on the filter object

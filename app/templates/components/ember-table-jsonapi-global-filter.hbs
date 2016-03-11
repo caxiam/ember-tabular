@@ -1,5 +1,5 @@
-<div class="table-filter voffset-bottom-15">
-    {{input value=searchFilter type="text" name="searchFilter" class="form-control input-sm" id="searchFilter" placeholder=filterPlaceholder}}
+<div class="table-filter">
+    {{input value=searchFilter type="text" name="searchFilter" class="form-control" id="searchFilter" placeholder=filterPlaceholder}}
     {{#if isClearable}}
         <span {{action 'clearFilter'}} class="glyphicon glyphicon-remove clearFilter"></span>
     {{/if}}

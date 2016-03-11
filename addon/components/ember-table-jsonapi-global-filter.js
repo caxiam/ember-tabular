@@ -22,26 +22,6 @@ export default Ember.Component.extend({
         }
         return false;
     }),
-    // filterName() {
-    //     var value = this.get('searchFilter'),
-    //         property = this.get('filterProperty'),
-    //         filter = this.get('filter');
-
-    //     if (!filter) {
-    //         filter = {};
-    //     }
-
-    //     // Set the query on the filter object
-    //     filter[property] = value;
-
-    //     // Remove filter if value is an empty string
-    //     // to prevent empty request from being sent
-    //     if (value === '' || value === null) {
-    //         delete filter[property];
-    //     }
-
-    //     this.set('filter', filter);
-    // },
     filterName() {
         var query = this.get('query'),
             property = this.get('filterProperty'),

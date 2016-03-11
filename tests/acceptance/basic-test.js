@@ -149,7 +149,7 @@ test('Check for expected content filter', function(assert) {
         assert.equal(cells.eq(4).text().trim(), '01/02/2017', 'Check for date');
         assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
 
-        assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 1 item in table');
+        assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 items in table');
     });
 
     andThen(function() {
@@ -158,6 +158,41 @@ test('Check for expected content filter', function(assert) {
         assert.equal(request.status, 200);
         assert.equal(request.method, 'GET');
         assert.equal(request.url, '/users?filter%5Blast-name%5D=McClane&limit=10&offset=0&page=1&sort=username', 'Expected query params in URL');
+    });
+});
+
+test('Check for expected content multiple filters', function(assert) {
+    server.loadFixtures('users');
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+
+        fillIn('.table-default table thead tr:eq(1) th:eq(2) input', 'John');
+        find('.table-default table thead tr:eq(1) th:eq(2) input').trigger('keyup');
+        fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
+        find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
+    });
+
+    andThen(function() {
+        var cells = find('.table-default table tbody tr').eq(0).find('td');
+
+        assert.equal(cells.eq(0).html(), 'YippieKiYay', 'Check for username');
+        assert.equal(cells.eq(1).html(), 'john.mcclane@domain.com', 'Check for email');
+        assert.equal(cells.eq(2).html(), 'John', 'Check for first name');
+        assert.equal(cells.eq(3).html(), 'McClane', 'Check for last name');
+        assert.equal(cells.eq(4).text().trim(), '01/02/2017', 'Check for date');
+        assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+
+        assert.equal(find('.table-default table tbody tr').length, 1, 'Check for 1 item in table');
+    });
+
+    andThen(function() {
+        var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+        assert.equal(request.status, 200);
+        assert.equal(request.method, 'GET');
+        assert.equal(request.url, '/users?filter%5Bfirst-name%5D=John&filter%5Blast-name%5D=McClane&limit=10&offset=0&page=1&sort=username', 'Expected query params in URL');
     });
 });
 

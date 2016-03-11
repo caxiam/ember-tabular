@@ -1,0 +1,23 @@
+/* Ember-Table-Jsonapi */
+
+.table th{
+    position:relative;
+}
+.table thead tr input{
+    padding-right:20px;
+}
+.table-filter{
+    position:relative;
+}
+.clearFilter,
+.clearFilter.glyphicon{
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    right: 12px;
+    z-index: 1;
+    color: #999;
+}
+.clearFilter:hover{
+    color:black;
+}

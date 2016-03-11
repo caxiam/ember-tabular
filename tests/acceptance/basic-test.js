@@ -197,3 +197,38 @@ test('Check for expected content filter', function(assert) {
         assert.equal(request.url, '/users?filter%5Blast-name%5D=McClane&limit=10&offset=0&page=1&sort=last-name', 'Expected query params in URL');
     });
 });
+
+test('Check table-basic-global-filter for expected content after filtering', function(assert) {
+    server.loadFixtures('users');
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+    });
+
+    andThen(function() {
+        fillIn('.table-basic-global-filter .table-filter input', 'YippieKiYay');
+        find('.table-basic-global-filter .table-filter input').trigger('keyup');
+    });
+
+    andThen(function() {
+        var cells = find('.table-basic-global-filter table tbody tr').eq(0).find('td');
+
+        assert.equal(cells.eq(0).html(), 'YippieKiYay', 'Check for username');
+        assert.equal(cells.eq(1).html(), 'john.mcclane@domain.com', 'Check for email');
+        assert.equal(cells.eq(2).html(), 'John', 'Check for first name');
+        assert.equal(cells.eq(3).html(), 'McClane', 'Check for last name');
+        assert.equal(cells.eq(4).text().trim(), '01/02/2017', 'Check for date');
+        assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+
+        assert.equal(find('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
+    });
+
+    andThen(function() {
+        var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+        assert.equal(request.status, 200);
+        assert.equal(request.method, 'GET');
+        assert.equal(request.url, '/users?filter%5Busername%5D=YippieKiYay&limit=10&offset=0&page=1&sort=', 'Expected query params in URL');
+    });
+});

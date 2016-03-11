@@ -266,3 +266,55 @@ test('Check table-basic-global-filter for expected content after filtering', fun
         assert.equal(request.url, '/users?filter%5Busername%5D=YippieKiYay&limit=10&offset=0&page=1&sort=', 'Expected query params in URL');
     });
 });
+
+test('Check for clearFilter action success', function(assert) {
+    server.loadFixtures('users');
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+    });
+
+    andThen(function() {
+        fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
+        find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
+    });
+
+    andThen(function() {
+        assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 item in table');
+    });
+
+    andThen(function() {
+        click('.clearFilter');
+    });
+
+    andThen(function() {
+        assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 item in table');
+    });
+});
+
+test('Check table-basic-global-filter for clearFilter action success', function(assert) {
+    server.loadFixtures('users');
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+    });
+
+    andThen(function() {
+        fillIn('.table-basic-global-filter .table-filter input', 'YippieKiYay');
+        find('.table-basic-global-filter .table-filter input').trigger('keyup');
+    });
+
+    andThen(function() {
+        assert.equal(find('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
+    });
+
+    andThen(function() {
+        click('.clearFilter');
+    });
+
+    andThen(function() {
+        assert.equal(find('.table-basic-global-filter table tbody tr').length, 10, 'Check for 10 item in table');
+    });
+});

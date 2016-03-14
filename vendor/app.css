@@ -21,3 +21,24 @@
 .clearFilter:hover{
     color:black;
 }
+.table thead th.sortable {
+    position: relative;
+    padding-right: 30px!important;
+}
+.table thead th.sortable:after{
+    content: "\e150";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: block;
+    font-family: 'Glyphicons Halflings';
+    opacity: .2;
+}
+.table thead th.sortable.sort-desc:after {
+    content: "\e156";
+    opacity: .5;
+}
+.table thead th.sortable.sort-asc:after {
+    content: "\e155";
+    opacity: .5;
+}

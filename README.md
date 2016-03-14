@@ -82,7 +82,7 @@ export default Ember.Controller.extend({
 
 ## Advanced Usage
 ```hbs
-{{#ember-table-jsonapi columns=columns modelType="user" bindModel=users hasActions="true" class="table-default" tableClass="table-bordered table-hover table-striped" staticParams=staticParams as |section|}}
+{{#ember-table-jsonapi columns=columns modelType="user" bindModel=users hasActions="true" class="table-default" tableClass="table-bordered table-hover table-striped" staticParams=staticParams searchable="true" filterProperty="name" filterPlaceholder="Search by Location Name" as |section|}}
     ...
 {{/ember-table-jsonapi}}
 ```
@@ -94,20 +94,21 @@ export default Ember.Controller.extend({
   * Wraps only the `<table>` and replaces defaults if provided.
 * `staticParams` - object - default: null
   * Object to pass in static query-params that will not change based on any filter/sort criteria, ex. additional table-wide filters that need to be applied in all requests `?filter[is-open]=1`.
-  
-  ```js
-  // app/controllers/location.js
-  
-  export default Ember.Controller.extend({
-      staticParams: Ember.computed('model', function() {
-          return {
-              'filter[is-open]': '1'
-          };
-      }),
-      ...
-  });
-  ```
 
+      ```js
+      // app/controllers/location.js
+
+      export default Ember.Controller.extend({
+          staticParams: Ember.computed('model', function() {
+              return {
+                  'filter[is-open]': '1'
+              };
+          }),
+          ...
+      });
+      ```
+* `searchable` - boolean/string - default: false
+  * Activate the global-filter sub-component. Used in conjunction with `filterProperty` and `filterPlaceholder`.
 * `filterProperty` - string - Default: null
   * Used with the "Global Filter Sub-Component".
   * Pass the property name.
@@ -115,6 +116,49 @@ export default Ember.Controller.extend({
 * `filterPlaceholder` - string - Default: null
   * Placeholder to be used for the global-filter
 
+```js
+export default Ember.Controller.extend({
+    users: null,
+    columns: [
+        {
+            property: 'username',
+            label: 'Username',
+            type: 'text',
+            defaultSort: 'username',
+        },
+        {
+            property: 'email-address',
+            label: 'Email',
+            type: 'text',
+        },
+        {
+            property: 'first-name',
+            label: 'First Name',
+            type: 'text',
+        },
+        {
+            property: 'last-name',
+            label: 'Last Name',
+            type: 'text',
+        },
+        {
+            property: 'updated-at',
+            label: 'Last Updated',
+            type: 'date',
+        },
+    ],
+});
+```
+* `columns.property` - string
+  * Required for column filtering
+* `columns.label` - string
+  * Required in all use-cases
+* `columns.type` - string
+  * Required for column filtering
+  * Sets the filter `<input type="">`
+* `columns.defaultSort` - string
+  * Initial sort value for API request
+  * Will be overridden with any sorting changes
 
 # Contributing to this addon
 ## Installation

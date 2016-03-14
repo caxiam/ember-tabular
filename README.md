@@ -126,6 +126,8 @@ export default Ember.Controller.extend({
   * This will be passed onto `{{ember-table-jsonapi-global-filter ...}}`
 * `filterPlaceholder` - string - Default: null
   * Placeholder to be used for the global-filter
+* `tableLoadedMessage` - string - Default: "No Data."
+  * In some cases when the API response is loaded but does not contain any data "No Data." will not apply, on a case by case basis you can override this.
 
 ```js
 export default Ember.Controller.extend({
@@ -186,6 +188,12 @@ Component has 3 yields setup by default, `header`, `body`, and `footer`.
 * `{{yield header}}` is rendered outside (above) the `<div class="table-responsive">` on the root of the template.
 * `{{yield body}}` is rendered within the `<tbody></tbody>`. Conditional based on `bindModel`.
 * `{{yield footer}}` is rendered outside (below) the `<div class="table-responsive">` on the root of the template above the pagination.
+
+## Note
+* This component expects jsonapi error format: http://jsonapi.org/format/#error-objects
+  * Specifically `error.detail` to display in the alert/error box
+* Pagination is constructed using, `?offset=A&limit=B&page=C&sort=`
+* All other filters are sent through the jsonapi format spec: http://jsonapi.org/recommendations/#filtering
 
 
 # Contributing to this addon

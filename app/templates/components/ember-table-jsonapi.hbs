@@ -41,7 +41,7 @@
                                     {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
                                 {{/if}}
                             {{/each}}
-                            {{#if (and hasActions header.property)}}
+                            {{#if (and hasActions)}}
                                 {{!-- Blank to reserve table column --}}
                                 <th></th>
                             {{/if}}

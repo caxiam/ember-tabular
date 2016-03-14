@@ -52,6 +52,28 @@ test('Check for expected content', function(assert) {
     });
 });
 
+test('Check for error handling', function(assert) {
+    server.get('/users',
+        {
+            errors: [
+                {
+                    'status': '400',
+                    'title':  'Bad Request',
+                    'detail': 'Error returning users'
+                }
+            ]
+        },
+        400
+    );
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+
+        assertIn(assert, find('.alert').text(), 'Error', 'Check for general error message.');
+    });
+});
+
 test('Check table rendering for no data or loading', function(assert) {
     server.loadFixtures('users');
     visit('/');

@@ -82,7 +82,17 @@ export default Ember.Controller.extend({
 
 ## Advanced Usage
 ```hbs
-{{#ember-table-jsonapi columns=columns modelType="user" bindModel=users hasActions="true" class="table-default" tableClass="table-bordered table-hover table-striped" staticParams=staticParams searchable="true" filterProperty="name" filterPlaceholder="Search by Location Name" as |section|}}
+{{#ember-table-jsonapi 
+    columns=columns 
+    modelType="user" 
+    bindModel=users hasActions="true"
+    class="table-default" 
+    tableClass="table-bordered table-hover table-striped" 
+    staticParams=staticParams 
+    searchable="true" 
+    filterProperty="name" 
+    filterPlaceholder="Search by Location Name" 
+    as |section|}}
     ...
 {{/ember-table-jsonapi}}
 ```

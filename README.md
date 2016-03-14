@@ -85,7 +85,8 @@ export default Ember.Controller.extend({
 {{#ember-table-jsonapi 
     columns=columns 
     modelType="user" 
-    bindModel=users hasActions="true"
+    bindModel=users 
+    hasActions="true"
     class="table-default" 
     tableClass="table-bordered table-hover table-striped" 
     staticParams=staticParams 
@@ -169,6 +170,23 @@ export default Ember.Controller.extend({
 * `columns.defaultSort` - string
   * Initial sort value for API request
   * Will be overridden with any sorting changes
+
+```hbs
+{{#ember-table-jsonapi columns=columns bindModel=users as |section|}}
+    {{#if section.isHeader}}
+        ... place content in header yield ...
+    {{else if section.isBody}}
+        ... place content within <tbody></tbody> ...
+    {{else if section.isFooter}}
+        ... place content in footer yield ...
+    {{/if
+{{/ember-table-jsonapi}}
+```
+Component has 3 yields setup by default, `header`, `body`, and `footer`.
+* `{{yield header}}` is rendered outside (above) the `<div class="table-responsive">` on the root of the template.
+* `{{yield body}}` is rendered within the `<tbody></tbody>`. Conditional based on `bindModel`.
+* `{{yield footer}}` is rendered outside (below) the `<div class="table-responsive">` on the root of the template above the pagination.
+
 
 # Contributing to this addon
 ## Installation

@@ -81,6 +81,7 @@ export default Ember.Controller.extend({
 ```
 
 ## Advanced Usage
+### Template
 ```hbs
 {{#ember-table-jsonapi 
     columns=columns 
@@ -129,6 +130,7 @@ export default Ember.Controller.extend({
 * `tableLoadedMessage` - string - Default: "No Data."
   * In some cases when the API response is loaded but does not contain any data "No Data." will not apply, on a case by case basis you can override this.
 
+### Controller
 ```js
 export default Ember.Controller.extend({
     users: null,
@@ -173,6 +175,7 @@ export default Ember.Controller.extend({
   * Initial sort value for API request
   * Will be overridden with any sorting changes
 
+### Template - Yields
 ```hbs
 {{#ember-table-jsonapi columns=columns bindModel=users as |section|}}
     {{#if section.isHeader}}

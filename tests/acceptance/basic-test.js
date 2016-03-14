@@ -196,7 +196,7 @@ test('Check for expected content multiple filters', function(assert) {
     });
 });
 
-test('Check for expected content filter', function(assert) {
+test('Check for expected content sort/filter', function(assert) {
     server.loadFixtures('users');
     visit('/');
 
@@ -285,7 +285,7 @@ test('Check for clearFilter action success', function(assert) {
     });
 
     andThen(function() {
-        click('.clearFilter');
+        click('.table-default table .clearFilter');
     });
 
     andThen(function() {
@@ -311,7 +311,7 @@ test('Check table-basic-global-filter for clearFilter action success', function(
     });
 
     andThen(function() {
-        click('.clearFilter');
+        click('.table-basic-global-filter .clearFilter');
     });
 
     andThen(function() {

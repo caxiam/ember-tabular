@@ -3,9 +3,9 @@
         {{failureMessage}}
         {{#if errors}}
             <ul>
-                {{#each error in errors}}
+                {{#each errors as |error|}}
                     <li>
-                        {{error}}
+                        {{error.detail}}
                     </li>
                 {{/each}}
             </ul>

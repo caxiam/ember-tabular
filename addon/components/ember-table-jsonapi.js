@@ -201,8 +201,8 @@ export default Ember.Component.extend({
         });
 
         // Set per field errors if found
-        if ('message' in response && 'errors' in response.message) {
-            this.set('errors', response.message.errors);
+        if ('errors' in response) {
+            this.set('errors', response.errors);
         }
     },
 

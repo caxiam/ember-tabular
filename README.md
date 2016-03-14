@@ -179,7 +179,7 @@ export default Ember.Controller.extend({
         ... place content within <tbody></tbody> ...
     {{else if section.isFooter}}
         ... place content in footer yield ...
-    {{/if
+    {{/if}}
 {{/ember-table-jsonapi}}
 ```
 Component has 3 yields setup by default, `header`, `body`, and `footer`.

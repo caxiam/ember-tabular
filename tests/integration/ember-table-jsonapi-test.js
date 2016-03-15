@@ -159,9 +159,9 @@ test('Do not render filter component', function(assert) {
 test('Render global filter component', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-table-jsonapi columns=columns bindModel=bindModel searchable="true" hasActions="true" as |section|}}
-            {{#if section.isFooter}}
-                ...
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel hasActions="true" filter=filter as |section|}}
+            {{#if section.isHeader}}
+                {{ember-table-jsonapi-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
             {{/if}}
         {{/ember-table-jsonapi}}
     `);

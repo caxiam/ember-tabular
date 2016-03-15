@@ -195,14 +195,44 @@ Typically the global filter component would be rendered into the `{{yield header
   * Required
   * Must also expose the `filter` property on the parent `ember-table-jsonapi` component to be able to pass the `filter` object back and forth between parent and child components.
 * `query` - object - Default: `this.get('query') || this.get('parentView.query')`
-  * Pass the query object from the parent component if it is different or if used outside of the content of the component, otherwise query is optional and it component will attempt to grab within the context of the parent component.
+  * Pass the query object from the parent component if it is different or if used outside of the context of the component, otherwise query is optional and it component will attempt to grab within the context of the parent component.
 * `filterProperty` - string - Default: null
   * Required
   * Used with the "Global Filter Sub-Component".
   * Pass the property name.
 * `filterPlaceholder` - string - Default: null
-  * Required
+  * Optional
   * Placeholder to be used for the global-filter.
+* `label` - string - Default: null
+  * Optional
+  * Set a label on the global-filter.
+* `inputClass` - string - Default: null
+  * Optional
+  * Wraps the input field in a div.
+* `labelClass` - string - Default: null
+  * Optional
+
+#### Date Filter
+Date filter changes `input type="date"` to take advantage of a browser's HTML5 date widget. Typically the date filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if section.isHeader}} ...`. However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
+* Sent in request as: `?filter[filterProperty]=dateFilter`, e.g. `?filter[updated-at]=2015-06-29`
+```hbs
+{{ember-table-jsonapi-date-filter 
+  filter=filter 
+    filterProperty="updated-at" 
+    label="Last Updated"}}
+```
+* `filter` - object - Default: null
+  * Required
+  * Must also expose the `filter` property on the parent `ember-table-jsonapi` component to be able to pass the `filter` object back and forth between parent and child components.
+* `query` - object - Default: `this.get('query') || this.get('parentView.query')`
+  * Pass the query object from the parent component if it is different or if used outside of the context of the component, otherwise query is optional and it component will attempt to grab within the context of the parent component.
+* `filterProperty` - string - Default: null
+  * Required
+  * Used with the "Global Filter Sub-Component".
+  * Pass the property name.
+* `dateFilter` - string - Default: null
+  * Optional
+  * Sets the input value.
 * `label` - string - Default: null
   * Optional
   * Set a label on the global-filter.

@@ -6,6 +6,10 @@
 .ember-table-jsonapi .table thead tr input{
     padding-right: 20px;
 }
+.ember-table-jsonapi input.date,
+.ember-table-jsonapi .date-filter input{
+    padding-right:25px;
+}
 .ember-table-jsonapi .table-filter{
     position: relative;
 }

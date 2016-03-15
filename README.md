@@ -184,6 +184,7 @@ Component has 3 yields setup by default, `header`, `body`, and `footer`.
 ### Sub-Components - Templates
 #### Global Filter
 Typically the global filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if section.isHeader}} ...`. However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
+* Sent in request as: `?filter[filterProperty]=searchFilter`, e.g. `?filter[username]=John.Doe2`
 ```hbs
 {{ember-table-jsonapi-global-filter 
   filter=filter 

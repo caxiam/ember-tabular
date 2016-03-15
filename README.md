@@ -91,9 +91,6 @@ export default Ember.Controller.extend({
     class="table-default" 
     tableClass="table-bordered table-hover table-striped" 
     staticParams=staticParams 
-    searchable="true" 
-    filterProperty="name" 
-    filterPlaceholder="Search by Location Name" 
     as |section|}}
     ...
 {{/ember-table-jsonapi}}
@@ -119,14 +116,6 @@ export default Ember.Controller.extend({
           ...
       });
       ```
-* `searchable` - boolean/string - default: false
-  * Activate the global-filter sub-component. Used in conjunction with `filterProperty` and `filterPlaceholder`.
-* `filterProperty` - string - Default: null
-  * Used with the "Global Filter Sub-Component".
-  * Pass the property name.
-  * This will be passed onto `{{ember-table-jsonapi-global-filter ...}}`
-* `filterPlaceholder` - string - Default: null
-  * Placeholder to be used for the global-filter
 * `tableLoadedMessage` - string - Default: "No Data."
   * In some cases when the API response is loaded but does not contain any data "No Data." will not apply, on a case by case basis you can override this.
 
@@ -191,6 +180,28 @@ Component has 3 yields setup by default, `header`, `body`, and `footer`.
 * `{{yield header}}` is rendered outside (above) the `<div class="table-responsive">` on the root of the template.
 * `{{yield body}}` is rendered within the `<tbody></tbody>`. Conditional based on `bindModel`.
 * `{{yield footer}}` is rendered outside (below) the `<div class="table-responsive">` on the root of the template above the pagination.
+
+### Sub-Components - Templates
+#### Global Filter
+```hbs
+{{ember-table-jsonapi-global-filter 
+  filter=filter 
+    filterProperty="username" 
+    filterPlaceholder="Search by Username"}}
+```
+* `filter` - object - Default: null
+  * Required
+  * Must also expose the `filter` property on the parent `ember-table-jsonapi` component to be able to pass the `filter` object back and forth between parent and child components.
+* `filterProperty` - string - Default: null
+  * Required
+  * Used with the "Global Filter Sub-Component".
+  * Pass the property name.
+* `filterPlaceholder` - string - Default: null
+  * Required
+  * Placeholder to be used for the global-filter.
+* `label` - string - Default: null
+  * Optional
+  * Set a label on the global-filter.
 
 ## Note
 * This component expects jsonapi error format: http://jsonapi.org/format/#error-objects

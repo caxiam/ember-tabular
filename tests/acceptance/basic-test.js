@@ -367,3 +367,29 @@ test('Check table-basic-global-date-filter to filter by date and username', func
         assert.equal(request.url, '/users?filter%5Busername%5D=YippieKiYay&filter%5Bupdated-at%5D=2017-01-02&limit=10&offset=0&page=1&sort=', 'Expected query params in URL');
     });
 });
+
+test('Check table-basic-global-date-filter for date clearFilter action success', function(assert) {
+    server.loadFixtures('users');
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+    });
+
+    andThen(function() {
+        fillIn('.table-basic-global-date-filter .table-filter input:eq(1)', '2017-01-02');
+        find('.table-basic-global-date-filter .table-filter input:eq(1)').trigger('keyup');
+    });
+
+    andThen(function() {
+        assert.equal(find('.table-basic-global-date-filter table tbody tr').length, 2, 'Check for 2 items in table');
+    });
+
+    andThen(function() {
+        click('.table-basic-global-date-filter .clearFilter');
+    });
+
+    andThen(function() {
+        assert.equal(find('.table-basic-global-date-filter table tbody tr').length, 10, 'Check for 10 item in table');
+    });
+});

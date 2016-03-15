@@ -46,3 +46,33 @@
         {{/each}}
     {{/if}}
 {{/ember-table-jsonapi}}
+
+<h1>Table - Basic - Global Filter / Date Filter</h1>
+{{#ember-table-jsonapi class="table-basic-global-date-filter" columns=columns2 modelType="user" bindModel=users3 filter=filter2 as |section|}}
+    {{#if section.isHeader}}
+        <div class="row">
+            <div class="col-sm-6">
+                {{ember-table-jsonapi-global-filter filter=filter2 filterProperty="username" filterPlaceholder="Search by Username" label="Username"}}
+            </div>
+            <div class="col-sm-6">
+                {{ember-table-jsonapi-date-filter filter=filter2 filterProperty="updated-at" label="Last Updated"}}
+            </div>
+        </div>
+    {{else if section.isBody}}
+        {{#each users3 as |row|}}
+            <tr>
+                <td>{{row.username}}</td>
+                <td>{{row.emailAddress}}</td>
+                <td>{{row.firstName}}</td>
+                <td>{{row.lastName}}</td>
+                <td>
+                    {{#if row.updatedAt}}
+                        {{moment-format row.updatedAt 'MM/DD/YYYY'}}
+                    {{else}}
+                        {{moment-format row.createdAt 'MM/DD/YYYY'}}
+                    {{/if}}
+                </td>
+            </tr>
+        {{/each}}
+    {{/if}}
+{{/ember-table-jsonapi}}

@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
     users: null,
     users2: null,
+    users3: null,
     columns: [
         {
             property: 'username',

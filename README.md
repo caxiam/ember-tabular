@@ -95,13 +95,13 @@ export default Ember.Controller.extend({
     ...
 {{/ember-table-jsonapi}}
 ```
-* `hasActions` - boolean/string - default: false
-  * ET JSONAPI will reserve an additional column for "actions", ex. Edit/View/Delete buttons.
+* `hasActions` - boolean/string - Default: false
+  * Ember Table JSONAPI will reserve an additional column for "actions", ex. Edit/View/Delete buttons.
 * `class` - string
   * Wraps the entire component.
-* `tableClass` - string - default: "table-bordered table-hover"
+* `tableClass` - string - Default: "table-bordered table-hover"
   * Wraps only the `<table>` and replaces defaults if provided.
-* `staticParams` - object - default: null
+* `staticParams` - object - Default: null
   * Object to pass in static query-params that will not change based on any filter/sort criteria, ex. additional table-wide filters that need to be applied in all requests `?filter[is-open]=1`.
 
       ```js
@@ -110,7 +110,8 @@ export default Ember.Controller.extend({
       export default Ember.Controller.extend({
           staticParams: Ember.computed('model', function() {
               return {
-                  'filter[is-open]': '1'
+                  'filter[is-open]': '1',
+                  'include': 'hours',
               };
           }),
           ...
@@ -243,6 +244,7 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
   * Optional
 
 ## Note
+* This component adheres to jsonapi spec: http://jsonapi.org/
 * This component expects jsonapi error format: http://jsonapi.org/format/#error-objects
   * Specifically `error.detail` to display in the alert/error box
 * Pagination is constructed using, `?offset=A&limit=B&page=C&sort=`

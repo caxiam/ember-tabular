@@ -16,9 +16,6 @@
 {{yield header}}
 
 <div class="table-responsive">
-    {{#if searchable}}
-        {{ember-table-jsonapi-global-filter query=query filter=filter filterProperty=filterProperty filterPlaceholder=filterPlaceholder}}
-    {{/if}}
     <table class="table {{if tableClass tableClass 'table-bordered table-hover'}}">
             {{#if columns}}
                 <thead>

@@ -25,8 +25,10 @@
 {{/ember-table-jsonapi}}
 
 <h1>Table - Basic - Global Filter</h1>
-{{#ember-table-jsonapi class="table-basic-global-filter" columns=columns2 modelType="user" bindModel=users2 searchable="true" filterProperty="username" filterPlaceholder="Search by Username" as |section|}}
-    {{#if section.isBody}}
+{{#ember-table-jsonapi class="table-basic-global-filter" columns=columns2 modelType="user" bindModel=users2 filter=filter as |section|}}
+    {{#if section.isHeader}}
+        {{ember-table-jsonapi-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
+    {{else if section.isBody}}
         {{#each users2 as |row|}}
             <tr>
                 <td>{{row.username}}</td>

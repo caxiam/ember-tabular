@@ -23,14 +23,15 @@ export default Ember.Component.extend({
         return false;
     }),
     filterName() {
-        var query = this.get('query'),
+        // Reference parent component query obj
+        var query = this.get('parentView.query'),
             property = this.get('filterProperty'),
             value = this.get('searchFilter'),
             filter;
 
         // Set the query on the filter object
         if (query.hasOwnProperty('filter') && query.filter !== null) {
-            filter = this.get('query.filter');
+            filter = query.filter;
         } else {
             filter = {};
         }

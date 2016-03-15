@@ -42,6 +42,7 @@
     content: "\e155";
     opacity: .5;
 }
-.ember-table-jsonapi .search-filter{
+.ember-table-jsonapi .search-filter,
+.ember-table-jsonapi .date-filter{
     position: relative;
 }

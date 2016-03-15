@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     store: Ember.inject.service('store'),
     action: null,
+    classNames: ['ember-table-jsonapi'],
     hasActions: false,
     sortableClass: 'sortable',
     tableLoadedMessage: 'No Data.',

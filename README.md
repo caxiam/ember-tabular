@@ -80,6 +80,17 @@ export default Ember.Controller.extend({
 });
 ```
 
+### Request Format
+Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of request examples:
+* `/users?filter[last-name]=McClane&limit=10&offset=0&page=1`
+  * `filter[last-name]` - Filter based on jsonapi's recommended filtering: http://jsonapi.org/recommendations/#filtering
+  * `limit` - Using a "offset-based" pagination strategy, send # of items per page.
+  * `offset` - Using a "offset-based" pagination strategy, starting item number.
+  *  `page` - Additional property passed in request.
+* `/orders?filter[date_ordered_min]=2016-12-10&filter[date_ordered_max]=2016-12-12&filter[order_number]=1029LG31&filter[order_profile]=1&limit=&offset=&page=&sort=-date_ordered`
+  * `sort` - Sort based on jsonapi's recommended sorting: http://jsonapi.org/format/#fetching-sorting
+    * Ascending unless prefixed with `-` for descending. 
+
 ## Advanced Usage
 ### Template
 ```hbs

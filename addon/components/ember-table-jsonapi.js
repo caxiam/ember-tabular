@@ -5,6 +5,7 @@ export default Ember.Component.extend({
     action: null,
     classNames: ['ember-table-jsonapi'],
     hasActions: false,
+    makeRequest: true,
     sortableClass: 'sortable',
     tableLoadedMessage: 'No Data.',
     columnLength: Ember.computed('columns', function() {
@@ -54,7 +55,7 @@ export default Ember.Component.extend({
     // For pushing any per field errors
     errors: null,
 
-    isBindModelLoaded: Ember.computed('errors', 'bindModel', 'bindModel.isFulfilled', 'bindModel.isLoaded', 'modelType', function() {
+    isBindModelLoaded: Ember.computed('errors', 'bindModel', 'bindModel.isFulfilled', 'bindModel.isLoaded', 'makeRequest', function() {
         // If bindModel array isLoaded but empty
         if (this.get('bindModel.isLoaded')) {
             return true;
@@ -72,7 +73,7 @@ export default Ember.Component.extend({
             return true;
         }
         // Show custom tableLoadedMessage
-        if (this.get('bindModel') === null && this.get('modelType') === null) {
+        if (this.get('bindModel') === null && !this.get('makeRequest')) {
             return true;
         }
 
@@ -119,8 +120,8 @@ export default Ember.Component.extend({
     setModel: Ember.on('init', Ember.observer('query', function() {
         Ember.run.once(this, function() {
             this.reset();
-            // If modelType does not exist do not setModel
-            if (this.get('modelType')) {
+            // If makeRequest is false do not make request and setModel
+            if (this.get('makeRequest')) {
                 var modelType = this.get('modelType'),
                     params = this.get('query');
                 // Override to set dynamic offset based on page and limit

@@ -108,6 +108,9 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
 ```
 * `hasActions` - boolean/string - Default: false
   * Ember Table JSONAPI will reserve an additional column for "actions", ex. Edit/View/Delete buttons.
+* `makeRequest` - boolean/string - Default: true
+  * If `true`: Ember Table JSONAPI will make request based on `modelType`.
+  * If `false`: Typically you'd bind the route's model to `bindModel`.
 * `class` - string
   * Wraps the entire component.
 * `tableClass` - string - Default: "table-bordered table-hover"

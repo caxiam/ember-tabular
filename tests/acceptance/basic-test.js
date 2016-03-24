@@ -393,3 +393,19 @@ test('Check table-basic-global-date-filter for date clearFilter action success',
         assert.equal(find('.table-basic-global-date-filter table tbody tr').length, 10, 'Check for 10 item in table');
     });
 });
+
+test('Check table-basic-route-model for expected content', function(assert) {
+    server.loadFixtures('users');
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+        assert.equal(find('.table-basic-route-model table tbody tr').length, 10, 'Check for 10 items in table');
+
+        var request = getPretenderRequest(server, 'GET', 'users')[3];
+
+        assert.equal(request.status, 200);
+        assert.equal(request.method, 'GET');
+        assert.equal(request.url, '/users?limit=10&offset=0&page=1&sort=username', 'Expected query params in URL');
+    });
+});

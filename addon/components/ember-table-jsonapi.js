@@ -55,7 +55,7 @@ export default Ember.Component.extend({
     // For pushing any per field errors
     errors: null,
 
-    isBindModelLoaded: Ember.computed('errors', 'bindModel', 'bindModel.isFulfilled', 'bindModel.isLoaded', 'makeRequest', function() {
+    isBindModelLoaded: Ember.computed('errors', 'bindModel', 'bindModel.isFulfilled', 'bindModel.isLoaded', 'modelType', function() {
         // If bindModel array isLoaded but empty
         if (this.get('bindModel.isLoaded')) {
             return true;
@@ -73,7 +73,7 @@ export default Ember.Component.extend({
             return true;
         }
         // Show custom tableLoadedMessage
-        if (this.get('bindModel') === null && !this.get('makeRequest')) {
+        if (this.get('bindModel') === null && this.get('modelType') === null) {
             return true;
         }
 

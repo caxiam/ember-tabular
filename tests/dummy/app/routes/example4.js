@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-    // used in Example 4
     queryParams: {
         page: {
             refreshModel: true
@@ -16,9 +15,8 @@ export default Ember.Route.extend({
             refreshModel: true
         }
     },
-    // used in Example 4
     model(params) {
-        let controller = this.controllerFor('index');
+        let controller = this.controllerFor('example4');
         // Override to set dynamic offset based on page and limit
         params.offset = (params.page * params.limit) - params.limit;
         params.sort = 'username';

@@ -49,4 +49,10 @@ export default Ember.Controller.extend({
             label: 'Last Updated',
         },
     ],
+    // used in Example 4
+    queryParams: ['page', 'limit', 'offset', 'sort'],
+    page: 1,
+    limit: 10,
+    pageLimit: 0,
+    offset: 0,
 });

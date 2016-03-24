@@ -119,9 +119,9 @@ export default Ember.Component.extend({
 
     setModel: Ember.on('init', Ember.observer('query', function() {
         Ember.run.once(this, function() {
-            this.reset();
             // If makeRequest is false do not make request and setModel
             if (this.get('makeRequest')) {
+                this.reset();
                 var modelType = this.get('modelType'),
                     params = this.get('query');
                 // Override to set dynamic offset based on page and limit

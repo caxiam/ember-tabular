@@ -117,7 +117,7 @@ export default Ember.Component.extend({
         return query;
     }),
 
-    request(modelType, params) {
+    request(params, modelType) {
         return this.get('store').query(modelType, params).then(
             function(data) {
                 // pagination - return number of pages
@@ -150,7 +150,7 @@ export default Ember.Component.extend({
                     params.offset = null;
                 }
 
-                return this.request(modelType, params);
+                return this.request(params, modelType);
             }
         });
     })),

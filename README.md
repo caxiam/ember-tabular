@@ -264,6 +264,39 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
 * Pagination is constructed using, `?offset=A&limit=B&page=C&sort=`
 * All other filters are sent through the jsonapi format spec: http://jsonapi.org/recommendations/#filtering
 
+### Support for Other/Custom API Specs?
+If you are using Ember Data, then you can lean on your application's custom adapter.
+* Pagination
+  * Responses, depending upon API pagination strategy will need to be converted in the adapter/serializer to pass ember-table-jsonapi `offset` / `limit` / `page` properties to generate pagination internally.
+* Filtering
+  * This addon expects a `filter` object with nested property/value pairs.
+
+If you are not using Ember Data then you can extend this addon's component and override the `request()` method:
+```js
+import EmberTableJsonApi from 'ember-table-jsonapi/components/ember-table-jsonapi';
+
+export default EmberTableJsonApi.extend({
+    request(params, modelType) {
+        // return generated request
+        // (psuedo code)
+        let options = {
+            method: 'GET',
+            contentType: 'application/vnd.api+json',
+            dataType: 'json',
+            data: params
+        };
+
+        return Ember.$.ajax('/users', options).then((data) => {
+            // serialize data/etc
+            // set bindModel
+            this.set('bindModel', data.data);
+        }.bind(this));
+    },
+});
+```
+Note:
+* On success you must set the `bindModel` with the array of table data
+
 
 # Contributing to this addon
 ## Installation

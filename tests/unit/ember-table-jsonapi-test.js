@@ -57,6 +57,7 @@ moduleForComponent('ember-table-jsonapi', 'Unit | Component | ember table jsonap
     beforeEach: function() {
         component = this.subject({
             bindModel: model,
+            makeRequest: false,
             columns: columns,
             hasActions: 'true',
         });

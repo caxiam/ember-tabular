@@ -117,6 +117,26 @@ export default Ember.Component.extend({
         return query;
     }),
 
+    request(modelType, params) {
+        return this.get('store').query(modelType, params).then(
+            function(data) {
+                // pagination - return number of pages
+                let pageLimit = Math.ceil(data.meta.total/params.limit);
+                // determine if pageLimit is a valid number value
+                if (isFinite(pageLimit)) {
+                    this.set('pageLimit', pageLimit);
+                } else {
+                    this.set('pageLimit', null);
+                }
+
+                this.set('bindModel', data);
+            }.bind(this),
+            function(errors) {
+                this.failure(errors);
+            }.bind(this)
+        );
+    },
+
     setModel: Ember.on('init', Ember.observer('query', function() {
         Ember.run.once(this, function() {
             // If makeRequest is false do not make request and setModel
@@ -130,23 +150,7 @@ export default Ember.Component.extend({
                     params.offset = null;
                 }
 
-                return this.get('store').query(modelType, params).then(
-                    function(data) {
-                        // pagination - return number of pages
-                        let pageLimit = Math.ceil(data.meta.total/params.limit);
-                        // determine if pageLimit is a valid number value
-                        if (isFinite(pageLimit)) {
-                            this.set('pageLimit', pageLimit);
-                        } else {
-                            this.set('pageLimit', null);
-                        }
-
-                        this.set('bindModel', data);
-                    }.bind(this),
-                    function(errors) {
-                        this.failure(errors);
-                    }.bind(this)
-                );
+                return this.request(modelType, params);
             }
         });
     })),

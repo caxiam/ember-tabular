@@ -146,7 +146,7 @@ test('Check for expected content sorting', function(assert) {
 
         assert.equal(request.status, 200);
         assert.equal(request.method, 'GET');
-        assert.equal(request.url, '/users?limit=10&offset=0&page=1&sort=last-name', 'Expected query params in URL');
+        assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=last-name', 'Expected query params in URL');
     });
 });
 
@@ -179,7 +179,7 @@ test('Check for expected content filter', function(assert) {
 
         assert.equal(request.status, 200);
         assert.equal(request.method, 'GET');
-        assert.equal(request.url, '/users?filter%5Blast-name%5D=McClane&limit=10&offset=0&page=1&sort=username', 'Expected query params in URL');
+        assert.equal(request.url, '/users?filter%5Blast-name%5D=McClane&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
     });
 });
 
@@ -214,7 +214,7 @@ test('Check for expected content multiple filters', function(assert) {
 
         assert.equal(request.status, 200);
         assert.equal(request.method, 'GET');
-        assert.equal(request.url, '/users?filter%5Bfirst-name%5D=John&filter%5Blast-name%5D=McClane&limit=10&offset=0&page=1&sort=username', 'Expected query params in URL');
+        assert.equal(request.url, '/users?filter%5Bfirst-name%5D=John&filter%5Blast-name%5D=McClane&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
     });
 });
 
@@ -251,7 +251,7 @@ test('Check for expected content sort/filter', function(assert) {
 
         assert.equal(request.status, 200);
         assert.equal(request.method, 'GET');
-        assert.equal(request.url, '/users?filter%5Blast-name%5D=McClane&limit=10&offset=0&page=1&sort=last-name', 'Expected query params in URL');
+        assert.equal(request.url, '/users?filter%5Blast-name%5D=McClane&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=last-name', 'Expected query params in URL');
     });
 });
 
@@ -285,7 +285,7 @@ test('Check table-basic-global-filter for expected content after filtering', fun
 
         assert.equal(request.status, 200);
         assert.equal(request.method, 'GET');
-        assert.equal(request.url, '/users?filter%5Busername%5D=YippieKiYay&limit=10&offset=0&page=1&sort=', 'Expected query params in URL');
+        assert.equal(request.url, '/users?filter%5Busername%5D=YippieKiYay&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
     });
 });
 
@@ -364,7 +364,7 @@ test('Check table-basic-global-date-filter to filter by date and username', func
 
         assert.equal(request.status, 200);
         assert.equal(request.method, 'GET');
-        assert.equal(request.url, '/users?filter%5Busername%5D=YippieKiYay&filter%5Bupdated-at%5D=2017-01-02&limit=10&offset=0&page=1&sort=', 'Expected query params in URL');
+        assert.equal(request.url, '/users?filter%5Busername%5D=YippieKiYay&filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
     });
 });
 

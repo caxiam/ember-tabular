@@ -21,6 +21,18 @@ export default JSONAPISerializer.extend({
                 }
             }
 
+            // Strip page[] from key
+            for (var key in where) {
+                if (key.indexOf('page') > -1) {
+                    let value = where[key];
+                    // Strip filter[] from key
+                    let pageKey = key.replace('page[', '').replace(']', '');
+
+                    key = pageKey;
+                    where[key] = value;
+                }
+            }
+
             // Fixes persistent data from let reduced = collection;
             let reduced = collection.reduce(function(group, item) {
                 group.push(item);

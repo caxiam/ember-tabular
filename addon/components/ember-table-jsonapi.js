@@ -118,10 +118,23 @@ export default Ember.Component.extend({
     }),
 
     request(params, modelType) {
+        // Override to set dynamic offset based on page and limit
+        params.offset = (params.page * params.limit) - params.limit;
+        if (isNaN(params.offset)) {
+            params.offset = null;
+        }
+
+        // Support json api page[offset]/page[limit] spec
+        params.page = {};
+        params.page.limit = params.limit;
+        delete params.limit;
+        params.page.offset = params.offset;
+        delete params.offset;
+
         return this.get('store').query(modelType, params).then(
             function(data) {
                 // pagination - return number of pages
-                let pageLimit = Math.ceil(data.meta.total/params.limit);
+                let pageLimit = Math.ceil(data.meta.total/params.page.limit);
                 // determine if pageLimit is a valid number value
                 if (isFinite(pageLimit)) {
                     this.set('pageLimit', pageLimit);
@@ -144,11 +157,6 @@ export default Ember.Component.extend({
                 this.reset();
                 var modelType = this.get('modelType'),
                     params = this.get('query');
-                // Override to set dynamic offset based on page and limit
-                params.offset = (params.page * params.limit) - params.limit;
-                if (isNaN(params.offset)) {
-                    params.offset = null;
-                }
 
                 return this.request(params, modelType);
             }

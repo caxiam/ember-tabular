@@ -182,7 +182,7 @@ export default Ember.Component.extend({
                 classProperty = property.replace(/\./g, '-');
                 $tableHeader = Ember.$('#' + classProperty);
             } else {
-                property = this.get('sort').replace(/\-/g, '');
+                property = this.get('sort').replace(/^-/, '');
                 // Must be the opposite of property
                 sortProperty = '-' + property;
                 classProperty = property.replace(/\./g, '-');

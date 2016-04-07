@@ -92,30 +92,10 @@ export default Ember.Component.extend({
         return false;
     }),
 
-    maintainSortValue(property) {
-        // Be aware that property could contain negative sort value
-        // e.g. `?sort=-phone-number`
-        // which does not convert properly with underscore/dasherize/etc
-        let neg = '';
-        if (property.charAt(0) === '-') {
-            neg = '-';
-            property = property.slice(1);
-        }
-        return neg;
-    },
-
-    serializeSortProperty(property) {
-        return this.maintainSortValue(property) + Ember.String.dasherize(property);
-    },
-
-    normalizeSortProperty(property) {
-        return this.maintainSortValue(property) + Ember.String.camelize(property);
-    },
-
     defaultSort: Ember.on('init', function() {
         this.get('columns').map(function(el) {
             if (el.hasOwnProperty('defaultSort')) {
-                this.set('sort', this.serializeSortProperty(el.defaultSort));
+                this.set('sort', el.defaultSort);
             }
         }.bind(this));
     }),
@@ -186,46 +166,28 @@ export default Ember.Component.extend({
     actions: {
         sortBy(property) {
             this.setSort(property);
-            this.updateSortUI(property);
         }
     },
 
     setSort: Ember.on('didInsertElement', function(sortProperty) {
         if (this.get('sort') || sortProperty) {
-            var property;
-
-            if (sortProperty) {
-                property = sortProperty;
-            } else {
-                property = this.get('sort').replace(/^-/, '');
-                // Must be the opposite of property
-                sortProperty = '-' + property;
-            }
-
-            property = this.serializeSortProperty(property);
-
-            if (this.get('sort') === this.serializeSortProperty(sortProperty)) {
-                this.set('sort', '-' + property);
-            } else {
-                this.set('sort', property);
-            }
-        }
-    }),
-
-    updateSortUI: Ember.on('didInsertElement', function(sortProperty) {
-        if (this.get('sort') || sortProperty) {
-            var sort = this.normalizeSortProperty(this.get('sort')),
-                _this = this,
+            var _this = this,
                 $table = this.$(),
                 property,
                 classProperty,
                 $tableHeader;
 
-            // convert property to camelCase
-            property = sort.replace(/^-/, '');
-            // convert relationships
-            classProperty = property.replace(/\./g, '-');
-            $tableHeader = Ember.$('#' + classProperty);
+            if (sortProperty) {
+                property = sortProperty;
+                classProperty = property.replace(/\./g, '-');
+                $tableHeader = Ember.$('#' + classProperty);
+            } else {
+                property = this.get('sort').replace(/^-/, '');
+                // Must be the opposite of property
+                sortProperty = '-' + property;
+                classProperty = property.replace(/\./g, '-');
+                $tableHeader = Ember.$('#' + classProperty);
+            }
 
             // Remove all classes on th.sortable but sortable class
             $table.find('th').removeClass(function(i, group) {
@@ -235,9 +197,11 @@ export default Ember.Component.extend({
                 }).join(' ');
             });
 
-            if (sort.charAt(0) === '-') {
+            if (this.get('sort') === sortProperty) {
+                this.set('sort', '-' + property);
                 $tableHeader.addClass('sort-desc');
-            } else{
+            } else {
+                this.set('sort', property);
                 $tableHeader.addClass('sort-asc');
             }
         }

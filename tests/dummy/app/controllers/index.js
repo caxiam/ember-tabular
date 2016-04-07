@@ -9,27 +9,27 @@ export default Ember.Controller.extend({
             property: 'username',
             label: 'Username',
             type: 'text',
-            defaultSort: 'username',
         },
         {
-            property: 'email-address',
+            property: 'emailAddress',
             label: 'Email',
             type: 'text',
         },
         {
-            property: 'first-name',
+            property: 'firstName',
             label: 'First Name',
             type: 'text',
         },
         {
-            property: 'last-name',
+            property: 'lastName',
             label: 'Last Name',
             type: 'text',
         },
         {
-            property: 'updated-at',
+            property: 'updatedAt',
             label: 'Last Updated',
             type: 'date',
+            defaultSort: 'updatedAt',
         },
     ],
     columns2: [

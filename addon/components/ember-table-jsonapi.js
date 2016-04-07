@@ -92,7 +92,7 @@ export default Ember.Component.extend({
         return false;
     }),
 
-    maintainSortValue(property) {
+    maintainPrependValue(property) {
         // Be aware that property could contain negative sort value
         // e.g. `?sort=-phone-number`
         // which does not convert properly with underscore/dasherize/etc
@@ -104,18 +104,50 @@ export default Ember.Component.extend({
         return neg;
     },
 
-    serializeSortProperty(property) {
-        return this.maintainSortValue(property) + Ember.String.dasherize(property);
+    serializeProperty(property) {
+        return this.maintainPrependValue(property) + Ember.String.dasherize(property);
     },
 
-    normalizeSortProperty(property) {
-        return this.maintainSortValue(property) + Ember.String.camelize(property);
+    normalizeProperty(property) {
+        return this.maintainPrependValue(property) + Ember.String.camelize(property);
+    },
+
+    serializeQuery(query) {
+        // serialize filter query params
+        for (var key in query.filter) {
+            let value = query.filter[key],
+                serializedKey = this.serializeProperty(key);
+
+            // delete unserialized key
+            delete query.filter[key];
+
+            key = serializedKey;
+            query.filter[key] = value;
+        }
+
+        return query;
+    },
+
+    normalizeQuery(query) {
+        // normalize data
+        for (var key in query.filter) {
+            let value = query.filter[key],
+                normalizedKey = this.normalizeProperty(key);
+
+            // delete unserialized key
+            delete query.filter[key];
+
+            key = normalizedKey;
+            query.filter[key] = value;
+        }
+
+        return query;
     },
 
     defaultSort: Ember.on('init', function() {
         this.get('columns').map(function(el) {
             if (el.hasOwnProperty('defaultSort')) {
-                this.set('sort', this.serializeSortProperty(el.defaultSort));
+                this.set('sort', this.serializeProperty(el.defaultSort));
             }
         }.bind(this));
     }),
@@ -151,6 +183,9 @@ export default Ember.Component.extend({
         params.page.offset = params.offset;
         delete params.offset;
 
+        // Serialize Query
+        params = this.serializeQuery(params);
+
         return this.get('store').query(modelType, params).then(
             function(data) {
                 // pagination - return number of pages
@@ -161,6 +196,9 @@ export default Ember.Component.extend({
                 } else {
                     this.set('pageLimit', null);
                 }
+
+                // Normalize Query
+                data.query = this.normalizeQuery(data.query);
 
                 this.set('bindModel', data);
             }.bind(this),
@@ -202,9 +240,9 @@ export default Ember.Component.extend({
                 sortProperty = '-' + property;
             }
 
-            property = this.serializeSortProperty(property);
+            property = this.serializeProperty(property);
 
-            if (this.get('sort') === this.serializeSortProperty(sortProperty)) {
+            if (this.get('sort') === this.serializeProperty(sortProperty)) {
                 this.set('sort', '-' + property);
             } else {
                 this.set('sort', property);
@@ -214,7 +252,7 @@ export default Ember.Component.extend({
 
     updateSortUI: Ember.on('didInsertElement', function(sortProperty) {
         if (this.get('sort') || sortProperty) {
-            var sort = this.normalizeSortProperty(this.get('sort')),
+            var sort = this.normalizeProperty(this.get('sort')),
                 _this = this,
                 $table = this.$(),
                 property,

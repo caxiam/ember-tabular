@@ -55,6 +55,120 @@ export default Ember.Component.extend({
     // For pushing any per field errors
     errors: null,
 
+    serialize(params) {
+        // Serialize Pagination
+        params = this.serializePagination(params);
+        // Serialize Filter
+        params = this.serializeFilter(params);
+        // Serialize Sort
+        params = this.serializeSort(params);
+
+        return params;
+    },
+
+    serializePagination(params) {
+        // Override to set dynamic offset based on page and limit
+        params.offset = (params.page * params.limit) - params.limit;
+        if (isNaN(params.offset)) {
+            params.offset = null;
+        }
+
+        // Support json api page[offset]/page[limit] spec
+        params.page = {};
+        params.page.limit = params.limit;
+        delete params.limit;
+        params.page.offset = params.offset;
+        delete params.offset;
+
+        return params;
+    },
+
+    serializeFilter(params) {
+        // serialize filter query params
+        let filter = params.filter;
+
+        for (var key in filter) {
+            let value = filter[key],
+                serializedKey = this.serializeProperty(key);
+
+            // delete unserialized key
+            delete filter[key];
+
+            key = serializedKey;
+            filter[key] = value;
+        }
+
+        return params;
+    },
+
+    serializeSort(params) {
+        params.sort = this.serializeProperty(params.sort);
+
+        return params;
+    },
+
+
+    serializeProperty(property) {
+        if (property) {
+            return Ember.String.dasherize(property);
+        }
+
+        return null;
+    },
+
+    normalize(data, params) {
+        // Normalize Pagination
+        data = this.normalizePagination(data, params);
+        // Normalize Filter
+        data.query = this.normalizeFilter(data.query);
+        // Normalize Sort
+        data.query = this.normalizeSort(data.query);
+
+        return data;
+    },
+
+    normalizePagination(data, params) {
+        // pagination - return number of pages
+        let pageLimit = Math.ceil(data.meta.total/params.page.limit);
+        // determine if pageLimit is a valid number value
+        if (isFinite(pageLimit)) {
+            this.set('pageLimit', pageLimit);
+        } else {
+            this.set('pageLimit', null);
+        }
+
+        return data;
+    },
+
+    normalizeFilter(query) {
+        // normalize filter[property-key]
+        // into filter[propertyKey]
+        for (var key in query.filter) {
+            let value = query.filter[key],
+                normalizedKey = this.normalizeProperty(key);
+
+            // delete unserialized key
+            delete query.filter[key];
+
+            key = normalizedKey;
+            query.filter[key] = value;
+        }
+
+        return query;
+    },
+
+    normalizeSort(query) {
+        return query;
+    },
+
+    normalizeProperty(property) {
+        if (property) {
+            return Ember.String.camelize(property);
+        }
+
+        return null;
+    },
+
     isBindModelLoaded: Ember.computed('errors', 'bindModel', 'bindModel.isFulfilled', 'bindModel.isLoaded', 'modelType', function() {
         // If bindModel array isLoaded but empty
         if (this.get('bindModel.isLoaded')) {
@@ -92,62 +206,10 @@ export default Ember.Component.extend({
         return false;
     }),
 
-    maintainPrependValue(property) {
-        // Be aware that property could contain negative sort value
-        // e.g. `?sort=-phone-number`
-        // which does not convert properly with underscore/dasherize/etc
-        let neg = '';
-        if (property.charAt(0) === '-') {
-            neg = '-';
-            property = property.slice(1);
-        }
-        return neg;
-    },
-
-    serializeProperty(property) {
-        return this.maintainPrependValue(property) + Ember.String.dasherize(property);
-    },
-
-    normalizeProperty(property) {
-        return this.maintainPrependValue(property) + Ember.String.camelize(property);
-    },
-
-    serializeQuery(query) {
-        // serialize filter query params
-        for (var key in query.filter) {
-            let value = query.filter[key],
-                serializedKey = this.serializeProperty(key);
-
-            // delete unserialized key
-            delete query.filter[key];
-
-            key = serializedKey;
-            query.filter[key] = value;
-        }
-
-        return query;
-    },
-
-    normalizeQuery(query) {
-        // normalize data
-        for (var key in query.filter) {
-            let value = query.filter[key],
-                normalizedKey = this.normalizeProperty(key);
-
-            // delete unserialized key
-            delete query.filter[key];
-
-            key = normalizedKey;
-            query.filter[key] = value;
-        }
-
-        return query;
-    },
-
     defaultSort: Ember.on('init', function() {
         this.get('columns').map(function(el) {
             if (el.hasOwnProperty('defaultSort')) {
-                this.set('sort', this.serializeProperty(el.defaultSort));
+                this.set('sort', el.defaultSort);
             }
         }.bind(this));
     }),
@@ -170,36 +232,11 @@ export default Ember.Component.extend({
     }),
 
     request(params, modelType) {
-        // Override to set dynamic offset based on page and limit
-        params.offset = (params.page * params.limit) - params.limit;
-        if (isNaN(params.offset)) {
-            params.offset = null;
-        }
-
-        // Support json api page[offset]/page[limit] spec
-        params.page = {};
-        params.page.limit = params.limit;
-        delete params.limit;
-        params.page.offset = params.offset;
-        delete params.offset;
-
-        // Serialize Query
-        params = this.serializeQuery(params);
+        params = this.serialize(params);
 
         return this.get('store').query(modelType, params).then(
             function(data) {
-                // pagination - return number of pages
-                let pageLimit = Math.ceil(data.meta.total/params.page.limit);
-                // determine if pageLimit is a valid number value
-                if (isFinite(pageLimit)) {
-                    this.set('pageLimit', pageLimit);
-                } else {
-                    this.set('pageLimit', null);
-                }
-
-                // Normalize Query
-                data.query = this.normalizeQuery(data.query);
-
+                data = this.normalize(data, params);
                 this.set('bindModel', data);
             }.bind(this),
             function(errors) {
@@ -240,9 +277,9 @@ export default Ember.Component.extend({
                 sortProperty = '-' + property;
             }
 
-            property = this.serializeProperty(property);
+            property = property;
 
-            if (this.get('sort') === this.serializeProperty(sortProperty)) {
+            if (this.get('sort') === sortProperty) {
                 this.set('sort', '-' + property);
             } else {
                 this.set('sort', property);
@@ -252,7 +289,7 @@ export default Ember.Component.extend({
 
     updateSortUI: Ember.on('didInsertElement', function(sortProperty) {
         if (this.get('sort') || sortProperty) {
-            var sort = this.normalizeProperty(this.get('sort')),
+            var sort = this.get('sort'),
                 _this = this,
                 $table = this.$(),
                 property,

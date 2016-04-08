@@ -143,15 +143,16 @@ export default Ember.Component.extend({
     normalizeFilter(query) {
         // normalize filter[property-key]
         // into filter[propertyKey]
-        for (var key in query.filter) {
-            let value = query.filter[key],
+        let filter = query.filter;
+        for (var key in filter) {
+            let value = filter[key],
                 normalizedKey = this.normalizeProperty(key);
 
             // delete unserialized key
-            delete query.filter[key];
+            delete filter[key];
 
             key = normalizedKey;
-            query.filter[key] = value;
+            filter[key] = value;
         }
 
         return query;

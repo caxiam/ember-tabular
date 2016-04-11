@@ -9,6 +9,7 @@ export default Ember.Controller.extend({
             property: 'username',
             label: 'Username',
             type: 'text',
+            defaultSort: 'username',
         },
         {
             property: 'emailAddress',
@@ -29,7 +30,6 @@ export default Ember.Controller.extend({
             property: 'updatedAt',
             label: 'Last Updated',
             type: 'date',
-            defaultSort: 'updatedAt',
         },
     ],
     columns2: [

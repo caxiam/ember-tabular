@@ -57,22 +57,22 @@ export default Ember.Controller.extend({
             defaultSort: 'username',
         },
         {
-            property: 'email-address',
+            property: 'emailAddress',
             label: 'Email',
             type: 'text',
         },
         {
-            property: 'first-name',
+            property: 'firstName',
             label: 'First Name',
             type: 'text',
         },
         {
-            property: 'last-name',
+            property: 'lastName',
             label: 'Last Name',
             type: 'text',
         },
         {
-            property: 'updated-at',
+            property: 'updatedAt',
             label: 'Last Updated',
             type: 'date',
         },
@@ -145,22 +145,22 @@ export default Ember.Controller.extend({
             defaultSort: 'username',
         },
         {
-            property: 'email-address',
+            property: 'emailAddress',
             label: 'Email',
             type: 'text',
         },
         {
-            property: 'first-name',
+            property: 'firstName',
             label: 'First Name',
             type: 'text',
         },
         {
-            property: 'last-name',
+            property: 'lastName',
             label: 'Last Name',
             type: 'text',
         },
         {
-            property: 'updated-at',
+            property: 'updatedAt',
             label: 'Last Updated',
             type: 'date',
         },
@@ -169,6 +169,7 @@ export default Ember.Controller.extend({
 ```
 * `columns.property` - string
   * Required for column filtering
+  * Properties should be in camelCase format
 * `columns.label` - string
   * Required in all use-cases
 * `columns.type` - string
@@ -213,7 +214,7 @@ Typically the global filter component would be rendered into the `{{yield header
 * `filterProperty` - string - Default: null
   * Required
   * Used with the "Global Filter Sub-Component".
-  * Pass the property name.
+  * Pass the property name in camelCase format.
 * `filterPlaceholder` - string - Default: null
   * Optional
   * Placeholder to be used for the global-filter.
@@ -232,7 +233,7 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
 ```hbs
 {{ember-table-jsonapi-date-filter 
   filter=filter 
-    filterProperty="updated-at" 
+    filterProperty="updatedAt" 
     label="Last Updated"}}
 ```
 * `filter` - object - Default: null
@@ -243,7 +244,7 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
 * `filterProperty` - string - Default: null
   * Required
   * Used with the "Global Filter Sub-Component".
-  * Pass the property name.
+  * Pass the property name in camelCase format.
 * `dateFilter` - string - Default: null
   * Optional
   * Sets the input value.

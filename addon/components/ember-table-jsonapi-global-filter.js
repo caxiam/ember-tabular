@@ -4,13 +4,14 @@ export default Ember.Component.extend({
     tagName: '',
     action: null,
     filterProperty: null,
+    searchFilter: '',
 
     query: null,
     filter: null,
 
     actions: {
         clearFilter() {
-            this.set('searchFilter', null);
+            this.set('searchFilter', '');
         }
     },
     filterTable: Ember.observer('searchFilter', function() {

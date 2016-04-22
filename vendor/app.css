@@ -1,20 +1,20 @@
 /* Ember-Table-Jsonapi */
 
-.ember-table-jsonapi .table th{
+.ember-table-jsonapi .table th {
     position: relative;
 }
-.ember-table-jsonapi .table thead tr input{
+.ember-table-jsonapi .table thead tr input {
     padding-right: 20px;
 }
 .ember-table-jsonapi input.date,
-.ember-table-jsonapi .date-filter input{
+.ember-table-jsonapi .date-filter input {
     padding-right:25px;
 }
-.ember-table-jsonapi .table-filter{
+.ember-table-jsonapi .table-filter {
     position: relative;
 }
 .ember-table-jsonapi .clearFilter,
-.ember-table-jsonapi .clearFilter.glyphicon{
+.ember-table-jsonapi .clearFilter.glyphicon {
     position: absolute;
     top: 50%;
     margin-top: -7px;
@@ -22,31 +22,50 @@
     z-index: 1;
     color: #999;
 }
-.ember-table-jsonapi .clearFilter:hover{
+.ember-table-jsonapi .clearFilter:hover {
     color: black;
 }
-.ember-table-jsonapi .table thead th.sortable {
+.ember-table-jsonapi .table thead th {
     position: relative;
-    padding-right: 30px!important;
 }
-.ember-table-jsonapi .table thead th.sortable:after{
+.ember-table-jsonapi .table thead th.sortable > div {
+    padding-left: 20px;
+}
+.ember-table-jsonapi .table thead th.filterable > div {
+    padding-right: 20px;
+}
+.ember-table-jsonapi .table thead th.sortable:before {
     content: "\e150";
     position: absolute;
-    top: 8px;
+    top: 50%;
+    margin-top: -10px;
+    left: 8px;
+    display: block;
+    font-family: 'Glyphicons Halflings';
+    opacity: .2;
+    z-index: -1;
+}
+.ember-table-jsonapi .table thead th .btn-toggle-filter {
+    position: absolute;
+    top: 50%;
+    margin-top:-7px;
     right: 8px;
     display: block;
     font-family: 'Glyphicons Halflings';
     opacity: .2;
 }
-.ember-table-jsonapi .table thead th.sortable.sort-desc:after {
+.ember-table-jsonapi .table thead th .btn-toggle-filter:before {
+    content: "\e138";
+}
+.ember-table-jsonapi .table thead th.sortable.sort-desc:before {
     content: "\e156";
     opacity: .5;
 }
-.ember-table-jsonapi .table thead th.sortable.sort-asc:after {
+.ember-table-jsonapi .table thead th.sortable.sort-asc:before {
     content: "\e155";
     opacity: .5;
 }
 .ember-table-jsonapi .search-filter,
-.ember-table-jsonapi .date-filter{
+.ember-table-jsonapi .date-filter {
     position: relative;
 }

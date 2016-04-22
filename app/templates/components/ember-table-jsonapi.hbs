@@ -23,9 +23,19 @@
                         {{#each columns as |header|}}
                             {{#if header.property}}
                                 {{#if header.sort}}
-                                    <th {{action "sortBy" header.property}} id="{{dot-to-dash-filter header.property}}" class="{{sortableClass}}">{{header.label}}</th>
+                                    <th id="{{dot-to-dash-filter header.property}}" class="{{sortableClass}} filterable">
+                                        <div {{action "sortBy" header.property}}>
+                                            {{header.label}}
+                                        </div>
+                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
+                                    </th>
                                 {{else}}
-                                    <th id="{{dot-to-dash-filter header.property}}">{{header.label}}</th>
+                                    <th id="{{dot-to-dash-filter header.property}}" class="filterable">
+                                        <div>
+                                            {{header.label}}
+                                        </div>
+                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
+                                    </th>
                                 {{/if}}
                             {{else}}
                                 <th>{{header.label}}</th>
@@ -36,19 +46,21 @@
                         {{/if}}
                     </tr>
                     {{#if isColumnFilters}}
-                        <tr>
-                            {{#each columns as |header|}}
-                                {{#if header.property}}
-                                    {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
-                                {{else}}
-                                    <th>{{!-- Blank to reserve table column --}}</th>
+                        {{#if showFilterRow}}
+                            <tr>
+                                {{#each columns as |header|}}
+                                    {{#if header.property}}
+                                        {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                                    {{else}}
+                                        <th>{{!-- Blank to reserve table column --}}</th>
+                                    {{/if}}
+                                {{/each}}
+                                {{#if (and hasActions)}}
+                                    {{!-- Blank to reserve table column --}}
+                                    <th></th>
                                 {{/if}}
-                            {{/each}}
-                            {{#if (and hasActions)}}
-                                {{!-- Blank to reserve table column --}}
-                                <th></th>
-                            {{/if}}
-                        </tr>
+                            </tr>
+                        {{/if}}
                     {{/if}}
                 </thead>
             {{/if}}

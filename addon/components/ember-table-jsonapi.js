@@ -6,6 +6,7 @@ export default Ember.Component.extend({
     classNames: ['ember-table-jsonapi'],
     hasActions: false,
     makeRequest: true,
+    showFilterRow: false,
     sortableClass: 'sortable',
     tableLoadedMessage: 'No Data.',
     columnLength: Ember.computed('columns', function() {
@@ -179,7 +180,10 @@ export default Ember.Component.extend({
     actions: {
         sortBy(property) {
             this.setSort(property);
-        }
+        },
+        toggleFilterRow() {
+            this.toggleProperty('showFilterRow');
+        },
     },
 
     setSort: Ember.on('didInsertElement', function(sortProperty) {
@@ -206,7 +210,7 @@ export default Ember.Component.extend({
             $table.find('th').removeClass(function(i, group) {
                 var list = group.split(' ');
                 return list.filter(function(val) {
-                    return (val !== _this.get('sortableClass'));
+                    return (val !== _this.get('sortableClass') && val !== 'filterable');
                 }).join(' ');
             });
 

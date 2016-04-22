@@ -92,6 +92,19 @@ export default Ember.Component.extend({
         return false;
     }),
 
+    setColumnDefaults: Ember.on('init', function() {
+        this.get('columns').map(function(column) {
+            // if column does not have a sort property defined set to true
+            if (!column.hasOwnProperty('sort')) {
+                Ember.set(column, 'sort', true);
+            }
+            // if column does not have a type property defined set to text
+            if (!column.hasOwnProperty('type')) {
+                Ember.set(column, 'type', 'text');
+            }
+        });
+    }),
+
     defaultSort: Ember.on('init', function() {
         this.get('columns').map(function(el) {
             if (el.hasOwnProperty('defaultSort')) {

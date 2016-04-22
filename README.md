@@ -168,12 +168,14 @@ export default Ember.Controller.extend({
 });
 ```
 * `columns.property` - string
-  * Required for column filtering
+  * Required for column filtering/sorting
 * `columns.label` - string
   * Required in all use-cases
 * `columns.type` - string
   * Required for column filtering
   * Sets the filter `<input type="">`
+* `columns.sort` - boolean
+  * Required for column sorting
 * `columns.defaultSort` - string
   * Initial sort value for API request
   * Will be overridden with any sorting changes

@@ -36,6 +36,8 @@
                             {{#each columns as |header|}}
                                 {{#if header.property}}
                                     {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                                {{else}}
+                                    <th>{{!-- Blank to reserve table column --}}</th>
                                 {{/if}}
                             {{/each}}
                             {{#if (and hasActions)}}

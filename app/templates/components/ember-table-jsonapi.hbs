@@ -22,7 +22,11 @@
                     <tr>
                         {{#each columns as |header|}}
                             {{#if header.property}}
-                                <th {{action "sortBy" header.property}} id="{{dot-to-dash-filter header.property}}" class="{{sortableClass}}">{{header.label}}</th>
+                                {{#if header.sort}}
+                                    <th {{action "sortBy" header.property}} id="{{dot-to-dash-filter header.property}}" class="{{sortableClass}}">{{header.label}}</th>
+                                {{else}}
+                                    <th id="{{dot-to-dash-filter header.property}}">{{header.label}}</th>
+                                {{/if}}
                             {{else}}
                                 <th>{{header.label}}</th>
                             {{/if}}

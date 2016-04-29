@@ -134,6 +134,8 @@ test('Render filter component', function(assert) {
     `);
 
     var $component = this.$();
+    // show .btn-toggle-filter to show filter row
+    $component.find('thead .btn-toggle-filter:eq(0)').click();
     assert.equal($component.find('thead tr:eq(1) th:eq(0) input').length, 1, 'Table Filter Input - Username');
     assert.equal($component.find('thead tr:eq(1) th:eq(1) input').length, 1, 'Table Filter Input - Email');
     assert.equal($component.find('thead tr:eq(1) th:eq(2) input').length, 1, 'Table Filter Input - First Name');

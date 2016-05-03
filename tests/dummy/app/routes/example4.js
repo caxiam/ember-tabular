@@ -21,9 +21,12 @@ export default Ember.Route.extend({
         params.offset = (params.page * params.limit) - params.limit;
         params.sort = 'username';
 
+        controller.set('isLoading', true);
+
         return this.store.query('user', params).then(function(data) {
             // pagination - return number of pages
             controller.set('pageLimit', Math.ceil(data.meta.total/params.limit));
+            controller.set('isLoading', false);
             return data;
         });
     },

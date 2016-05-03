@@ -44,6 +44,7 @@ export default Ember.Component.extend({
     // State flags
     isSuccess: false,
     isFailure: false,
+    isLoading: false,
 
     defaultSuccessMessage: 'Success!',
     defaultFailureMessage: 'There was an issue. Please check below for errors.',
@@ -154,6 +155,7 @@ export default Ember.Component.extend({
                 } else {
                     this.set('pageLimit', null);
                 }
+                this.set('isLoading', false);
 
                 this.set('bindModel', data);
             }.bind(this),
@@ -168,6 +170,7 @@ export default Ember.Component.extend({
             // If makeRequest is false do not make request and setModel
             if (this.get('makeRequest')) {
                 this.reset();
+                this.set('isLoading', true);
                 var modelType = this.get('modelType'),
                     params = this.get('query');
 
@@ -235,7 +238,7 @@ export default Ember.Component.extend({
 
     reset() {
         this.setProperties({
-            'bindModel': null,
+            'isLoading': false,
             'errors': null,
             'isSuccess': false,
             'isFailure': false,

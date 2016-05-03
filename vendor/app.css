@@ -71,6 +71,12 @@
     position: relative;
 }
 
+.ember-table-jsonapi a,
+.ember-table-jsonapi [class^="btn"],
+.ember-table-jsonapi .clearFilter {
+    cursor: pointer;
+}
+
 /* loading state */
 .ember-table-jsonapi .table {
     position:relative;

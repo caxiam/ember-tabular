@@ -16,7 +16,7 @@
 {{yield header}}
 
 <div class="table-responsive">
-    <table class="table {{if tableClass tableClass 'table-bordered table-hover'}}">
+    <table class="table {{if tableClass tableClass 'table-bordered table-hover'}} {{if isLoading 'loading'}}">
             {{#if columns}}
                 <thead>
                     <tr>

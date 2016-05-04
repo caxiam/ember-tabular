@@ -1,7 +1,12 @@
 module.exports = {
-    normalizeEntityName: function() {},
-
     afterInstall: function() {
-        return this.addBowerPackageToProject('components-font-awesome');
-    }
+        return this.addBowerPackagesToProject([
+            {
+                name: 'components-font-awesome',
+                target: '4.6.0'
+            }
+        ]);
+    },
+
+    normalizeEntityName: function() {}
 };

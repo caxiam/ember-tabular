@@ -44,7 +44,8 @@
     "ember-try": "^0.1.2",
     "loader.js": "^4.0.0",
     "moment": "2.11.2",
-    "moment-timezone": "0.5.1"
+    "moment-timezone": "0.5.1",
+    "broccoli-funnel": "^1.0.0"
   },
   "keywords": [
     "ember-addon",

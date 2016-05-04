@@ -14,7 +14,7 @@
     position: relative;
 }
 .ember-table-jsonapi .clearFilter,
-.ember-table-jsonapi .clearFilter.glyphicon {
+.ember-table-jsonapi .clearFilter.fa {
     position: absolute;
     top: 50%;
     margin-top: -7px;
@@ -36,13 +36,13 @@
     padding-right: 20px;
 }
 .ember-table-jsonapi .table thead th.sortable:before {
-    content: "\e150";
+    content: "\f0dc";
     position: absolute;
     top: 50%;
     margin-top: -10px;
     left: 8px;
     display: block;
-    font-family: 'Glyphicons Halflings';
+    font-family: 'FontAwesome';
     opacity: .2;
     z-index: -1;
 }
@@ -52,18 +52,18 @@
     margin-top:-7px;
     right: 8px;
     display: block;
-    font-family: 'Glyphicons Halflings';
+    font-family: 'FontAwesome';
     opacity: .2;
 }
 .ember-table-jsonapi .table thead th .btn-toggle-filter:before {
-    content: "\e138";
+    content: "\f0b0";
 }
 .ember-table-jsonapi .table thead th.sortable.sort-desc:before {
-    content: "\e156";
+    content: "\f0dd";
     opacity: .5;
 }
 .ember-table-jsonapi .table thead th.sortable.sort-asc:before {
-    content: "\e155";
+    content: "\f0de";
     opacity: .5;
 }
 .ember-table-jsonapi .search-filter,
@@ -82,14 +82,14 @@
     position:relative;
 }
 .ember-table-jsonapi .table.loading:before{
-    content: "\e031";
+    content: "\f021";
     position: absolute;
     top: 50%;
     margin-top:-10px;
     left:50%;
     margin-left:-10px;
     display: inline-block;
-    font-family: 'Glyphicons Halflings';
+    font-family: 'FontAwesome';
     font-style: normal;
     font-weight: 400;
     line-height: 1;

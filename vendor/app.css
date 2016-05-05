@@ -2,6 +2,7 @@
 
 .ember-table-jsonapi .table th {
     position: relative;
+    vertical-align:middle;
 }
 .ember-table-jsonapi .table thead tr input {
     padding-right: 20px;
@@ -30,17 +31,17 @@
     z-index:0;
 }
 .ember-table-jsonapi .table thead th.sortable > div {
-    padding-left: 15px;
+    padding-right: 15px;
 }
 .ember-table-jsonapi .table thead th.filterable > div {
-    padding-right: 15px;
+    padding-left: 15px;
 }
 .ember-table-jsonapi .table thead th.sortable:before {
     content: "\f0dc";
     position: absolute;
     top: 50%;
     margin-top: -10px;
-    left: 8px;
+    right: 8px;
     display: block;
     font-family: 'FontAwesome';
     opacity: .2;
@@ -50,7 +51,7 @@
     position: absolute;
     top: 50%;
     margin-top:-7px;
-    right: 8px;
+    left: 6px;
     display: block;
     font-family: 'FontAwesome';
     opacity: .2;

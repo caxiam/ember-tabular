@@ -24,17 +24,17 @@
                             {{#if header.property}}
                                 {{#if header.sort}}
                                     <th id="{{dot-to-dash-filter header.property}}" class="{{sortableClass}} filterable">
+                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
                                         <div {{action "sortBy" header.property}} class="btn-sort">
                                             {{header.label}}
                                         </div>
-                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
                                     </th>
                                 {{else}}
                                     <th id="{{dot-to-dash-filter header.property}}" class="filterable">
+                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
                                         <div>
                                             {{header.label}}
                                         </div>
-                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
                                     </th>
                                 {{/if}}
                             {{else}}

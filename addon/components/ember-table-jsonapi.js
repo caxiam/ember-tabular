@@ -250,14 +250,16 @@ export default Ember.Component.extend({
 
         return this.get('store').query(modelType, params).then(
             function(data) {
-                data = this.normalize(data, params);
-                this.set('isLoading', false);
                 if (!this.isDestroyed) {
+                    data = this.normalize(data, params);
+                    this.set('isLoading', false);
                     this.set('bindModel', data);
                 }
             }.bind(this),
             function(errors) {
-                this.failure(errors);
+                if (!this.isDestroyed) {
+                    this.failure(errors);
+                }
             }.bind(this)
         );
     },

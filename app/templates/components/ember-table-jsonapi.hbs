@@ -16,13 +16,27 @@
 {{yield header}}
 
 <div class="table-responsive">
-    <table class="table {{if tableClass tableClass 'table-bordered table-hover'}}">
+    <table class="table {{if tableClass tableClass 'table-bordered table-hover'}} {{if isLoading 'loading'}}">
             {{#if columns}}
                 <thead>
                     <tr>
                         {{#each columns as |header|}}
                             {{#if header.property}}
-                                <th {{action "sortBy" header.property}} id="{{dot-to-dash-filter header.property}}" class="{{sortableClass}}">{{header.label}}</th>
+                                {{#if header.sort}}
+                                    <th id="{{dot-to-dash-filter header.property}}" class="{{sortableClass}} filterable">
+                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
+                                        <div {{action "sortBy" header.property}} class="btn-sort">
+                                            {{header.label}}
+                                        </div>
+                                    </th>
+                                {{else}}
+                                    <th id="{{dot-to-dash-filter header.property}}" class="filterable">
+                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
+                                        <div>
+                                            {{header.label}}
+                                        </div>
+                                    </th>
+                                {{/if}}
                             {{else}}
                                 <th>{{header.label}}</th>
                             {{/if}}
@@ -32,17 +46,21 @@
                         {{/if}}
                     </tr>
                     {{#if isColumnFilters}}
-                        <tr>
-                            {{#each columns as |header|}}
-                                {{#if header.property}}
-                                    {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                        {{#if showFilterRow}}
+                            <tr>
+                                {{#each columns as |header|}}
+                                    {{#if header.property}}
+                                        {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                                    {{else}}
+                                        <th>{{!-- Blank to reserve table column --}}</th>
+                                    {{/if}}
+                                {{/each}}
+                                {{#if (and hasActions)}}
+                                    {{!-- Blank to reserve table column --}}
+                                    <th></th>
                                 {{/if}}
-                            {{/each}}
-                            {{#if (and hasActions)}}
-                                {{!-- Blank to reserve table column --}}
-                                <th></th>
-                            {{/if}}
-                        </tr>
+                            </tr>
+                        {{/if}}
                     {{/if}}
                 </thead>
             {{/if}}

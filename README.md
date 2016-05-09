@@ -168,13 +168,15 @@ export default Ember.Controller.extend({
 });
 ```
 * `columns.property` - string
-  * Required for column filtering
+  * Required for column filtering/sorting
   * Properties should be in camelCase format
 * `columns.label` - string
   * Required in all use-cases
 * `columns.type` - string
   * Required for column filtering
   * Sets the filter `<input type="">`
+* `columns.sort` - boolean
+  * Required for column sorting
 * `columns.defaultSort` - string
   * Initial sort value for API request
   * Will be overridden with any sorting changes
@@ -263,6 +265,7 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
   * Specifically `error.detail` to display in the alert/error box
 * Pagination is constructed using, `?page[offset]=A&page[limit]=B&sort=`
 * All other filters are sent through the jsonapi format spec: http://jsonapi.org/recommendations/#filtering
+* This add-on imports font-awesome via bower, if your project is already including this dependency you may run into build issues, typically you can add `{overwrite: true}` within `mergeTree` in your ember-cli-build.js will resolve this conflict.
 
 ### Support for Other/Custom API Specs?
 If you are using Ember Data, then you can lean on your application's custom adapter.

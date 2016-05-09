@@ -125,7 +125,7 @@ test('Check for expected content sorting', function(assert) {
     andThen(function() {
         assert.equal(currentPath(), 'index');
 
-        click('table th:contains("Last Name")');
+        click('table th:contains("Last Name") .btn-sort');
     });
 
     andThen(function() {
@@ -150,6 +150,40 @@ test('Check for expected content sorting', function(assert) {
     });
 });
 
+test('Check for disabled sorting', function(assert) {
+    server.loadFixtures('users');
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+
+        click('.table-default table th:contains("Last Updated")');
+    });
+
+    andThen(function() {
+        var cells = find('.table-default table tbody tr').eq(0).find('td');
+
+        assert.equal(find('.table-default #updated-at').hasClass('sortable'), false, 'Check for missing sortable class');
+
+        assert.equal(cells.eq(0).html(), 'AnakinSkywalker9', 'Check for username');
+        assert.equal(cells.eq(1).html(), 'skywalker@domain.com', 'Check for email');
+        assert.equal(cells.eq(2).html(), 'Anakin', 'Check for first name');
+        assert.equal(cells.eq(3).html(), 'Skywalker', 'Check for last name');
+        assert.equal(cells.eq(4).text().trim(), '07/23/2009', 'Check for date');
+        assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+
+        assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
+    });
+
+    andThen(function() {
+        var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+        assert.equal(request.status, 200);
+        assert.equal(request.method, 'GET');
+        assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL, no sort');
+    });
+});
+
 test('Check for expected content filter', function(assert) {
     server.loadFixtures('users');
     visit('/');
@@ -157,6 +191,7 @@ test('Check for expected content filter', function(assert) {
     andThen(function() {
         assert.equal(currentPath(), 'index');
 
+        click('.table-default table .btn-toggle-filter:eq(0)');
         fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
         find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
     });
@@ -190,6 +225,7 @@ test('Check for expected content multiple filters', function(assert) {
     andThen(function() {
         assert.equal(currentPath(), 'index');
 
+        click('.table-default table .btn-toggle-filter:eq(0)');
         fillIn('.table-default table thead tr:eq(1) th:eq(2) input', 'John');
         find('.table-default table thead tr:eq(1) th:eq(2) input').trigger('keyup');
         fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
@@ -225,10 +261,11 @@ test('Check for expected content sort/filter', function(assert) {
     andThen(function() {
         assert.equal(currentPath(), 'index');
 
-        click('.table-default table th:contains("Last Name")');
+        click('.table-default table th:contains("Last Name") .btn-sort');
     });
 
     andThen(function() {
+        click('.table-default table .btn-toggle-filter:eq(0)');
         fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
         find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
     });
@@ -298,6 +335,7 @@ test('Check for clearFilter action success', function(assert) {
     });
 
     andThen(function() {
+        click('.table-default table .btn-toggle-filter:eq(0)');
         fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
         find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
     });

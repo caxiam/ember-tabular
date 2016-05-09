@@ -6,6 +6,7 @@ export default Ember.Component.extend({
     classNames: ['ember-table-jsonapi'],
     hasActions: false,
     makeRequest: true,
+    showFilterRow: false,
     sortableClass: 'sortable',
     tableLoadedMessage: 'No Data.',
     columnLength: Ember.computed('columns', function() {
@@ -44,6 +45,7 @@ export default Ember.Component.extend({
     // State flags
     isSuccess: false,
     isFailure: false,
+    isLoading: false,
 
     defaultSuccessMessage: 'Success!',
     defaultFailureMessage: 'There was an issue. Please check below for errors.',
@@ -207,6 +209,19 @@ export default Ember.Component.extend({
         return false;
     }),
 
+    setColumnDefaults: Ember.on('init', function() {
+        this.get('columns').map(function(column) {
+            // if column does not have a sort property defined set to true
+            if (!column.hasOwnProperty('sort')) {
+                Ember.set(column, 'sort', true);
+            }
+            // if column does not have a type property defined set to text
+            if (!column.hasOwnProperty('type')) {
+                Ember.set(column, 'type', 'text');
+            }
+        });
+    }),
+
     defaultSort: Ember.on('init', function() {
         this.get('columns').map(function(el) {
             if (el.hasOwnProperty('defaultSort')) {
@@ -238,6 +253,7 @@ export default Ember.Component.extend({
         return this.get('store').query(modelType, params).then(
             function(data) {
                 data = this.normalize(data, params);
+                this.set('isLoading', false);
                 this.set('bindModel', data);
             }.bind(this),
             function(errors) {
@@ -251,6 +267,7 @@ export default Ember.Component.extend({
             // If makeRequest is false do not make request and setModel
             if (this.get('makeRequest')) {
                 this.reset();
+                this.set('isLoading', true);
                 var modelType = this.get('modelType'),
                     params = this.get('query');
 
@@ -263,7 +280,10 @@ export default Ember.Component.extend({
         sortBy(property) {
             this.setSort(property);
             this.updateSortUI(property);
-        }
+        },
+        toggleFilterRow() {
+            this.toggleProperty('showFilterRow');
+        },
     },
 
     setSort: Ember.on('didInsertElement', function(sortProperty) {
@@ -307,7 +327,7 @@ export default Ember.Component.extend({
             $table.find('th').removeClass(function(i, group) {
                 var list = group.split(' ');
                 return list.filter(function(val) {
-                    return (val !== _this.get('sortableClass'));
+                    return (val !== _this.get('sortableClass') && val !== 'filterable');
                 }).join(' ');
             });
 
@@ -334,7 +354,7 @@ export default Ember.Component.extend({
 
     reset() {
         this.setProperties({
-            'bindModel': null,
+            'isLoading': false,
             'errors': null,
             'isSuccess': false,
             'isFailure': false,

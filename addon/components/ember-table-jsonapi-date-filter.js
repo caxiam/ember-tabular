@@ -4,13 +4,14 @@ export default Ember.Component.extend({
     tagName: '',
     action: null,
     filterProperty: null,
+    dateFilter: '',
 
     query: null,
     filter: null,
 
     actions: {
         clearFilter() {
-            this.set('dateFilter', null);
+            this.set('dateFilter', '');
         },
     },
     filterTable: Ember.observer('dateFilter', function() {

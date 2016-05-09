@@ -134,6 +134,8 @@ test('Render filter component', function(assert) {
     `);
 
     var $component = this.$();
+    // show .btn-toggle-filter to show filter row
+    $component.find('thead .btn-toggle-filter:eq(0)').click();
     assert.equal($component.find('thead tr:eq(1) th:eq(0) input').length, 1, 'Table Filter Input - Username');
     assert.equal($component.find('thead tr:eq(1) th:eq(1) input').length, 1, 'Table Filter Input - Email');
     assert.equal($component.find('thead tr:eq(1) th:eq(2) input').length, 1, 'Table Filter Input - First Name');
@@ -168,4 +170,18 @@ test('Render global filter component', function(assert) {
 
     var $component = this.$();
     assert.equal($component.find('.table-filter').length, 1, 'Test global filter');
+});
+
+test('Render isLoading class on component', function(assert) {
+    this.set('columns', columns);
+    this.render(hbs`
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false isLoading="true" as |section|}}
+            {{#if section.isBody}}
+                ...
+            {{/if}}
+        {{/ember-table-jsonapi}}
+    `);
+
+    var $component = this.$();
+    assert.equal($component.find('.table').hasClass('loading'), true, 'Table has class loading');
 });

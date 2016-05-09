@@ -3,13 +3,14 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     tagName: '',
     action: null,
+    headerFilter: '',
 
     query: null,
     filter: null,
 
     actions: {
         clearFilter() {
-            this.set('headerFilter', null);
+            this.set('headerFilter', '');
         }
     },
     filterBy: Ember.observer('headerFilter', function() {

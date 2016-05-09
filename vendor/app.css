@@ -1,20 +1,21 @@
 /* Ember-Table-Jsonapi */
 
-.ember-table-jsonapi .table th{
+.ember-table-jsonapi .table th {
     position: relative;
+    vertical-align:middle;
 }
-.ember-table-jsonapi .table thead tr input{
+.ember-table-jsonapi .table thead tr input {
     padding-right: 20px;
 }
 .ember-table-jsonapi input.date,
-.ember-table-jsonapi .date-filter input{
+.ember-table-jsonapi .date-filter input {
     padding-right:25px;
 }
-.ember-table-jsonapi .table-filter{
+.ember-table-jsonapi .table-filter {
     position: relative;
 }
 .ember-table-jsonapi .clearFilter,
-.ember-table-jsonapi .clearFilter.glyphicon{
+.ember-table-jsonapi .clearFilter.fa {
     position: absolute;
     top: 50%;
     margin-top: -7px;
@@ -22,31 +23,100 @@
     z-index: 1;
     color: #999;
 }
-.ember-table-jsonapi .clearFilter:hover{
+.ember-table-jsonapi .clearFilter:hover {
     color: black;
 }
-.ember-table-jsonapi .table thead th.sortable {
+.ember-table-jsonapi .table thead th {
     position: relative;
-    padding-right: 30px!important;
+    z-index:0;
 }
-.ember-table-jsonapi .table thead th.sortable:after{
-    content: "\e150";
+.ember-table-jsonapi .table thead th.sortable > div {
+    padding-right: 15px;
+}
+.ember-table-jsonapi .table thead th.filterable > div {
+    padding-left: 15px;
+}
+.ember-table-jsonapi .table thead th.sortable:before {
+    content: "\f0dc";
     position: absolute;
-    top: 8px;
+    top: 50%;
+    margin-top: -10px;
     right: 8px;
     display: block;
-    font-family: 'Glyphicons Halflings';
+    font-family: 'FontAwesome';
+    opacity: .2;
+    z-index: -1;
+}
+.ember-table-jsonapi .table thead th .btn-toggle-filter {
+    position: absolute;
+    top: 50%;
+    margin-top:-7px;
+    left: 6px;
+    display: block;
+    font-family: 'FontAwesome';
     opacity: .2;
 }
-.ember-table-jsonapi .table thead th.sortable.sort-desc:after {
-    content: "\e156";
+.ember-table-jsonapi .table thead th .btn-toggle-filter:before {
+    content: "\f0b0";
+}
+.ember-table-jsonapi .table thead th.sortable.sort-desc:before {
+    content: "\f0dd";
     opacity: .5;
 }
-.ember-table-jsonapi .table thead th.sortable.sort-asc:after {
-    content: "\e155";
+.ember-table-jsonapi .table thead th.sortable.sort-asc:before {
+    content: "\f0de";
     opacity: .5;
 }
 .ember-table-jsonapi .search-filter,
-.ember-table-jsonapi .date-filter{
+.ember-table-jsonapi .date-filter {
     position: relative;
+}
+
+.ember-table-jsonapi a,
+.ember-table-jsonapi [class^="btn"],
+.ember-table-jsonapi .clearFilter {
+    cursor: pointer;
+}
+
+/* loading state */
+.ember-table-jsonapi .table {
+    position:relative;
+}
+.ember-table-jsonapi .table.loading:before{
+    content: "\f021";
+    position: absolute;
+    top: 50%;
+    margin-top:-10px;
+    left:50%;
+    margin-left:-10px;
+    display: inline-block;
+    font-family: 'FontAwesome';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    font-size:1.5em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    z-index:2;
+    animation: spin 1.25s infinite linear;
+    -webkit-animation: spin 1.25s infinite linear;
+}
+.ember-table-jsonapi .table.loading:after{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+    background:rgba(255,255,255,0.7);
+    z-index:1;
+}
+
+@keyframes spin {
+    from {
+        transform: scale(1) rotate(0deg); @include transform(scale(1) rotate(0deg) transform-origin(50% 50%));
+    }
+    to {
+        transform: scale(1) rotate(360deg); @include transform(scale(1) rotate(360deg) transform-origin(50% 50%));
+    }
 }

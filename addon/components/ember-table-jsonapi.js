@@ -148,17 +148,17 @@ export default Ember.Component.extend({
 
         return this.get('store').query(modelType, params).then(
             function(data) {
-                // pagination - return number of pages
-                let pageLimit = Math.ceil(data.meta.total/params.page.limit);
-                // determine if pageLimit is a valid number value
-                if (isFinite(pageLimit)) {
-                    this.set('pageLimit', pageLimit);
-                } else {
-                    this.set('pageLimit', null);
-                }
-                this.set('isLoading', false);
-
                 if (!this.isDestroyed) {
+                    // pagination - return number of pages
+                    let pageLimit = Math.ceil(data.meta.total/params.page.limit);
+                    // determine if pageLimit is a valid number value
+                    if (isFinite(pageLimit)) {
+                        this.set('pageLimit', pageLimit);
+                    } else {
+                        this.set('pageLimit', null);
+                    }
+                    this.set('isLoading', false);
+
                     this.set('bindModel', data);
                 }
             }.bind(this),

@@ -252,7 +252,9 @@ export default Ember.Component.extend({
             function(data) {
                 data = this.normalize(data, params);
                 this.set('isLoading', false);
-                this.set('bindModel', data);
+                if (!this.isDestroyed) {
+                    this.set('bindModel', data);
+                }
             }.bind(this),
             function(errors) {
                 this.failure(errors);

@@ -23,7 +23,7 @@ You have full control over your table's `tbody` content. We are setting this to 
 ```hbs
 {{! app/templates/my-route.hbs }}
 
-{{#ember-table-jsonapi columns=columns modelType="user" bindModel=users hasActions="true" as |section|}}
+{{#ember-table-jsonapi columns=columns modelType="user" bindModel=users as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
             <tr>
@@ -97,7 +97,6 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
     columns=columns 
     modelType="user" 
     bindModel=users 
-    hasActions="true"
     class="table-default" 
     tableClass="table-bordered table-hover table-striped" 
     staticParams=staticParams 
@@ -105,8 +104,6 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
     ...
 {{/ember-table-jsonapi}}
 ```
-* `hasActions` - boolean/string - Default: false
-  * Ember Table JSONAPI will reserve an additional column for "actions", ex. Edit/View/Delete buttons.
 * `makeRequest` - boolean/string - Default: true
   * If `true`: Ember Table JSONAPI will make request based on `modelType`.
   * If `false`: Typically you'd bind the route's model to `bindModel`.

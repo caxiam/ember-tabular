@@ -1,6 +1,6 @@
 <h5>Example #1</h5>
 <h1>Table - Default</h1>
-{{#ember-table-jsonapi class="table-default" columns=columns modelType="user" bindModel=users hasActions="true" as |section|}}
+{{#ember-table-jsonapi class="table-default" columns=columns modelType="user" bindModel=users as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
             <tr>

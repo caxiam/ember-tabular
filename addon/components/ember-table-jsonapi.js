@@ -4,14 +4,12 @@ export default Ember.Component.extend({
     store: Ember.inject.service('store'),
     action: null,
     classNames: ['ember-table-jsonapi'],
-    hasActions: false,
     makeRequest: true,
     showFilterRow: false,
     sortableClass: 'sortable',
     tableLoadedMessage: 'No Data.',
     columnLength: Ember.computed('columns', function() {
-        var columnLength = this.get('columns').length;
-        return this.get('hasActions') ? columnLength + 1 : columnLength;
+        return this.get('columns').length;
     }),
 
     // Allows multiple yields

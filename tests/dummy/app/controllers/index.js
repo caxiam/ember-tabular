@@ -28,6 +28,9 @@ export default Ember.Controller.extend({
             type: 'date',
             sort: false,
         },
+        {
+            label: 'Actions',
+        },
     ],
     columns2: [
         {

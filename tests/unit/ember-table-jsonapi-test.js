@@ -59,7 +59,6 @@ moduleForComponent('ember-table-jsonapi', 'Unit | Component | ember table jsonap
             bindModel: model,
             makeRequest: false,
             columns: columns,
-            hasActions: 'true',
         });
     }
 });

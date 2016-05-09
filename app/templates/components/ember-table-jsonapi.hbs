@@ -41,9 +41,6 @@
                                 <th>{{header.label}}</th>
                             {{/if}}
                         {{/each}}
-                        {{#if hasActions}}
-                            <th>Actions</th>
-                        {{/if}}
                     </tr>
                     {{#if isColumnFilters}}
                         {{#if showFilterRow}}
@@ -55,10 +52,6 @@
                                         <th>{{!-- Blank to reserve table column --}}</th>
                                     {{/if}}
                                 {{/each}}
-                                {{#if (and hasActions)}}
-                                    {{!-- Blank to reserve table column --}}
-                                    <th></th>
-                                {{/if}}
                             </tr>
                         {{/if}}
                     {{/if}}

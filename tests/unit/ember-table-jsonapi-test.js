@@ -49,6 +49,9 @@ let columns = [
         label: 'Last Updated',
         type: 'date',
     },
+    {
+        label: 'Actions',
+    },
 ];
 
 moduleForComponent('ember-table-jsonapi', 'Unit | Component | ember table jsonapi', {

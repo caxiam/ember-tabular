@@ -1,0 +1,75 @@
+{{#if isFailure}}
+    {{#ember-table-jsonapi-alert type="danger"}}
+        {{failureMessage}}
+        {{#if errors}}
+            <ul>
+                {{#each errors as |error|}}
+                    <li>
+                        {{error.detail}}
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    {{/ember-table-jsonapi-alert}}
+{{/if}}
+
+{{yield header}}
+
+<div class="table-responsive">
+    <table class="table {{if tableClass tableClass 'table-bordered table-hover'}}">
+            {{#if columns}}
+                <thead>
+                    <tr>
+                        {{#each columns as |header|}}
+                            {{#if header.property}}
+                                {{#if header.sort}}
+                                    <th {{action "sortBy" header.property}} id="{{dot-to-dash-filter header.property}}" class="{{sortableClass}}">{{header.label}}</th>
+                                {{else}}
+                                    <th id="{{dot-to-dash-filter header.property}}">{{header.label}}</th>
+                                {{/if}}
+                            {{else}}
+                                <th>{{header.label}}</th>
+                            {{/if}}
+                        {{/each}}
+                        {{#if hasActions}}
+                            <th>Actions</th>
+                        {{/if}}
+                    </tr>
+                    {{#if isColumnFilters}}
+                        <tr>
+                            {{#each columns as |header|}}
+                                {{#if header.property}}
+                                    {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                                {{else}}
+                                    <th>{{!-- Blank to reserve table column --}}</th>
+                                {{/if}}
+                            {{/each}}
+                            {{#if (and hasActions)}}
+                                {{!-- Blank to reserve table column --}}
+                                <th></th>
+                            {{/if}}
+                        </tr>
+                    {{/if}}
+                </thead>
+            {{/if}}
+            <tbody>
+                {{#if bindModel}}
+                    {{yield body}}
+                {{else}}
+                    <tr>
+                        <td class="text-center" colspan="{{columnLength}}">
+                            {{#if isBindModelLoaded}}
+                                {{tableLoadedMessage}}
+                            {{else}}
+                                Loading...
+                            {{/if}}
+                        </td>
+                    </tr>
+                {{/if}}
+            </tbody>
+    </table>
+</div>
+
+{{yield footer}}
+
+{{pagination-pager current=page count=pageLimit}}

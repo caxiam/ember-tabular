@@ -1,0 +1,52 @@
+/* Ember-Table-Jsonapi */
+
+.ember-table-jsonapi .table th{
+    position: relative;
+}
+.ember-table-jsonapi .table thead tr input{
+    padding-right: 20px;
+}
+.ember-table-jsonapi input.date,
+.ember-table-jsonapi .date-filter input{
+    padding-right:25px;
+}
+.ember-table-jsonapi .table-filter{
+    position: relative;
+}
+.ember-table-jsonapi .clearFilter,
+.ember-table-jsonapi .clearFilter.glyphicon{
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    right: 12px;
+    z-index: 1;
+    color: #999;
+}
+.ember-table-jsonapi .clearFilter:hover{
+    color: black;
+}
+.ember-table-jsonapi .table thead th.sortable {
+    position: relative;
+    padding-right: 30px!important;
+}
+.ember-table-jsonapi .table thead th.sortable:after{
+    content: "\e150";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: block;
+    font-family: 'Glyphicons Halflings';
+    opacity: .2;
+}
+.ember-table-jsonapi .table thead th.sortable.sort-desc:after {
+    content: "\e156";
+    opacity: .5;
+}
+.ember-table-jsonapi .table thead th.sortable.sort-asc:after {
+    content: "\e155";
+    opacity: .5;
+}
+.ember-table-jsonapi .search-filter,
+.ember-table-jsonapi .date-filter{
+    position: relative;
+}

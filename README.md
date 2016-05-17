@@ -23,7 +23,7 @@ You have full control over your table's `tbody` content. We are setting this to 
 ```hbs
 {{! app/templates/my-route.hbs }}
 
-{{#ember-table-jsonapi columns=columns modelType="user" bindModel=users hasActions="true" as |section|}}
+{{#ember-table-jsonapi columns=columns modelType="user" bindModel=users as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
             <tr>
@@ -57,22 +57,22 @@ export default Ember.Controller.extend({
             defaultSort: 'username',
         },
         {
-            property: 'email-address',
+            property: 'emailAddress',
             label: 'Email',
             type: 'text',
         },
         {
-            property: 'first-name',
+            property: 'firstName',
             label: 'First Name',
             type: 'text',
         },
         {
-            property: 'last-name',
+            property: 'lastName',
             label: 'Last Name',
             type: 'text',
         },
         {
-            property: 'updated-at',
+            property: 'updatedAt',
             label: 'Last Updated',
             type: 'date',
         },
@@ -97,7 +97,6 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
     columns=columns 
     modelType="user" 
     bindModel=users 
-    hasActions="true"
     class="table-default" 
     tableClass="table-bordered table-hover table-striped" 
     staticParams=staticParams 
@@ -105,8 +104,6 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
     ...
 {{/ember-table-jsonapi}}
 ```
-* `hasActions` - boolean/string - Default: false
-  * Ember Table JSONAPI will reserve an additional column for "actions", ex. Edit/View/Delete buttons.
 * `makeRequest` - boolean/string - Default: true
   * If `true`: Ember Table JSONAPI will make request based on `modelType`.
   * If `false`: Typically you'd bind the route's model to `bindModel`.
@@ -145,22 +142,22 @@ export default Ember.Controller.extend({
             defaultSort: 'username',
         },
         {
-            property: 'email-address',
+            property: 'emailAddress',
             label: 'Email',
             type: 'text',
         },
         {
-            property: 'first-name',
+            property: 'firstName',
             label: 'First Name',
             type: 'text',
         },
         {
-            property: 'last-name',
+            property: 'lastName',
             label: 'Last Name',
             type: 'text',
         },
         {
-            property: 'updated-at',
+            property: 'updatedAt',
             label: 'Last Updated',
             type: 'date',
         },
@@ -169,6 +166,7 @@ export default Ember.Controller.extend({
 ```
 * `columns.property` - string
   * Required for column filtering/sorting
+  * Properties should be in camelCase format
 * `columns.label` - string
   * Required in all use-cases
 * `columns.type` - string
@@ -215,7 +213,7 @@ Typically the global filter component would be rendered into the `{{yield header
 * `filterProperty` - string - Default: null
   * Required
   * Used with the "Global Filter Sub-Component".
-  * Pass the property name.
+  * Pass the property name in camelCase format.
 * `filterPlaceholder` - string - Default: null
   * Optional
   * Placeholder to be used for the global-filter.
@@ -234,7 +232,7 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
 ```hbs
 {{ember-table-jsonapi-date-filter 
   filter=filter 
-    filterProperty="updated-at" 
+    filterProperty="updatedAt" 
     label="Last Updated"}}
 ```
 * `filter` - object - Default: null
@@ -245,7 +243,7 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
 * `filterProperty` - string - Default: null
   * Required
   * Used with the "Global Filter Sub-Component".
-  * Pass the property name.
+  * Pass the property name in camelCase format.
 * `dateFilter` - string - Default: null
   * Optional
   * Sets the input value.
@@ -264,6 +262,7 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
   * Specifically `error.detail` to display in the alert/error box
 * Pagination is constructed using, `?page[offset]=A&page[limit]=B&sort=`
 * All other filters are sent through the jsonapi format spec: http://jsonapi.org/recommendations/#filtering
+* This add-on imports font-awesome via bower, if your project is already including this dependency you may run into build issues, typically you can add `{overwrite: true}` within `mergeTree` in your ember-cli-build.js will resolve this conflict.
 
 ### Support for Other/Custom API Specs?
 If you are using Ember Data, then you can lean on your application's custom adapter.

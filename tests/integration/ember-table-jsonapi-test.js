@@ -76,7 +76,7 @@ moduleForComponent('ember-table-jsonapi', 'Integration | Component | ember table
 test('Render header yield', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false hasActions="true" as |section|}}
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false as |section|}}
             {{#if section.isHeader}}
                 <div class="header">
                     Test Header Yield
@@ -92,7 +92,7 @@ test('Render header yield', function(assert) {
 test('Render body yield', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false hasActions="true" as |section|}}
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false as |section|}}
             {{#if section.isBody}}
                 <div class="body">
                     Test Body Yield
@@ -110,7 +110,7 @@ test('Render body yield', function(assert) {
 test('Render footer yield', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false hasActions="true" as |section|}}
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false as |section|}}
             {{#if section.isFooter}}
                 <div class="footer">
                     Test Footer Yield
@@ -126,7 +126,7 @@ test('Render footer yield', function(assert) {
 test('Render filter component', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false hasActions="true" as |section|}}
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false as |section|}}
             {{#if section.isFooter}}
                 ...
             {{/if}}
@@ -134,6 +134,8 @@ test('Render filter component', function(assert) {
     `);
 
     var $component = this.$();
+    // show .btn-toggle-filter to show filter row
+    $component.find('thead .btn-toggle-filter:eq(0)').click();
     assert.equal($component.find('thead tr:eq(1) th:eq(0) input').length, 1, 'Table Filter Input - Username');
     assert.equal($component.find('thead tr:eq(1) th:eq(1) input').length, 1, 'Table Filter Input - Email');
     assert.equal($component.find('thead tr:eq(1) th:eq(2) input').length, 1, 'Table Filter Input - First Name');
@@ -145,7 +147,7 @@ test('Render filter component', function(assert) {
 test('Do not render filter component', function(assert) {
     this.set('columnsLabels', columnsLabels);
     this.render(hbs`
-        {{#ember-table-jsonapi columns=columnsLabels bindModel=bindModel makeRequest=false hasActions="true" as |section|}}
+        {{#ember-table-jsonapi columns=columnsLabels bindModel=bindModel makeRequest=false as |section|}}
             {{#if section.isFooter}}
                 ...
             {{/if}}
@@ -159,7 +161,7 @@ test('Do not render filter component', function(assert) {
 test('Render global filter component', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false hasActions="true" filter=filter as |section|}}
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false filter=filter as |section|}}
             {{#if section.isHeader}}
                 {{ember-table-jsonapi-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
             {{/if}}
@@ -168,4 +170,18 @@ test('Render global filter component', function(assert) {
 
     var $component = this.$();
     assert.equal($component.find('.table-filter').length, 1, 'Test global filter');
+});
+
+test('Render isLoading class on component', function(assert) {
+    this.set('columns', columns);
+    this.render(hbs`
+        {{#ember-table-jsonapi columns=columns bindModel=bindModel makeRequest=false isLoading="true" as |section|}}
+            {{#if section.isBody}}
+                ...
+            {{/if}}
+        {{/ember-table-jsonapi}}
+    `);
+
+    var $component = this.$();
+    assert.equal($component.find('.table').hasClass('loading'), true, 'Table has class loading');
 });

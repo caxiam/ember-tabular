@@ -1,6 +1,6 @@
 <h5>Example #1</h5>
 <h1>Table - Default</h1>
-{{#ember-table-jsonapi class="table-default" columns=columns modelType="user" bindModel=users hasActions="true" as |section|}}
+{{#ember-table-jsonapi class="table-default" columns=columns modelType="user" bindModel=users as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
             <tr>
@@ -58,7 +58,7 @@
                 {{ember-table-jsonapi-global-filter filter=filter2 filterProperty="username" filterPlaceholder="Search by Username" label="Username"}}
             </div>
             <div class="col-sm-6">
-                {{ember-table-jsonapi-date-filter filter=filter2 filterProperty="updated-at" label="Last Updated"}}
+                {{ember-table-jsonapi-date-filter filter=filter2 filterProperty="updatedAt" label="Last Updated"}}
             </div>
         </div>
     {{else if section.isBody}}

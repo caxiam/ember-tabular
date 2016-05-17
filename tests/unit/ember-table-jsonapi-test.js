@@ -49,6 +49,9 @@ let columns = [
         label: 'Last Updated',
         type: 'date',
     },
+    {
+        label: 'Actions',
+    },
 ];
 
 moduleForComponent('ember-table-jsonapi', 'Unit | Component | ember table jsonapi', {
@@ -59,7 +62,6 @@ moduleForComponent('ember-table-jsonapi', 'Unit | Component | ember table jsonap
             bindModel: model,
             makeRequest: false,
             columns: columns,
-            hasActions: 'true',
         });
     }
 });

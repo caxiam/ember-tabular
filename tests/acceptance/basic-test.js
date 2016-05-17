@@ -125,7 +125,7 @@ test('Check for expected content sorting', function(assert) {
     andThen(function() {
         assert.equal(currentPath(), 'index');
 
-        click('table th:contains("Last Name")');
+        click('table th:contains("Last Name") .btn-sort');
     });
 
     andThen(function() {
@@ -157,7 +157,7 @@ test('Check for disabled sorting', function(assert) {
     andThen(function() {
         assert.equal(currentPath(), 'index');
 
-        click('table th:contains("Last Updated")');
+        click('.table-default table th:contains("Last Updated")');
     });
 
     andThen(function() {
@@ -191,6 +191,7 @@ test('Check for expected content filter', function(assert) {
     andThen(function() {
         assert.equal(currentPath(), 'index');
 
+        click('.table-default table .btn-toggle-filter:eq(0)');
         fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
         find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
     });
@@ -224,6 +225,7 @@ test('Check for expected content multiple filters', function(assert) {
     andThen(function() {
         assert.equal(currentPath(), 'index');
 
+        click('.table-default table .btn-toggle-filter:eq(0)');
         fillIn('.table-default table thead tr:eq(1) th:eq(2) input', 'John');
         find('.table-default table thead tr:eq(1) th:eq(2) input').trigger('keyup');
         fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
@@ -259,10 +261,11 @@ test('Check for expected content sort/filter', function(assert) {
     andThen(function() {
         assert.equal(currentPath(), 'index');
 
-        click('.table-default table th:contains("Last Name")');
+        click('.table-default table th:contains("Last Name") .btn-sort');
     });
 
     andThen(function() {
+        click('.table-default table .btn-toggle-filter:eq(0)');
         fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
         find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
     });
@@ -332,6 +335,7 @@ test('Check for clearFilter action success', function(assert) {
     });
 
     andThen(function() {
+        click('.table-default table .btn-toggle-filter:eq(0)');
         fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
         find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
     });

@@ -6,6 +6,7 @@ export default Ember.Component.extend({
     classNames: ['ember-table-jsonapi'],
     hasActions: false,
     makeRequest: true,
+    showFilterRow: false,
     sortableClass: 'sortable',
     tableLoadedMessage: 'No Data.',
     columnLength: Ember.computed('columns', function() {
@@ -44,6 +45,7 @@ export default Ember.Component.extend({
     // State flags
     isSuccess: false,
     isFailure: false,
+    isLoading: false,
 
     defaultSuccessMessage: 'Success!',
     defaultFailureMessage: 'There was an issue. Please check below for errors.',
@@ -146,16 +148,19 @@ export default Ember.Component.extend({
 
         return this.get('store').query(modelType, params).then(
             function(data) {
-                // pagination - return number of pages
-                let pageLimit = Math.ceil(data.meta.total/params.page.limit);
-                // determine if pageLimit is a valid number value
-                if (isFinite(pageLimit)) {
-                    this.set('pageLimit', pageLimit);
-                } else {
-                    this.set('pageLimit', null);
-                }
+                if (!this.isDestroyed) {
+                    // pagination - return number of pages
+                    let pageLimit = Math.ceil(data.meta.total/params.page.limit);
+                    // determine if pageLimit is a valid number value
+                    if (isFinite(pageLimit)) {
+                        this.set('pageLimit', pageLimit);
+                    } else {
+                        this.set('pageLimit', null);
+                    }
+                    this.set('isLoading', false);
 
-                this.set('bindModel', data);
+                    this.set('bindModel', data);
+                }
             }.bind(this),
             function(errors) {
                 this.failure(errors);
@@ -168,6 +173,7 @@ export default Ember.Component.extend({
             // If makeRequest is false do not make request and setModel
             if (this.get('makeRequest')) {
                 this.reset();
+                this.set('isLoading', true);
                 var modelType = this.get('modelType'),
                     params = this.get('query');
 
@@ -179,7 +185,10 @@ export default Ember.Component.extend({
     actions: {
         sortBy(property) {
             this.setSort(property);
-        }
+        },
+        toggleFilterRow() {
+            this.toggleProperty('showFilterRow');
+        },
     },
 
     setSort: Ember.on('didInsertElement', function(sortProperty) {
@@ -206,7 +215,7 @@ export default Ember.Component.extend({
             $table.find('th').removeClass(function(i, group) {
                 var list = group.split(' ');
                 return list.filter(function(val) {
-                    return (val !== _this.get('sortableClass'));
+                    return (val !== _this.get('sortableClass') && val !== 'filterable');
                 }).join(' ');
             });
 
@@ -235,7 +244,7 @@ export default Ember.Component.extend({
 
     reset() {
         this.setProperties({
-            'bindModel': null,
+            'isLoading': false,
             'errors': null,
             'isSuccess': false,
             'isFailure': false,

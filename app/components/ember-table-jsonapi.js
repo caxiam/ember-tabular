@@ -1,3 +1,3 @@
-import EmberTableJsonApi from 'ember-table-jsonapi/components/ember-table-jsonapi';
+import EmberTabular from 'ember-tabular/components/ember-tabular';
 
-export default EmberTableJsonApi;
+export default EmberTabular;

@@ -1,6 +1,6 @@
 <h5>Example #1</h5>
 <h1>Table - Default</h1>
-{{#ember-table-jsonapi class="table-default" columns=columns modelType="user" bindModel=users as |section|}}
+{{#ember-tabular class="table-default" columns=columns modelType="user" bindModel=users as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
             <tr>
@@ -23,13 +23,13 @@
             </tr>
         {{/each}}
     {{/if}}
-{{/ember-table-jsonapi}}
+{{/ember-tabular}}
 
 <h5>Example #2</h5>
 <h1>Table - Basic - Global Filter</h1>
-{{#ember-table-jsonapi class="table-basic-global-filter" columns=columns2 modelType="user" bindModel=users2 filter=filter as |section|}}
+{{#ember-tabular class="table-basic-global-filter" columns=columns2 modelType="user" bindModel=users2 filter=filter as |section|}}
     {{#if section.isHeader}}
-        {{ember-table-jsonapi-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
+        {{ember-tabular-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
     {{else if section.isBody}}
         {{#each users2 as |row|}}
             <tr>
@@ -47,18 +47,18 @@
             </tr>
         {{/each}}
     {{/if}}
-{{/ember-table-jsonapi}}
+{{/ember-tabular}}
 
 <h5>Example #3</h5>
 <h1>Table - Basic - Global Filter / Date Filter</h1>
-{{#ember-table-jsonapi class="table-basic-global-date-filter" columns=columns2 modelType="user" bindModel=users3 filter=filter2 as |section|}}
+{{#ember-tabular class="table-basic-global-date-filter" columns=columns2 modelType="user" bindModel=users3 filter=filter2 as |section|}}
     {{#if section.isHeader}}
         <div class="row">
             <div class="col-sm-6">
-                {{ember-table-jsonapi-global-filter filter=filter2 filterProperty="username" filterPlaceholder="Search by Username" label="Username"}}
+                {{ember-tabular-global-filter filter=filter2 filterProperty="username" filterPlaceholder="Search by Username" label="Username"}}
             </div>
             <div class="col-sm-6">
-                {{ember-table-jsonapi-date-filter filter=filter2 filterProperty="updatedAt" label="Last Updated"}}
+                {{ember-tabular-date-filter filter=filter2 filterProperty="updatedAt" label="Last Updated"}}
             </div>
         </div>
     {{else if section.isBody}}
@@ -78,7 +78,7 @@
             </tr>
         {{/each}}
     {{/if}}
-{{/ember-table-jsonapi}}
+{{/ember-tabular}}
 
 <h5>Example #4</h5>
 {{#link-to 'example4'}}

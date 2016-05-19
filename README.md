@@ -3,7 +3,7 @@
 Sortable/filterable jsonapi compliant tables for ember-cli.
 * Sort on a column by column basis.
 * Filter on a column by column basis.
-* Make physical requests to the API when filtering/sorting
+* Make physical requests to the API when filtering/sorting/paginating
 
 # How to use this addon
 ## Installation
@@ -16,14 +16,14 @@ $ ember install ember-tabular
 ### Template
 Setup the ember-tabular template. 
 * `columns` - array (detailed below).
-* `modelType` - for the component to make the proper request when filtering/sorting, you must pass the model type matching your Ember model structure. e.g. `brand/diagram`, `product`.
-* `bindModel` - this is bound to the controller and is used to iterate over the table's model data.
+* `modelName` - for the component to make the proper request when filtering/sorting, you must pass the model type matching your Ember model structure. e.g. `brand/diagram`, `product`.
+* `record` - this is bound to the controller and is used to iterate over the table's model data.
 
-You have full control over your table's `tbody` content. We are setting this to render this content into the `{{yield body}}` of the table component.
+You have full control over your table's `tbody` content. We are setting this to render the content into the `{{yield body}}` of the table component.
 ```hbs
 {{! app/templates/my-route.hbs }}
 
-{{#ember-tabular columns=columns modelType="user" bindModel=users as |section|}}
+{{#ember-tabular columns=columns modelName="user" record=users as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
             <tr>
@@ -53,23 +53,19 @@ export default Ember.Controller.extend({
         {
             property: 'username',
             label: 'Username',
-            type: 'text',
             defaultSort: 'username',
         },
         {
             property: 'emailAddress',
             label: 'Email',
-            type: 'text',
         },
         {
             property: 'firstName',
             label: 'First Name',
-            type: 'text',
         },
         {
             property: 'lastName',
             label: 'Last Name',
-            type: 'text',
         },
         {
             property: 'updatedAt',
@@ -82,11 +78,12 @@ export default Ember.Controller.extend({
 
 ### Request Format
 Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of requests:
+
 * `/users?filter[last-name]=McClane&page[limit]=10&page[offset]=0`
   * `filter[last-name]` - Filter based on jsonapi's recommended filtering: http://jsonapi.org/recommendations/#filtering
   * `page[limit]` - Using a "offset-based" pagination strategy, send # of items per page.
   * `page[offset]` - Using a "offset-based" pagination strategy, starting item number.
-* `/orders?filter[date_ordered_min]=2016-12-10&filter[date_ordered_max]=2016-12-12&filter[order_number]=1029LG31&filter[order_profile]=1&page[limit]=&page[offset]=&sort=-date_ordered`
+* `/orders?filter[date-ordered-min]=2016-12-10&filter[dateordered-max]=2016-12-12&filter[order-number]=1029LG31&filter[order-profile]=1&page[limit]=&page[offset]=&sort=-date-ordered`
   * `sort` - Sort based on jsonapi's recommended sorting: http://jsonapi.org/format/#fetching-sorting
     * Ascending unless prefixed with `-` for descending. 
 
@@ -95,8 +92,8 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
 ```hbs
 {{#ember-tabular 
     columns=columns 
-    modelType="user" 
-    bindModel=users 
+    modelName="user" 
+    record=users 
     class="table-default" 
     tableClass="table-bordered table-hover table-striped" 
     staticParams=staticParams 
@@ -105,8 +102,8 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
 {{/ember-tabular}}
 ```
 * `makeRequest` - boolean/string - Default: true
-  * If `true`: Ember Table JSONAPI will make request based on `modelType`.
-  * If `false`: Typically you'd bind the route's model to `bindModel`.
+  * If `true`: Ember Table JSONAPI will make request based on `modelName`.
+  * If `false`: Typically you'd bind the route's model to `record`.
 * `class` - string
   * Wraps the entire component.
 * `tableClass` - string - Default: "table-bordered table-hover"
@@ -128,7 +125,7 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
       });
       ```
 * `tableLoadedMessage` - string - Default: "No Data."
-  * In some cases when the API response is loaded but does not contain any data "No Data." will not apply, on a case by case basis you can override this.
+  * In some cases when the API response is loaded but does not contain any data "No Data." will not apply, on a case by case basis you can override this. For example, if you'd like to prompt the user to do some kind of action. "No data, select a different product".
 
 ### Controller
 ```js
@@ -138,8 +135,8 @@ export default Ember.Controller.extend({
         {
             property: 'username',
             label: 'Username',
-            type: 'text',
             defaultSort: 'username',
+            type: 'text',
         },
         {
             property: 'emailAddress',
@@ -169,10 +166,9 @@ export default Ember.Controller.extend({
   * Properties should be in camelCase format
 * `columns.label` - string
   * Required in all use-cases
-* `columns.type` - string
-  * Required for column filtering
+* `columns.type` - string - Default: text
   * Sets the filter `<input type="">`
-* `columns.sort` - boolean
+* `columns.sort` - boolean - Default: true
   * Required for column sorting
 * `columns.defaultSort` - string
   * Initial sort value for API request
@@ -180,7 +176,7 @@ export default Ember.Controller.extend({
 
 ### Template - Yields
 ```hbs
-{{#ember-tabular columns=columns bindModel=users as |section|}}
+{{#ember-tabular columns=columns record=users as |section|}}
     {{#if section.isHeader}}
         ... place content in header yield ...
     {{else if section.isBody}}
@@ -190,20 +186,22 @@ export default Ember.Controller.extend({
     {{/if}}
 {{/ember-tabular}}
 ```
-Component has 3 yields setup by default, `header`, `body`, and `footer`.
+Component has 3 yields setup by default, `header`, `body`, and `footer`:
+
 * `{{yield header}}` is rendered outside (above) the `<div class="table-responsive">` on the root of the template.
-* `{{yield body}}` is rendered within the `<tbody></tbody>`. Conditional based on `bindModel`.
+* `{{yield body}}` is rendered within the `<tbody></tbody>`. Conditional based on `record`.
 * `{{yield footer}}` is rendered outside (below) the `<div class="table-responsive">` on the root of the template above the pagination.
 
 ### Sub-Components - Templates
 #### Global Filter
 Typically the global filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if section.isHeader}} ...`. However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
+
 * Sent in request as: `?filter[filterProperty]=searchFilter`, e.g. `?filter[username]=John.Doe2`
 ```hbs
 {{ember-tabular-global-filter 
   filter=filter 
-    filterProperty="username" 
-    filterPlaceholder="Search by Username"}}
+  filterProperty="username" 
+  filterPlaceholder="Search by Username"}}
 ```
 * `filter` - object - Default: null
   * Required
@@ -228,12 +226,13 @@ Typically the global filter component would be rendered into the `{{yield header
 
 #### Date Filter
 Date filter changes `input type="date"` to take advantage of a browser's HTML5 date widget. Typically the date filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if section.isHeader}} ...`. However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
+
 * Sent in request as: `?filter[filterProperty]=dateFilter`, e.g. `?filter[updated-at]=2015-06-29`
 ```hbs
 {{ember-tabular-date-filter 
   filter=filter 
-    filterProperty="updatedAt" 
-    label="Last Updated"}}
+  filterProperty="updatedAt" 
+  label="Last Updated"}}
 ```
 * `filter` - object - Default: null
   * Required
@@ -266,17 +265,18 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
 
 ### Support for Other/Custom API Specs?
 If you are using Ember Data, then you can lean on your application's custom adapter.
+
 * Pagination
   * Responses, depending upon API pagination strategy will need to be converted in the adapter/serializer to pass ember-tabular `offset` / `limit` / `page` properties to generate pagination internally.
 * Filtering
   * This addon expects a `filter` object with nested property/value pairs.
 
-If you are not using Ember Data then you can extend this addon's component and override the `request()` method:
+If you are not using Ember Data then you can extend this addon's component and override a set of serialize and normalized methods:
 ```js
 import EmberTabular from 'ember-tabular/components/ember-tabular';
 
 export default EmberTabular.extend({
-    request(params, modelType) {
+    request(params, modelName) {
         // return generated request
         // (psuedo code)
         let options = {
@@ -288,14 +288,14 @@ export default EmberTabular.extend({
 
         return Ember.$.ajax('/users', options).then((data) => {
             // serialize data/etc
-            // set bindModel
-            this.set('bindModel', data.data);
+            // set record
+            this.set('record', data.data);
         }.bind(this));
     },
 });
 ```
 Note:
-* On success you must set the `bindModel` with the array of table data
+* On success you must set the `record` with the array of table data
 
 
 # Contributing to this addon

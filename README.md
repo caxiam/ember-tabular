@@ -199,9 +199,9 @@ Typically the global filter component would be rendered into the `{{yield header
 * Sent in request as: `?filter[filterProperty]=searchFilter`, e.g. `?filter[username]=John.Doe2`
 ```hbs
 {{ember-tabular-global-filter 
-  filter=filter 
-  filterProperty="username" 
-  filterPlaceholder="Search by Username"}}
+    filter=filter 
+    filterProperty="username" 
+    filterPlaceholder="Search by Username"}}
 ```
 * `filter` - object - Default: null
   * Required
@@ -230,9 +230,9 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
 * Sent in request as: `?filter[filterProperty]=dateFilter`, e.g. `?filter[updated-at]=2015-06-29`
 ```hbs
 {{ember-tabular-date-filter 
-  filter=filter 
-  filterProperty="updatedAt" 
-  label="Last Updated"}}
+    filter=filter 
+    filterProperty="updatedAt" 
+    label="Last Updated"}}
 ```
 * `filter` - object - Default: null
   * Required
@@ -276,25 +276,37 @@ If you are not using Ember Data then you can extend this addon's component and o
 import EmberTabular from 'ember-tabular/components/ember-tabular';
 
 export default EmberTabular.extend({
-    request(params, modelName) {
-        // return generated request
-        // (psuedo code)
-        let options = {
-            method: 'GET',
-            contentType: 'application/vnd.api+json',
-            dataType: 'json',
-            data: params
-        };
+    serializePagination(params) {
+        // override default pagination ?page[offset]= and ?[page]limit=
+        // offset and limit will be sent as ?offset= and ?limit=
+        params.offset = (params.page * params.limit) - params.limit;
+        if (isNaN(params.offset)) {
+            params.offset = null;
+        }
 
-        return Ember.$.ajax('/users', options).then((data) => {
-            // serialize data/etc
-            // set record
-            this.set('record', data.data);
-        }.bind(this));
+        return params;
     },
 });
 ```
+```js
+import EmberTabular from 'ember-tabular/components/ember-tabular';
+
+export default EmberTabular.extend({
+    serializeProperty(property) {
+        // Override to convert all properties sent in requests to camelize instead of the default dasherized
+        // ?filter[lastName]&sort=isAdmin
+        // (pseudo code)
+        if (property) {
+            return Ember.String.camelize(property);
+        }
+
+        return null;
+    },
+});
+```
+Check add-on source for full list of serialized/normalized methods available for extension.
 Note:
+
 * On success you must set the `record` with the array of table data
 
 

@@ -24,7 +24,7 @@ export default Ember.Component.extend({
     },
 
     // Model to be requested
-    modelType: null,
+    modelName: null,
     // Bind variable for table data
     record: null,
     columns: null,
@@ -170,7 +170,7 @@ export default Ember.Component.extend({
         return null;
     },
 
-    isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded', 'modelType', function() {
+    isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded', 'modelName', function() {
         // If record array isLoaded but empty
         if (this.get('record.isLoaded')) {
             return true;
@@ -188,7 +188,7 @@ export default Ember.Component.extend({
             return true;
         }
         // Show custom tableLoadedMessage
-        if (this.get('record') === null && this.get('modelType') === null) {
+        if (this.get('record') === null && this.get('modelName') === null) {
             return true;
         }
 
@@ -245,10 +245,10 @@ export default Ember.Component.extend({
         return query;
     }),
 
-    request(params, modelType) {
+    request(params, modelName) {
         params = this.serialize(params);
 
-        return this.get('store').query(modelType, params).then(
+        return this.get('store').query(modelName, params).then(
             function(data) {
                 if (!this.isDestroyed) {
                     data = this.normalize(data, params);
@@ -270,10 +270,10 @@ export default Ember.Component.extend({
             if (this.get('makeRequest')) {
                 this.reset();
                 this.set('isLoading', true);
-                var modelType = this.get('modelType'),
+                var modelName = this.get('modelName'),
                     params = this.get('query');
 
-                return this.request(params, modelType);
+                return this.request(params, modelName);
             }
         });
     })),

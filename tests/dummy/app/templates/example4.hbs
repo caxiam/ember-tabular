@@ -1,6 +1,6 @@
 <h5>Example #4</h5>
 <h1>Table - Basic - Route Binds Model to Table</h1>
-{{#ember-tabular class="table-basic-route-model" columns=columns makeRequest=false bindModel=model page=page pageLimit=pageLimit isLoading=isLoading as |section|}}
+{{#ember-tabular class="table-basic-route-model" columns=columns makeRequest=false record=model page=page pageLimit=pageLimit isLoading=isLoading as |section|}}
     {{#if section.isBody}}
         {{#each model as |row|}}
             <tr>

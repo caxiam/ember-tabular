@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-let bindModel = [
+let record = [
     {
         id: 1,
         username: 'YippieKiYay',
@@ -76,7 +76,7 @@ moduleForComponent('ember-tabular', 'Integration | Component | ember table jsona
 test('Render header yield', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-tabular columns=columns bindModel=bindModel makeRequest=false as |section|}}
+        {{#ember-tabular columns=columns record=record makeRequest=false as |section|}}
             {{#if section.isHeader}}
                 <div class="header">
                     Test Header Yield
@@ -92,7 +92,7 @@ test('Render header yield', function(assert) {
 test('Render body yield', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-tabular columns=columns bindModel=bindModel makeRequest=false as |section|}}
+        {{#ember-tabular columns=columns record=record makeRequest=false as |section|}}
             {{#if section.isBody}}
                 <div class="body">
                     Test Body Yield
@@ -100,8 +100,8 @@ test('Render body yield', function(assert) {
             {{/if}}
         {{/ember-tabular}}
     `);
-    // Set bindModel after render b/c of component this.reset()
-    this.set('bindModel', bindModel);
+    // Set record after render b/c of component this.reset()
+    this.set('record', record);
 
     var $component = this.$();
     assert.equal($component.find('.body').text().trim(), 'Test Body Yield');
@@ -110,7 +110,7 @@ test('Render body yield', function(assert) {
 test('Render footer yield', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-tabular columns=columns bindModel=bindModel makeRequest=false as |section|}}
+        {{#ember-tabular columns=columns record=record makeRequest=false as |section|}}
             {{#if section.isFooter}}
                 <div class="footer">
                     Test Footer Yield
@@ -126,7 +126,7 @@ test('Render footer yield', function(assert) {
 test('Render filter component', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-tabular columns=columns bindModel=bindModel makeRequest=false as |section|}}
+        {{#ember-tabular columns=columns record=record makeRequest=false as |section|}}
             {{#if section.isFooter}}
                 ...
             {{/if}}
@@ -147,7 +147,7 @@ test('Render filter component', function(assert) {
 test('Do not render filter component', function(assert) {
     this.set('columnsLabels', columnsLabels);
     this.render(hbs`
-        {{#ember-tabular columns=columnsLabels bindModel=bindModel makeRequest=false as |section|}}
+        {{#ember-tabular columns=columnsLabels record=record makeRequest=false as |section|}}
             {{#if section.isFooter}}
                 ...
             {{/if}}
@@ -161,7 +161,7 @@ test('Do not render filter component', function(assert) {
 test('Render global filter component', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-tabular columns=columns bindModel=bindModel makeRequest=false filter=filter as |section|}}
+        {{#ember-tabular columns=columns record=record makeRequest=false filter=filter as |section|}}
             {{#if section.isHeader}}
                 {{ember-tabular-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
             {{/if}}
@@ -175,7 +175,7 @@ test('Render global filter component', function(assert) {
 test('Render isLoading class on component', function(assert) {
     this.set('columns', columns);
     this.render(hbs`
-        {{#ember-tabular columns=columns bindModel=bindModel makeRequest=false isLoading="true" as |section|}}
+        {{#ember-tabular columns=columns record=record makeRequest=false isLoading="true" as |section|}}
             {{#if section.isBody}}
                 ...
             {{/if}}

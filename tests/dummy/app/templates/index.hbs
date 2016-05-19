@@ -1,6 +1,6 @@
 <h5>Example #1</h5>
 <h1>Table - Default</h1>
-{{#ember-tabular class="table-default" columns=columns modelType="user" bindModel=users as |section|}}
+{{#ember-tabular class="table-default" columns=columns modelType="user" record=users as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
             <tr>
@@ -27,7 +27,7 @@
 
 <h5>Example #2</h5>
 <h1>Table - Basic - Global Filter</h1>
-{{#ember-tabular class="table-basic-global-filter" columns=columns2 modelType="user" bindModel=users2 filter=filter as |section|}}
+{{#ember-tabular class="table-basic-global-filter" columns=columns2 modelType="user" record=users2 filter=filter as |section|}}
     {{#if section.isHeader}}
         {{ember-tabular-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
     {{else if section.isBody}}
@@ -51,7 +51,7 @@
 
 <h5>Example #3</h5>
 <h1>Table - Basic - Global Filter / Date Filter</h1>
-{{#ember-tabular class="table-basic-global-date-filter" columns=columns2 modelType="user" bindModel=users3 filter=filter2 as |section|}}
+{{#ember-tabular class="table-basic-global-date-filter" columns=columns2 modelType="user" record=users3 filter=filter2 as |section|}}
     {{#if section.isHeader}}
         <div class="row">
             <div class="col-sm-6">

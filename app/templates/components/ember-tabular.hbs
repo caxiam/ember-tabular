@@ -47,7 +47,7 @@
                             <tr>
                                 {{#each columns as |header|}}
                                     {{#if header.property}}
-                                        {{ember-tabular-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                                        {{ember-tabular-filter modelType=modelType columns=columns property=header.property record=record query=query filter=filter header=header}}
                                     {{else}}
                                         <th>{{!-- Blank to reserve table column --}}</th>
                                     {{/if}}
@@ -58,12 +58,12 @@
                 </thead>
             {{/if}}
             <tbody>
-                {{#if bindModel}}
+                {{#if record}}
                     {{yield body}}
                 {{else}}
                     <tr>
                         <td class="text-center" colspan="{{columnLength}}">
-                            {{#if isBindModelLoaded}}
+                            {{#if isrecordLoaded}}
                                 {{tableLoadedMessage}}
                             {{else}}
                                 Loading...

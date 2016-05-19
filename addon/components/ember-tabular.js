@@ -26,7 +26,7 @@ export default Ember.Component.extend({
     // Model to be requested
     modelType: null,
     // Bind variable for table data
-    bindModel: null,
+    record: null,
     columns: null,
 
     // pagination defaults
@@ -170,25 +170,25 @@ export default Ember.Component.extend({
         return null;
     },
 
-    isBindModelLoaded: Ember.computed('errors', 'bindModel', 'bindModel.isFulfilled', 'bindModel.isLoaded', 'modelType', function() {
-        // If bindModel array isLoaded but empty
-        if (this.get('bindModel.isLoaded')) {
+    isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded', 'modelType', function() {
+        // If record array isLoaded but empty
+        if (this.get('record.isLoaded')) {
             return true;
         }
-        // If bindModel.content array loaded is empty
-        if (this.get('bindModel.isFulfilled')) {
+        // If record.content array loaded is empty
+        if (this.get('record.isFulfilled')) {
             return true;
         }
         // If errors
         if (this.get('errors')) {
             return true;
         }
-        // If bindModel array is empty
-        if (this.get('bindModel') && this.get('bindModel').length === 0) {
+        // If record array is empty
+        if (this.get('record') && this.get('record').length === 0) {
             return true;
         }
         // Show custom tableLoadedMessage
-        if (this.get('bindModel') === null && this.get('modelType') === null) {
+        if (this.get('record') === null && this.get('modelType') === null) {
             return true;
         }
 
@@ -253,7 +253,7 @@ export default Ember.Component.extend({
                 if (!this.isDestroyed) {
                     data = this.normalize(data, params);
                     this.set('isLoading', false);
-                    this.set('bindModel', data);
+                    this.set('record', data);
                 }
             }.bind(this),
             function(errors) {

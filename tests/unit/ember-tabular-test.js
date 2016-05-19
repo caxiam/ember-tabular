@@ -59,7 +59,7 @@ moduleForComponent('ember-tabular', 'Unit | Component | ember table jsonapi', {
     needs: ['helper:dot-to-dash-filter', 'component:ember-tabular-filter', 'helper:and', 'component:pagination-pager'],
     beforeEach: function() {
         component = this.subject({
-            bindModel: model,
+            record: model,
             makeRequest: false,
             columns: columns,
         });

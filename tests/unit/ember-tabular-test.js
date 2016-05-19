@@ -54,12 +54,12 @@ let columns = [
     },
 ];
 
-moduleForComponent('ember-table-jsonapi', 'Unit | Component | ember table jsonapi', {
+moduleForComponent('ember-tabular', 'Unit | Component | ember table jsonapi', {
     unit: true,
-    needs: ['helper:dot-to-dash-filter', 'component:ember-table-jsonapi-filter', 'helper:and', 'component:pagination-pager'],
+    needs: ['helper:dot-to-dash-filter', 'component:ember-tabular-filter', 'helper:and', 'component:pagination-pager'],
     beforeEach: function() {
         component = this.subject({
-            bindModel: model,
+            record: model,
             makeRequest: false,
             columns: columns,
         });

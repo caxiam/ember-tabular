@@ -1,4 +1,4 @@
-# Ember-table-jsonapi
+# Ember-tabular
 
 Sortable/filterable jsonapi compliant tables for ember-cli.
 * Sort on a column by column basis.
@@ -9,12 +9,12 @@ Sortable/filterable jsonapi compliant tables for ember-cli.
 ## Installation
 
 ```
-$ ember install ember-table-jsonapi
+$ ember install ember-tabular
 ```
 
 ## Usage
 ### Template
-Setup the ember-table-jsonapi template. 
+Setup the ember-tabular template. 
 * `columns` - array (detailed below).
 * `modelType` - for the component to make the proper request when filtering/sorting, you must pass the model type matching your Ember model structure. e.g. `brand/diagram`, `product`.
 * `bindModel` - this is bound to the controller and is used to iterate over the table's model data.
@@ -23,7 +23,7 @@ You have full control over your table's `tbody` content. We are setting this to 
 ```hbs
 {{! app/templates/my-route.hbs }}
 
-{{#ember-table-jsonapi columns=columns modelType="user" bindModel=users as |section|}}
+{{#ember-tabular columns=columns modelType="user" bindModel=users as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
             <tr>
@@ -39,7 +39,7 @@ You have full control over your table's `tbody` content. We are setting this to 
             </tr>
         {{/each}}
     {{/if}}
-{{/ember-table-jsonapi}}
+{{/ember-tabular}}
 ```
 
 ### Controller
@@ -93,7 +93,7 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
 ## Advanced Usage
 ### Template
 ```hbs
-{{#ember-table-jsonapi 
+{{#ember-tabular 
     columns=columns 
     modelType="user" 
     bindModel=users 
@@ -102,7 +102,7 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
     staticParams=staticParams 
     as |section|}}
     ...
-{{/ember-table-jsonapi}}
+{{/ember-tabular}}
 ```
 * `makeRequest` - boolean/string - Default: true
   * If `true`: Ember Table JSONAPI will make request based on `modelType`.
@@ -180,7 +180,7 @@ export default Ember.Controller.extend({
 
 ### Template - Yields
 ```hbs
-{{#ember-table-jsonapi columns=columns bindModel=users as |section|}}
+{{#ember-tabular columns=columns bindModel=users as |section|}}
     {{#if section.isHeader}}
         ... place content in header yield ...
     {{else if section.isBody}}
@@ -188,7 +188,7 @@ export default Ember.Controller.extend({
     {{else if section.isFooter}}
         ... place content in footer yield ...
     {{/if}}
-{{/ember-table-jsonapi}}
+{{/ember-tabular}}
 ```
 Component has 3 yields setup by default, `header`, `body`, and `footer`.
 * `{{yield header}}` is rendered outside (above) the `<div class="table-responsive">` on the root of the template.
@@ -200,14 +200,14 @@ Component has 3 yields setup by default, `header`, `body`, and `footer`.
 Typically the global filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if section.isHeader}} ...`. However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
 * Sent in request as: `?filter[filterProperty]=searchFilter`, e.g. `?filter[username]=John.Doe2`
 ```hbs
-{{ember-table-jsonapi-global-filter 
+{{ember-tabular-global-filter 
   filter=filter 
     filterProperty="username" 
     filterPlaceholder="Search by Username"}}
 ```
 * `filter` - object - Default: null
   * Required
-  * Must also expose the `filter` property on the parent `ember-table-jsonapi` component to be able to pass the `filter` object back and forth between parent and child components.
+  * Must also expose the `filter` property on the parent `ember-tabular` component to be able to pass the `filter` object back and forth between parent and child components.
 * `query` - object - Default: `this.get('query') || this.get('parentView.query')`
   * Pass the query object from the parent component if it is different or if used outside of the context of the component, otherwise query is optional and it component will attempt to grab within the context of the parent component.
 * `filterProperty` - string - Default: null
@@ -230,14 +230,14 @@ Typically the global filter component would be rendered into the `{{yield header
 Date filter changes `input type="date"` to take advantage of a browser's HTML5 date widget. Typically the date filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if section.isHeader}} ...`. However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
 * Sent in request as: `?filter[filterProperty]=dateFilter`, e.g. `?filter[updated-at]=2015-06-29`
 ```hbs
-{{ember-table-jsonapi-date-filter 
+{{ember-tabular-date-filter 
   filter=filter 
     filterProperty="updatedAt" 
     label="Last Updated"}}
 ```
 * `filter` - object - Default: null
   * Required
-  * Must also expose the `filter` property on the parent `ember-table-jsonapi` component to be able to pass the `filter` object back and forth between parent and child components.
+  * Must also expose the `filter` property on the parent `ember-tabular` component to be able to pass the `filter` object back and forth between parent and child components.
 * `query` - object - Default: `this.get('query') || this.get('parentView.query')`
   * Pass the query object from the parent component if it is different or if used outside of the context of the component, otherwise query is optional and it component will attempt to grab within the context of the parent component.
 * `filterProperty` - string - Default: null
@@ -267,15 +267,15 @@ Date filter changes `input type="date"` to take advantage of a browser's HTML5 d
 ### Support for Other/Custom API Specs?
 If you are using Ember Data, then you can lean on your application's custom adapter.
 * Pagination
-  * Responses, depending upon API pagination strategy will need to be converted in the adapter/serializer to pass ember-table-jsonapi `offset` / `limit` / `page` properties to generate pagination internally.
+  * Responses, depending upon API pagination strategy will need to be converted in the adapter/serializer to pass ember-tabular `offset` / `limit` / `page` properties to generate pagination internally.
 * Filtering
   * This addon expects a `filter` object with nested property/value pairs.
 
 If you are not using Ember Data then you can extend this addon's component and override the `request()` method:
 ```js
-import EmberTableJsonApi from 'ember-table-jsonapi/components/ember-table-jsonapi';
+import EmberTabular from 'ember-tabular/components/ember-tabular';
 
-export default EmberTableJsonApi.extend({
+export default EmberTabular.extend({
     request(params, modelType) {
         // return generated request
         // (psuedo code)

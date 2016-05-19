@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     store: Ember.inject.service('store'),
     action: null,
-    classNames: ['ember-table-jsonapi'],
+    classNames: ['ember-tabular'],
     makeRequest: true,
     showFilterRow: false,
     sortableClass: 'sortable',
@@ -24,9 +24,9 @@ export default Ember.Component.extend({
     },
 
     // Model to be requested
-    modelType: null,
+    modelName: null,
     // Bind variable for table data
-    bindModel: null,
+    record: null,
     columns: null,
 
     // pagination defaults
@@ -170,25 +170,25 @@ export default Ember.Component.extend({
         return null;
     },
 
-    isBindModelLoaded: Ember.computed('errors', 'bindModel', 'bindModel.isFulfilled', 'bindModel.isLoaded', 'modelType', function() {
-        // If bindModel array isLoaded but empty
-        if (this.get('bindModel.isLoaded')) {
+    isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded', 'modelName', function() {
+        // If record array isLoaded but empty
+        if (this.get('record.isLoaded')) {
             return true;
         }
-        // If bindModel.content array loaded is empty
-        if (this.get('bindModel.isFulfilled')) {
+        // If record.content array loaded is empty
+        if (this.get('record.isFulfilled')) {
             return true;
         }
         // If errors
         if (this.get('errors')) {
             return true;
         }
-        // If bindModel array is empty
-        if (this.get('bindModel') && this.get('bindModel').length === 0) {
+        // If record array is empty
+        if (this.get('record') && this.get('record').length === 0) {
             return true;
         }
         // Show custom tableLoadedMessage
-        if (this.get('bindModel') === null && this.get('modelType') === null) {
+        if (this.get('record') === null && this.get('modelName') === null) {
             return true;
         }
 
@@ -245,15 +245,15 @@ export default Ember.Component.extend({
         return query;
     }),
 
-    request(params, modelType) {
+    request(params, modelName) {
         params = this.serialize(params);
 
-        return this.get('store').query(modelType, params).then(
+        return this.get('store').query(modelName, params).then(
             function(data) {
                 if (!this.isDestroyed) {
                     data = this.normalize(data, params);
                     this.set('isLoading', false);
-                    this.set('bindModel', data);
+                    this.set('record', data);
                 }
             }.bind(this),
             function(errors) {
@@ -270,10 +270,10 @@ export default Ember.Component.extend({
             if (this.get('makeRequest')) {
                 this.reset();
                 this.set('isLoading', true);
-                var modelType = this.get('modelType'),
+                var modelName = this.get('modelName'),
                     params = this.get('query');
 
-                return this.request(params, modelType);
+                return this.request(params, modelName);
             }
         });
     })),

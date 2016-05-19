@@ -1,5 +1,5 @@
 {{#if isFailure}}
-    {{#ember-table-jsonapi-alert type="danger"}}
+    {{#ember-tabular-alert type="danger"}}
         {{failureMessage}}
         {{#if errors}}
             <ul>
@@ -10,7 +10,7 @@
                 {{/each}}
             </ul>
         {{/if}}
-    {{/ember-table-jsonapi-alert}}
+    {{/ember-tabular-alert}}
 {{/if}}
 
 {{yield header}}
@@ -47,7 +47,7 @@
                             <tr>
                                 {{#each columns as |header|}}
                                     {{#if header.property}}
-                                        {{ember-table-jsonapi-filter modelType=modelType columns=columns property=header.property bindModel=bindModel query=query filter=filter header=header}}
+                                        {{ember-tabular-filter modelName=modelName columns=columns property=header.property record=record query=query filter=filter header=header}}
                                     {{else}}
                                         <th>{{!-- Blank to reserve table column --}}</th>
                                     {{/if}}
@@ -58,12 +58,12 @@
                 </thead>
             {{/if}}
             <tbody>
-                {{#if bindModel}}
+                {{#if record}}
                     {{yield body}}
                 {{else}}
                     <tr>
                         <td class="text-center" colspan="{{columnLength}}">
-                            {{#if isBindModelLoaded}}
+                            {{#if isrecordLoaded}}
                                 {{tableLoadedMessage}}
                             {{else}}
                                 Loading...

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-    tagName: '',
+    tagName: null,
     action: null,
     filterProperty: null,
     searchFilter: '',

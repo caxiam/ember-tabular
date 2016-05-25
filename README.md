@@ -1,6 +1,7 @@
 # ember-tabular
 
 [![CircleCI](https://circleci.com/gh/caxiam/ember-tabular.svg?style=shield&circle-token=4983e3daf7018ac0a3ce79929e2fb4c965560e38)](https://circleci.com/gh/caxiam/ember-tabular)
+[![Code Climate](https://codeclimate.com/github/caxiam/ember-tabular/badges/gpa.svg)](https://codeclimate.com/github/caxiam/ember-tabular)
 
 Sortable/filterable jsonapi compliant tables for ember-cli.
 * Sort on a column by column basis.

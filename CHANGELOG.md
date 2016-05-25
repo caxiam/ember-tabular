@@ -9,5 +9,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Filter on a column by column basis.
 - Make physical requests to the API when filtering, sorting and paginating.
 
-### Fixed
-- Fix legacy name references in README.md
+### Changed
+- Update legacy name references in README.md.

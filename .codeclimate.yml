@@ -1,0 +1,22 @@
+languages:
+   JavaScript: true
+engines:
+#    watson:
+#        enabled: true
+    fixme:
+        enabled: true
+    eslint:
+        enabled: true
+    duplication:
+        enabled: true
+        config:
+            languages:
+                - javascript
+ratings:
+   paths:
+   - "app/**"
+   - "addon/**"
+exclude_paths:
+- "config/**"
+- "tests/*"
+- "vendor/*"

@@ -297,13 +297,13 @@ export default Ember.Component.extend({
       } else {
         property = this.get('sort').replace(/^-/, '');
         // Must be the opposite of property
-        sortProperty = '-' + property;
+        sortProperty = `-${property}`;
       }
 
       property = property;
 
       if (this.get('sort') === sortProperty) {
-        this.set('sort', '-' + property);
+        this.set('sort', `-${property}`);
       } else {
         this.set('sort', property);
       }
@@ -323,7 +323,7 @@ export default Ember.Component.extend({
       property = sort.replace(/^-/, '');
       // convert relationships
       classProperty = property.replace(/\./g, '-');
-      $tableHeader = Ember.$('#' + classProperty);
+      $tableHeader = Ember.$(`#${classProperty}`);
 
       // Remove all classes on th.sortable but sortable class
       $table.find('th').removeClass(function(i, group) {
@@ -356,12 +356,12 @@ export default Ember.Component.extend({
 
   reset() {
     this.setProperties({
-      'isLoading': false,
-      'errors': null,
-      'isSuccess': false,
-      'isFailure': false,
-      'successMessage': this.get('defaultSuccessMessage'),
-      'failureMessage': this.get('defaultFailureMessage'),
+      isLoading: false,
+      errors: null,
+      isSuccess: false,
+      isFailure: false,
+      successMessage: this.get('defaultSuccessMessage'),
+      failureMessage: this.get('defaultFailureMessage'),
     });
   },
 });

@@ -13,7 +13,7 @@ test('Check table-basic-route-model for expected content', function(assert) {
     assert.equal(currentPath(), 'example4');
     assert.equal(find('.table-basic-route-model table tbody tr').length, 10, 'Check for 10 items in table');
 
-    var request = getPretenderRequest(server, 'GET', 'users')[0];
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');

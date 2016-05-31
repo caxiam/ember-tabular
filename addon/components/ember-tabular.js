@@ -229,7 +229,7 @@ export default Ember.Component.extend({
   }),
 
   query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value', 'staticParams', function() {
-    var query = {},
+    let query = {},
       filter = this.get('filter') || [];
     query = {
       'page': this.get('page'),
@@ -270,7 +270,7 @@ export default Ember.Component.extend({
       if (this.get('makeRequest')) {
         this.reset();
         this.set('isLoading', true);
-        var modelName = this.get('modelName'),
+        let modelName = this.get('modelName'),
           params = this.get('query');
 
         return this.request(params, modelName);
@@ -290,7 +290,7 @@ export default Ember.Component.extend({
 
   setSort: Ember.on('didInsertElement', function(sortProperty) {
     if (this.get('sort') || sortProperty) {
-      var property;
+      let property;
 
       if (sortProperty) {
         property = sortProperty;
@@ -312,7 +312,7 @@ export default Ember.Component.extend({
 
   updateSortUI: Ember.on('didInsertElement', function(sortProperty) {
     if (this.get('sort') || sortProperty) {
-      var sort = this.get('sort'),
+      let sort = this.get('sort'),
         _this = this,
         $table = this.$(),
         property,
@@ -327,7 +327,7 @@ export default Ember.Component.extend({
 
       // Remove all classes on th.sortable but sortable class
       $table.find('th').removeClass(function(i, group) {
-        var list = group.split(' ');
+        let list = group.split(' ');
         return list.filter(function(val) {
           return (val !== _this.get('sortableClass') && val !== 'filterable');
         }).join(' ');

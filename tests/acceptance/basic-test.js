@@ -12,7 +12,7 @@ test('Check table pagination - 0 pages', function(assert) {
   andThen(function() {
     assert.equal(currentPath(), 'index');
 
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(find('.table-default table tbody tr').length, 1, 'Check for 1 items in table');
     assert.equal(cells.eq(0).html().trim(), 'No Data.', 'No Data.');
@@ -39,7 +39,7 @@ test('Check for expected content', function(assert) {
   andThen(function() {
     assert.equal(currentPath(), 'index');
 
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).html(), 'AnakinSkywalker9', 'Check for username');
     assert.equal(cells.eq(1).html(), 'skywalker@domain.com', 'Check for email');
@@ -82,13 +82,13 @@ test('Check table rendering for no data or loading', function(assert) {
     assert.equal(currentPath(), 'index');
   });
 
-  var store = this.application.__container__.lookup('service:store');
+  let store = this.application.__container__.lookup('service:store');
   andThen(function() {
     store.unloadAll('user');
   });
 
   andThen(function() {
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).html().trim(), 'No Data.', 'No Data.');
   });
@@ -105,7 +105,7 @@ test('Check table rendering for pagination', function(assert) {
   });
 
   andThen(function() {
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).html(), 'mcclane.jr', 'Check for username');
     assert.equal(cells.eq(1).html(), 'jack.mcclane@domain.com', 'Check for email');
@@ -129,7 +129,7 @@ test('Check for expected content sorting', function(assert) {
   });
 
   andThen(function() {
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).html(), 'Dooku', 'Check for username');
     assert.equal(cells.eq(1).html(), 'count.dooku@domain.com', 'Check for email');
@@ -142,7 +142,7 @@ test('Check for expected content sorting', function(assert) {
   });
 
   andThen(function() {
-    var request = getPretenderRequest(server, 'GET', 'users')[0];
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
@@ -161,7 +161,7 @@ test('Check for disabled sorting', function(assert) {
   });
 
   andThen(function() {
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(find('.table-default #updated-at').hasClass('sortable'), false, 'Check for missing sortable class');
 
@@ -176,7 +176,7 @@ test('Check for disabled sorting', function(assert) {
   });
 
   andThen(function() {
-    var request = getPretenderRequest(server, 'GET', 'users')[0];
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
@@ -197,7 +197,7 @@ test('Check for expected content filter', function(assert) {
   });
 
   andThen(function() {
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).html(), 'YippieKiYay', 'Check for username');
     assert.equal(cells.eq(1).html(), 'john.mcclane@domain.com', 'Check for email');
@@ -210,7 +210,7 @@ test('Check for expected content filter', function(assert) {
   });
 
   andThen(function() {
-    var request = getPretenderRequest(server, 'GET', 'users')[0];
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
@@ -233,7 +233,7 @@ test('Check for expected content multiple filters', function(assert) {
   });
 
   andThen(function() {
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).html(), 'YippieKiYay', 'Check for username');
     assert.equal(cells.eq(1).html(), 'john.mcclane@domain.com', 'Check for email');
@@ -246,7 +246,7 @@ test('Check for expected content multiple filters', function(assert) {
   });
 
   andThen(function() {
-    var request = getPretenderRequest(server, 'GET', 'users')[0];
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
@@ -271,7 +271,7 @@ test('Check for expected content sort/filter', function(assert) {
   });
 
   andThen(function() {
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).html(), 'YippieKiYay', 'Check for username');
     assert.equal(cells.eq(1).html(), 'john.mcclane@domain.com', 'Check for email');
@@ -284,7 +284,7 @@ test('Check for expected content sort/filter', function(assert) {
   });
 
   andThen(function() {
-    var request = getPretenderRequest(server, 'GET', 'users')[0];
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
@@ -306,7 +306,7 @@ test('Check table-basic-global-filter for expected content after filtering', fun
   });
 
   andThen(function() {
-    var cells = find('.table-basic-global-filter table tbody tr').eq(0).find('td');
+    let cells = find('.table-basic-global-filter table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).html(), 'YippieKiYay', 'Check for username');
     assert.equal(cells.eq(1).html(), 'john.mcclane@domain.com', 'Check for email');
@@ -318,7 +318,7 @@ test('Check table-basic-global-filter for expected content after filtering', fun
   });
 
   andThen(function() {
-    var request = getPretenderRequest(server, 'GET', 'users')[0];
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
@@ -398,7 +398,7 @@ test('Check table-basic-global-date-filter to filter by date and username', func
   andThen(function() {
     assert.equal(find('.table-basic-global-date-filter table tbody tr').length, 1, 'Check for 1 item in table');
 
-    var request = getPretenderRequest(server, 'GET', 'users')[0];
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');

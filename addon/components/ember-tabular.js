@@ -14,13 +14,13 @@ export default Ember.Component.extend({
 
   // Allows multiple yields
   header: {
-    isHeader: true
+    isHeader: true,
   },
   body: {
-    isBody: true
+    isBody: true,
   },
   footer: {
-    isFooter: true
+    isFooter: true,
   },
 
   // Model to be requested

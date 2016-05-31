@@ -12,7 +12,7 @@ export default Ember.Component.extend({
   actions: {
     clearFilter() {
       this.set('searchFilter', '');
-    }
+    },
   },
   filterTable: Ember.observer('searchFilter', function() {
     Ember.run.debounce(this, 'filterName', 750);

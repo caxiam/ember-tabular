@@ -9,6 +9,13 @@
                 <td>{{row.firstName}}</td>
                 <td>{{row.lastName}}</td>
                 <td>
+                    {{#if row.isAdmin}}
+                        Yes
+                    {{else}}
+                        No
+                    {{/if}}
+                </td>
+                <td>
                     {{#if row.updatedAt}}
                         {{moment-format row.updatedAt 'MM/DD/YYYY'}}
                     {{else}}

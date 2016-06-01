@@ -23,6 +23,20 @@ export default Ember.Controller.extend({
             label: 'Last Name',
         },
         {
+            property: 'isAdmin',
+            label: 'Is Admin',
+            list: [
+                {
+                    label: 'Yes',
+                    id: true,
+                },
+                {
+                    label: 'No',
+                    id: false,
+                }
+            ],
+        },
+        {
             property: 'updatedAt',
             label: 'Last Updated',
             type: 'date',

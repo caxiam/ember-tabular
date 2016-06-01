@@ -8,3 +8,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Sort on a column by column basis.
 - Filter on a column by column basis.
 - Make physical requests to the API when filtering, sorting and paginating.
+- Adds ability to filter column/table using a dropdown.

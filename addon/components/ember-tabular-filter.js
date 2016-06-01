@@ -11,7 +11,14 @@ export default Ember.Component.extend({
     actions: {
         clearFilter() {
             this.set('headerFilter', '');
-        }
+        },
+        setHeaderFilter(object) {
+            if (object) {
+                this.set('headerFilter', object.id);
+            } else {
+                this.set('headerFilter', null);
+            }
+        },
     },
     filterBy: Ember.observer('headerFilter', function() {
         Ember.run.debounce(this, 'filterName', 750);

@@ -27,26 +27,36 @@ let columns = [
     {
         property: 'username',
         label: 'Username',
-        type: 'text',
         defaultSort: 'username',
     },
     {
-        property: 'email-address',
+        property: 'emailAddress',
         label: 'Email',
-        type: 'text',
     },
     {
-        property: 'first-name',
+        property: 'firstName',
         label: 'First Name',
-        type: 'text',
     },
     {
-        property: 'last-name',
+        property: 'lastName',
         label: 'Last Name',
-        type: 'text',
     },
     {
-        property: 'updated-at',
+        property: 'isAdmin',
+        label: 'Is Admin',
+        list: [
+            {
+                label: 'Yes',
+                id: true,
+            },
+            {
+                label: 'No',
+                id: false,
+            }
+        ],
+    },
+    {
+        property: 'updatedAt',
         label: 'Last Updated',
         type: 'date',
     },
@@ -140,8 +150,9 @@ test('Render filter component', function(assert) {
     assert.equal($component.find('thead tr:eq(1) th:eq(1) input').length, 1, 'Table Filter Input - Email');
     assert.equal($component.find('thead tr:eq(1) th:eq(2) input').length, 1, 'Table Filter Input - First Name');
     assert.equal($component.find('thead tr:eq(1) th:eq(3) input').length, 1, 'Table Filter Input - Last Name');
-    assert.equal($component.find('thead tr:eq(1) th:eq(4) input').length, 1, 'Table Filter Input - Last Updated');
-    assert.equal($component.find('thead tr:eq(1) th:eq(5) input').length, 0, 'Table Filter No Input - Actions');
+    assert.equal($component.find('thead tr:eq(1) th:eq(4) .ember-power-select').length, 1, 'Table Filter Input - Is Admin');
+    assert.equal($component.find('thead tr:eq(1) th:eq(5) input').length, 1, 'Table Filter Input - Last Updated');
+    assert.equal($component.find('thead tr:eq(1) th:eq(6) input').length, 0, 'Table Filter No Input - Actions');
 });
 
 test('Do not render filter component', function(assert) {
@@ -164,6 +175,22 @@ test('Render global filter component', function(assert) {
         {{#ember-tabular columns=columns record=record makeRequest=false filter=filter as |section|}}
             {{#if section.isHeader}}
                 {{ember-tabular-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
+            {{/if}}
+        {{/ember-tabular}}
+    `);
+
+    var $component = this.$();
+    assert.equal($component.find('.table-filter').length, 1, 'Test global filter');
+});
+
+test('Render dropdown filter component', function(assert) {
+    this.set('columns', columns);
+    this.render(hbs`
+        {{#ember-tabular columns=columns record=record makeRequest=false filter=filter as |section|}}
+            {{#if section.isHeader}}
+                {{#ember-tabular-dropdown-filter filter=filter filterProperty="isAdmin" filterPlaceholder="Filter by Admin"}}
+                    ...
+                {{/ember-tabular-dropdown-filter}}
             {{/if}}
         {{/ember-tabular}}
     `);

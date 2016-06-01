@@ -304,17 +304,42 @@ test('Check for expected content dropdown filter', function(assert) {
     });
 
     andThen(function() {
-        var cells = find('.table-default table tbody tr').eq(0).find('td');
-
-        assert.equal(cells.eq(4).text().trim(), 'Yes', 'Check for is admin');
-    });
-
-    andThen(function() {
         var request = getPretenderRequest(server, 'GET', 'users')[0];
 
         assert.equal(request.status, 200);
         assert.equal(request.method, 'GET');
         assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+    });
+});
+
+test('Check table-default for dropdown clear success', function(assert) {
+    server.loadFixtures('users');
+    visit('/');
+
+    andThen(function() {
+        assert.equal(currentPath(), 'index');
+
+        click('.table-default .btn-toggle-filter:eq(0)');
+    });
+
+    andThen(function() {
+        selectChoose('.table-default .ember-tabular-ember-power-select:eq(0)', 'Yes');
+    });
+
+    andThen(function() {
+        var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+        assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+    });
+
+    andThen(function() {
+        click('.table-default .ember-power-select-clear-btn:eq(0)');
+
+        andThen(function() {
+            var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+            assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+        });
     });
 });
 
@@ -405,7 +430,7 @@ test('Check table-basic-global-filter for clearFilter action success', function(
     });
 });
 
-test('Check table-basic-global-date-filter to filter by date and username', function(assert) {
+test('Check table-basic-global-date-filter to filter by date and is-admin', function(assert) {
     server.loadFixtures('users');
     visit('/');
 
@@ -414,11 +439,10 @@ test('Check table-basic-global-date-filter to filter by date and username', func
     });
 
     andThen(function() {
-        fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', 'YippieKiYay');
-        find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
+        selectChoose('.table-basic-global-date-filter .ember-tabular-ember-power-select:eq(0)', 'Yes');
 
-        fillIn('.table-basic-global-date-filter .table-filter input:eq(1)', '2017-01-02');
-        find('.table-basic-global-date-filter .table-filter input:eq(1)').trigger('keyup');
+        fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
+        find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
     });
 
     andThen(function() {
@@ -428,7 +452,7 @@ test('Check table-basic-global-date-filter to filter by date and username', func
 
         assert.equal(request.status, 200);
         assert.equal(request.method, 'GET');
-        assert.equal(request.url, '/users?filter%5Busername%5D=YippieKiYay&filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
+        assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
     });
 });
 
@@ -441,8 +465,8 @@ test('Check table-basic-global-date-filter for date clearFilter action success',
     });
 
     andThen(function() {
-        fillIn('.table-basic-global-date-filter .table-filter input:eq(1)', '2017-01-02');
-        find('.table-basic-global-date-filter .table-filter input:eq(1)').trigger('keyup');
+        fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
+        find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
     });
 
     andThen(function() {
@@ -455,39 +479,5 @@ test('Check table-basic-global-date-filter for date clearFilter action success',
 
     andThen(function() {
         assert.equal(find('.table-basic-global-date-filter table tbody tr').length, 10, 'Check for 10 item in table');
-    });
-});
-
-test('Check table-default for dropdown clear success', function(assert) {
-    server.loadFixtures('users');
-    visit('/');
-
-    andThen(function() {
-        assert.equal(currentPath(), 'index');
-
-        click('.table-default table .btn-toggle-filter:eq(0)');
-        selectChoose('.table-default .ember-tabular-ember-power-select:eq(0)', 'Yes');
-    });
-
-    andThen(function() {
-        var cells = find('.table-default table tbody tr').eq(0).find('td');
-
-        assert.equal(cells.eq(4).text().trim(), 'Yes', 'Check for is admin');
-    });
-
-    andThen(function() {
-        var request = getPretenderRequest(server, 'GET', 'users')[0];
-
-        assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
-    });
-
-    andThen(function() {
-        click('.table-default .ember-power-select-clear-btn:eq(0)');
-    });
-
-    andThen(function() {
-        var request = getPretenderRequest(server, 'GET', 'users')[0];
-
-        assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
     });
 });

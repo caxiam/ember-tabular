@@ -63,4 +63,25 @@ export default Ember.Controller.extend({
             label: 'Last Updated',
         },
     ],
+    actions: {
+        setIsAdminFilter(object) {
+            if (object) {
+                this.set('isAdminFilter', object.id);
+            } else {
+                this.set('isAdminFilter', null);
+            }
+        },
+    },
+    adminContent: Ember.computed(function() {
+        return [
+            {
+                label: 'Yes',
+                id: true,
+            },
+            {
+                label: 'No',
+                id: false,
+            }
+        ];
+    }),
 });

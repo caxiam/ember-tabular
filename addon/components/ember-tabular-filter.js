@@ -14,7 +14,7 @@ export default Ember.Component.extend({
         },
         setHeaderFilter(object) {
             if (object) {
-                this.set('headerFilter', object.id);
+                this.set('headerFilter', object.value);
             } else {
                 this.set('headerFilter', null);
             }

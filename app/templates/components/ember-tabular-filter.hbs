@@ -2,7 +2,7 @@
     {{#if header.list}}
         {{#power-select
             options=header.list
-            selected=(find-by header.list 'id' headerFilter)
+            selected=(find-by header.list 'value' headerFilter)
             searchField="label"
             searchEnabled=false
             class="ember-tabular-ember-power-select"

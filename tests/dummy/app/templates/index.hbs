@@ -65,7 +65,7 @@
                 {{#ember-tabular-dropdown-filter filter=filter2 filterProperty="isAdmin" label="Is Admin" searchFilter=isAdminFilter}}
                     {{#power-select
                         options=adminContent
-                        selected=(find-by adminContent 'id' isAdminFilter)
+                        selected=(find-by adminContent 'value' isAdminFilter)
                         searchField="label"
                         searchEnabled=false
                         placeholder="Select to filter"

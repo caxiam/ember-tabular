@@ -28,11 +28,11 @@ export default Ember.Controller.extend({
             list: [
                 {
                     label: 'Yes',
-                    id: true,
+                    value: true,
                 },
                 {
                     label: 'No',
-                    id: false,
+                    value: false,
                 }
             ],
         },
@@ -66,7 +66,7 @@ export default Ember.Controller.extend({
     actions: {
         setIsAdminFilter(object) {
             if (object) {
-                this.set('isAdminFilter', object.id);
+                this.set('isAdminFilter', object.value);
             } else {
                 this.set('isAdminFilter', null);
             }
@@ -76,11 +76,11 @@ export default Ember.Controller.extend({
         return [
             {
                 label: 'Yes',
-                id: true,
+                value: true,
             },
             {
                 label: 'No',
-                id: false,
+                value: false,
             }
         ];
     }),

@@ -14,10 +14,10 @@ export default Ember.Component.extend({
       this.set('dateFilter', '');
     },
   },
-  filterTable: Ember.observer('dateFilter', function() {
+  filterTable: Ember.observer('dateFilter', function () {
     Ember.run.debounce(this, 'filterName', 750);
   }),
-  isClearable: Ember.computed('dateFilter', function() {
+  isClearable: Ember.computed('dateFilter', function () {
     if (this.get('dateFilter')) {
       return true;
     }
@@ -46,7 +46,7 @@ export default Ember.Component.extend({
 
     // Take filter object and break into different format
     // filters = [{field: 'name', value:'foo'}, {field: 'email', value: 'foo@bar.com'}];
-    const filters = Object.keys(filter).map(function(key) {
+    const filters = Object.keys(filter).map(function (key) {
       return {
         field: key,
         value: filter[key],

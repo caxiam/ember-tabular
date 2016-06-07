@@ -13,16 +13,16 @@ export default Ember.Component.extend({
       this.set('headerFilter', '');
     },
   },
-  filterBy: Ember.observer('headerFilter', function() {
+  filterBy: Ember.observer('headerFilter', function () {
     Ember.run.debounce(this, 'filterName', 750);
   }),
-  isClearable: Ember.computed('headerFilter', function() {
+  isClearable: Ember.computed('headerFilter', function () {
     if (this.get('headerFilter')) {
       return true;
     }
     return false;
   }),
-  inputPlaceholder: Ember.computed('header.type', function() {
+  inputPlaceholder: Ember.computed('header.type', function () {
     const type = this.get('header.type');
 
     if (type === 'date') {
@@ -51,7 +51,7 @@ export default Ember.Component.extend({
 
     // Take filter object and break into different format
     // filters = [{field: 'name', value:'foo'}, {field: 'email', value: 'foo@bar.com'}];
-    const filters = Object.keys(filter).map(function(key) {
+    const filters = Object.keys(filter).map(function (key) {
       return {
         field: key,
         value: filter[key],

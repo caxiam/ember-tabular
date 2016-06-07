@@ -14,10 +14,10 @@ export default Ember.Component.extend({
       this.set('searchFilter', '');
     },
   },
-  filterTable: Ember.observer('searchFilter', function() {
+  filterTable: Ember.observer('searchFilter', function () {
     Ember.run.debounce(this, 'filterName', 750);
   }),
-  isClearable: Ember.computed('searchFilter', function() {
+  isClearable: Ember.computed('searchFilter', function () {
     if (this.get('searchFilter')) {
       return true;
     }
@@ -46,7 +46,7 @@ export default Ember.Component.extend({
 
     // Take filter object and break into different format
     // filters = [{field: 'name', value:'foo'}, {field: 'email', value: 'foo@bar.com'}];
-    const filters = Object.keys(filter).map(function(key) {
+    const filters = Object.keys(filter).map(function (key) {
       return {
         field: key,
         value: filter[key],

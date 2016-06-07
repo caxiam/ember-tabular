@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   showFilterRow: false,
   sortableClass: 'sortable',
   tableLoadedMessage: 'No Data.',
-  columnLength: Ember.computed('columns', function() {
+  columnLength: Ember.computed('columns', function () {
     return this.get('columns').length;
   }),
 
@@ -175,7 +175,7 @@ export default Ember.Component.extend({
   },
 
   isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
-  'modelName', function() {
+  'modelName', function () {
     // If record array isLoaded but empty
     if (this.get('record.isLoaded')) {
       return true;
@@ -200,7 +200,7 @@ export default Ember.Component.extend({
     return false;
   }),
 
-  isColumnFilters: Ember.computed('columns', function() {
+  isColumnFilters: Ember.computed('columns', function () {
     const columns = this.get('columns');
 
     for (let i = columns.length - 1; i >= 0; i--) {
@@ -212,8 +212,8 @@ export default Ember.Component.extend({
     return false;
   }),
 
-  setColumnDefaults: Ember.on('init', function() {
-    this.get('columns').map(function(column) {
+  setColumnDefaults: Ember.on('init', function () {
+    this.get('columns').map(function (column) {
       // if column does not have a sort property defined set to true
       if (!column.hasOwnProperty('sort')) {
         Ember.set(column, 'sort', true);
@@ -225,8 +225,8 @@ export default Ember.Component.extend({
     });
   }),
 
-  defaultSort: Ember.on('init', function() {
-    this.get('columns').map(function(el) {
+  defaultSort: Ember.on('init', function () {
+    this.get('columns').map(function (el) {
       if (el.hasOwnProperty('defaultSort')) {
         this.set('sort', el.defaultSort);
       }
@@ -234,7 +234,7 @@ export default Ember.Component.extend({
   }),
 
   query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',
-  'staticParams', function() {
+  'staticParams', function () {
     let query = {};
     const filter = this.get('filter') || [];
     query = {
@@ -257,14 +257,14 @@ export default Ember.Component.extend({
     params = this.serialize(params);
 
     return this.get('store').query(modelName, params).then(
-      function(data) {
+      function (data) {
         if (!this.isDestroyed) {
           data = this.normalize(data, params);
           this.set('isLoading', false);
           this.set('record', data);
         }
       }.bind(this),
-      function(errors) {
+      function (errors) {
         if (!this.isDestroyed) {
           this.failure(errors);
         }
@@ -272,8 +272,8 @@ export default Ember.Component.extend({
     );
   },
 
-  setModel: Ember.on('init', Ember.observer('query', function() {
-    Ember.run.once(this, function() {
+  setModel: Ember.on('init', Ember.observer('query', function () {
+    Ember.run.once(this, function () {
       // If makeRequest is false do not make request and setModel
       if (this.get('makeRequest')) {
         this.reset();
@@ -296,7 +296,7 @@ export default Ember.Component.extend({
     },
   },
 
-  setSort: Ember.on('didInsertElement', function(sortProperty) {
+  setSort: Ember.on('didInsertElement', function (sortProperty) {
     if (this.get('sort') || sortProperty) {
       let property;
 
@@ -318,7 +318,7 @@ export default Ember.Component.extend({
     }
   }),
 
-  updateSortUI: Ember.on('didInsertElement', function(sortProperty) {
+  updateSortUI: Ember.on('didInsertElement', function (sortProperty) {
     if (this.get('sort') || sortProperty) {
       const _this = this;
       const $table = this.$();
@@ -334,9 +334,9 @@ export default Ember.Component.extend({
       $tableHeader = Ember.$(`#${classProperty}`);
 
       // Remove all classes on th.sortable but sortable class
-      $table.find('th').removeClass(function(i, group) {
+      $table.find('th').removeClass(function (i, group) {
         const list = group.split(' ');
-        return list.filter(function(val) {
+        return list.filter(function (val) {
           return (val !== _this.get('sortableClass') && val !== 'filterable');
         }).join(' ');
       });

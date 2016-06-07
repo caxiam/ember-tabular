@@ -89,8 +89,8 @@ export default Ember.Component.extend({
 
     for (let key in filter) {
       if (filter.hasOwnProperty(key)) {
-        const value = filter[key],
-          serializedKey = this.serializeProperty(key);
+        const value = filter[key];
+        const serializedKey = this.serializeProperty(key);
 
         // delete unserialized key
         delete filter[key];
@@ -148,8 +148,8 @@ export default Ember.Component.extend({
     let filter = query.filter;
     for (let key in filter) {
       if (filter.hasOwnProperty(key)) {
-        const value = filter[key],
-          normalizedKey = this.normalizeProperty(key);
+        const value = filter[key];
+        const normalizedKey = this.normalizeProperty(key);
 
         // delete unserialized key
         delete filter[key];
@@ -278,8 +278,8 @@ export default Ember.Component.extend({
       if (this.get('makeRequest')) {
         this.reset();
         this.set('isLoading', true);
-        const modelName = this.get('modelName'),
-          params = this.get('query');
+        const modelName = this.get('modelName');
+        const params = this.get('query');
 
         return this.request(params, modelName);
       }
@@ -320,9 +320,9 @@ export default Ember.Component.extend({
 
   updateSortUI: Ember.on('didInsertElement', function(sortProperty) {
     if (this.get('sort') || sortProperty) {
-      const _this = this,
-        $table = this.$(),
-        sort = this.get('sort');
+      const _this = this;
+      const $table = this.$();
+      const sort = this.get('sort');
       let property,
         classProperty,
         $tableHeader;

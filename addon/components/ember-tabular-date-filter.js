@@ -25,9 +25,9 @@ export default Ember.Component.extend({
   }),
   filterName() {
     // Reference parent component query obj
-    const query = this.get('query') || this.get('parentView.query'),
-      property = this.get('filterProperty'),
-      value = this.get('dateFilter');
+    const query = this.get('query') || this.get('parentView.query');
+    const property = this.get('filterProperty');
+    const value = this.get('dateFilter');
     let filter;
 
     // Set the query on the filter object

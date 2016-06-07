@@ -30,9 +30,9 @@ export default Ember.Component.extend({
     }
   }),
   filterName() {
-    const query = this.get('query'),
-      property = this.get('property'),
-      value = this.get('headerFilter');
+    const query = this.get('query');
+    const property = this.get('property');
+    const value = this.get('headerFilter');
     let filter;
 
     // Set the query on the filter object

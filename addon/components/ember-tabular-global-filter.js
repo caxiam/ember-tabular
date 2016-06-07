@@ -25,10 +25,10 @@ export default Ember.Component.extend({
   }),
   filterName() {
     // Reference parent component query obj
-    let query = this.get('query') || this.get('parentView.query'),
+    const query = this.get('query') || this.get('parentView.query'),
       property = this.get('filterProperty'),
-      value = this.get('searchFilter'),
-      filter;
+      value = this.get('searchFilter');
+    let filter;
 
     // Set the query on the filter object
     if (query.hasOwnProperty('filter') && query.filter !== null) {
@@ -46,7 +46,7 @@ export default Ember.Component.extend({
 
     // Take filter object and break into different format
     // filters = [{field: 'name', value:'foo'}, {field: 'email', value: 'foo@bar.com'}];
-    let filters = Object.keys(filter).map(function(key) {
+    const filters = Object.keys(filter).map(function(key) {
       return {
         field: key,
         value: filter[key],

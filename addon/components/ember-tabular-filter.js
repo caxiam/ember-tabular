@@ -23,17 +23,17 @@ export default Ember.Component.extend({
     return false;
   }),
   inputPlaceholder: Ember.computed('header.type', function() {
-    let type = this.get('header.type');
+    const type = this.get('header.type');
 
     if (type === 'date') {
       return 'YYYY-MM-DD';
     }
   }),
   filterName() {
-    let query = this.get('query'),
+    const query = this.get('query'),
       property = this.get('property'),
-      value = this.get('headerFilter'),
-      filter;
+      value = this.get('headerFilter');
+    let filter;
 
     // Set the query on the filter object
     if (query.hasOwnProperty('filter') && query.filter !== null) {
@@ -51,7 +51,7 @@ export default Ember.Component.extend({
 
     // Take filter object and break into different format
     // filters = [{field: 'name', value:'foo'}, {field: 'email', value: 'foo@bar.com'}];
-    let filters = Object.keys(filter).map(function(key) {
+    const filters = Object.keys(filter).map(function(key) {
       return {
         field: key,
         value: filter[key],

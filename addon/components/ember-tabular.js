@@ -175,7 +175,7 @@ export default Ember.Component.extend({
   },
 
   isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
-    'modelName', function() {
+  'modelName', function() {
     // If record array isLoaded but empty
     if (this.get('record.isLoaded')) {
       return true;
@@ -234,7 +234,7 @@ export default Ember.Component.extend({
   }),
 
   query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',
-    'staticParams', function() {
+  'staticParams', function() {
     let query = {};
     const filter = this.get('filter') || [];
     query = {
@@ -243,7 +243,7 @@ export default Ember.Component.extend({
       offset: this.get('offset'),
       sort: this.get('sort'),
       filter: filter.reduce((memo, filter) => Ember.merge(memo, {
-        [filter.field]: filter.value
+        [filter.field]: filter.value,
       }), {}),
     };
 

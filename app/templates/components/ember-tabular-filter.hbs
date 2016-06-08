@@ -1,6 +1,6 @@
-<th id="filter-{{dot-to-dash-filter property}}">
+<div id="filter-{{dot-to-dash-filter property}}">
     {{input value=headerFilter type=header.type class=(concat "form-control filter " header.type) placeholder=inputPlaceholder}}
     {{#if isClearable}}
         <span {{action 'clearFilter'}} class="fa fa-remove clearFilter"></span>
     {{/if}}
-</th>
+</div>

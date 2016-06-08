@@ -80,7 +80,7 @@ export default Ember.Controller.extend({
 ```
 
 ### Request Format
-Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of requests:
+Ember Tabular sticks very closely to jsonapi spec, a few examples of requests:
 
 * `/users?filter[last-name]=McClane&page[limit]=10&page[offset]=0`
   * `filter[last-name]` - Filter based on jsonapi's recommended filtering: http://jsonapi.org/recommendations/#filtering
@@ -105,7 +105,7 @@ Ember Table JSONAPI sticks very closely to jsonapi spec, a few examples of reque
 {{/ember-tabular}}
 ```
 * `makeRequest` - boolean/string - Default: true
-  * If `true`: Ember Table JSONAPI will make request based on `modelName`.
+  * If `true`: Ember Tabular will make request based on `modelName`.
   * If `false`: Typically you'd bind the route's model to `record`.
 * `class` - string
   * Wraps the entire component.

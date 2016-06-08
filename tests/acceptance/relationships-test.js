@@ -6,7 +6,7 @@ import Ember from 'ember';
 
 var application;
 
-moduleForAcceptance('Acceptance: Advanced Tests', {
+moduleForAcceptance('Acceptance: Relationships Tests', {
   integration: true,
   beforeEach: function() {
     application = startApp();

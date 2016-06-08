@@ -196,7 +196,8 @@ test('Render dropdown filter component', function(assert) {
   `);
 
   var $component = this.$();
-  assert.equal($component.find('.table-filter').length, 1, 'Test global filter');
+  assert.equal($component.find('.table-filter').length, 2, 'Test global filter');
+  assert.equal($component.find('.table-filter .search-filter').length, 1, 'Test ember power select loads within global filter');
 });
 
 test('Render isLoading class on component', function(assert) {

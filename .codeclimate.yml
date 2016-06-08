@@ -1,8 +1,6 @@
 languages:
    JavaScript: true
 engines:
-#    watson:
-#        enabled: true
     fixme:
         enabled: true
     eslint:

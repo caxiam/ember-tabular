@@ -23,6 +23,20 @@ export default Ember.Controller.extend({
       label: 'Last Name',
     },
     {
+      property: 'isAdmin',
+      label: 'Is Admin',
+      list: [
+        {
+          label: 'Yes',
+          value: true,
+        },
+        {
+          label: 'No',
+          value: false,
+        }
+      ],
+    },
+    {
       property: 'updatedAt',
       label: 'Last Updated',
       type: 'date',
@@ -49,4 +63,25 @@ export default Ember.Controller.extend({
       label: 'Last Updated',
     },
   ],
+  actions: {
+    setIsAdminFilter(object) {
+      if (object) {
+        this.set('isAdminFilter', object.value);
+      } else {
+        this.set('isAdminFilter', null);
+      }
+    },
+  },
+  adminContent: Ember.computed(function() {
+    return [
+      {
+        label: 'Yes',
+        value: true,
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ];
+  }),
 });

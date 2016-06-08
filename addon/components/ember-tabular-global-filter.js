@@ -32,7 +32,7 @@ export default Ember.Component.extend({
     let filter;
 
     // Set the query on the filter object
-    if (query.hasOwnProperty('filter') && query.filter !== null) {
+    if (query && query && query.hasOwnProperty('filter') && query.filter !== null) {
       filter = query.filter;
     } else {
       filter = {};
@@ -55,6 +55,8 @@ export default Ember.Component.extend({
     });
 
     // Trigger 'setModel'
-    this.set('filter', filters);
+    if (!this.isDestroyed || !this.isDestroying) {
+      this.set('filter', filters);
+    }
   },
 });

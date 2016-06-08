@@ -127,7 +127,7 @@ export default [
     'emailAddress': 'jack.mcclane@domain.com',
     'firstName': 'Jack',
     'lastName': 'McClane',
-    'isAdmin': true,
+    'isAdmin': false,
     'createdAt': '2017-01-01',
     'updatedAt': '2017-01-02'
   },

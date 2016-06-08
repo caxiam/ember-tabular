@@ -1,6 +1,20 @@
 <div id="filter-{{dot-to-dash-filter property}}">
-    {{input value=headerFilter type=header.type class=(concat "form-control filter " header.type) placeholder=inputPlaceholder}}
-    {{#if isClearable}}
-        <span {{action 'clearFilter'}} class="fa fa-remove clearFilter"></span>
+    {{#if header.list}}
+        {{#power-select
+            options=header.list
+            selected=(find-by header.list 'value' headerFilter)
+            searchField="label"
+            searchEnabled=false
+            class="ember-tabular-ember-power-select"
+            allowClear=true
+            onchange=(action "setHeaderFilter")
+            as |option|}}
+                {{option.label}}
+        {{/power-select}}
+    {{else}}
+        {{input value=headerFilter type=header.type class=(concat "form-control filter " header.type) placeholder=inputPlaceholder}}
+        {{#if isClearable}}
+            <span {{action 'clearFilter'}} class="fa fa-remove clearFilter"></span>
+        {{/if}}
     {{/if}}
 </div>

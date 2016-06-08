@@ -258,14 +258,14 @@ export default Ember.Component.extend({
 
     return this.get('store').query(modelName, params).then(
       function (data) {
-        if (!this.isDestroyed) {
+        if (!this.isDestroyed || !this.isDestroying) {
           data = this.normalize(data, params);
           this.set('isLoading', false);
           this.set('record', data);
         }
       }.bind(this),
       function (errors) {
-        if (!this.isDestroyed) {
+        if (!this.isDestroyed || !this.isDestroying) {
           this.failure(errors);
         }
       }.bind(this)

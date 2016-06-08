@@ -2,3 +2,16 @@
 .table-filter{
     margin-bottom:15px;
 }
+
+/* overwrite to better match our inputs */
+.ember-power-select-trigger{
+    font-size:13px;
+    min-height:2.5em;
+    line-height:2.5;
+    border-radius:2px;
+    border:1px solid #c2c0bd;
+}
+.ember-power-select-option{
+    padding:2px 8px;
+    font-size:90%;
+}

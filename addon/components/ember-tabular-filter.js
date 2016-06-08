@@ -12,6 +12,13 @@ export default Ember.Component.extend({
     clearFilter() {
       this.set('headerFilter', '');
     },
+    setHeaderFilter(object) {
+      if (object) {
+        this.set('headerFilter', object.value);
+      } else {
+        this.set('headerFilter', null);
+      }
+    },
   },
   filterBy: Ember.observer('headerFilter', function () {
     Ember.run.debounce(this, 'filterName', 750);
@@ -36,7 +43,7 @@ export default Ember.Component.extend({
     let filter;
 
     // Set the query on the filter object
-    if (query.hasOwnProperty('filter') && query.filter !== null) {
+    if (query && query.hasOwnProperty('filter') && query.filter !== null) {
       filter = this.get('query.filter');
     } else {
       filter = {};
@@ -59,6 +66,8 @@ export default Ember.Component.extend({
     });
 
     // Trigger 'setModel'
-    this.set('filter', filters);
+    if (!this.isDestroyed || !this.isDestroying) {
+      this.set('filter', filters);
+    }
   },
 });

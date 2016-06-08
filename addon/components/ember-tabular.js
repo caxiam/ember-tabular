@@ -149,7 +149,16 @@ export default Ember.Component.extend({
     for (let key in filter) {
       if (filter.hasOwnProperty(key)) {
         const value = filter[key];
-        const normalizedKey = this.normalizeProperty(key);
+        const propertySegments = this.segmentProperty(key);
+        let normalizedKey;
+
+        // handle/retain dot notation relationships `property.propertyName`
+        propertySegments.forEach(function(el, i, normalizedSegments) {
+          normalizedSegments[i] = this.normalizeProperty(propertySegments[i]);
+        }.bind(this));
+
+        // join segments to create normalizedProperty
+        normalizedKey = propertySegments.join('.');
 
         // delete unserialized key
         delete filter[key];
@@ -172,6 +181,12 @@ export default Ember.Component.extend({
     }
 
     return null;
+  },
+
+  segmentProperty(property) {
+    let segments = property.split('.');
+
+    return segments;
   },
 
   isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',

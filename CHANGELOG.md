@@ -16,4 +16,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Fix erring ember try in ember-canary, properly remove component element wrapper.
 - Cleaned up code syntax to match airbnb's javascript style guide and eslint.
+- Fix visual filter layout bug to use component element wrappers and refactor component templates to reduce bloat.
 - When clearing filter of relationships, dot notation was not maintained.

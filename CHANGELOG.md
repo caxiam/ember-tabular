@@ -11,3 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Update legacy name references in README.md.
+
+### Fixed
+- Fix erring ember try in ember-canary, properly remove component element wrapper.
+- Cleaned up code syntax to match airbnb's javascript style guide and eslint.

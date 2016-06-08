@@ -9,6 +9,13 @@
                 <td>{{row.firstName}}</td>
                 <td>{{row.lastName}}</td>
                 <td>
+                    {{#if row.isAdmin}}
+                        Yes
+                    {{else}}
+                        No
+                    {{/if}}
+                </td>
+                <td>
                     {{#if row.updatedAt}}
                         {{moment-format row.updatedAt 'MM/DD/YYYY'}}
                     {{else}}
@@ -50,12 +57,25 @@
 {{/ember-tabular}}
 
 <h5>Example #3</h5>
-<h1>Table - Basic - Global Filter / Date Filter</h1>
+<h1>Table - Basic - Dropdown Filter / Date Filter</h1>
 {{#ember-tabular class="table-basic-global-date-filter" columns=columns2 modelName="user" record=users3 filter=filter2 as |section|}}
     {{#if section.isHeader}}
         <div class="row">
             <div class="col-sm-6">
-                {{ember-tabular-global-filter filter=filter2 filterProperty="username" filterPlaceholder="Search by Username" label="Username"}}
+                {{#ember-tabular-dropdown-filter filter=filter2 filterProperty="isAdmin" label="Is Admin" searchFilter=isAdminFilter}}
+                    {{#power-select
+                        options=adminContent
+                        selected=(find-by adminContent 'value' isAdminFilter)
+                        searchField="label"
+                        searchEnabled=false
+                        placeholder="Select to filter"
+                        class="ember-tabular-ember-power-select"
+                        allowClear=true
+                        onchange=(action "setIsAdminFilter")
+                        as |option|}}
+                            {{option.label}}
+                    {{/power-select}}
+                {{/ember-tabular-dropdown-filter}}
             </div>
             <div class="col-sm-6">
                 {{ember-tabular-date-filter filter=filter2 filterProperty="updatedAt" label="Last Updated"}}

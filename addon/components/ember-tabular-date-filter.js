@@ -31,7 +31,7 @@ export default Ember.Component.extend({
     let filter;
 
     // Set the query on the filter object
-    if (query.hasOwnProperty('filter') && query.filter !== null) {
+    if (query && query.hasOwnProperty('filter') && query.filter !== null) {
       filter = query.filter;
     } else {
       filter = {};

@@ -6,7 +6,7 @@ var mergeTrees = require('broccoli-merge-trees');
 module.exports = {
   name: 'ember-tabular',
   included: function(app) {
-    this._super.included(app);
+    this._super.included.apply(this, arguments);
 
     app.import('vendor/app.css');
     app.import(app.bowerDirectory + '/font-awesome/css/font-awesome.css');

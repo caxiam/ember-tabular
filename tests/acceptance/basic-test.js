@@ -45,8 +45,8 @@ test('Check for expected content', function(assert) {
     assert.equal(cells.eq(1).html(), 'skywalker@domain.com', 'Check for email');
     assert.equal(cells.eq(2).html(), 'Anakin', 'Check for first name');
     assert.equal(cells.eq(3).html(), 'Skywalker', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), '07/23/2009', 'Check for date');
-    assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+    assert.equal(cells.eq(5).text().trim(), '07/23/2009', 'Check for date');
+    assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
 
     assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
   });
@@ -105,14 +105,14 @@ test('Check table rendering for pagination', function(assert) {
   });
 
   andThen(function() {
-    let cells = find('.table-default table tbody tr').eq(0).find('td');
+    var cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).html(), 'mcclane.jr', 'Check for username');
     assert.equal(cells.eq(1).html(), 'jack.mcclane@domain.com', 'Check for email');
     assert.equal(cells.eq(2).html(), 'Jack', 'Check for first name');
     assert.equal(cells.eq(3).html(), 'McClane', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), '01/02/2017', 'Check for date');
-    assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+    assert.equal(cells.eq(5).text().trim(), '01/02/2017', 'Check for date');
+    assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
 
     assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 items in table on second page');
   });
@@ -135,8 +135,8 @@ test('Check for expected content sorting', function(assert) {
     assert.equal(cells.eq(1).html(), 'count.dooku@domain.com', 'Check for email');
     assert.equal(cells.eq(2).html(), 'Count', 'Check for first name');
     assert.equal(cells.eq(3).html(), 'Dooku', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), '07/23/2006', 'Check for date');
-    assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+    assert.equal(cells.eq(5).text().trim(), '07/23/2006', 'Check for date');
+    assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
 
     assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
   });
@@ -169,8 +169,8 @@ test('Check for disabled sorting', function(assert) {
     assert.equal(cells.eq(1).html(), 'skywalker@domain.com', 'Check for email');
     assert.equal(cells.eq(2).html(), 'Anakin', 'Check for first name');
     assert.equal(cells.eq(3).html(), 'Skywalker', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), '07/23/2009', 'Check for date');
-    assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+    assert.equal(cells.eq(5).text().trim(), '07/23/2009', 'Check for date');
+    assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
 
     assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
   });
@@ -203,8 +203,8 @@ test('Check for expected content filter', function(assert) {
     assert.equal(cells.eq(1).html(), 'john.mcclane@domain.com', 'Check for email');
     assert.equal(cells.eq(2).html(), 'John', 'Check for first name');
     assert.equal(cells.eq(3).html(), 'McClane', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), '01/02/2017', 'Check for date');
-    assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+    assert.equal(cells.eq(5).text().trim(), '01/02/2017', 'Check for date');
+    assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
 
     assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 items in table');
   });
@@ -233,20 +233,20 @@ test('Check for expected content multiple filters', function(assert) {
   });
 
   andThen(function() {
-    let cells = find('.table-default table tbody tr').eq(0).find('td');
+    var cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).html(), 'YippieKiYay', 'Check for username');
     assert.equal(cells.eq(1).html(), 'john.mcclane@domain.com', 'Check for email');
     assert.equal(cells.eq(2).html(), 'John', 'Check for first name');
     assert.equal(cells.eq(3).html(), 'McClane', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), '01/02/2017', 'Check for date');
-    assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+    assert.equal(cells.eq(5).text().trim(), '01/02/2017', 'Check for date');
+    assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
 
     assert.equal(find('.table-default table tbody tr').length, 1, 'Check for 1 item in table');
   });
 
   andThen(function() {
-    let request = getPretenderRequest(server, 'GET', 'users')[0];
+    var request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
@@ -277,8 +277,8 @@ test('Check for expected content sort/filter', function(assert) {
     assert.equal(cells.eq(1).html(), 'john.mcclane@domain.com', 'Check for email');
     assert.equal(cells.eq(2).html(), 'John', 'Check for first name');
     assert.equal(cells.eq(3).html(), 'McClane', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), '01/02/2017', 'Check for date');
-    assert.equal(cells.eq(5).find('a').text().trim(), 'Edit', 'Check for actions');
+    assert.equal(cells.eq(5).text().trim(), '01/02/2017', 'Check for date');
+    assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
 
     assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 1 item in table');
   });
@@ -289,6 +289,57 @@ test('Check for expected content sort/filter', function(assert) {
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?filter%5Blast-name%5D=McClane&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=last-name', 'Expected query params in URL');
+  });
+});
+
+test('Check for expected content dropdown filter', function(assert) {
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    click('.table-default table .btn-toggle-filter:eq(0)');
+    selectChoose('.table-default .ember-tabular-ember-power-select:eq(0)', 'Yes');
+  });
+
+  andThen(function() {
+    var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+    assert.equal(request.status, 200);
+    assert.equal(request.method, 'GET');
+    assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+  });
+});
+
+test('Check table-default for dropdown clear success', function(assert) {
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    click('.table-default .btn-toggle-filter:eq(0)');
+  });
+
+  andThen(function() {
+    selectChoose('.table-default .ember-tabular-ember-power-select:eq(0)', 'Yes');
+  });
+
+  andThen(function() {
+    var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+    assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+  });
+
+  andThen(function() {
+    click('.table-default .ember-power-select-clear-btn:eq(0)');
+
+    andThen(function() {
+      var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+      assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+    });
   });
 });
 
@@ -379,7 +430,7 @@ test('Check table-basic-global-filter for clearFilter action success', function(
   });
 });
 
-test('Check table-basic-global-date-filter to filter by date and username', function(assert) {
+test('Check table-basic-global-date-filter to filter by date and is-admin', function(assert) {
   server.loadFixtures('users');
   visit('/');
 
@@ -388,11 +439,10 @@ test('Check table-basic-global-date-filter to filter by date and username', func
   });
 
   andThen(function() {
-    fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', 'YippieKiYay');
-    find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
+    selectChoose('.table-basic-global-date-filter .ember-tabular-ember-power-select:eq(0)', 'Yes');
 
-    fillIn('.table-basic-global-date-filter .table-filter input:eq(1)', '2017-01-02');
-    find('.table-basic-global-date-filter .table-filter input:eq(1)').trigger('keyup');
+    fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
+    find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
   });
 
   andThen(function() {
@@ -402,7 +452,7 @@ test('Check table-basic-global-date-filter to filter by date and username', func
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
-    assert.equal(request.url, '/users?filter%5Busername%5D=YippieKiYay&filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
+    assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
   });
 });
 
@@ -415,8 +465,8 @@ test('Check table-basic-global-date-filter for date clearFilter action success',
   });
 
   andThen(function() {
-    fillIn('.table-basic-global-date-filter .table-filter input:eq(1)', '2017-01-02');
-    find('.table-basic-global-date-filter .table-filter input:eq(1)').trigger('keyup');
+    fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
+    find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
   });
 
   andThen(function() {

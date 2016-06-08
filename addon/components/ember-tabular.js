@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   showFilterRow: false,
   sortableClass: 'sortable',
   tableLoadedMessage: 'No Data.',
-  columnLength: Ember.computed('columns', function() {
+  columnLength: Ember.computed('columns', function () {
     return this.get('columns').length;
   }),
 
@@ -85,17 +85,19 @@ export default Ember.Component.extend({
 
   serializeFilter(params) {
     // serialize filter query params
-    let filter = params.filter;
+    const filter = params.filter;
 
-    for (var key in filter) {
-      let value = filter[key],
-        serializedKey = this.serializeProperty(key);
+    for (let key in filter) {
+      if (filter.hasOwnProperty(key)) {
+        const value = filter[key];
+        const serializedKey = this.serializeProperty(key);
 
-      // delete unserialized key
-      delete filter[key];
+        // delete unserialized key
+        delete filter[key];
 
-      key = serializedKey;
-      filter[key] = value;
+        key = serializedKey;
+        filter[key] = value;
+      }
     }
 
     return params;
@@ -129,7 +131,7 @@ export default Ember.Component.extend({
 
   normalizePagination(data, params) {
     // pagination - return number of pages
-    let pageLimit = Math.ceil(data.meta.total/params.page.limit);
+    const pageLimit = Math.ceil(data.meta.total / params.page.limit);
     // determine if pageLimit is a valid number value
     if (isFinite(pageLimit)) {
       this.set('pageLimit', pageLimit);
@@ -144,15 +146,17 @@ export default Ember.Component.extend({
     // normalize filter[property-key]
     // into filter[propertyKey]
     let filter = query.filter;
-    for (var key in filter) {
-      let value = filter[key],
-        normalizedKey = this.normalizeProperty(key);
+    for (let key in filter) {
+      if (filter.hasOwnProperty(key)) {
+        const value = filter[key];
+        const normalizedKey = this.normalizeProperty(key);
 
-      // delete unserialized key
-      delete filter[key];
+        // delete unserialized key
+        delete filter[key];
 
-      key = normalizedKey;
-      filter[key] = value;
+        key = normalizedKey;
+        filter[key] = value;
+      }
     }
 
     return query;
@@ -170,7 +174,8 @@ export default Ember.Component.extend({
     return null;
   },
 
-  isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded', 'modelName', function() {
+  isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
+  'modelName', function () {
     // If record array isLoaded but empty
     if (this.get('record.isLoaded')) {
       return true;
@@ -195,10 +200,10 @@ export default Ember.Component.extend({
     return false;
   }),
 
-  isColumnFilters: Ember.computed('columns', function() {
-    let columns = this.get('columns');
+  isColumnFilters: Ember.computed('columns', function () {
+    const columns = this.get('columns');
 
-    for (var i = columns.length - 1; i >= 0; i--) {
+    for (let i = columns.length - 1; i >= 0; i--) {
       if (columns[i].hasOwnProperty('property')) {
         return true;
       }
@@ -207,8 +212,8 @@ export default Ember.Component.extend({
     return false;
   }),
 
-  setColumnDefaults: Ember.on('init', function() {
-    this.get('columns').map(function(column) {
+  setColumnDefaults: Ember.on('init', function () {
+    this.get('columns').map(function (column) {
       // if column does not have a sort property defined set to true
       if (!column.hasOwnProperty('sort')) {
         Ember.set(column, 'sort', true);
@@ -220,23 +225,26 @@ export default Ember.Component.extend({
     });
   }),
 
-  defaultSort: Ember.on('init', function() {
-    this.get('columns').map(function(el) {
+  defaultSort: Ember.on('init', function () {
+    this.get('columns').map(function (el) {
       if (el.hasOwnProperty('defaultSort')) {
         this.set('sort', el.defaultSort);
       }
     }.bind(this));
   }),
 
-  query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value', 'staticParams', function() {
-    let query = {},
-      filter = this.get('filter') || [];
+  query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',
+  'staticParams', function () {
+    let query = {};
+    const filter = this.get('filter') || [];
     query = {
-      'page': this.get('page'),
-      'limit': this.get('limit'),
-      'offset': this.get('offset'),
-      'sort': this.get('sort'),
-      'filter': filter.reduce( (memo, filter) => Ember.merge(memo, {[filter.field]: filter.value}), {} ),
+      page: this.get('page'),
+      limit: this.get('limit'),
+      offset: this.get('offset'),
+      sort: this.get('sort'),
+      filter: filter.reduce((memo, filter) => Ember.merge(memo, {
+        [filter.field]: filter.value,
+      }), {}),
     };
 
     // Merge staticParams/query into query
@@ -249,14 +257,14 @@ export default Ember.Component.extend({
     params = this.serialize(params);
 
     return this.get('store').query(modelName, params).then(
-      function(data) {
+      function (data) {
         if (!this.isDestroyed) {
           data = this.normalize(data, params);
           this.set('isLoading', false);
           this.set('record', data);
         }
       }.bind(this),
-      function(errors) {
+      function (errors) {
         if (!this.isDestroyed) {
           this.failure(errors);
         }
@@ -264,14 +272,14 @@ export default Ember.Component.extend({
     );
   },
 
-  setModel: Ember.on('init', Ember.observer('query', function() {
-    Ember.run.once(this, function() {
+  setModel: Ember.on('init', Ember.observer('query', function () {
+    Ember.run.once(this, function () {
       // If makeRequest is false do not make request and setModel
       if (this.get('makeRequest')) {
         this.reset();
         this.set('isLoading', true);
-        let modelName = this.get('modelName'),
-          params = this.get('query');
+        const modelName = this.get('modelName');
+        const params = this.get('query');
 
         return this.request(params, modelName);
       }
@@ -288,7 +296,7 @@ export default Ember.Component.extend({
     },
   },
 
-  setSort: Ember.on('didInsertElement', function(sortProperty) {
+  setSort: Ember.on('didInsertElement', function (sortProperty) {
     if (this.get('sort') || sortProperty) {
       let property;
 
@@ -310,12 +318,12 @@ export default Ember.Component.extend({
     }
   }),
 
-  updateSortUI: Ember.on('didInsertElement', function(sortProperty) {
+  updateSortUI: Ember.on('didInsertElement', function (sortProperty) {
     if (this.get('sort') || sortProperty) {
-      let sort = this.get('sort'),
-        _this = this,
-        $table = this.$(),
-        property,
+      const _this = this;
+      const $table = this.$();
+      const sort = this.get('sort');
+      let property,
         classProperty,
         $tableHeader;
 
@@ -326,16 +334,16 @@ export default Ember.Component.extend({
       $tableHeader = Ember.$(`#${classProperty}`);
 
       // Remove all classes on th.sortable but sortable class
-      $table.find('th').removeClass(function(i, group) {
-        let list = group.split(' ');
-        return list.filter(function(val) {
+      $table.find('th').removeClass(function (i, group) {
+        const list = group.split(' ');
+        return list.filter(function (val) {
           return (val !== _this.get('sortableClass') && val !== 'filterable');
         }).join(' ');
       });
 
       if (sort.charAt(0) === '-') {
         $tableHeader.addClass('sort-desc');
-      } else{
+      } else {
         $tableHeader.addClass('sort-asc');
       }
     }

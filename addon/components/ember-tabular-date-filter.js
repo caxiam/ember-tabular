@@ -14,10 +14,10 @@ export default Ember.Component.extend({
       this.set('dateFilter', '');
     },
   },
-  filterTable: Ember.observer('dateFilter', function() {
+  filterTable: Ember.observer('dateFilter', function () {
     Ember.run.debounce(this, 'filterName', 750);
   }),
-  isClearable: Ember.computed('dateFilter', function() {
+  isClearable: Ember.computed('dateFilter', function () {
     if (this.get('dateFilter')) {
       return true;
     }
@@ -25,10 +25,10 @@ export default Ember.Component.extend({
   }),
   filterName() {
     // Reference parent component query obj
-    let query = this.get('query') || this.get('parentView.query'),
-      property = this.get('filterProperty'),
-      value = this.get('dateFilter'),
-      filter;
+    const query = this.get('query') || this.get('parentView.query');
+    const property = this.get('filterProperty');
+    const value = this.get('dateFilter');
+    let filter;
 
     // Set the query on the filter object
     if (query.hasOwnProperty('filter') && query.filter !== null) {
@@ -46,7 +46,7 @@ export default Ember.Component.extend({
 
     // Take filter object and break into different format
     // filters = [{field: 'name', value:'foo'}, {field: 'email', value: 'foo@bar.com'}];
-    let filters = Object.keys(filter).map(function(key) {
+    const filters = Object.keys(filter).map(function (key) {
       return {
         field: key,
         value: filter[key],

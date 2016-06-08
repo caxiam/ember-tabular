@@ -20,3 +20,6 @@ exclude_paths:
 - "config/**"
 - "tests/*"
 - "vendor/*"
+- "ember-cli-build.js"
+- "index.js"
+- "testem.js"

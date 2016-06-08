@@ -1,4 +1,4 @@
-/*jshint node:true*/
+/* jshint node:true */
 /* global require, module */
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 var pickFiles = require('broccoli-static-compiler');
@@ -6,14 +6,14 @@ var mergeTrees = require('broccoli-merge-trees');
 
 module.exports = function(defaults) {
   var environment = process.env.EMBER_ENV,
-      config = {};
+    config = {};
 
   if (environment === 'test') {
-      config = {
-          babel: {
-              includePolyfill: true
-          }
-      };
+    config = {
+      babel: {
+        includePolyfill: true
+      }
+    };
   }
 
   var app = new EmberAddon(defaults, config);
@@ -26,9 +26,9 @@ module.exports = function(defaults) {
   */
   // Copy non-compiled bootstrap dependency
   var vendor = pickFiles('bower_components/bootstrap/dist/css/', {
-      srcDir: '/',
-      files: ['bootstrap.css.map'],
-      destDir: '/assets'
+    srcDir: '/',
+    files: ['bootstrap.css.map'],
+    destDir: '/assets'
   });
 
     // Bootstrap - https://github.com/twbs/bootstrap

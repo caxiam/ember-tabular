@@ -1,5 +1,5 @@
 module.exports = {
-  afterInstall: function() {
+  afterInstall() {
     return this.addBowerPackagesToProject([
       {
         name: 'font-awesome',
@@ -8,5 +8,5 @@ module.exports = {
     ]);
   },
 
-  normalizeEntityName: function() {},
+  normalizeEntityName() {},
 };

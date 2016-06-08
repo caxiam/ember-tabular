@@ -184,19 +184,19 @@ test('Render global filter component', function(assert) {
 });
 
 test('Render dropdown filter component', function(assert) {
-    this.set('columns', columns);
-    this.render(hbs`
-        {{#ember-tabular columns=columns record=record makeRequest=false filter=filter as |section|}}
-            {{#if section.isHeader}}
-                {{#ember-tabular-dropdown-filter filter=filter filterProperty="isAdmin" filterPlaceholder="Filter by Admin"}}
-                    ...
-                {{/ember-tabular-dropdown-filter}}
-            {{/if}}
-        {{/ember-tabular}}
-    `);
+  this.set('columns', columns);
+  this.render(hbs`
+    {{#ember-tabular columns=columns record=record makeRequest=false filter=filter as |section|}}
+      {{#if section.isHeader}}
+        {{#ember-tabular-dropdown-filter filter=filter filterProperty="isAdmin" filterPlaceholder="Filter by Admin"}}
+          ...
+        {{/ember-tabular-dropdown-filter}}
+      {{/if}}
+    {{/ember-tabular}}
+  `);
 
-    var $component = this.$();
-    assert.equal($component.find('.table-filter').length, 1, 'Test global filter');
+  var $component = this.$();
+  assert.equal($component.find('.table-filter').length, 1, 'Test global filter');
 });
 
 test('Render isLoading class on component', function(assert) {

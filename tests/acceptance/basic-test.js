@@ -293,54 +293,54 @@ test('Check for expected content sort/filter', function(assert) {
 });
 
 test('Check for expected content dropdown filter', function(assert) {
-    server.loadFixtures('users');
-    visit('/');
+  server.loadFixtures('users');
+  visit('/');
 
-    andThen(function() {
-        assert.equal(currentPath(), 'index');
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
 
-        click('.table-default table .btn-toggle-filter:eq(0)');
-        selectChoose('.table-default .ember-tabular-ember-power-select:eq(0)', 'Yes');
-    });
+    click('.table-default table .btn-toggle-filter:eq(0)');
+    selectChoose('.table-default .ember-tabular-ember-power-select:eq(0)', 'Yes');
+  });
 
-    andThen(function() {
-        var request = getPretenderRequest(server, 'GET', 'users')[0];
+  andThen(function() {
+    var request = getPretenderRequest(server, 'GET', 'users')[0];
 
-        assert.equal(request.status, 200);
-        assert.equal(request.method, 'GET');
-        assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
-    });
+    assert.equal(request.status, 200);
+    assert.equal(request.method, 'GET');
+    assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+  });
 });
 
 test('Check table-default for dropdown clear success', function(assert) {
-    server.loadFixtures('users');
-    visit('/');
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    click('.table-default .btn-toggle-filter:eq(0)');
+  });
+
+  andThen(function() {
+    selectChoose('.table-default .ember-tabular-ember-power-select:eq(0)', 'Yes');
+  });
+
+  andThen(function() {
+    var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+    assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+  });
+
+  andThen(function() {
+    click('.table-default .ember-power-select-clear-btn:eq(0)');
 
     andThen(function() {
-        assert.equal(currentPath(), 'index');
+      var request = getPretenderRequest(server, 'GET', 'users')[0];
 
-        click('.table-default .btn-toggle-filter:eq(0)');
+      assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
     });
-
-    andThen(function() {
-        selectChoose('.table-default .ember-tabular-ember-power-select:eq(0)', 'Yes');
-    });
-
-    andThen(function() {
-        var request = getPretenderRequest(server, 'GET', 'users')[0];
-
-        assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
-    });
-
-    andThen(function() {
-        click('.table-default .ember-power-select-clear-btn:eq(0)');
-
-        andThen(function() {
-            var request = getPretenderRequest(server, 'GET', 'users')[0];
-
-            assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
-        });
-    });
+  });
 });
 
 test('Check table-basic-global-filter for expected content after filtering', function(assert) {

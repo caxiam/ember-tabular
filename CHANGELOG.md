@@ -10,4 +10,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Make physical requests to the API when filtering, sorting and paginating.
 
 ### Fixed
+- Fix erring ember try in ember-canary, properly remove component element wrapper.
+- Cleaned up code syntax to match airbnb's javascript style guide and eslint.
 - When clearing filter of relationships, dot notation was not maintained.

@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Filter on a column by column basis.
 - Make physical requests to the API when filtering, sorting and paginating.
 - Adds ability to filter column/table using a dropdown.
+- Adds feature that allows ember-tabular to wait until controller is ready for request to fire.
 
 ### Changed
 - Update legacy name references in README.md.

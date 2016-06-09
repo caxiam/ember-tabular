@@ -287,7 +287,7 @@ export default Ember.Component.extend({
     );
   },
 
-  setModel: Ember.on('init', Ember.observer('query', function () {
+  setModel: Ember.on('init', Ember.observer('query', 'makeRequest', function () {
     Ember.run.once(this, function () {
       // If makeRequest is false do not make request and setModel
       if (this.get('makeRequest')) {

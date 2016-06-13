@@ -245,7 +245,7 @@ export default Ember.Component.extend({
       if (el.hasOwnProperty('defaultSort')) {
         this.set('sort', el.defaultSort);
       }
-    }.bind(this));
+    });
   }),
 
   query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',
@@ -278,12 +278,12 @@ export default Ember.Component.extend({
           this.set('isLoading', false);
           this.set('record', data);
         }
-      }.bind(this),
+      },
       (errors) => {
         if (!this.isDestroyed || !this.isDestroying) {
           this.failure(errors);
         }
-      }.bind(this)
+      }
     );
   },
 

@@ -58,7 +58,7 @@ export default Ember.Component.extend({
 
     // Take filter object and break into different format
     // filters = [{field: 'name', value:'foo'}, {field: 'email', value: 'foo@bar.com'}];
-    const filters = Object.keys(filter).map(function (key) {
+    const filters = Object.keys(filter).map((key) => {
       return {
         field: key,
         value: filter[key],

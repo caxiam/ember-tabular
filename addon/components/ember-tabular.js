@@ -153,7 +153,7 @@ export default Ember.Component.extend({
         let normalizedKey;
 
         // handle/retain dot notation relationships `property.propertyName`
-        propertySegments.forEach (function(el, i, normalizedSegments) {
+        propertySegments.forEach ((el, i, normalizedSegments) => {
           normalizedSegments[i] = this.normalizeProperty(propertySegments[i]);
         }.bind(this));
 
@@ -228,7 +228,7 @@ export default Ember.Component.extend({
   }),
 
   setColumnDefaults: Ember.on('init', function () {
-    this.get('columns').map(function (column) {
+    this.get('columns').map((column) => {
       // if column does not have a sort property defined set to true
       if (!column.hasOwnProperty('sort')) {
         Ember.set(column, 'sort', true);
@@ -241,7 +241,7 @@ export default Ember.Component.extend({
   }),
 
   defaultSort: Ember.on('init', function () {
-    this.get('columns').map(function (el) {
+    this.get('columns').map((el) => {
       if (el.hasOwnProperty('defaultSort')) {
         this.set('sort', el.defaultSort);
       }
@@ -272,14 +272,14 @@ export default Ember.Component.extend({
     params = this.serialize(params);
 
     return this.get('store').query(modelName, params).then(
-      function (data) {
+      (data) => {
         if (!this.isDestroyed || !this.isDestroying) {
           data = this.normalize(data, params);
           this.set('isLoading', false);
           this.set('record', data);
         }
       }.bind(this),
-      function (errors) {
+      (errors) => {
         if (!this.isDestroyed || !this.isDestroying) {
           this.failure(errors);
         }
@@ -349,9 +349,9 @@ export default Ember.Component.extend({
       $tableHeader = Ember.$(`#${classProperty}`);
 
       // Remove all classes on th.sortable but sortable class
-      $table.find('th').removeClass(function (i, group) {
+      $table.find('th').removeClass((i, group) => {
         const list = group.split(' ');
-        return list.filter(function (val) {
+        return list.filter((val) => {
           return (val !== _this.get('sortableClass') && val !== 'filterable');
         }).join(' ');
       });

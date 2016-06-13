@@ -145,7 +145,7 @@ export default Ember.Component.extend({
   normalizeFilter(query) {
     // normalize filter[property-key]
     // into filter[propertyKey]
-    let filter = query.filter;
+    const filter = query.filter;
     for (let key in filter) {
       if (filter.hasOwnProperty(key)) {
         const value = filter[key];
@@ -184,7 +184,7 @@ export default Ember.Component.extend({
   },
 
   segmentProperty(property) {
-    let segments = property.split('.');
+    const segments = property.split('.');
 
     return segments;
   },

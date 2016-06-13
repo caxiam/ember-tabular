@@ -155,7 +155,7 @@ export default Ember.Component.extend({
         // handle/retain dot notation relationships `property.propertyName`
         propertySegments.forEach ((el, i, normalizedSegments) => {
           normalizedSegments[i] = this.normalizeProperty(propertySegments[i]);
-        }.bind(this));
+        });
 
         // join segments to create normalizedProperty
         normalizedKey = propertySegments.join('.');

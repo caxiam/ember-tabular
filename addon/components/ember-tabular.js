@@ -190,7 +190,7 @@ export default Ember.Component.extend({
     return segments;
   },
 
-  setIsRecordLoaded: Ember.on('init', Ember.observer('errors', 'record', 'record.isFulfilled',
+  setIsRecordLoaded: Ember.observer('errors', 'record', 'record.isFulfilled',
   'record.isLoaded', 'modelName', function () {
     // If record array isLoaded but empty
     if (this.get('record.isLoaded')) {
@@ -212,7 +212,7 @@ export default Ember.Component.extend({
     if (this.get('record') === null && this.get('modelName') === null) {
       this.set('isRecordLoaded', true);
     }
-  })),
+  }),
 
   isColumnFilters: Ember.computed('columns', function () {
     const columns = this.get('columns');

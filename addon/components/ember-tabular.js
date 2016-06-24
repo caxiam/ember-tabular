@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   showFilterRow: false,
   sortableClass: 'sortable',
   tableLoadedMessage: 'No Data.',
+  isRecordLoaded: false,
   columnLength: Ember.computed('columns', function () {
     return this.get('columns').length;
   }),
@@ -189,30 +190,28 @@ export default Ember.Component.extend({
     return segments;
   },
 
-  isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
-  'modelName', function () {
+  setIsRecordLoaded: Ember.observer('errors', 'record', 'record.isFulfilled',
+  'record.isLoaded', 'modelName', function () {
     // If record array isLoaded but empty
     if (this.get('record.isLoaded')) {
-      return true;
+      this.set('isRecordLoaded', true);
     }
     // If record.content array loaded is empty
     if (this.get('record.isFulfilled')) {
-      return true;
+      this.set('isRecordLoaded', true);
     }
     // If errors
     if (this.get('errors')) {
-      return true;
+      this.set('isRecordLoaded', true);
     }
     // If record array is empty
     if (this.get('record') && this.get('record').length === 0) {
-      return true;
+      this.set('isRecordLoaded', true);
     }
     // Show custom tableLoadedMessage
     if (this.get('record') === null && this.get('modelName') === null) {
-      return true;
+      this.set('isRecordLoaded', true);
     }
-
-    return false;
   }),
 
   isColumnFilters: Ember.computed('columns', function () {

@@ -213,3 +213,17 @@ test('Render isLoading class on component', function(assert) {
   var $component = this.$();
   assert.equal($component.find('.table').hasClass('loading'), true, 'Table has class loading');
 });
+
+test('Render Loading... on component', function(assert) {
+  this.set('columns', columns);
+  this.render(hbs`
+    {{#ember-tabular columns=columns record=[] makeRequest=false as |section|}}
+      {{#if section.isBody}}
+        ...
+      {{/if}}
+    {{/ember-tabular}}
+  `);
+
+  var $component = this.$();
+  assert.equal($component.find('.table tbody').text().trim(), 'Loading...', 'Table displays Loading.');
+});

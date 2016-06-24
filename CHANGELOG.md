@@ -19,3 +19,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Cleaned up code syntax to match airbnb's javascript style guide and eslint.
 - Fix visual filter layout bug to use component element wrappers and refactor component templates to reduce bloat.
 - When clearing filter of relationships, dot notation was not maintained.
+- `isRecordLoaded` is now setup to have a default value of `false` by refactoring to use observers instead of a computed property.

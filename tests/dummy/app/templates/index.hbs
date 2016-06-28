@@ -1,6 +1,6 @@
 <h5>Example #1</h5>
 <h1>Table - Default</h1>
-{{#ember-tabular class="table-default" columns=columns modelName="user" record=users as |section|}}
+{{#ember-tabular class="table-default" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" columns=columns modelName="user" record=users as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
             <tr>

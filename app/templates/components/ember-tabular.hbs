@@ -15,7 +15,7 @@
 
 {{yield header}}
 
-<div class="table-responsive">
+<div class="table-responsive {{if tableWrapperClass tableWrapperClass}}">
     <table class="table {{if tableClass tableClass 'table-bordered table-hover'}} {{if isLoading 'loading'}}">
             {{#if columns}}
                 <thead>
@@ -77,4 +77,6 @@
 
 {{yield footer}}
 
-{{pagination-pager current=page count=pageLimit}}
+<nav class="{{if paginationWrapperClass paginationWrapperClass}}">
+    {{pagination-pager current=page count=pageLimit}}
+</nav>

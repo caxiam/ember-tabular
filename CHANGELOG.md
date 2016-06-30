@@ -10,9 +10,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Make physical requests to the API when filtering, sorting and paginating.
 - Adds ability to filter column/table using a dropdown.
 - Adds feature that allows ember-tabular to wait until controller is ready for request to fire.
+- Add additional configurable wrapper classes for additional styling.
 
 ### Changed
 - Update legacy name references in README.md.
+- Removed ember-canary from ember-try testing scenarios.
 
 ### Fixed
 - Fix erring ember try in ember-canary, properly remove component element wrapper.

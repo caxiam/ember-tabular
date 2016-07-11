@@ -284,16 +284,16 @@ export default Ember.Component.extend({
   import EmberTabular from 'ember-tabular/components/ember-tabular';
 
   export default EmberTabular.extend({
-      serializePagination(params) {
-          // override default pagination ?page[offset]= and ?[page]limit=
-          // offset and limit will be sent as ?offset= and ?limit=
-          params.offset = (params.page * params.limit) - params.limit;
-          if (isNaN(params.offset)) {
-              params.offset = null;
-          }
+    serializePagination(params) {
+      // override default pagination ?page[offset]= and ?[page]limit=
+      // offset and limit will be sent as ?offset= and ?limit=
+      params.offset = (params.page * params.limit) - params.limit;
+      if (isNaN(params.offset)) {
+        params.offset = null;
+      }
 
-          return params;
-      },
+      return params;
+    },
   });
   ```
   *
@@ -365,6 +365,24 @@ export default Ember.Component.extend({
   /**
   * Follows json:api dasherized naming.
   * `lastName` => `last-name`.
+  *
+  * If you are not supporting json:api's dasherized properties this can be extended to support other conventions:
+  ```js
+  import EmberTabular from 'ember-tabular/components/ember-tabular';
+
+  export default EmberTabular.extend({
+    serializeProperty(property) {
+      // Override to convert all properties sent in requests to camelize instead of the default dasherized
+      // ?filter[lastName]&sort=isAdmin
+      // (pseudo code)
+      if (property) {
+        return Ember.String.camelize(property);
+      }
+
+      return null;
+    },
+  });
+  ```
   *
   * @method serializeProperty
   * @param property {String}

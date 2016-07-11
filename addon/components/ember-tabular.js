@@ -1,6 +1,62 @@
 import Ember from 'ember';
 
 /**
+* ### Template
+  ```hbs
+  {{! app/templates/my-route.hbs }}
+
+  {{#ember-tabular columns=columns modelName="user" record=users as |section|}}
+      {{#if section.isBody}}
+          {{#each users as |row|}}
+              <tr>
+                  <td>{{row.username}}</td>
+                  <td>{{row.emailAddress}}</td>
+                  <td>{{row.firstName}}</td>
+                  <td>{{row.lastName}}</td>
+                  <td>
+                      {{#link-to "index" class="btn btn-xs" role="button"}}
+                          Edit
+                      {{/link-to}}
+                  </td>
+              </tr>
+          {{/each}}
+      {{/if}}
+  {{/ember-tabular}}
+  ```
+* ### Controller
+* Setup the columns array, which is how the table headers are constructed, `label` is required in all cases.
+  ```js
+  // app/controllers/my-route.js
+
+  export default Ember.Controller.extend({
+    users: null,
+    columns: [
+      {
+        property: 'username',
+        label: 'Username',
+        defaultSort: 'username',
+      },
+      {
+        property: 'emailAddress',
+        label: 'Email',
+      },
+      {
+        property: 'firstName',
+        label: 'First Name',
+      },
+      {
+        property: 'lastName',
+        label: 'Last Name',
+      },
+      {
+        property: 'updatedAt',
+        label: 'Last Updated',
+        type: 'date',
+      },
+    ],
+  });
+  ```
+*
 * @class EmberTabular
 */
 export default Ember.Component.extend({
@@ -130,6 +186,19 @@ export default Ember.Component.extend({
   /**
   * Object to pass in static query-params that will not change based on any filter/sort criteria.
   * Additional table-wide filters that need to be applied in all requests. Typically bound to the controller.
+  ```js
+  // app/controllers/location.js
+
+  export default Ember.Controller.extend({
+    staticParams: Ember.computed('model', function() {
+      return {
+        'filter[is-open]': '1',
+        include: 'hours',
+      };
+    }),
+    ...
+  });
+  ```
   *
   * @property staticParams
   * @type Object
@@ -205,8 +274,28 @@ export default Ember.Component.extend({
   /**
   * Transform params related to pagination into API expected format.
   * Follows json:api spec by default: http://jsonapi.org/format/#fetching-pagination.
+  *
   * `offset` => `?page[offset]`.
+  *
   * `limit` => `?page[limit]`.
+  *
+  * If you are not using Ember Data then you can extend this addon's component and override a set of serialize and normalized methods:
+  ```js
+  import EmberTabular from 'ember-tabular/components/ember-tabular';
+
+  export default EmberTabular.extend({
+      serializePagination(params) {
+          // override default pagination ?page[offset]= and ?[page]limit=
+          // offset and limit will be sent as ?offset= and ?limit=
+          params.offset = (params.page * params.limit) - params.limit;
+          if (isNaN(params.offset)) {
+              params.offset = null;
+          }
+
+          return params;
+      },
+  });
+  ```
   *
   * @method serializePagination
   * @param params {Object} An object of query parameters.
@@ -411,7 +500,8 @@ export default Ember.Component.extend({
   /**
   * Determine if `record` is loaded using a number of different property checks.
   *
-  * @method isrecordLoaded
+  * @property isrecordLoaded
+  * @type Function
   */
   isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
   'modelName', function () {
@@ -443,6 +533,9 @@ export default Ember.Component.extend({
   * Used in templates to determine if table header will allow filtering.
   *
   * @property isColumnFilters
+  * @type Boolean
+  * @return {Boolean}
+  * @default false
   */
   isColumnFilters: Ember.computed('columns', function () {
     const columns = this.get('columns');
@@ -492,6 +585,7 @@ export default Ember.Component.extend({
   *
   * @property query
   * @type Object
+  * @return {Object}
   */
   query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',
   'staticParams', function () {

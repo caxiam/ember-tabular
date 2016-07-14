@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 /**
+* Any errors returned from the request(s) are displayed in an alert box.
+*
 * @class EmberTabularAlert
 */
 export default Ember.Component.extend({

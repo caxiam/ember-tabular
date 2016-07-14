@@ -57,12 +57,13 @@
     "json api"
   ],
   "dependencies": {
-    "ember-cli-babel": "^5.1.5",
-    "pagination-pager": "2.4.1",
-    "ember-truth-helpers": "1.2.0",
-    "ember-power-select": "0.10.10",
+    "broccoli-funnel": "^1.0.0",
     "broccoli-merge-trees": "^0.2.3",
-    "broccoli-funnel": "^1.0.0"
+    "ember-cli-babel": "^5.1.5",
+    "ember-power-select": "0.10.10",
+    "ember-truth-helpers": "1.2.0",
+    "pagination-pager": "2.4.1",
+    "yuidoc-bootstrap-theme": "^1.0.6"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

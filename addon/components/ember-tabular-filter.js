@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 /**
+* Filtering on a column by column basis within the component's `<table/>`.
+*
 * @class EmberTabularFilter
 */
 export default Ember.Component.extend({

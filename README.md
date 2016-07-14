@@ -96,7 +96,7 @@ Ember Tabular sticks very closely to jsonapi spec, a few examples of requests:
   * `sort` - Sort based on jsonapi's recommended sorting: http://jsonapi.org/format/#fetching-sorting
     * Ascending unless prefixed with `-` for descending. 
 
-## Misc Notables
+## Misc
 
 ### Template - Yields
 ```hbs

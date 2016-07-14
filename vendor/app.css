@@ -1,5 +1,9 @@
 /* ember-tabular */
 
+body {
+    position:relative;
+}
+
 .ember-tabular .table th {
     position: relative;
     vertical-align:middle;

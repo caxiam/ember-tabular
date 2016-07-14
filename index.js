@@ -10,6 +10,10 @@ module.exports = {
 
     app.import('vendor/app.css');
     app.import(app.bowerDirectory + '/font-awesome/css/font-awesome.css');
+
+    // Bootstrap Datetimepicker - https://github.com/Eonasdan/bootstrap-datetimepicker
+    app.import(app.bowerDirectory + '/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css');
+    app.import(app.bowerDirectory + '/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
   },
   postprocessTree: function( type, tree ) {
     // extract font-awesome fonts and place into /fonts directory

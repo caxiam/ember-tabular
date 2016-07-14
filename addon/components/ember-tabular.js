@@ -1,6 +1,10 @@
 import Ember from 'ember';
 
 /**
+* ## Basic Usage
+* - `columns` - Controller array to setup the table headers/columns (detailed below).
+  - `modelName` - for the component to make the proper request when filtering/sorting, you must pass the model type matching your Ember model structure. e.g. brand/diagram, product.
+  - `record` - this is bound to the controller and is used to iterate over the table's model data.
 * ### Template
   ```hbs
   {{! app/templates/my-route.hbs }}
@@ -86,6 +90,24 @@ export default Ember.Component.extend({
   */
   sortableClass: 'sortable',
   /**
+  * @property tableWrapperClass
+  * @type String
+  * @default ''
+  */
+  tableWrapperClass: '',
+  /**
+  * @property tableClass
+  * @type String
+  * @default 'table-bordered table-hover'
+  */
+  tableClass: 'table-bordered table-hover',
+  /**
+  * @property paginationWrapperClass
+  * @type String
+  * @default ''
+  */
+  paginationWrapperClass: '',
+  /**
   * Once the `isRecordLoaded` is determined if true and no data exists then this is displayed.
   *
   * @property tableLoadedMessage
@@ -132,7 +154,67 @@ export default Ember.Component.extend({
   */
   record: null,
   /**
-  * This is typically bound to the controller and is used to construct the table headers.
+  * This is typically setup on the controller and passed into the component, and is used to construct the table headers/filtering.
+  *
+  ```js
+  export default Ember.Controller.extend({
+    users: null,
+    columns: [
+      {
+        property: 'username',
+        label: 'Username',
+        defaultSort: 'username',
+      },
+      {
+        property: 'emailAddress',
+        label: 'Email',
+      },
+      {
+        property: 'firstName',
+        label: 'First Name',
+        sort: false,
+      },
+      {
+        property: 'isAdmin',
+        label: 'Is Admin',
+        list: [
+          {
+            label: 'Yes',
+            value: true,
+          },
+          {
+            label: 'No',
+            value: false,
+          }
+        ],
+      },
+      {
+        property: 'updatedAt',
+        label: 'Last Updated',
+        type: 'date',
+      },
+      {
+        label: 'Actions',
+      },
+    ],
+  });
+  ```
+  *
+  - `columns.property` - {String}
+    - Required for column filtering/sorting
+    - Properties should be in camelCase format
+  - `columns.label` - {String}
+    - Required in all use-cases
+  - `columns.type` - {String} - Default: text
+    - Sets the filter `<input type="">`
+  - `columns.sort` - {Boolean} - Default: `true`
+    - Required for column sorting
+  - `columns.list` - {Array} - Default: `null` - Filtering the column based on a dropdown list.
+    - `list.label` - Displayed to the user for selection.
+    - `list.value` - Value that is sent in the request.
+  - `columns.defaultSort` - {String}
+    - Initial sort value for API request
+    - Will be overridden with any sorting changes
   *
   * @property columns
   * @type Array
@@ -198,6 +280,14 @@ export default Ember.Component.extend({
     }),
     ...
   });
+  ```
+
+  ```hbs
+  {{! app/templates/my-route.hbs }}
+
+  {{#ember-tabular columns=columns modelName="user" record=users staticParams=staticParams as |section|}}
+    ...
+  {{/ember-tabular}}
   ```
   *
   * @property staticParams

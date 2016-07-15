@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Adds feature that allows ember-tabular to wait until controller is ready for request to fire.
 - Add additional configurable wrapper classes for additional styling.
 - Add support for YuiDocs for better API documentation.
+- Setup deployment to gh-pages for demo URL.
 
 ### Changed
 - Update legacy name references in README.md.

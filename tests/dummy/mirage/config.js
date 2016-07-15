@@ -17,6 +17,7 @@ function filterObj(where, collection, query) {
 
 export default function() {
   this.namespace = '';
+  this.urlPrefix = '/';
 
   /*
   Routes

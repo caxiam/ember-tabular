@@ -43,6 +43,9 @@ module.exports = function(environment) {
     ENV.locationType = 'hash';
     ENV.baseURL = '/ember-tabular/';
 
+    ENV['ember-cli-mirage'] = {
+      enabled: true
+    };
   }
 
   return ENV;

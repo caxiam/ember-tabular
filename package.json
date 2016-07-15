@@ -67,6 +67,7 @@
     "yuidoc-bootstrap-theme": "^1.0.6"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "demoURL": "http://caxiam.github.io/ember-tabular/"
   }
 }

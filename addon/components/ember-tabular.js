@@ -741,12 +741,28 @@ export default Ember.Component.extend({
     );
   },
 
+  cacheRequest: true,
+
+  setInitModel: Ember.on('init', Ember.observer('cacheRequest', function () {
+    Ember.run.once(this, function () {
+      console.log('record', this.get('record'));
+      if (!this.get('record')) {
+        console.log('there is no record so lets get it');
+        this.setModel();
+      } else if (!this.get('cacheRequest')) {
+        console.log('we are not caching the result so get it');
+        this.setModel();
+      }
+    });
+  })),
+
   /**
   * Sets the `record` after the `request` is resolved.
   *
   * @method setModel
   */
-  setModel: Ember.on('init', Ember.observer('query', 'makeRequest', function () {
+  setModel: Ember.observer('query', 'makeRequest', function () {
+    console.log('setModel', this);
     Ember.run.once(this, function () {
       // If makeRequest is false do not make request and setModel
       if (this.get('makeRequest')) {
@@ -755,10 +771,11 @@ export default Ember.Component.extend({
         const modelName = this.get('modelName');
         const params = this.get('query');
 
+        console.log('make request');
         return this.request(params, modelName);
       }
     });
-  })),
+  }),
 
   actions: {
     sortBy(property) {

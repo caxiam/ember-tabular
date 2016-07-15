@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/components/ember-tabular-global-filter.js - ember-tabular</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+	    <img alt="ember-tabular" src="../assets/css/logo.png" style="max-height: 65%;" title="ember-tabular">
+            ember-tabular
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b>0.1.0.2cc12f9b</b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/EmberTabular", "classes/EmberTabularAlert", "classes/EmberTabularDateFilter", "classes/EmberTabularDropdownFilter", "classes/EmberTabularFilter", "classes/EmberTabularGlobalFilter"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+	    <div>
+	        <h3>APIs</h3>
+	        <div id="sidebar">
+	            <ul id="main-nav" class="nav nav-tabs" style="margin-bottom:0;">
+	                <li class="active"><a href="#classes" data-toggle="tab">Classes</a></li>
+	                <li><a href="#modules" data-toggle="tab">Modules</a></li>
+	            </ul>
+	    
+	            <div id="api-tabview-filter">
+	                <input type="search" placeholder="Type to filter APIs">
+	            </div>
+	    
+	            <div class="tab-content" style="border: 1px solid #DDD; border-top:0;">
+	                <div class="tab-pane active" id="classes">
+	                    <ul id="api-classes" class="nav nav-list">
+	                            <li><a href="../classes/EmberTabular.html">EmberTabular</a></li>
+	                            <li><a href="../classes/EmberTabularAlert.html">EmberTabularAlert</a></li>
+	                            <li><a href="../classes/EmberTabularDateFilter.html">EmberTabularDateFilter</a></li>
+	                            <li><a href="../classes/EmberTabularDropdownFilter.html">EmberTabularDropdownFilter</a></li>
+	                            <li><a href="../classes/EmberTabularFilter.html">EmberTabularFilter</a></li>
+	                            <li><a href="../classes/EmberTabularGlobalFilter.html">EmberTabularGlobalFilter</a></li>
+	                    </ul>
+	                </div>
+	    
+	                <div class="tab-pane" id="modules">
+	                    <ul id="api-modules" class="nav nav-list">
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        </div>
+        <div class="span9">
+                <form id="options-form" class="form-inline pull-right">
+                    Show:
+                    <label for="api-show-inherited" class="checkbox">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected" class="checkbox">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private" class="checkbox">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated" class="checkbox">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </form>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>addon/components/ember-tabular-global-filter.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+
+/**
+* ## Global Filter
+* Typically the global filter component would be rendered into the &#x60;{{yield header}}&#x60; of the main table component using the yield conditional &#x60;{{#if section.isHeader}} ...&#x60;.
+*
+* However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
+
+* - Sent in request as: &#x60;?filter[filterProperty]=searchFilter&#x60;, e.g. &#x60;?filter[username]=John.Doe2&#x60;
+&#x60;&#x60;&#x60;hbs
+{{ember-tabular-global-filter
+    filter=filter
+    filterProperty=&quot;username&quot;
+    filterPlaceholder=&quot;Search by Username&quot;}}
+&#x60;&#x60;&#x60;
+*
+* @class EmberTabularGlobalFilter
+*/
+export default Ember.Component.extend({
+  /**
+  * @property tagName
+  * @type String
+  * @default &#x27;div&#x27;
+  */
+  tagName: &#x27;div&#x27;,
+  classNames: [&#x27;table-filter&#x27;],
+  action: null,
+  /**
+  * Property to be filtered upon.
+  *
+  * @property filterProperty
+  * @type String
+  * @default null
+  */
+  filterProperty: null,
+  /**
+  * Value of filter.
+  *
+  * @property searchFilter
+  * @type String
+  * @default &#x27;&#x27;
+  */
+  searchFilter: &#x27;&#x27;,
+
+  /**
+  * Pass the &#x60;query&#x60; object from the parent component if it is different or if used outside of the context of the component, otherwise &#x60;query&#x60; is optional and the component will attempt to grab within the context of the parent component.
+  *
+  * @property query
+  * @type Object
+  * @default null
+  */
+  query: null,
+  /**
+  * Must expose the &#x60;filter&#x60; property on the parent ember-tabular component to be able to pass the filter object back and forth between parent and child components.
+  *
+  * @property filter
+  * @type Object
+  * @default null
+  */
+  filter: null,
+
+  actions: {
+    clearFilter() {
+      this.set(&#x27;searchFilter&#x27;, &#x27;&#x27;);
+    },
+  },
+  /**
+  * Debounce the &#x60;filterName&#x60; method.
+  *
+  * @method filterTable
+  */
+  filterTable: Ember.observer(&#x27;searchFilter&#x27;, function () {
+    Ember.run.debounce(this, &#x27;filterName&#x27;, 750);
+  }),
+  /**
+  * @property isClearable
+  * @default false
+  */
+  isClearable: Ember.computed(&#x27;searchFilter&#x27;, function () {
+    if (this.get(&#x27;searchFilter&#x27;)) {
+      return true;
+    }
+    return false;
+  }),
+  /**
+  * Constructs and sets the &#x60;filter&#x60; Object.
+  *
+  * @method filterName
+  */
+  filterName() {
+    // Reference parent component query obj
+    const query = this.get(&#x27;query&#x27;) || this.get(&#x27;parentView.query&#x27;);
+    const property = this.get(&#x27;filterProperty&#x27;);
+    const value = this.get(&#x27;searchFilter&#x27;);
+    let filter;
+
+    // Set the query on the filter object
+    if (query &amp;&amp; query &amp;&amp; query.hasOwnProperty(&#x27;filter&#x27;) &amp;&amp; query.filter !== null) {
+      filter = query.filter;
+    } else {
+      filter = {};
+    }
+    filter[property] = value;
+
+    // Remove filter if value is an empty string
+    // to prevent empty request from being sent
+    if (value === &#x27;&#x27; || value === null) {
+      delete filter[property];
+    }
+
+    // Take filter object and break into different format
+    // filters = [{field: &#x27;name&#x27;, value:&#x27;foo&#x27;}, {field: &#x27;email&#x27;, value: &#x27;foo@bar.com&#x27;}];
+    const filters = Object.keys(filter).map(function (key) {
+      return {
+        field: key,
+        value: filter[key],
+      };
+    });
+
+    // Trigger &#x27;setModel&#x27;
+    if (!this.isDestroyed || !this.isDestroying) {
+      this.set(&#x27;filter&#x27;, filters);
+    }
+  },
+});
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

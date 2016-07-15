@@ -1,0 +1,972 @@
+{
+    "project": {
+        "name": "ember-tabular",
+        "description": "The default blueprint for ember-cli addons.",
+        "version": "0.1.0.2cc12f9b"
+    },
+    "files": {
+        "addon/components/ember-tabular-alert.js": {
+            "name": "addon/components/ember-tabular-alert.js",
+            "modules": {},
+            "classes": {
+                "EmberTabularAlert": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/ember-tabular-date-filter.js": {
+            "name": "addon/components/ember-tabular-date-filter.js",
+            "modules": {},
+            "classes": {
+                "EmberTabularDateFilter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/ember-tabular-dropdown-filter.js": {
+            "name": "addon/components/ember-tabular-dropdown-filter.js",
+            "modules": {},
+            "classes": {
+                "EmberTabularDropdownFilter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/ember-tabular-filter.js": {
+            "name": "addon/components/ember-tabular-filter.js",
+            "modules": {},
+            "classes": {
+                "EmberTabularFilter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/ember-tabular-global-filter.js": {
+            "name": "addon/components/ember-tabular-global-filter.js",
+            "modules": {},
+            "classes": {
+                "EmberTabularGlobalFilter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/ember-tabular.js": {
+            "name": "addon/components/ember-tabular.js",
+            "modules": {},
+            "classes": {
+                "EmberTabular": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "EmberTabularAlert": {
+            "name": "EmberTabularAlert",
+            "shortname": "EmberTabularAlert",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "addon/components/ember-tabular-alert.js",
+            "line": 3,
+            "description": "Any errors returned from the request(s) are displayed in an alert box."
+        },
+        "EmberTabularDateFilter": {
+            "name": "EmberTabularDateFilter",
+            "shortname": "EmberTabularDateFilter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "addon/components/ember-tabular-date-filter.js",
+            "line": 3,
+            "description": "## Date Filter\nDate filter changes `input type=\"date\"` to take advantage of a browser's HTML5 date widget. Typically the date filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if section.isHeader}} ...`.\n\nHowever, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.\n\n- Sent in request as: `?filter[filterProperty]=dateFilter`, e.g. `?filter[updated-at]=2015-06-29`\n```hbs\n{{ember-tabular-date-filter\n   filter=filter\n   filterProperty=\"updatedAt\"\n   label=\"Last Updated\"}}\n```"
+        },
+        "EmberTabularDropdownFilter": {
+            "name": "EmberTabularDropdownFilter",
+            "shortname": "EmberTabularDropdownFilter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "addon/components/ember-tabular-dropdown-filter.js",
+            "line": 3,
+            "description": "## Dropdown Filter\nUse the dropdown filter globally. One way to do this is by setting up a computed property that returns an array of label/value objects.\n```js\nexport default Ember.Controller.extend({\n users: null,\n actions: {\n   setIsAdminFilter(object) {\n     if (object) {\n       this.set('isAdminFilter', object.value);\n     } else {\n       this.set('isAdminFilter', null);\n     }\n   },\n },\n adminContent: Ember.computed(function() {\n   return [\n     {\n       label: 'Yes',\n       value: true,\n     },\n     {\n       label: 'No',\n       value: false,\n     }\n   ];\n }),\n});\n```\n```hbs\n{{#ember-tabular-dropdown-filter filter=filter filterProperty=\"isAdmin\" label=\"Is Admin\" searchFilter=isAdminFilter}}\n   {{#power-select\n       options=adminContent\n       selected=(find-by adminContent 'value' isAdminFilter)\n       searchField=\"label\"\n       searchEnabled=false\n       placeholder=\"Select to filter\"\n       onchange=(action \"setIsAdminFilter\")\n       as |option|}}\n           {{option.label}}\n   {{/power-select}}\n{{/ember-tabular-dropdown-filter}}\n```",
+            "extends": "EmberTabularGlobalFilter"
+        },
+        "EmberTabularFilter": {
+            "name": "EmberTabularFilter",
+            "shortname": "EmberTabularFilter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "addon/components/ember-tabular-filter.js",
+            "line": 3,
+            "description": "Filtering on a column by column basis within the component's `<table/>`."
+        },
+        "EmberTabularGlobalFilter": {
+            "name": "EmberTabularGlobalFilter",
+            "shortname": "EmberTabularGlobalFilter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "addon/components/ember-tabular-global-filter.js",
+            "line": 3,
+            "description": "## Global Filter\nTypically the global filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if section.isHeader}} ...`.\n\nHowever, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.\n\n- Sent in request as: `?filter[filterProperty]=searchFilter`, e.g. `?filter[username]=John.Doe2`\n```hbs\n{{ember-tabular-global-filter\n   filter=filter\n   filterProperty=\"username\"\n   filterPlaceholder=\"Search by Username\"}}\n```"
+        },
+        "EmberTabular": {
+            "name": "EmberTabular",
+            "shortname": "EmberTabular",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "addon/components/ember-tabular.js",
+            "line": 3,
+            "description": "## Basic Usage\n- `columns` - Controller array to setup the table headers/columns (detailed below).\n - `modelName` - for the component to make the proper request when filtering/sorting, you must pass the model type matching your Ember model structure. e.g. brand/diagram, product.\n - `record` - this is bound to the controller and is used to iterate over the table's model data.\n### Template\n ```hbs\n {{! app/templates/my-route.hbs }}\n\n {{#ember-tabular columns=columns modelName=\"user\" record=users as |section|}}\n     {{#if section.isBody}}\n         {{#each users as |row|}}\n             <tr>\n                 <td>{{row.username}}</td>\n                 <td>{{row.emailAddress}}</td>\n                 <td>{{row.firstName}}</td>\n                 <td>{{row.lastName}}</td>\n                 <td>\n                     {{#link-to \"index\" class=\"btn btn-xs\" role=\"button\"}}\n                         Edit\n                     {{/link-to}}\n                 </td>\n             </tr>\n         {{/each}}\n     {{/if}}\n {{/ember-tabular}}\n ```\n### Controller\nSetup the columns array, which is how the table headers are constructed, `label` is required in all cases.\n ```js\n // app/controllers/my-route.js\n\n export default Ember.Controller.extend({\n   users: null,\n   columns: [\n     {\n       property: 'username',\n       label: 'Username',\n       defaultSort: 'username',\n     },\n     {\n       property: 'emailAddress',\n       label: 'Email',\n     },\n     {\n       property: 'firstName',\n       label: 'First Name',\n     },\n     {\n       property: 'lastName',\n       label: 'Last Name',\n     },\n     {\n       property: 'updatedAt',\n       label: 'Last Updated',\n       type: 'date',\n     },\n   ],\n });\n ```"
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "addon/components/ember-tabular-alert.js",
+            "line": 9,
+            "itemtype": "property",
+            "name": "tagName",
+            "type": "String",
+            "default": "'div'",
+            "class": "EmberTabularAlert"
+        },
+        {
+            "file": "addon/components/ember-tabular-alert.js",
+            "line": 15,
+            "itemtype": "property",
+            "name": "type",
+            "type": "String",
+            "default": "'info'",
+            "class": "EmberTabularAlert"
+        },
+        {
+            "file": "addon/components/ember-tabular-alert.js",
+            "line": 21,
+            "itemtype": "property",
+            "name": "typeClass",
+            "type": "String",
+            "default": "'alert-[type]'",
+            "class": "EmberTabularAlert"
+        },
+        {
+            "file": "addon/components/ember-tabular-date-filter.js",
+            "line": 19,
+            "itemtype": "property",
+            "name": "tagName",
+            "type": "String",
+            "default": "'div'",
+            "class": "EmberTabularDateFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-date-filter.js",
+            "line": 27,
+            "description": "Property to be filtered upon.",
+            "itemtype": "property",
+            "name": "filterProperty",
+            "type": "String",
+            "default": "null",
+            "class": "EmberTabularDateFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-date-filter.js",
+            "line": 35,
+            "description": "Value of filter.",
+            "itemtype": "property",
+            "name": "dateFilter",
+            "type": "String",
+            "default": "''",
+            "class": "EmberTabularDateFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-date-filter.js",
+            "line": 44,
+            "description": "Pass the `query` object from the parent component if it is different or if used outside of the context of the component, otherwise `query` is optional and the component will attempt to grab within the context of the parent component.",
+            "itemtype": "property",
+            "name": "query",
+            "type": "Object",
+            "default": "null",
+            "class": "EmberTabularDateFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-date-filter.js",
+            "line": 52,
+            "description": "Must expose the `filter` property on the parent ember-tabular component to be able to pass the filter object back and forth between parent and child components.",
+            "itemtype": "property",
+            "name": "filter",
+            "type": "Object",
+            "default": "null",
+            "class": "EmberTabularDateFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-date-filter.js",
+            "line": 66,
+            "description": "Debounce the `filterName` method.",
+            "itemtype": "method",
+            "name": "filterTable",
+            "class": "EmberTabularDateFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-date-filter.js",
+            "line": 74,
+            "itemtype": "property",
+            "name": "isClearable",
+            "default": "false",
+            "class": "EmberTabularDateFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-date-filter.js",
+            "line": 84,
+            "description": "Constructs and sets the `filter` Object.",
+            "itemtype": "method",
+            "name": "filterName",
+            "class": "EmberTabularDateFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-filter.js",
+            "line": 9,
+            "itemtype": "property",
+            "name": "tagName",
+            "type": "String",
+            "default": "'th'",
+            "class": "EmberTabularFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-filter.js",
+            "line": 16,
+            "description": "Value of filter.",
+            "itemtype": "property",
+            "name": "headerFilter",
+            "type": "String",
+            "default": "''",
+            "class": "EmberTabularFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-filter.js",
+            "line": 25,
+            "description": "Pass the `query` object from the parent component if it is different or if used outside of the context of the component, otherwise `query` is optional and the component will attempt to grab within the context of the parent component.",
+            "itemtype": "property",
+            "name": "query",
+            "type": "Object",
+            "default": "null",
+            "class": "EmberTabularFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-filter.js",
+            "line": 33,
+            "description": "Must expose the `filter` property on the parent ember-tabular component to be able to pass the filter object back and forth between parent and child components.",
+            "itemtype": "property",
+            "name": "filter",
+            "type": "Object",
+            "default": "null",
+            "class": "EmberTabularFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-filter.js",
+            "line": 54,
+            "description": "Debounce the `filterName` method.",
+            "itemtype": "method",
+            "name": "filterBy",
+            "class": "EmberTabularFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-filter.js",
+            "line": 62,
+            "itemtype": "property",
+            "name": "isClearable",
+            "class": "EmberTabularFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-filter.js",
+            "line": 71,
+            "itemtype": "property",
+            "name": "inputPlaceholder",
+            "class": "EmberTabularFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-filter.js",
+            "line": 81,
+            "description": "Constructs and sets the `filter` Object.",
+            "itemtype": "method",
+            "name": "filterName",
+            "class": "EmberTabularFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-global-filter.js",
+            "line": 20,
+            "itemtype": "property",
+            "name": "tagName",
+            "type": "String",
+            "default": "'div'",
+            "class": "EmberTabularGlobalFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-global-filter.js",
+            "line": 28,
+            "description": "Property to be filtered upon.",
+            "itemtype": "property",
+            "name": "filterProperty",
+            "type": "String",
+            "default": "null",
+            "class": "EmberTabularGlobalFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-global-filter.js",
+            "line": 36,
+            "description": "Value of filter.",
+            "itemtype": "property",
+            "name": "searchFilter",
+            "type": "String",
+            "default": "''",
+            "class": "EmberTabularGlobalFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-global-filter.js",
+            "line": 45,
+            "description": "Pass the `query` object from the parent component if it is different or if used outside of the context of the component, otherwise `query` is optional and the component will attempt to grab within the context of the parent component.",
+            "itemtype": "property",
+            "name": "query",
+            "type": "Object",
+            "default": "null",
+            "class": "EmberTabularGlobalFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-global-filter.js",
+            "line": 53,
+            "description": "Must expose the `filter` property on the parent ember-tabular component to be able to pass the filter object back and forth between parent and child components.",
+            "itemtype": "property",
+            "name": "filter",
+            "type": "Object",
+            "default": "null",
+            "class": "EmberTabularGlobalFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-global-filter.js",
+            "line": 67,
+            "description": "Debounce the `filterName` method.",
+            "itemtype": "method",
+            "name": "filterTable",
+            "class": "EmberTabularGlobalFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-global-filter.js",
+            "line": 75,
+            "itemtype": "property",
+            "name": "isClearable",
+            "default": "false",
+            "class": "EmberTabularGlobalFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular-global-filter.js",
+            "line": 85,
+            "description": "Constructs and sets the `filter` Object.",
+            "itemtype": "method",
+            "name": "filterName",
+            "class": "EmberTabularGlobalFilter"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 70,
+            "description": "Component will attempt to make a request to fetch the data.",
+            "itemtype": "property",
+            "name": "makeRequest",
+            "type": "Boolean",
+            "default": "true",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 78,
+            "description": "Used to toggle the filter row bar.",
+            "itemtype": "property",
+            "name": "showFilterRow",
+            "type": "Boolean",
+            "default": "false",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 86,
+            "itemtype": "property",
+            "name": "sortableClass",
+            "type": "String",
+            "default": "'sortable'",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 92,
+            "itemtype": "property",
+            "name": "tableWrapperClass",
+            "type": "String",
+            "default": "''",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 98,
+            "itemtype": "property",
+            "name": "tableClass",
+            "type": "String",
+            "default": "'table-bordered table-hover'",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 104,
+            "itemtype": "property",
+            "name": "paginationWrapperClass",
+            "type": "String",
+            "default": "''",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 110,
+            "description": "Once the `isRecordLoaded` is determined if true and no data exists then this is displayed.",
+            "itemtype": "property",
+            "name": "tableLoadedMessage",
+            "type": "String",
+            "default": "'No Data.'",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 118,
+            "description": "Computed Property to determine the column length dependent upon `columns`.",
+            "itemtype": "property",
+            "name": "columnLength",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "EmberTabular",
+            "subprops": [
+                {
+                    "name": "columns",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 140,
+            "description": "Model to be requested using `makeRequest: true`.",
+            "itemtype": "property",
+            "name": "modelName",
+            "type": "String",
+            "default": "null",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 148,
+            "description": "This is typically bound to the controller and is used to iterate over the table's model data.",
+            "itemtype": "property",
+            "name": "record",
+            "type": "Object",
+            "default": "null",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 156,
+            "description": "This is typically setup on the controller and passed into the component, and is used to construct the table headers/filtering.\n\n ```js\n export default Ember.Controller.extend({\n   users: null,\n   columns: [\n     {\n       property: 'username',\n       label: 'Username',\n       defaultSort: 'username',\n     },\n     {\n       property: 'emailAddress',\n       label: 'Email',\n     },\n     {\n       property: 'firstName',\n       label: 'First Name',\n       sort: false,\n     },\n     {\n       property: 'isAdmin',\n       label: 'Is Admin',\n       list: [\n         {\n           label: 'Yes',\n           value: true,\n         },\n         {\n           label: 'No',\n           value: false,\n         }\n       ],\n     },\n     {\n       property: 'updatedAt',\n       label: 'Last Updated',\n       type: 'date',\n     },\n     {\n       label: 'Actions',\n     },\n   ],\n });\n ```\n\n - `columns.property` - {String}\n   - Required for column filtering/sorting\n   - Properties should be in camelCase format\n - `columns.label` - {String}\n   - Required in all use-cases\n - `columns.type` - {String} - Default: text\n   - Sets the filter `<input type=\"\">`\n - `columns.sort` - {Boolean} - Default: `true`\n   - Required for column sorting\n - `columns.list` - {Array} - Default: `null` - Filtering the column based on a dropdown list.\n   - `list.label` - Displayed to the user for selection.\n   - `list.value` - Value that is sent in the request.\n - `columns.defaultSort` - {String}\n   - Initial sort value for API request\n   - Will be overridden with any sorting changes",
+            "itemtype": "property",
+            "name": "columns",
+            "type": "Array",
+            "default": "null",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 226,
+            "itemtype": "property",
+            "name": "page",
+            "type": "Number",
+            "default": "1",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 232,
+            "description": "Used in request to construct pagination.",
+            "itemtype": "property",
+            "name": "limit",
+            "type": "Number",
+            "default": "10",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 240,
+            "description": "Number passed to the pagination add-on.",
+            "itemtype": "property",
+            "name": "pageLimit",
+            "type": "Number",
+            "default": "0",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 248,
+            "description": "Used in request to construct pagination.",
+            "itemtype": "property",
+            "name": "offset",
+            "type": "Number",
+            "default": "0",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 256,
+            "itemtype": "property",
+            "name": "sort",
+            "type": "String",
+            "default": "null",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 262,
+            "itemtype": "property",
+            "name": "filter",
+            "type": "Object",
+            "default": "null",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 268,
+            "description": "Object to pass in static query-params that will not change based on any filter/sort criteria.\nAdditional table-wide filters that need to be applied in all requests. Typically bound to the controller.\n ```js\n // app/controllers/location.js\n\n export default Ember.Controller.extend({\n   staticParams: Ember.computed('model', function() {\n     return {\n       'filter[is-open]': '1',\n       include: 'hours',\n     };\n   }),\n   ...\n });\n ```\n\n ```hbs\n {{! app/templates/my-route.hbs }}\n\n {{#ember-tabular columns=columns modelName=\"user\" record=users staticParams=staticParams as |section|}}\n   ...\n {{/ember-tabular}}\n ```",
+            "itemtype": "property",
+            "name": "staticParams",
+            "type": "Object",
+            "default": "null",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 300,
+            "itemtype": "property",
+            "name": "isSuccess",
+            "type": "Boolean",
+            "default": "false",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 306,
+            "itemtype": "property",
+            "name": "isFailure",
+            "type": "Boolean",
+            "default": "false",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 312,
+            "itemtype": "property",
+            "name": "isLoading",
+            "type": "Boolean",
+            "default": "false",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 319,
+            "itemtype": "property",
+            "name": "defaultSuccessMessage",
+            "type": "String",
+            "default": "'Success!'",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 325,
+            "itemtype": "property",
+            "name": "defaultFailureMessage",
+            "type": "String",
+            "default": "'There was an issue. Please check below for errors.'",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 337,
+            "description": "Conforms to json:api spec: http://jsonapi.org/format/#errors",
+            "itemtype": "property",
+            "name": "errors",
+            "type": "Array",
+            "default": "null",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 346,
+            "description": "Used to serialize the parameters within `request`.",
+            "itemtype": "method",
+            "name": "serialize",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "An object of query parameters.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "params  The serialized query parameters.",
+                "type": "Object"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 364,
+            "description": "Transform params related to pagination into API expected format.\nFollows json:api spec by default: http://jsonapi.org/format/#fetching-pagination.\n\n`offset` => `?page[offset]`.\n\n`limit` => `?page[limit]`.\n\nIf you are not using Ember Data then you can extend this addon's component and override a set of serialize and normalized methods:\n ```js\n import EmberTabular from 'ember-tabular/components/ember-tabular';\n\n export default EmberTabular.extend({\n   serializePagination(params) {\n     // override default pagination ?page[offset]= and ?[page]limit=\n     // offset and limit will be sent as ?offset= and ?limit=\n     params.offset = (params.page * params.limit) - params.limit;\n     if (isNaN(params.offset)) {\n       params.offset = null;\n     }\n\n     return params;\n   },\n });\n ```",
+            "itemtype": "method",
+            "name": "serializePagination",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "An object of query parameters.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "params  The serialized pagination query parameters.",
+                "type": "Object"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 411,
+            "description": "Transform params related to filtering into API expected format.\nFollows json:api spec by default: http://jsonapi.org/recommendations/#filtering.\n`?filter[lastName]` => `?filter[last-name]`.",
+            "itemtype": "method",
+            "name": "serializeFilter",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "An object of query parameters.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "params  The serialized filter query parameters.",
+                "type": "Object"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 440,
+            "description": "Transform params related to sorting into API expected format.\nFollows json:api spec by default: http://jsonapi.org/format/#fetching-sorting.\n`?sort=lastName` => `?sort=last-name`.",
+            "itemtype": "method",
+            "name": "serializeSort",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "An object of query parameters.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "params  The serialized sort query parameters.",
+                "type": "Object"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 455,
+            "description": "Follows json:api dasherized naming.\n`lastName` => `last-name`.\n\nIf you are not supporting json:api's dasherized properties this can be extended to support other conventions:\n ```js\n import EmberTabular from 'ember-tabular/components/ember-tabular';\n\n export default EmberTabular.extend({\n   serializeProperty(property) {\n     // Override to convert all properties sent in requests to camelize instead of the default dasherized\n     // ?filter[lastName]&sort=isAdmin\n     // (pseudo code)\n     if (property) {\n       return Ember.String.camelize(property);\n     }\n\n     return null;\n   },\n });\n ```",
+            "itemtype": "method",
+            "name": "serializeProperty",
+            "params": [
+                {
+                    "name": "property",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "property",
+                "type": "String"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 489,
+            "description": "Used to normalize query parameters returned from `request` to components expected format.",
+            "itemtype": "method",
+            "name": "normalize",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Data object returned from request.",
+                    "type": "Object"
+                },
+                {
+                    "name": "params",
+                    "description": "The returned object of query parameters.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "data",
+                "type": "Object"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 508,
+            "description": "Used to normalize pagination related query parameters returned from `request` to components expected format.\n`?page[offset]` => `offset`.\n`?page[limit]` => `limit`.",
+            "itemtype": "method",
+            "name": "normalizePagination",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Data object returned from request.",
+                    "type": "Object"
+                },
+                {
+                    "name": "params",
+                    "description": "The returned object of query parameters.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "data",
+                "type": "Object"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 531,
+            "description": "Used to normalize filter related query parameters returned from `request` to components expected format.\n`?filter[last-name]` => `filter[lastName]`.\n`?filter[user.first-name]` => `filter[user.firstName]`.",
+            "itemtype": "method",
+            "name": "normalizeFilter",
+            "params": [
+                {
+                    "name": "query",
+                    "description": "The returned object of query parameters.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "query",
+                "type": "Object"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 569,
+            "description": "Used to normalize sort related query parameters returned from `request` to components expected format.\nExpects json:api by default.",
+            "itemtype": "method",
+            "name": "normalizeSort",
+            "params": [
+                {
+                    "name": "query",
+                    "description": "The returned object of query parameters.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "query",
+                "type": "Object"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 581,
+            "description": "Used to normalize properties to components expected format.\nBy default this will camelize the property.",
+            "itemtype": "method",
+            "name": "normalizeProperty",
+            "params": [
+                {
+                    "name": "property",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "property",
+                "type": "String"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 597,
+            "itemtype": "method",
+            "name": "segmentProperty",
+            "params": [
+                {
+                    "name": "property",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "segments",
+                "type": "Array"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 608,
+            "description": "Determine if `record` is loaded using a number of different property checks.",
+            "itemtype": "property",
+            "name": "isrecordLoaded",
+            "type": "Function",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 640,
+            "description": "Used in templates to determine if table header will allow filtering.",
+            "itemtype": "property",
+            "name": "isColumnFilters",
+            "type": "Boolean",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "default": "false",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 660,
+            "description": "Runs on init to setup the table header default columns.",
+            "itemtype": "method",
+            "name": "setColumnDefaults",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 678,
+            "description": "Runs on init to set the default sort param.",
+            "itemtype": "method",
+            "name": "defaultSort",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 691,
+            "description": "Constructs the query object to be used in `request`.",
+            "itemtype": "property",
+            "name": "query",
+            "type": "Object",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 718,
+            "description": "Make request to API for data.",
+            "itemtype": "method",
+            "name": "request",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "Serialized query parameters.",
+                    "type": "Object"
+                },
+                {
+                    "name": "modelName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 744,
+            "description": "Sets the `record` after the `request` is resolved.",
+            "itemtype": "method",
+            "name": "setModel",
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 773,
+            "description": "Sets the active sort property.",
+            "itemtype": "method",
+            "name": "setSort",
+            "params": [
+                {
+                    "name": "sortProperty",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 801,
+            "description": "Sets the proper classes on table headers when sorting.",
+            "itemtype": "method",
+            "name": "updateSortUI",
+            "params": [
+                {
+                    "name": "sortProperty",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 838,
+            "itemtype": "method",
+            "name": "failure",
+            "params": [
+                {
+                    "name": "response",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "EmberTabular"
+        },
+        {
+            "file": "addon/components/ember-tabular.js",
+            "line": 855,
+            "description": "Resets all state specific properties.",
+            "itemtype": "method",
+            "name": "reset",
+            "class": "EmberTabular"
+        }
+    ],
+    "warnings": []
+}

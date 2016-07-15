@@ -1,0 +1,2334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>EmberTabular - ember-tabular</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+	    <img alt="ember-tabular" src="../assets/css/logo.png" style="max-height: 65%;" title="ember-tabular">
+            ember-tabular
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b>0.1.0.2cc12f9b</b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/EmberTabular", "classes/EmberTabularAlert", "classes/EmberTabularDateFilter", "classes/EmberTabularDropdownFilter", "classes/EmberTabularFilter", "classes/EmberTabularGlobalFilter"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+	    <div>
+	        <h3>APIs</h3>
+	        <div id="sidebar">
+	            <ul id="main-nav" class="nav nav-tabs" style="margin-bottom:0;">
+	                <li class="active"><a href="#classes" data-toggle="tab">Classes</a></li>
+	                <li><a href="#modules" data-toggle="tab">Modules</a></li>
+	            </ul>
+	    
+	            <div id="api-tabview-filter">
+	                <input type="search" placeholder="Type to filter APIs">
+	            </div>
+	    
+	            <div class="tab-content" style="border: 1px solid #DDD; border-top:0;">
+	                <div class="tab-pane active" id="classes">
+	                    <ul id="api-classes" class="nav nav-list">
+	                            <li><a href="../classes/EmberTabular.html">EmberTabular</a></li>
+	                            <li><a href="../classes/EmberTabularAlert.html">EmberTabularAlert</a></li>
+	                            <li><a href="../classes/EmberTabularDateFilter.html">EmberTabularDateFilter</a></li>
+	                            <li><a href="../classes/EmberTabularDropdownFilter.html">EmberTabularDropdownFilter</a></li>
+	                            <li><a href="../classes/EmberTabularFilter.html">EmberTabularFilter</a></li>
+	                            <li><a href="../classes/EmberTabularGlobalFilter.html">EmberTabularGlobalFilter</a></li>
+	                    </ul>
+	                </div>
+	    
+	                <div class="tab-pane" id="modules">
+	                    <ul id="api-modules" class="nav nav-list">
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        </div>
+        <div class="span9">
+                <form id="options-form" class="form-inline pull-right">
+                    Show:
+                    <label for="api-show-inherited" class="checkbox">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected" class="checkbox">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private" class="checkbox">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated" class="checkbox">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </form>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>EmberTabular <small>Class</small></h1>
+</div>
+
+<div class="well well-small">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/addon_components_ember-tabular.js.html#l3"><code>addon&#x2F;components&#x2F;ember-tabular.js:3</code></a>
+        </div>
+
+
+</div>
+
+
+<div class="well well-small">
+    <h2>Basic Usage</h2>
+<ul>
+<li><code>columns</code> - Controller array to setup the table headers/columns (detailed below).</li>
+<li><code>modelName</code> - for the component to make the proper request when filtering/sorting, you must pass the model type matching your Ember model structure. e.g. brand/diagram, product.</li>
+<li><code>record</code> - this is bound to the controller and is used to iterate over the table's model data.</li>
+</ul>
+<h3>Template</h3>
+<pre class="code prettyprint"><code class="language-hbs">{{! app/templates/my-route.hbs }}
+
+{{#ember-tabular columns=columns modelName="user" record=users as |section|}}
+    {{#if section.isBody}}
+        {{#each users as |row|}}
+            &lt;tr&gt;
+                &lt;td&gt;{{row.username}}&lt;/td&gt;
+                &lt;td&gt;{{row.emailAddress}}&lt;/td&gt;
+                &lt;td&gt;{{row.firstName}}&lt;/td&gt;
+                &lt;td&gt;{{row.lastName}}&lt;/td&gt;
+                &lt;td&gt;
+                    {{#link-to "index" class="btn btn-xs" role="button"}}
+                        Edit
+                    {{/link-to}}
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        {{/each}}
+    {{/if}}
+{{/ember-tabular}}
+</code></pre>
+<h3>Controller</h3>
+<p>Setup the columns array, which is how the table headers are constructed, <code>label</code> is required in all cases.</p>
+<pre class="code prettyprint"><code class="language-js">// app/controllers/my-route.js
+
+export default Ember.Controller.extend({
+  users: null,
+  columns: [
+    {
+      property: 'username',
+      label: 'Username',
+      defaultSort: 'username',
+    },
+    {
+      property: 'emailAddress',
+      label: 'Email',
+    },
+    {
+      property: 'firstName',
+      label: 'First Name',
+    },
+    {
+      property: 'lastName',
+      label: 'Last Name',
+    },
+    {
+      property: 'updatedAt',
+      label: 'Last Updated',
+      type: 'date',
+    },
+  ],
+});
+</code></pre>
+
+</div>
+
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#index">Index</a></li>
+
+            <li><a data-toggle="tab" href="#methods">Methods</a></li>
+            <li><a data-toggle="tab" href="#properties">Properties</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="index" class="tab-pane active">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_defaultSort" data-tablink="defaultSort">defaultSort</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_failure" data-tablink="failure">failure</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_normalize" data-tablink="normalize">normalize</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_normalizeFilter" data-tablink="normalizeFilter">normalizeFilter</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_normalizePagination" data-tablink="normalizePagination">normalizePagination</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_normalizeProperty" data-tablink="normalizeProperty">normalizeProperty</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_normalizeSort" data-tablink="normalizeSort">normalizeSort</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_request" data-tablink="request">request</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_reset" data-tablink="reset">reset</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_segmentProperty" data-tablink="segmentProperty">segmentProperty</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_serialize" data-tablink="serialize">serialize</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_serializeFilter" data-tablink="serializeFilter">serializeFilter</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_serializePagination" data-tablink="serializePagination">serializePagination</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_serializeProperty" data-tablink="serializeProperty">serializeProperty</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_serializeSort" data-tablink="serializeSort">serializeSort</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_setColumnDefaults" data-tablink="setColumnDefaults">setColumnDefaults</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_setModel" data-tablink="setModel">setModel</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_setSort" data-tablink="setSort">setSort</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_updateSortUI" data-tablink="updateSortUI">updateSortUI</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_columnLength" data-tablink="columnLength">columnLength</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_columns" data-tablink="columns">columns</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_defaultFailureMessage" data-tablink="defaultFailureMessage">defaultFailureMessage</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_defaultSuccessMessage" data-tablink="defaultSuccessMessage">defaultSuccessMessage</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_errors" data-tablink="errors">errors</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_filter" data-tablink="filter">filter</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_isColumnFilters" data-tablink="isColumnFilters">isColumnFilters</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_isFailure" data-tablink="isFailure">isFailure</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_isLoading" data-tablink="isLoading">isLoading</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_isrecordLoaded" data-tablink="isrecordLoaded">isrecordLoaded</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_isSuccess" data-tablink="isSuccess">isSuccess</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_limit" data-tablink="limit">limit</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_makeRequest" data-tablink="makeRequest">makeRequest</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_modelName" data-tablink="modelName">modelName</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_offset" data-tablink="offset">offset</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_page" data-tablink="page">page</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_pageLimit" data-tablink="pageLimit">pageLimit</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_paginationWrapperClass" data-tablink="paginationWrapperClass">paginationWrapperClass</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_query" data-tablink="query">query</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_record" data-tablink="record">record</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_showFilterRow" data-tablink="showFilterRow">showFilterRow</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_sort" data-tablink="sort">sort</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_sortableClass" data-tablink="sortableClass">sortableClass</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_staticParams" data-tablink="staticParams">staticParams</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_tableClass" data-tablink="tableClass">tableClass</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_tableLoadedMessage" data-tablink="tableLoadedMessage">tableLoadedMessage</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_tableWrapperClass" data-tablink="tableWrapperClass">tableWrapperClass</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="tab-pane">
+                <h2 class="off-left">Methods</h2>
+
+                    <div id="method_defaultSort" class="method item">
+                        <h3 class="name"><code>defaultSort</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l678"><code>addon&#x2F;components&#x2F;ember-tabular.js:678</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Runs on init to set the default sort param.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="method_failure" class="method item">
+                        <h3 class="name"><code>failure</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>response</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l838"><code>addon&#x2F;components&#x2F;ember-tabular.js:838</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">response</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                             
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                    
+                    </div>
+                    <div id="method_normalize" class="method item">
+                        <h3 class="name"><code>normalize</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>data</code>
+                                    </li>
+                                    <li class="arg">
+                                            <code>params</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l489"><code>addon&#x2F;components&#x2F;ember-tabular.js:489</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Used to normalize query parameters returned from <code>request</code> to components expected format.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">data</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>Data object returned from request.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                    <li class="param">
+                                            <code class="param-name">params</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>The returned object of query parameters.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                                        <p>data</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_normalizeFilter" class="method item">
+                        <h3 class="name"><code>normalizeFilter</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>query</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l531"><code>addon&#x2F;components&#x2F;ember-tabular.js:531</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Used to normalize filter related query parameters returned from <code>request</code> to components expected format.
+                    <code>?filter[last-name]</code> =&gt; <code>filter[lastName]</code>.
+                    <code>?filter[user.first-name]</code> =&gt; <code>filter[user.firstName]</code>.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">query</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>The returned object of query parameters.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                                        <p>query</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_normalizePagination" class="method item">
+                        <h3 class="name"><code>normalizePagination</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>data</code>
+                                    </li>
+                                    <li class="arg">
+                                            <code>params</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l508"><code>addon&#x2F;components&#x2F;ember-tabular.js:508</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Used to normalize pagination related query parameters returned from <code>request</code> to components expected format.
+                    <code>?page[offset]</code> =&gt; <code>offset</code>.
+                    <code>?page[limit]</code> =&gt; <code>limit</code>.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">data</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>Data object returned from request.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                    <li class="param">
+                                            <code class="param-name">params</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>The returned object of query parameters.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                                        <p>data</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_normalizeProperty" class="method item">
+                        <h3 class="name"><code>normalizeProperty</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>property</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l581"><code>addon&#x2F;components&#x2F;ember-tabular.js:581</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Used to normalize properties to components expected format.
+                    By default this will camelize the property.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">property</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                             
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>:
+                                        <p>property</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_normalizeSort" class="method item">
+                        <h3 class="name"><code>normalizeSort</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>query</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l569"><code>addon&#x2F;components&#x2F;ember-tabular.js:569</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Used to normalize sort related query parameters returned from <code>request</code> to components expected format.
+                    Expects json:api by default.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">query</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>The returned object of query parameters.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                                        <p>query</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_request" class="method item">
+                        <h3 class="name"><code>request</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>params</code>
+                                    </li>
+                                    <li class="arg">
+                                            <code>modelName</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l718"><code>addon&#x2F;components&#x2F;ember-tabular.js:718</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Make request to API for data.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">params</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>Serialized query parameters.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                    <li class="param">
+                                            <code class="param-name">modelName</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                             
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                    
+                    </div>
+                    <div id="method_reset" class="method item">
+                        <h3 class="name"><code>reset</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l855"><code>addon&#x2F;components&#x2F;ember-tabular.js:855</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Resets all state specific properties.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="method_segmentProperty" class="method item">
+                        <h3 class="name"><code>segmentProperty</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>property</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l597"><code>addon&#x2F;components&#x2F;ember-tabular.js:597</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">property</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                             
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>:
+                                        <p>segments</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_serialize" class="method item">
+                        <h3 class="name"><code>serialize</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>params</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l346"><code>addon&#x2F;components&#x2F;ember-tabular.js:346</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Used to serialize the parameters within <code>request</code>.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">params</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>An object of query parameters.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                                        <p>params  The serialized query parameters.</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_serializeFilter" class="method item">
+                        <h3 class="name"><code>serializeFilter</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>params</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l411"><code>addon&#x2F;components&#x2F;ember-tabular.js:411</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Transform params related to filtering into API expected format.
+                    Follows json:api spec by default: <a href="http://jsonapi.org/recommendations/#filtering">http://jsonapi.org/recommendations/#filtering</a>.
+                    <code>?filter[lastName]</code> =&gt; <code>?filter[last-name]</code>.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">params</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>An object of query parameters.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                                        <p>params  The serialized filter query parameters.</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_serializePagination" class="method item">
+                        <h3 class="name"><code>serializePagination</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>params</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l364"><code>addon&#x2F;components&#x2F;ember-tabular.js:364</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Transform params related to pagination into API expected format.
+                    Follows json:api spec by default: <a href="http://jsonapi.org/format/#fetching-pagination">http://jsonapi.org/format/#fetching-pagination</a>.</p>
+                    <p><code>offset</code> =&gt; <code>?page[offset]</code>.</p>
+                    <p><code>limit</code> =&gt; <code>?page[limit]</code>.</p>
+                    <p>If you are not using Ember Data then you can extend this addon's component and override a set of serialize and normalized methods:</p>
+                    <pre class="code prettyprint"><code class="language-js">import EmberTabular from 'ember-tabular/components/ember-tabular';
+                    
+                    export default EmberTabular.extend({
+                      serializePagination(params) {
+                        // override default pagination ?page[offset]= and ?[page]limit=
+                        // offset and limit will be sent as ?offset= and ?limit=
+                        params.offset = (params.page * params.limit) - params.limit;
+                        if (isNaN(params.offset)) {
+                          params.offset = null;
+                        }
+                    
+                        return params;
+                      },
+                    });
+                    </code></pre>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">params</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>An object of query parameters.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                                        <p>params  The serialized pagination query parameters.</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_serializeProperty" class="method item">
+                        <h3 class="name"><code>serializeProperty</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>property</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l455"><code>addon&#x2F;components&#x2F;ember-tabular.js:455</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Follows json:api dasherized naming.
+                    <code>lastName</code> =&gt; <code>last-name</code>.</p>
+                    <p>If you are not supporting json:api's dasherized properties this can be extended to support other conventions:</p>
+                    <pre class="code prettyprint"><code class="language-js">import EmberTabular from 'ember-tabular/components/ember-tabular';
+                    
+                    export default EmberTabular.extend({
+                      serializeProperty(property) {
+                        // Override to convert all properties sent in requests to camelize instead of the default dasherized
+                        // ?filter[lastName]&amp;sort=isAdmin
+                        // (pseudo code)
+                        if (property) {
+                          return Ember.String.camelize(property);
+                        }
+                    
+                        return null;
+                      },
+                    });
+                    </code></pre>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">property</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                             
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>:
+                                        <p>property</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_serializeSort" class="method item">
+                        <h3 class="name"><code>serializeSort</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>params</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l440"><code>addon&#x2F;components&#x2F;ember-tabular.js:440</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Transform params related to sorting into API expected format.
+                    Follows json:api spec by default: <a href="http://jsonapi.org/format/#fetching-sorting">http://jsonapi.org/format/#fetching-sorting</a>.
+                    <code>?sort=lastName</code> =&gt; <code>?sort=last-name</code>.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">params</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>An object of query parameters.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                                        <p>params  The serialized sort query parameters.</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_setColumnDefaults" class="method item">
+                        <h3 class="name"><code>setColumnDefaults</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l660"><code>addon&#x2F;components&#x2F;ember-tabular.js:660</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Runs on init to setup the table header default columns.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="method_setModel" class="method item">
+                        <h3 class="name"><code>setModel</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l744"><code>addon&#x2F;components&#x2F;ember-tabular.js:744</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Sets the <code>record</code> after the <code>request</code> is resolved.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="method_setSort" class="method item">
+                        <h3 class="name"><code>setSort</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>sortProperty</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l773"><code>addon&#x2F;components&#x2F;ember-tabular.js:773</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Sets the active sort property.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">sortProperty</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                             
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                    
+                    </div>
+                    <div id="method_updateSortUI" class="method item">
+                        <h3 class="name"><code>updateSortUI</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>sortProperty</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l801"><code>addon&#x2F;components&#x2F;ember-tabular.js:801</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Sets the proper classes on table headers when sorting.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">sortProperty</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                             
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                    
+                    </div>
+            </div>
+
+            <div id="properties" class="tab-pane">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property_columnLength" class="property item">
+                        <h3 class="name"><code>columnLength</code></h3>
+                        <span class="type">Unknown</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l118"><code>addon&#x2F;components&#x2F;ember-tabular.js:118</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Computed Property to determine the column length dependent upon <code>columns</code>.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                            <h4>Sub-properties:</h4>
+                    
+                            <ul class="params-list">
+                                <li class="param">
+                                        <code class="param-name">columns</code>
+                                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+                    
+                                    <div class="param-description">
+                                         
+                                    </div>
+                    
+                                </li>
+                            </ul>
+                    </div>
+                    <div id="property_columns" class="property item">
+                        <h3 class="name"><code>columns</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l156"><code>addon&#x2F;components&#x2F;ember-tabular.js:156</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>This is typically setup on the controller and passed into the component, and is used to construct the table headers/filtering.</p>
+                    <pre class="code prettyprint"><code class="language-js">export default Ember.Controller.extend({
+                      users: null,
+                      columns: [
+                        {
+                          property: 'username',
+                          label: 'Username',
+                          defaultSort: 'username',
+                        },
+                        {
+                          property: 'emailAddress',
+                          label: 'Email',
+                        },
+                        {
+                          property: 'firstName',
+                          label: 'First Name',
+                          sort: false,
+                        },
+                        {
+                          property: 'isAdmin',
+                          label: 'Is Admin',
+                          list: [
+                            {
+                              label: 'Yes',
+                              value: true,
+                            },
+                            {
+                              label: 'No',
+                              value: false,
+                            }
+                          ],
+                        },
+                        {
+                          property: 'updatedAt',
+                          label: 'Last Updated',
+                          type: 'date',
+                        },
+                        {
+                          label: 'Actions',
+                        },
+                      ],
+                    });
+                    </code></pre>
+                    <ul>
+                    <li><code>columns.property</code> - {String}
+                    <ul>
+                    <li>Required for column filtering/sorting</li>
+                    <li>Properties should be in camelCase format</li>
+                    </ul>
+                    </li>
+                    <li><code>columns.label</code> - {String}
+                    <ul>
+                    <li>Required in all use-cases</li>
+                    </ul>
+                    </li>
+                    <li><code>columns.type</code> - {String} - Default: text
+                    <ul>
+                    <li>Sets the filter <code>&lt;input type=""&gt;</code></li>
+                    </ul>
+                    </li>
+                    <li><code>columns.sort</code> - {Boolean} - Default: <code>true</code>
+                    <ul>
+                    <li>Required for column sorting</li>
+                    </ul>
+                    </li>
+                    <li><code>columns.list</code> - {Array} - Default: <code>null</code> - Filtering the column based on a dropdown list.
+                    <ul>
+                    <li><code>list.label</code> - Displayed to the user for selection.</li>
+                    <li><code>list.value</code> - Value that is sent in the request.</li>
+                    </ul>
+                    </li>
+                    <li><code>columns.defaultSort</code> - {String}
+                    <ul>
+                    <li>Initial sort value for API request</li>
+                    <li>Will be overridden with any sorting changes</li>
+                    </ul>
+                    </li>
+                    </ul>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> null</p>
+                    
+                    
+                    </div>
+                    <div id="property_defaultFailureMessage" class="property item">
+                        <h3 class="name"><code>defaultFailureMessage</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l325"><code>addon&#x2F;components&#x2F;ember-tabular.js:325</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> &#x27;There was an issue. Please check below for errors.&#x27;</p>
+                    
+                    
+                    </div>
+                    <div id="property_defaultSuccessMessage" class="property item">
+                        <h3 class="name"><code>defaultSuccessMessage</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l319"><code>addon&#x2F;components&#x2F;ember-tabular.js:319</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> &#x27;Success!&#x27;</p>
+                    
+                    
+                    </div>
+                    <div id="property_errors" class="property item">
+                        <h3 class="name"><code>errors</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l337"><code>addon&#x2F;components&#x2F;ember-tabular.js:337</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Conforms to json:api spec: <a href="http://jsonapi.org/format/#errors">http://jsonapi.org/format/#errors</a></p>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> null</p>
+                    
+                    
+                    </div>
+                    <div id="property_filter" class="property item">
+                        <h3 class="name"><code>filter</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l262"><code>addon&#x2F;components&#x2F;ember-tabular.js:262</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> null</p>
+                    
+                    
+                    </div>
+                    <div id="property_isColumnFilters" class="property item">
+                        <h3 class="name"><code>isColumnFilters</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l640"><code>addon&#x2F;components&#x2F;ember-tabular.js:640</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Used in templates to determine if table header will allow filtering.</p>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> false</p>
+                    
+                    
+                    </div>
+                    <div id="property_isFailure" class="property item">
+                        <h3 class="name"><code>isFailure</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l306"><code>addon&#x2F;components&#x2F;ember-tabular.js:306</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> false</p>
+                    
+                    
+                    </div>
+                    <div id="property_isLoading" class="property item">
+                        <h3 class="name"><code>isLoading</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l312"><code>addon&#x2F;components&#x2F;ember-tabular.js:312</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> false</p>
+                    
+                    
+                    </div>
+                    <div id="property_isrecordLoaded" class="property item">
+                        <h3 class="name"><code>isrecordLoaded</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l608"><code>addon&#x2F;components&#x2F;ember-tabular.js:608</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Determine if <code>record</code> is loaded using a number of different property checks.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_isSuccess" class="property item">
+                        <h3 class="name"><code>isSuccess</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l300"><code>addon&#x2F;components&#x2F;ember-tabular.js:300</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> false</p>
+                    
+                    
+                    </div>
+                    <div id="property_limit" class="property item">
+                        <h3 class="name"><code>limit</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l232"><code>addon&#x2F;components&#x2F;ember-tabular.js:232</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Used in request to construct pagination.</p>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> 10</p>
+                    
+                    
+                    </div>
+                    <div id="property_makeRequest" class="property item">
+                        <h3 class="name"><code>makeRequest</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l70"><code>addon&#x2F;components&#x2F;ember-tabular.js:70</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Component will attempt to make a request to fetch the data.</p>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> true</p>
+                    
+                    
+                    </div>
+                    <div id="property_modelName" class="property item">
+                        <h3 class="name"><code>modelName</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l140"><code>addon&#x2F;components&#x2F;ember-tabular.js:140</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Model to be requested using <code>makeRequest: true</code>.</p>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> null</p>
+                    
+                    
+                    </div>
+                    <div id="property_offset" class="property item">
+                        <h3 class="name"><code>offset</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l248"><code>addon&#x2F;components&#x2F;ember-tabular.js:248</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Used in request to construct pagination.</p>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> 0</p>
+                    
+                    
+                    </div>
+                    <div id="property_page" class="property item">
+                        <h3 class="name"><code>page</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l226"><code>addon&#x2F;components&#x2F;ember-tabular.js:226</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> 1</p>
+                    
+                    
+                    </div>
+                    <div id="property_pageLimit" class="property item">
+                        <h3 class="name"><code>pageLimit</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l240"><code>addon&#x2F;components&#x2F;ember-tabular.js:240</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Number passed to the pagination add-on.</p>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> 0</p>
+                    
+                    
+                    </div>
+                    <div id="property_paginationWrapperClass" class="property item">
+                        <h3 class="name"><code>paginationWrapperClass</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l104"><code>addon&#x2F;components&#x2F;ember-tabular.js:104</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> &#x27;&#x27;</p>
+                    
+                    
+                    </div>
+                    <div id="property_query" class="property item">
+                        <h3 class="name"><code>query</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l691"><code>addon&#x2F;components&#x2F;ember-tabular.js:691</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Constructs the query object to be used in <code>request</code>.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_record" class="property item">
+                        <h3 class="name"><code>record</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l148"><code>addon&#x2F;components&#x2F;ember-tabular.js:148</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>This is typically bound to the controller and is used to iterate over the table's model data.</p>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> null</p>
+                    
+                    
+                    </div>
+                    <div id="property_showFilterRow" class="property item">
+                        <h3 class="name"><code>showFilterRow</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l78"><code>addon&#x2F;components&#x2F;ember-tabular.js:78</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Used to toggle the filter row bar.</p>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> false</p>
+                    
+                    
+                    </div>
+                    <div id="property_sort" class="property item">
+                        <h3 class="name"><code>sort</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l256"><code>addon&#x2F;components&#x2F;ember-tabular.js:256</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> null</p>
+                    
+                    
+                    </div>
+                    <div id="property_sortableClass" class="property item">
+                        <h3 class="name"><code>sortableClass</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l86"><code>addon&#x2F;components&#x2F;ember-tabular.js:86</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> &#x27;sortable&#x27;</p>
+                    
+                    
+                    </div>
+                    <div id="property_staticParams" class="property item">
+                        <h3 class="name"><code>staticParams</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l268"><code>addon&#x2F;components&#x2F;ember-tabular.js:268</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Object to pass in static query-params that will not change based on any filter/sort criteria.
+                    Additional table-wide filters that need to be applied in all requests. Typically bound to the controller.</p>
+                    <pre class="code prettyprint"><code class="language-js">// app/controllers/location.js
+                    
+                    export default Ember.Controller.extend({
+                      staticParams: Ember.computed('model', function() {
+                        return {
+                          'filter[is-open]': '1',
+                          include: 'hours',
+                        };
+                      }),
+                      ...
+                    });
+                    </code></pre>
+                    <pre class="code prettyprint"><code class="language-hbs">{{! app/templates/my-route.hbs }}
+                    
+                    {{#ember-tabular columns=columns modelName="user" record=users staticParams=staticParams as |section|}}
+                      ...
+                    {{/ember-tabular}}
+                    </code></pre>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> null</p>
+                    
+                    
+                    </div>
+                    <div id="property_tableClass" class="property item">
+                        <h3 class="name"><code>tableClass</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l98"><code>addon&#x2F;components&#x2F;ember-tabular.js:98</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> &#x27;table-bordered table-hover&#x27;</p>
+                    
+                    
+                    </div>
+                    <div id="property_tableLoadedMessage" class="property item">
+                        <h3 class="name"><code>tableLoadedMessage</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l110"><code>addon&#x2F;components&#x2F;ember-tabular.js:110</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Once the <code>isRecordLoaded</code> is determined if true and no data exists then this is displayed.</p>
+                    
+                        </div>
+                    
+                            <p><strong>Default:</strong> &#x27;No Data.&#x27;</p>
+                    
+                    
+                    </div>
+                    <div id="property_tableWrapperClass" class="property item">
+                        <h3 class="name"><code>tableWrapperClass</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_components_ember-tabular.js.html#l92"><code>addon&#x2F;components&#x2F;ember-tabular.js:92</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> &#x27;&#x27;</p>
+                    
+                    
+                    </div>
+            </div>
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

@@ -43,17 +43,15 @@
                         {{/each}}
                     </tr>
                     {{#if isColumnFilters}}
-                        {{#if showFilterRow}}
-                            <tr>
-                                {{#each columns as |header|}}
-                                    {{#if header.property}}
-                                        {{ember-tabular-filter modelName=modelName columns=columns property=header.property record=record query=query filter=filter header=header}}
-                                    {{else}}
-                                        <th>{{!-- Blank to reserve table column --}}</th>
-                                    {{/if}}
-                                {{/each}}
-                            </tr>
-                        {{/if}}
+                        <tr class="{{if showFilterRow 'showFilterRow' 'hideFilterRow'}}">
+                            {{#each columns as |header|}}
+                                {{#if header.property}}
+                                    {{ember-tabular-filter modelName=modelName columns=columns property=header.property record=record query=query filter=filter header=header}}
+                                {{else}}
+                                    <th>{{!-- Blank to reserve table column --}}</th>
+                                {{/if}}
+                            {{/each}}
+                        </tr>
                     {{/if}}
                 </thead>
             {{/if}}

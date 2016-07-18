@@ -78,37 +78,26 @@ export default Ember.Component.extend({
       return 'YYYY-MM-DD';
     }
   }),
-  setupDateTimePicker: Ember.on('didInsertElement', function () {
+  setupDateTimePicker: Ember.on('didInsertElement', Ember.observer('headerFilter', function () {
     const type = this.get('header.type');
     if (type === 'date') {
-      let element = this.get('element');
-      Ember.$(element).find('input').datetimepicker({
-        widgetParent: 'body',
-        format: 'YYYY-MM-DD',
-        viewMode: 'years',
-      }).on('dp.show', function() {
-        // fix positioning bug when picker is within overflow:hidden container
-        let datepicker = Ember.$('body').find('.bootstrap-datetimepicker-widget:last');
-        if (datepicker.hasClass('bottom')) {
-          let top = Ember.$(this).offset().top + Ember.$(this).outerHeight();
-          let left = Ember.$(this).offset().left;
-          datepicker.css({
-            top: `${top}px`,
-            bottom: 'auto',
-            left: `${left}px`,
-          });
-        } else if (datepicker.hasClass('top')) {
-          let top = Ember.$(this).offset().top - datepicker.outerHeight();
-          let left = Ember.$(this).offset().left;
-          datepicker.css({
-            top: `${top}px`,
-            bottom: 'auto',
-            left: `${left}px`,
-          });
+      const element = this.get('element');
+      const emberTabular = this;
+      let picker = Ember.$(element).find('input').pickadate({
+        selectMonths: true,
+        selectYears: true,
+        format: 'mm/dd/yyyy',
+        onSet() {
+          Ember.set(emberTabular, 'headerFilter', this.get('select', 'yyyy-mm-dd'));
         }
-      });
+      }).pickadate('picker');
+
+      // ensure clearFilter action clears pickadate input/object
+      if (picker && !this.get('headerFilter')) {
+        picker.clear();
+      }
     }
-  }),
+  })),
   /**
   * Constructs and sets the `filter` Object.
   *

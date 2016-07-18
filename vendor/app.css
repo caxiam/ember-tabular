@@ -4,6 +4,9 @@ body {
     position:relative;
 }
 
+.ember-tabular .hideFilterRow{
+    display:none;
+}
 .ember-tabular .table th {
     position: relative;
     vertical-align:middle;
@@ -32,7 +35,6 @@ body {
 }
 .ember-tabular .table thead th {
     position: relative;
-    z-index:0;
 }
 .ember-tabular .table thead th.sortable > div {
     padding-right: 15px;
@@ -123,4 +125,10 @@ body {
     to {
         transform: scale(1) rotate(360deg); @include transform(scale(1) rotate(360deg) transform-origin(50% 50%));
     }
+}
+
+/* pickadate */
+.ember-tabular .picker__holder{
+    min-width: 280px;
+    font-size: 14px;
 }

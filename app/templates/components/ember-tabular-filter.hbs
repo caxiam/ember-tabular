@@ -12,7 +12,11 @@
                 {{option.label}}
         {{/power-select}}
     {{else}}
-        {{input value=headerFilter type="text" class=(concat "form-control filter " header.type) placeholder=inputPlaceholder}}
+        {{#if (eq header.type 'date')}}
+            {{input data-value=headerFilter type=header.type class=(concat "form-control filter " header.type) placeholder=inputPlaceholder}}
+        {{else}}
+            {{input value=headerFilter type=header.type class=(concat "form-control filter " header.type) placeholder=inputPlaceholder}}
+        {{/if}}
         {{#if isClearable}}
             <span {{action 'clearFilter'}} class="fa fa-remove clearFilter"></span>
         {{/if}}

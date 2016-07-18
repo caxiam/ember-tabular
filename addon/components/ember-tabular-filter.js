@@ -78,35 +78,24 @@ export default Ember.Component.extend({
       return 'YYYY-MM-DD';
     }
   }),
-  setupDateTimePicker: Ember.on('didInsertElement', function () {
+  setupDatePicker: Ember.on('didInsertElement', function () {
     const type = this.get('header.type');
     if (type === 'date') {
-      let element = this.get('element');
-      Ember.$(element).find('input').datetimepicker({
-        widgetParent: 'body',
-        format: 'YYYY-MM-DD',
-        viewMode: 'years',
-      }).on('dp.show', function() {
-        // fix positioning bug when picker is within overflow:hidden container
-        let datepicker = Ember.$('body').find('.bootstrap-datetimepicker-widget:last');
-        if (datepicker.hasClass('bottom')) {
-          let top = Ember.$(this).offset().top + Ember.$(this).outerHeight();
-          let left = Ember.$(this).offset().left;
-          datepicker.css({
-            top: `${top}px`,
-            bottom: 'auto',
-            left: `${left}px`,
-          });
-        } else if (datepicker.hasClass('top')) {
-          let top = Ember.$(this).offset().top - datepicker.outerHeight();
-          let left = Ember.$(this).offset().left;
-          datepicker.css({
-            top: `${top}px`,
-            bottom: 'auto',
-            left: `${left}px`,
-          });
-        }
+      let element = Ember.$(this.get('element')).attr('id');
+      console.log('element', element);
+      // let dp = new DPicker(Ember.$(element).find('input'));
+      console.log('selector', `#${element} input[type="date"]`);
+      let dp = new DPicker(document.querySelector(`#${element} input[type="date"]`));
+
+      console.log('dp', dp);
+      dp.format = 'YYYY-MM-DD';
+      dp.onChange(function() {
+        console.log('dp changes');
       });
+
+      // dp.on('dayClick', function() {
+      //   console.log('dayClick happens');
+      // });
     }
   }),
   /**

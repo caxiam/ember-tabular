@@ -1,9 +1,5 @@
 /* ember-tabular */
 
-body {
-    position:relative;
-}
-
 .ember-tabular .table th {
     position: relative;
     vertical-align:middle;
@@ -124,3 +120,21 @@ body {
         transform: scale(1) rotate(360deg); @include transform(scale(1) rotate(360deg) transform-origin(50% 50%));
     }
 }
+
+/* dpicker */
+
+td.dpicker-inactive {
+  color: grey;
+}
+
+button.dpicker-active {
+  background: coral;
+}
+
+.dpicker-invisible {
+  display: none;
+}
+.dpicker-visible {
+  display: block;
+}
+

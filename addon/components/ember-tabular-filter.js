@@ -78,22 +78,30 @@ export default Ember.Component.extend({
       return 'YYYY-MM-DD';
     }
   }),
+  /**
+  * Configures [Pickadate](https://github.com/amsul/pickadate.js) jquery plugin. By default any `columns.type` of `'date'` will use this date picker.
+  *
+  * Override this method to set your own options or replace with a different date picker.
+  *
+  * @method setupDateTimePicker
+  */
   setupDateTimePicker: Ember.on('didInsertElement', Ember.observer('headerFilter', function () {
     const type = this.get('header.type');
     if (type === 'date') {
       const element = this.get('element');
       const emberTabular = this;
+
       let picker = Ember.$(element).find('input').pickadate({
         selectMonths: true,
         selectYears: true,
         format: 'mm/dd/yyyy',
         onSet() {
           Ember.set(emberTabular, 'headerFilter', this.get('select', 'yyyy-mm-dd'));
-        }
+        },
       }).pickadate('picker');
 
       // ensure clearFilter action clears pickadate input/object
-      if (picker && !this.get('headerFilter')) {
+      if (picker && !emberTabular.get('headerFilter')) {
         picker.clear();
       }
     }

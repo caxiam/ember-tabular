@@ -58,6 +58,25 @@ export default Ember.Component.extend({
   */
   filter: null,
 
+  setupDateTimePicker: Ember.on('didInsertElement', Ember.observer('dateFilter', function () {
+    const element = this.get('element');
+    const emberTabular = this;
+
+    let picker = Ember.$(element).find('input').pickadate({
+      selectMonths: true,
+      selectYears: true,
+      format: 'mm/dd/yyyy',
+      onSet() {
+        Ember.set(emberTabular, 'dateFilter', this.get('select', 'yyyy-mm-dd'));
+      },
+    }).pickadate('picker');
+
+    // ensure clearFilter action clears pickadate input/object
+    if (picker && !emberTabular.get('dateFilter')) {
+      picker.clear();
+    }
+  })),
+
   actions: {
     clearFilter() {
       this.set('dateFilter', '');

@@ -28,7 +28,9 @@
     "getPretenderRequestBody",
     "assertIn",
     "selectChoose",
-    "selectSearch"
+    "selectSearch",
+    "disableDatePicker",
+    "setDatePicker"
   ],
   "node": false,
   "browser": false,

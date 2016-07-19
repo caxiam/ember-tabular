@@ -43,7 +43,7 @@
                         {{/each}}
                     </tr>
                     {{#if isColumnFilters}}
-                        <tr class="{{if showFilterRow 'showFilterRow' 'hideFilterRow'}}">
+                        <tr class="{{if showFilterRow 'showFilterRow' 'hideFilterRow'}} ember-tabular-filters">
                             {{#each columns as |header|}}
                                 {{#if header.property}}
                                     {{ember-tabular-filter modelName=modelName columns=columns property=header.property record=record query=query filter=filter header=header}}

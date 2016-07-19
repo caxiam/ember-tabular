@@ -19,3 +19,7 @@
 .ember-tabular .table-responsive {
   overflow-x:inherit;
 }
+
+.form-control.picker__input{
+  background-color:inherit;
+}

@@ -40,4 +40,12 @@ export default function() {
   Ember.Test.registerHelper('assertIn', function(app, assert, subject, value, description) {
     return assert.equal(subject.indexOf(value) > -1, true, description);
   });
+
+  Ember.Test.registerHelper('disableDatePicker', function() {
+    find('.picker__input').pickadate('picker').stop();
+  });
+
+  Ember.Test.registerHelper('setDatePicker', function(app, selector, date) {
+    find(selector).pickadate('picker').set('select', date).close();
+  });
 }

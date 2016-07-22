@@ -21,3 +21,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Cleaned up code syntax to match airbnb's javascript style guide and eslint.
 - Fix visual filter layout bug to use component element wrappers and refactor component templates to reduce bloat.
 - When clearing filter of relationships, dot notation was not maintained.
+- Fix infinite request loop by ensuring that all ember-tabular shared properties are defined within controller. Added tesing coverage to verify this.

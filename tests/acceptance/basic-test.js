@@ -69,7 +69,7 @@ test('Check for proper row count when dropdown-limit is changed', function(asser
     andThen(function() {
       let rows = find('.table-default table tbody tr');
       assert.equal(rows.length, 25, 'Check for 25 items in table');
-    })
+    });
   });
 });
 

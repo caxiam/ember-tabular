@@ -213,3 +213,27 @@ test('Render isLoading class on component', function(assert) {
   var $component = this.$();
   assert.equal($component.find('.table').hasClass('loading'), true, 'Table has class loading');
 });
+
+test('Render dropdown limit component', function(assert) {
+  this.set('columns', columns);
+  this.render(hbs`
+    {{#ember-tabular columns=columns record=record makeRequest=false filter=filter isDropdownLimit=true as |section|}}
+      ...
+    {{/ember-tabular}}
+  `);
+
+  var $component = this.$();
+  assert.equal($component.find('.ember-tabular-dropdown-limit').length, 1, 'Test if ember-tabular-dropdown-limit exists');
+});
+
+test('Do not render dropdown limit component', function(assert) {
+  this.set('columns', columns);
+  this.render(hbs`
+    {{#ember-tabular columns=columns record=record makeRequest=false filter=filter isDropdownLimit=false as |section|}}
+      ...
+    {{/ember-tabular}}
+  `);
+
+  var $component = this.$();
+  assert.equal($component.find('.ember-tabular-dropdown-limit').length, 0, 'Test if ember-tabular-dropdown-limit exists');
+});

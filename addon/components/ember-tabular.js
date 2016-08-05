@@ -191,7 +191,7 @@ export default Ember.Component.extend({
     return segments;
   },
 
-  isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
+  isRecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
   'modelName', function () {
     // If record array isLoaded but empty
     if (this.get('record.isLoaded')) {

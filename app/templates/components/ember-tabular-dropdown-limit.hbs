@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-sm-offset-8 col-sm-4">
+        <div class="form-group form-inline text-right">
+            <label class="control-label" for="limit">
+                Show
+            </label>
+            {{#power-select
+                options=limits
+                selected=limit
+                searchField="label"
+                searchEnabled=false
+                placeholder="Select the table count"
+                class="limit text-left form-control-inline"
+                onchange=(action (mut limit))
+                as |size|}}
+                    {{size}}
+            {{/power-select}}
+        </div>
+    </div>
+</div>

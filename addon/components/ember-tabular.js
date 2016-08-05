@@ -29,6 +29,8 @@ export default Ember.Component.extend({
   record: null,
   columns: null,
 
+  isDropdownLimit: true,
+
   // pagination defaults
   page: 1,
   limit: 10,

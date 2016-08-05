@@ -77,6 +77,10 @@
 
 {{yield footer}}
 
+{{#if isDropdownLimit}}
+    {{ember-tabular-dropdown-limit limit=limit}}
+{{/if}}
+
 <nav class="{{if paginationWrapperClass paginationWrapperClass}}">
     {{pagination-pager current=page count=pageLimit}}
 </nav>

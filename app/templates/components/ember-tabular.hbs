@@ -77,10 +77,15 @@
 
 {{yield footer}}
 
-{{#if isDropdownLimit}}
-    {{ember-tabular-dropdown-limit limit=limit}}
-{{/if}}
-
-<nav class="{{if paginationWrapperClass paginationWrapperClass}}">
-    {{pagination-pager current=page count=pageLimit}}
-</nav>
+<div class="row">
+    <div class="{{unless isDropdownLimit 'col-sm-12' 'col-sm-9'}}">
+        <nav class="{{if paginationWrapperClass paginationWrapperClass}}">
+            {{pagination-pager current=page count=pageLimit}}
+        </nav>
+    </div>
+    {{#if isDropdownLimit}}
+        <div class="col-sm-3">
+            {{ember-tabular-dropdown-limit limit=limit}}
+        </div>
+    {{/if}}
+</div>

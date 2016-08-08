@@ -78,6 +78,10 @@
     cursor: pointer;
 }
 
+.ember-tabular .pagination {
+    margin-top: 0;
+}
+
 .ember-tabular .form-control-inline {
     min-width: 55px;
     display: inline-block;

@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Update legacy name references in README.md.
 - Removed ember-canary from ember-try testing scenarios.
+- Removed ember-beta from ember-try testing scenarios.
 
 ### Fixed
 - Fix erring ember try in ember-canary, properly remove component element wrapper.

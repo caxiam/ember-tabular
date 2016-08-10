@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import moduleForAcceptance from '../helpers/module-for-acceptance';
 import { test } from 'qunit';
 
@@ -49,6 +50,26 @@ test('Check for expected content', function(assert) {
     assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
 
     assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
+  });
+});
+
+test('Check for proper row count when dropdown-limit is changed', function(assert) {
+  server.createList('user', 50);
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    let rows = find('.table-default table tbody tr');
+    assert.equal(rows.length, 10, 'Check for 10 items in table');
+
+    // change table limit to 25
+    selectChoose('.table-default .limit:eq(0)', '25');
+
+    andThen(function() {
+      let rows = find('.table-default table tbody tr');
+      assert.equal(rows.length, 25, 'Check for 25 items in table');
+    });
   });
 });
 
@@ -453,6 +474,34 @@ test('Check table-basic-global-date-filter to filter by date and is-admin', func
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
+  });
+});
+
+test('Check table-basic-global-date-filter for infinite request loop', function(assert) {
+  // error occurs if controller properties that are shared
+  // with ember-tabular components are not defined within controller
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+  });
+
+  andThen(function() {
+    // only trigger date
+    fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
+    find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
+  });
+
+  andThen(function() {
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
+
+    assert.equal(request.url, '/users?filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
+
+    Ember.run.later(function() {
+      var requests = getPretenderRequest(server, 'GET');
+      assert.equal(requests.reduce(function(n, request) {return n + (request.url === '/users?filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=');}, 0), 1, '1 GET request to /users are occurring');
+    }, 1000);
   });
 });
 

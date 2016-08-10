@@ -222,6 +222,8 @@ export default Ember.Component.extend({
   */
   columns: null,
 
+  isDropdownLimit: true,
+
   // pagination defaults
   /**
   * @property page
@@ -608,10 +610,10 @@ export default Ember.Component.extend({
   /**
   * Determine if `record` is loaded using a number of different property checks.
   *
-  * @property isrecordLoaded
+  * @property isRecordLoaded
   * @type Function
   */
-  isrecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
+  isRecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
   'modelName', function () {
     // If record array isLoaded but empty
     if (this.get('record.isLoaded')) {

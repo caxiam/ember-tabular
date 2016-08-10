@@ -59,6 +59,26 @@ test('Check for expected content', function(assert) {
   });
 });
 
+test('Check for proper row count when dropdown-limit is changed', function(assert) {
+  server.createList('user', 50);
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    let rows = find('.table-default table tbody tr');
+    assert.equal(rows.length, 10, 'Check for 10 items in table');
+
+    // change table limit to 25
+    selectChoose('.table-default .limit:eq(0)', '25');
+
+    andThen(function() {
+      let rows = find('.table-default table tbody tr');
+      assert.equal(rows.length, 25, 'Check for 25 items in table');
+    });
+  });
+});
+
 test('Check for error handling', function(assert) {
   server.get('/users',
     {

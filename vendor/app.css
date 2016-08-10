@@ -84,6 +84,20 @@ body {
     cursor: pointer;
 }
 
+.ember-tabular .pagination {
+    margin-top: 0;
+}
+
+.ember-tabular .form-control-inline {
+    min-width: 55px;
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+.ember-tabular .ember-tabular-dropdown-limit label{
+    margin-right:10px;
+}
+
 /* loading state */
 .ember-tabular .table {
     position:relative;

@@ -66,14 +66,14 @@ test('Check for proper row count when dropdown-limit is changed', function(asser
   andThen(function() {
     assert.equal(currentPath(), 'index');
 
-    let rows = find('.table-default table tbody tr');
+    let rows = find('.table-default > .table-wrapper > table > tbody > tr');
     assert.equal(rows.length, 10, 'Check for 10 items in table');
 
     // change table limit to 25
     selectChoose('.table-default .limit:eq(0)', '25');
 
     andThen(function() {
-      let rows = find('.table-default table tbody tr');
+      let rows = find('.table-default > .table-wrapper > table > tbody > tr');
       assert.equal(rows.length, 25, 'Check for 25 items in table');
     });
   });
@@ -283,7 +283,7 @@ test('Check for expected content multiple filters', function(assert) {
     assert.equal(cells.eq(5).text().trim(), '01/02/2017', 'Check for date');
     assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
 
-    assert.equal(find('.table-default table tbody tr').length, 1, 'Check for 1 item in table');
+    assert.equal(find('.table-default > .table-wrapper > table > tbody > tr').length, 1, 'Check for 1 item in table');
   });
 
   andThen(function() {
@@ -463,7 +463,7 @@ test('Check for clearFilter action success', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 item in table');
+    assert.equal(find('.table-default > .table-wrapper > table > tbody > tr').length, 2, 'Check for 2 item in table');
   });
 
   andThen(function() {
@@ -514,12 +514,12 @@ test('Check table-basic-global-date-filter to filter by date and is-admin', func
   andThen(function() {
     selectChoose('.table-basic-global-date-filter .ember-tabular-ember-power-select:eq(0)', 'Yes');
 
-    fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
-    find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
+    let picker = find('.table-basic-global-date-filter .table-filter input:eq(0)').pickadate('picker');
+    picker.set('select', [2017, 1, 2]);
   });
 
   andThen(function() {
-    assert.equal(find('.table-basic-global-date-filter table tbody tr').length, 1, 'Check for 1 item in table');
+    assert.equal(find('.table-basic-global-date-filter .table-responsive table tbody tr').length, 1, 'Check for 1 item in table');
 
     let request = getPretenderRequest(server, 'GET', 'users')[0];
 
@@ -541,8 +541,8 @@ test('Check table-basic-global-date-filter for infinite request loop', function(
 
   andThen(function() {
     // only trigger date
-    fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
-    find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
+    let picker = find('.table-basic-global-date-filter .table-filter input:eq(0)').pickadate('picker');
+    picker.set('select', [2017, 1, 2]);
   });
 
   andThen(function() {

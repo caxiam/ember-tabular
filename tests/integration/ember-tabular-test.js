@@ -102,7 +102,7 @@ test('Render header yield', function(assert) {
 test('Render body yield', function(assert) {
   this.set('columns', columns);
   this.render(hbs`
-    {{#ember-tabular columns=columns record=record makeRequest=false as |section|}}
+    {{#ember-tabular columns=columns record=record makeRequest=false isDropdownLimit=false as |section|}}
       {{#if section.isBody}}
         <div class="body">
           Test Body Yield

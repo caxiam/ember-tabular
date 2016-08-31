@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Adds feature that allows ember-tabular to wait until controller is ready for request to fire.
 - Add additional configurable wrapper classes for additional styling.
 - Add subcomponent to change the table limit/count.
+- Setup `autoHide` computed property to conditionally hide the limit dropdown if the results are smaller than the smallest pagination limit.
 
 ### Changed
 - Update legacy name references in README.md.

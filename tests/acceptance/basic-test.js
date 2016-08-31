@@ -73,6 +73,22 @@ test('Check for proper row count when dropdown-limit is changed', function(asser
   });
 });
 
+test('Check for dropdown-limit autoHide', function(assert) {
+  server.createList('user', 10);
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    let rows = find('.table-default table tbody tr');
+    assert.equal(rows.length, 10, 'Check for 10 items in table');
+
+    andThen(function() {
+      assert.equal(find('.table-default .ember-tabular-dropdown-limit > *').length, 0, 'ember-tabular-dropdown-limit is hidden');
+    });
+  });
+});
+
 test('Check for error handling', function(assert) {
   server.get('/users',
     {

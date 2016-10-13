@@ -11,15 +11,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Adds ability to filter column/table using a dropdown.
 - Adds feature that allows ember-tabular to wait until controller is ready for request to fire.
 - Add additional configurable wrapper classes for additional styling.
+- Add subcomponent to change the table limit/count.
+- Setup `autoHide` computed property to conditionally hide the limit dropdown if the results are smaller than the smallest pagination limit.
 - Add support for YuiDocs for better API documentation.
 - Setup deployment to gh-pages for demo URL.
 
 ### Changed
 - Update legacy name references in README.md.
 - Removed ember-canary from ember-try testing scenarios.
+- Removed ember-beta from ember-try testing scenarios.
 
 ### Fixed
 - Fix erring ember try in ember-canary, properly remove component element wrapper.
 - Cleaned up code syntax to match airbnb's javascript style guide and eslint.
 - Fix visual filter layout bug to use component element wrappers and refactor component templates to reduce bloat.
 - When clearing filter of relationships, dot notation was not maintained.
+- Fix infinite request loop by ensuring that all ember-tabular shared properties are defined within controller. Added tesing coverage to verify this.

@@ -62,6 +62,7 @@ moduleForComponent('ember-tabular', 'Unit | Component | ember table jsonapi', {
       record: model,
       makeRequest: false,
       columns: columns,
+      isDropdownLimit: false,
     });
   }
 });

@@ -63,7 +63,7 @@
                 {{else}}
                     <tr>
                         <td class="text-center" colspan="{{columnLength}}">
-                            {{#if isrecordLoaded}}
+                            {{#if isRecordLoaded}}
                                 {{tableLoadedMessage}}
                             {{else}}
                                 Loading...
@@ -77,6 +77,15 @@
 
 {{yield footer}}
 
-<nav class="{{if paginationWrapperClass paginationWrapperClass}}">
-    {{pagination-pager current=page count=pageLimit}}
-</nav>
+<div class="row">
+    <div class="{{unless isDropdownLimit 'col-sm-12' 'col-sm-9'}}">
+        <nav class="{{if paginationWrapperClass paginationWrapperClass}}">
+            {{pagination-pager current=page count=pageLimit}}
+        </nav>
+    </div>
+    {{#if isDropdownLimit}}
+        <div class="col-sm-3">
+            {{ember-tabular-dropdown-limit limit=limit record=record count=pageLimit}}
+        </div>
+    {{/if}}
+</div>

@@ -4,7 +4,7 @@
     </label>
 {{/if}}
 <div class="{{inputClass}} date-filter">
-    {{input value=dateFilter type="date" id=(concat "filter-" elementId) class="form-control" placeholder=filterPlaceholder}}
+    {{input value=searchFilter type="date" id=(concat "filter-" elementId) class="form-control" placeholder=filterPlaceholder}}
     {{#if isClearable}}
         <span {{action 'clearFilter'}} class="fa fa-remove clearFilter"></span>
     {{/if}}

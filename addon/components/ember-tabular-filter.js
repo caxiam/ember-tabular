@@ -1,11 +1,42 @@
 import Ember from 'ember';
 
+/**
+* Filtering on a column by column basis within the component's `<table/>`.
+*
+* @class EmberTabularFilter
+*/
 export default Ember.Component.extend({
+  /**
+  * @property tagName
+  * @type String
+  * @default 'th'
+  */
   tagName: 'th',
   action: null,
+  /**
+  * Value of filter.
+  *
+  * @property headerFilter
+  * @type String
+  * @default ''
+  */
   headerFilter: '',
 
+  /**
+  * Pass the `query` object from the parent component if it is different or if used outside of the context of the component, otherwise `query` is optional and the component will attempt to grab within the context of the parent component.
+  *
+  * @property query
+  * @type Object
+  * @default null
+  */
   query: null,
+  /**
+  * Must expose the `filter` property on the parent ember-tabular component to be able to pass the filter object back and forth between parent and child components.
+  *
+  * @property filter
+  * @type Object
+  * @default null
+  */
   filter: null,
 
   actions: {
@@ -20,15 +51,26 @@ export default Ember.Component.extend({
       }
     },
   },
+  /**
+  * Debounce the `filterName` method.
+  *
+  * @method filterBy
+  */
   filterBy: Ember.observer('headerFilter', function () {
     Ember.run.debounce(this, 'filterName', 750);
   }),
+  /**
+  * @property isClearable
+  */
   isClearable: Ember.computed('headerFilter', function () {
     if (this.get('headerFilter')) {
       return true;
     }
     return false;
   }),
+  /**
+  * @property inputPlaceholder
+  */
   inputPlaceholder: Ember.computed('header.type', function () {
     const type = this.get('header.type');
 
@@ -36,6 +78,11 @@ export default Ember.Component.extend({
       return 'YYYY-MM-DD';
     }
   }),
+  /**
+  * Constructs and sets the `filter` Object.
+  *
+  * @method filterName
+  */
   filterName() {
     const query = this.get('query');
     const property = this.get('property');

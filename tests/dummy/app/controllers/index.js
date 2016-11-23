@@ -7,6 +7,7 @@ export default Ember.Controller.extend({
   filter: null,
   filter2: null,
   filter3: null,
+  sort: 'username',
   isAdminFilter: null,
   columns: [
     {

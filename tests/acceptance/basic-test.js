@@ -546,3 +546,45 @@ test('Check table-basic-global-date-filter for date clearFilter action success',
     assert.equal(find('.table-basic-global-date-filter table tbody tr').length, 10, 'Check for 10 item in table');
   });
 });
+
+test('Check table-default for persistent filters on transition', function(assert) {
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+  });
+
+  andThen(function() {
+    assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 item in table');
+  });
+
+  andThen(function() {
+    click('.table-default table .btn-toggle-filter:eq(0)');
+    fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
+    find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
+  });
+
+  andThen(function() {
+    assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 item in table');
+  });
+
+  andThen(function() {
+    // transition to different page
+    click('.link-ex4');
+  });
+
+  andThen(function() {
+    // transition back to index
+    click('.link-index');
+  });
+
+  andThen(function() {
+    assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 item in table');
+
+    click('.table-default table .btn-toggle-filter:eq(0)');
+    andThen(function() {
+      assert.equal(find('.table-default table thead tr:eq(1) th:eq(3) input').val(), 'McClane', 'Check for populated filter on transition');
+    });
+  });
+});

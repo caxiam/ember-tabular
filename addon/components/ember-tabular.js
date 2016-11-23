@@ -6,6 +6,8 @@ export default Ember.Component.extend({
   classNames: ['ember-tabular'],
   makeRequest: true,
   showFilterRow: false,
+  // requires sharing the `filter` property with the controller/service/etc to persist
+  persistData: false,
   sortableClass: 'sortable',
   tableLoadedMessage: 'No Data.',
   columnLength: Ember.computed('columns', function () {
@@ -248,6 +250,17 @@ export default Ember.Component.extend({
         this.set('sort', el.defaultSort);
       }
     }.bind(this));
+  }),
+
+  setFilterPersist: Ember.on('willDestroyElement', function () {
+    const persistData = this.get('persistData');
+    if (!persistData) {
+      // clear any filters
+      this.setProperties({
+        filter: null,
+        sort: null,
+      });
+    }
   }),
 
   query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',

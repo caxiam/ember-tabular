@@ -20,6 +20,18 @@ export default Ember.Component.extend({
       }
     },
   },
+  setHeaderFilter: Ember.on('init', function () {
+    const filter = this.get('filter');
+    const property = this.get('property');
+
+    if (filter) {
+      for (var i = filter.length - 1; i >= 0; i--) {
+        if (filter[i].field === property) {
+          this.set('headerFilter', filter[i].value);
+        }
+      }
+    }
+  }),
   filterBy: Ember.observer('headerFilter', function () {
     Ember.run.debounce(this, 'filterName', 750);
   }),

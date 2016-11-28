@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   makeRequest: true,
   showFilterRow: false,
   // requires sharing the `filter`/`sort` property with the controller/service/etc to persist
-  persistData: false,
+  persistFiltering: false,
   sortableClass: 'sortable',
   tableLoadedMessage: 'No Data.',
   columnLength: Ember.computed('columns', function () {
@@ -256,8 +256,8 @@ export default Ember.Component.extend({
   }),
 
   setFilterSortPersist: Ember.on('willDestroyElement', function () {
-    const persistData = this.get('persistData');
-    if (!persistData) {
+    const persistFiltering = this.get('persistFiltering');
+    if (!persistFiltering) {
       // clear any filters
       this.setProperties({
         filter: null,

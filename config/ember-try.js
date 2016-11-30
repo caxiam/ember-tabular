@@ -17,17 +17,6 @@ module.exports = {
           'ember': '~1.13.0'
         }
       }
-    },
-    {
-      name: 'ember-release',
-      bower: {
-        dependencies: {
-          'ember': 'components/ember#release'
-        },
-        resolutions: {
-          'ember': 'release'
-        }
-      }
     }
   ]
 };

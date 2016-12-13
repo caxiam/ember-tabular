@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Update legacy name references in README.md.
 - Removed ember-canary from ember-try testing scenarios.
 - Removed ember-beta from ember-try testing scenarios.
+- Upgrades ember-power-select to 1.0.0, may require refactoring of `class` to `triggerClass` if applicable.
 
 ### Fixed
 - Fix erring ember try in ember-canary, properly remove component element wrapper.

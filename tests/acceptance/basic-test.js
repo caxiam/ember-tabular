@@ -586,5 +586,11 @@ test('Check table-default for persistent filters on transition', function(assert
     andThen(function() {
       assert.equal(find('.table-default table thead tr:eq(1) th:eq(3) input').val(), 'McClane', 'Check for populated filter on transition');
     });
+
+    andThen(function() {
+      let request = getPretenderRequest(server, 'GET', 'users');
+
+      assert.equal(request.length, 8, 'Check that additional request was not made when opening filter row');
+    });
   });
 });

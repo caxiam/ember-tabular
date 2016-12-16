@@ -4,6 +4,7 @@ export default Ember.Controller.extend({
   users: null,
   users2: null,
   users3: null,
+  users4: null,
   filter: null,
   filter2: null,
   filter3: null,

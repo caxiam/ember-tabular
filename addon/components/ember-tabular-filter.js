@@ -31,8 +31,12 @@ export default Ember.Component.extend({
         }
       }
     }
+    // setup observer after init
+    // to avoid multiple requests for properties that are set on init
+    this.addObserver('headerFilter', this.filterBy);
   }),
-  filterBy: Ember.observer('headerFilter', function () {
+  // observable property is set during init
+  filterBy: Ember.observer(function () {
     Ember.run.debounce(this, 'filterName', 750);
   }),
   isClearable: Ember.computed('headerFilter', function () {

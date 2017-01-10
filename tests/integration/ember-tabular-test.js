@@ -150,7 +150,7 @@ test('Render filter component', function(assert) {
   assert.equal($component.find('thead tr:eq(1) th:eq(1) input').length, 1, 'Table Filter Input - Email');
   assert.equal($component.find('thead tr:eq(1) th:eq(2) input').length, 1, 'Table Filter Input - First Name');
   assert.equal($component.find('thead tr:eq(1) th:eq(3) input').length, 1, 'Table Filter Input - Last Name');
-  assert.equal($component.find('thead tr:eq(1) th:eq(4) .ember-power-select').length, 1, 'Table Filter Input - Is Admin');
+  assert.equal($component.find('thead tr:eq(1) th:eq(4) .ember-power-select-trigger').length, 1, 'Table Filter Input - Is Admin');
   assert.equal($component.find('thead tr:eq(1) th:eq(5) input').length, 1, 'Table Filter Input - Last Updated');
   assert.equal($component.find('thead tr:eq(1) th:eq(6) input').length, 0, 'Table Filter No Input - Actions');
 });

@@ -42,7 +42,7 @@
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-moment": "6.0.0",
-    "ember-power-select": "0.10.10",
+    "ember-power-select": "1.0.0",
     "ember-resolver": "^2.0.3",
     "loader.js": "^4.0.10",
     "moment": "2.11.2",
@@ -59,7 +59,7 @@
     "ember-cli-babel": "^5.1.7",
     "pagination-pager": "2.4.1",
     "ember-truth-helpers": "1.2.0",
-    "ember-power-select": "0.10.10",
+    "ember-power-select": "1.0.0",
     "broccoli-merge-trees": "^0.2.3",
     "broccoli-funnel": "^1.0.0"
   },

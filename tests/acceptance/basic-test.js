@@ -547,7 +547,7 @@ test('Check table-basic-global-date-filter for date clearFilter action success',
   });
 });
 
-test('Check table-default for persistent filters on transition', function(assert) {
+test('Check table-persist for persistent filters on transition', function(assert) {
   server.loadFixtures('users');
   visit('/');
 
@@ -556,17 +556,17 @@ test('Check table-default for persistent filters on transition', function(assert
   });
 
   andThen(function() {
-    assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 item in table');
+    assert.equal(find('.table-persist table tbody tr').length, 10, 'Check for 10 item in table');
   });
 
   andThen(function() {
-    click('.table-default table .btn-toggle-filter:eq(0)');
-    fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'McClane');
-    find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
+    click('.table-persist table .btn-toggle-filter:eq(0)');
+    fillIn('.table-persist table thead tr:eq(1) th:eq(3) input', 'McClane');
+    find('.table-persist table thead tr:eq(1) th:eq(3) input').trigger('keyup');
   });
 
   andThen(function() {
-    assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 item in table');
+    assert.equal(find('.table-persist table tbody tr').length, 2, 'Check for 2 item in table');
   });
 
   andThen(function() {
@@ -580,17 +580,17 @@ test('Check table-default for persistent filters on transition', function(assert
   });
 
   andThen(function() {
-    assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 item in table');
+    assert.equal(find('.table-persist table tbody tr').length, 2, 'Check for 2 item in table');
 
-    click('.table-default table .btn-toggle-filter:eq(0)');
+    click('.table-persist table .btn-toggle-filter:eq(0)');
     andThen(function() {
-      assert.equal(find('.table-default table thead tr:eq(1) th:eq(3) input').val(), 'McClane', 'Check for populated filter on transition');
+      assert.equal(find('.table-persist table thead tr:eq(1) th:eq(3) input').val(), 'McClane', 'Check for populated filter on transition');
     });
 
     andThen(function() {
       let request = getPretenderRequest(server, 'GET', 'users');
 
-      assert.equal(request.length, 8, 'Check that additional request was not made when opening filter row');
+      assert.equal(request.length, 10, 'Check that additional request was not made when opening filter row');
     });
   });
 });

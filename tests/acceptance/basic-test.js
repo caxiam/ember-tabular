@@ -1,9 +1,16 @@
 import Ember from 'ember';
 import moduleForAcceptance from '../helpers/module-for-acceptance';
+import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import { test } from 'qunit';
 
 moduleForAcceptance('Acceptance: Simple Table', {
   integration: true,
+  beforeEach() {
+    this.server = startMirage();
+  },
+  afterEach() {
+    this.server.shutdown();
+  }
 });
 
 test('Check table pagination - 0 pages', function(assert) {

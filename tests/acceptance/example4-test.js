@@ -1,8 +1,15 @@
 import moduleForAcceptance from '../helpers/module-for-acceptance';
+import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import { test } from 'qunit';
 
 moduleForAcceptance('Acceptance: Example4 Table', {
   integration: true,
+  beforeEach() {
+    this.server = startMirage();
+  },
+  afterEach() {
+    this.server.shutdown();
+  }
 });
 
 test('Check table-basic-route-model for expected content', function(assert) {

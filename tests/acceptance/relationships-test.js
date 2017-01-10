@@ -1,18 +1,17 @@
 import moduleForAcceptance from '../helpers/module-for-acceptance';
+import { startMirage } from 'dummy/initializers/ember-cli-mirage';
 import { test } from 'qunit';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
 import Ember from 'ember';
 
 var application;
 
 moduleForAcceptance('Acceptance: Relationships Tests', {
   integration: true,
-  beforeEach: function() {
-    application = startApp();
+  beforeEach() {
+    this.server = startMirage();
   },
-  afterEach: function() {
-    destroyApp(application);
+  afterEach() {
+    this.server.shutdown();
   }
 });
 

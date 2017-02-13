@@ -19,7 +19,6 @@ export default Ember.Route.extend({
     let controller = this.controllerFor('example4');
     // Override to set dynamic offset based on page and limit
     params.offset = (params.page * params.limit) - params.limit;
-    params.sort = 'username';
 
     controller.set('isLoading', true);
 

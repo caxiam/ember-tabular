@@ -1,6 +1,6 @@
 <h5>Example #1</h5>
 <h1>Table - Default</h1>
-{{#ember-tabular class="table-default" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" columns=columns modelName="user" record=users as |section|}}
+{{#ember-tabular class="table-default" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" columns=columns modelName="user" record=users sort=sort as |section|}}
     {{#if section.isBody}}
         {{#each users as |row|}}
             <tr>
@@ -34,7 +34,7 @@
 
 <h5>Example #1</h5>
 <h1>Table - Persist Filtering</h1>
-{{#ember-tabular class="table-persist" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" columns=columns modelName="user" record=users4 filter=filter3 persistFiltering=true sort=sort as |section|}}
+{{#ember-tabular class="table-persist" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" columns=columns modelName="user" record=users4 filter=filter3 persistFiltering=true sort=sort1 as |section|}}
     {{#if section.isBody}}
         {{#each users4 as |row|}}
             <tr>

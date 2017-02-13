@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default function destroyApp(application) {
-  Ember.run(application, 'destroy');
+  // ensure mirage server is properly shutdown
   server.shutdown();
+  Ember.run(application, 'destroy');
 }

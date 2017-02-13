@@ -256,16 +256,14 @@ export default Ember.Component.extend({
     }
   }),
 
-  setFilterSortPersist: Ember.on('willDestroyElement', function () {
+  willDestroy() {
+    this._super(...arguments);
+    // clear any filters if we are persisting filtering
     const persistFiltering = this.get('persistFiltering');
     if (!persistFiltering) {
-      // clear any filters
-      this.setProperties({
-        filter: null,
-        sort: null,
-      });
+      this.set('filter', null);
     }
-  }),
+  },
 
   query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',
   'staticParams', function () {

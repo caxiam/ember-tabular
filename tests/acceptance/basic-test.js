@@ -1,15 +1,16 @@
 import Ember from 'ember';
-import moduleForAcceptance from '../helpers/module-for-acceptance';
-import { startMirage } from 'dummy/initializers/ember-cli-mirage';
-import { test } from 'qunit';
+import { module, test } from 'qunit';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 
-moduleForAcceptance('Acceptance: Simple Table', {
-  integration: true,
-  beforeEach() {
-    this.server = startMirage();
+var application;
+
+module('Acceptance: Simple Table', {
+  beforeEach: function() {
+    application = startApp();
   },
-  afterEach() {
-    this.server.shutdown();
+  afterEach: function() {
+    destroyApp(application);
   }
 });
 
@@ -126,7 +127,7 @@ test('Check table rendering for no data or loading', function(assert) {
     assert.equal(currentPath(), 'index');
   });
 
-  let store = this.application.__container__.lookup('service:store');
+  let store = application.__container__.lookup('service:store');
   andThen(function() {
     store.unloadAll('user');
   });

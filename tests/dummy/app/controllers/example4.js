@@ -24,4 +24,5 @@ export default Ember.Controller.extend({
   limit: 10,
   pageLimit: 0,
   offset: 0,
+  sort: 'username',
 });

@@ -602,3 +602,21 @@ test('Check table-persist for persistent filters on transition', function(assert
     });
   });
 });
+
+test('Check for expected request count when transitioning', function(assert) {
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    // transition user to other page
+    click('.link-ex4');
+  });
+
+  andThen(function() {
+    let request = getPretenderRequest(server, 'GET', 'users');
+
+    assert.equal(request.length, 5, 'Should only see 5 requests, checking to ensure extra requests are not made on transition');
+  });
+});

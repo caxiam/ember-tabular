@@ -242,6 +242,10 @@ export default Ember.Component.extend({
       if (!column.hasOwnProperty('type')) {
         Ember.set(column, 'type', 'text');
       }
+      // if column does not have a filter property defined set to true
+      if (!column.hasOwnProperty('filter')) {
+        Ember.set(column, 'filter', true);
+      }
     });
   }),
 

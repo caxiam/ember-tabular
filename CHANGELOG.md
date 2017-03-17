@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add subcomponent to change the table limit/count.
 - Setup `autoHide` computed property to conditionally hide the limit dropdown if the results are smaller than the smallest pagination limit.
 - Adds ability to persist data across transitions, setting `persistFiltering: true` and sharing the `filter`/`sort` properties with a controller/service.
+- Adds ability to set column filter/sort independently.
 
 ### Changed
 - Update legacy name references in README.md.

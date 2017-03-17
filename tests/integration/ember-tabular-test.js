@@ -78,6 +78,33 @@ let columnsLabels = [
     label: 'Last Updated',
   },
 ];
+let columnsNoFilter = [
+  {
+    property: 'username',
+    label: 'Username',
+    filter: false,
+  },
+  {
+    property: 'emailAddress',
+    label: 'Email',
+    filter: false,
+  },
+  {
+    property: 'firstName',
+    label: 'First Name',
+    filter: false,
+  },
+  {
+    property: 'lastName',
+    label: 'Last Name',
+    filter: false,
+  },
+  {
+    property: 'updatedAt',
+    label: 'Last Updated',
+    filter: false,
+  },
+];
 
 moduleForComponent('ember-tabular', 'Integration | Component | ember table jsonapi', {
   integration: true,
@@ -236,4 +263,18 @@ test('Do not render dropdown limit component', function(assert) {
 
   var $component = this.$();
   assert.equal($component.find('.ember-tabular-dropdown-limit').length, 0, 'Test if ember-tabular-dropdown-limit exists');
+});
+
+test('Do not render column filters', function(assert) {
+  this.set('columnsNoFilter', columnsNoFilter);
+  this.render(hbs`
+    {{#ember-tabular columns=columnsNoFilter record=record makeRequest=false as |section|}}
+      ...
+    {{/ember-tabular}}
+  `);
+
+  var $component = this.$();
+  assert.equal($component.find('thead tr').length, 1, 'Do not render filter row');
+  assert.equal($component.find('thead tr th:eq(0)').attr('class'), 'sortable ', 'Filterable class is missing from columns');
+  assert.equal($component.find('thead tr th:eq(0) .btn-toggle-filter').length, 0, 'Do not render column filter');
 });

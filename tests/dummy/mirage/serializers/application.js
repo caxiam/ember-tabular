@@ -6,7 +6,7 @@ export default JSONAPISerializer.extend({
       collection = json.data,
       where = request.queryParams,
       serializedResponse = {},
-      meta = {'total': collection.length};;
+      meta = {'total': collection.length};
 
     // json api sort/pagination
     if (where) {

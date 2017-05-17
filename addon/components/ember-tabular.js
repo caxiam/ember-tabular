@@ -157,9 +157,10 @@ export default Ember.Component.extend({
         let normalizedKey;
 
         // handle/retain dot notation relationships `property.propertyName`
-        propertySegments.forEach(function(el, i, normalizedSegments) {
+        /* jshint loopfunc: true */
+        propertySegments.forEach((el, i, normalizedSegments) => {
           normalizedSegments[i] = this.normalizeProperty(propertySegments[i]);
-        }.bind(this));
+        });
 
         // join segments to create normalizedProperty
         normalizedKey = propertySegments.join('.');
@@ -241,6 +242,10 @@ export default Ember.Component.extend({
       if (!column.hasOwnProperty('type')) {
         Ember.set(column, 'type', 'text');
       }
+      // if column does not have a filter property defined set to true
+      if (!column.hasOwnProperty('filter')) {
+        Ember.set(column, 'filter', true);
+      }
     });
   }),
 
@@ -255,16 +260,14 @@ export default Ember.Component.extend({
     }
   }),
 
-  setFilterSortPersist: Ember.on('willDestroyElement', function () {
+  willDestroy() {
+    this._super(...arguments);
+    // clear any filters if we are persisting filtering
     const persistFiltering = this.get('persistFiltering');
     if (!persistFiltering) {
-      // clear any filters
-      this.setProperties({
-        filter: null,
-        sort: null,
-      });
+      this.set('filter', null);
     }
-  }),
+  },
 
   query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',
   'staticParams', function () {

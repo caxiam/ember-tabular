@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.1.0] - 2016-08-31 - Ember version pre 2.0
 ### Added
 - Initial base version built to support JSON API v1.0.
 - Sort on a column by column basis.

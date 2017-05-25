@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] - 2017-05-17 - Ember v2.X.X
+### Added
+
+### Changed
+
+### Fixed
+
 ## [0.1.0] - 2016-08-31 - Ember pre v1.13.10
 ### Added
 - Initial base version built to support JSON API v1.0.

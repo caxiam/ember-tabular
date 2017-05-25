@@ -4,8 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.2.0] - 2017-05-17 - Ember v2.X.X
 ### Added
+- Adds ability to set column filter/sort independently.
 
 ### Changed
+- Upgrades ember-power-select to 1.4.3, may require refactoring of `class` to `triggerClass` if applicable.
+- Upgrade ember and ember-cli to 2.10.0
 
 ### Fixed
 
@@ -21,14 +24,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add subcomponent to change the table limit/count.
 - Setup `autoHide` computed property to conditionally hide the limit dropdown if the results are smaller than the smallest pagination limit.
 - Adds ability to persist data across transitions, setting `persistFiltering: true` and sharing the `filter`/`sort` properties with a controller/service.
-- Adds ability to set column filter/sort independently.
 
 ### Changed
 - Update legacy name references in README.md.
 - Removed ember-canary from ember-try testing scenarios.
 - Removed ember-beta from ember-try testing scenarios.
-- Upgrades ember-power-select to 1.4.3, may require refactoring of `class` to `triggerClass` if applicable.
-- Upgrade ember and ember-cli to 2.10.0
 
 ### Fixed
 - Fix erring ember try in ember-canary, properly remove component element wrapper.

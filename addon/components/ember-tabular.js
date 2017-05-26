@@ -83,7 +83,13 @@ export default Ember.Component.extend({
   * @default false
   */
   showFilterRow: false,
-  // requires sharing the `filter`/`sort` property with the controller/service/etc to persist
+  /**
+  * Requires sharing the `filter`/`sort` property with the controller/service/etc to persist filter data
+  *
+  * @property persistFiltering
+  * @type Boolean
+  * @default false
+  */
   persistFiltering: false,
   /**
   * @property sortableClass
@@ -701,7 +707,7 @@ export default Ember.Component.extend({
 
   willDestroy() {
     this._super(...arguments);
-    // clear any filters if we are persisting filtering
+    // clear any filters if we are not persisting filtering
     const persistFiltering = this.get('persistFiltering');
     if (!persistFiltering) {
       this.set('filter', null);

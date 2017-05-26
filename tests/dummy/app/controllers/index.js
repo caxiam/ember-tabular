@@ -51,6 +51,7 @@ export default Ember.Controller.extend({
     },
     {
       label: 'Actions',
+      filter: false,
     },
   ],
   columns2: [

@@ -45,7 +45,7 @@
                         {{#if showFilterRow}}
                             <tr>
                                 {{#each columns as |header|}}
-                                    {{#if header.filter}}
+                                    {{#if header.property}}
                                         {{ember-tabular-filter modelName=modelName columns=columns property=header.property record=record query=query filter=filter header=header}}
                                     {{else}}
                                         <th>{{!-- Blank to reserve table column --}}</th>

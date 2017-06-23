@@ -2,7 +2,7 @@
 <h1>Table - Column Select</h1>
 {{#ember-tabular class="table-column-select" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" modelName="user" record=users5 sort=sort2 as |section|}}
     {{#if section.isBody}}
-        {{#each users as |row|}}
+        {{#each users5 as |row|}}
             <tr>
                 <td>{{row.username}}</td>
                 <td>{{row.emailAddress}}</td>

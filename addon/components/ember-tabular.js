@@ -223,12 +223,24 @@ export default Ember.Component.extend({
   - `columns.defaultSort` - {String}
     - Initial sort value for API request
     - Will be overridden with any sorting changes
+
+  * Overriding this property is allowed.
   *
   * @property columns
   * @type Array
   * @default null
   */
-  columns: Ember.computed('modelName', {
+  columns: Ember.computed('columnsMap', {
+    get() {
+      const columnsMap = this.get('columnsMap');
+      if (columnsMap) {
+        return columnsMap;
+      }
+      return [];
+    },
+  }),
+
+  columnsMap: Ember.computed('modelName', {
     get() {
       const modelName = this.get('modelName');
       let columns = [];
@@ -238,7 +250,6 @@ export default Ember.Component.extend({
         const modelClassAttributes = Ember.get(modelClass, 'attributes');
         let attributes = [];
 
-        console.log('modelName', modelName);
         // iterate over keys and create attribute array
         modelClassAttributes.forEach((meta, name) => {
           let attribute = {
@@ -247,7 +258,7 @@ export default Ember.Component.extend({
           };
           attributes.push(attribute);
         });
-        console.log('attributes', attributes);
+        columns = attributes;
       }
       return columns;
     },
@@ -257,6 +268,15 @@ export default Ember.Component.extend({
     let result = text.replace(/([A-Z])/g, ' $1');
     return result.charAt(0).toUpperCase() + result.slice(1);
   },
+
+  /**
+  * Whether to display the panel to select different table columns.
+  *
+  * @property isColumnSelect
+  * @type Boolean
+  * @default true
+  */
+  isColumnSelect: true,
 
   isDropdownLimit: true,
 

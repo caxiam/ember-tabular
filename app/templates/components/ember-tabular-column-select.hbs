@@ -1,0 +1,14 @@
+<div class="btn-group">
+    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default dropdown-toggle">
+        Columns <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu pull-left">
+        {{#each columns as |column|}}
+            <li>
+                <a {{action "toggleColumn" column}}>
+                    <span class="glyphicon {{if column.isActive "glyphicon-checked" "glyphicon-unchecked"}}"></span> {{column.label}}
+                </a>
+            </li>
+        {{/each}}
+    </ul>
+</div>

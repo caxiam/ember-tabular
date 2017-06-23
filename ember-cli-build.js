@@ -1,7 +1,6 @@
-/* jshint node:true */
-/* global require, module */
+/* eslint-env node */
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
-var pickFiles = require('broccoli-static-compiler');
+var Funnel = require('broccoli-funnel');
 var mergeTrees = require('broccoli-merge-trees');
 
 module.exports = function(defaults) {
@@ -25,9 +24,9 @@ module.exports = function(defaults) {
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
   // Copy non-compiled bootstrap dependency
-  var vendor = pickFiles('bower_components/bootstrap/dist/css/', {
+  var vendor = new Funnel('bower_components/bootstrap/dist/css/', {
     srcDir: '/',
-    files: ['bootstrap.css.map'],
+    include: ['bootstrap.css.map'],
     destDir: '/assets'
   });
 

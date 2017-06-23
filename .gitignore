@@ -7,6 +7,7 @@
 # dependencies
 /node_modules
 /bower_components
+.node_modules*
 
 # misc
 /.sass-cache
@@ -15,3 +16,6 @@
 /libpeerconnection.log
 npm-debug.log*
 testem.log
+/docs/*
+package.json.ember-try
+bower.json.ember-try

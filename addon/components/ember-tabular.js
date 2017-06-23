@@ -228,7 +228,35 @@ export default Ember.Component.extend({
   * @type Array
   * @default null
   */
-  columns: null,
+  columns: Ember.computed('modelName', {
+    get() {
+      const modelName = this.get('modelName');
+      let columns = [];
+      // used if ember-tabular is making request
+      if (modelName) {
+        const modelClass = this.get('store').modelFor(modelName);
+        const modelClassAttributes = Ember.get(modelClass, 'attributes');
+        let attributes = [];
+
+        console.log('modelName', modelName);
+        // iterate over keys and create attribute array
+        modelClassAttributes.forEach((meta, name) => {
+          let attribute = {
+            property: name,
+            label: this._formatColumnLabel(name),
+          };
+          attributes.push(attribute);
+        });
+        console.log('attributes', attributes);
+      }
+      return columns;
+    },
+  }),
+
+  _formatColumnLabel(text) {
+    let result = text.replace(/([A-Z])/g, ' $1');
+    return result.charAt(0).toUpperCase() + result.slice(1);
+  },
 
   isDropdownLimit: true,
 

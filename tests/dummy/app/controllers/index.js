@@ -5,11 +5,13 @@ export default Ember.Controller.extend({
   users2: null,
   users3: null,
   users4: null,
+  users5: null,
   filter: null,
   filter2: null,
   filter3: null,
   sort: 'username',
   sort1: 'username',
+  sort2: 'username',
   isAdminFilter: null,
   columns: [
     {

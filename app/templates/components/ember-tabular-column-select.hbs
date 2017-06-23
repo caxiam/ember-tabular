@@ -6,7 +6,7 @@
         {{#each columns as |column|}}
             <li>
                 <a {{action "toggleColumn" column}}>
-                    <span class="glyphicon {{if column.isActive "glyphicon-checked" "glyphicon-unchecked"}}"></span> {{column.label}}
+                    <span class="{{if column.isActive "fa fa-check-square-o" "fa fa-square-o"}}"></span> {{column.label}}
                 </a>
             </li>
         {{/each}}

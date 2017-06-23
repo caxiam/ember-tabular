@@ -232,30 +232,21 @@ export default Ember.Component.extend({
   */
   columns: Ember.computed('columnsMap', {
     get() {
-      const columnsMap = this.get('columnsMap');
-      if (columnsMap) {
-        return columnsMap;
-      }
-      return [];
-    },
-  }),
-
-  columnsMap: Ember.computed('modelName', {
-    get() {
       const modelName = this.get('modelName');
       let columns = [];
       // used if ember-tabular is making request
       if (modelName) {
         const modelClass = this.get('store').modelFor(modelName);
         const modelClassAttributes = Ember.get(modelClass, 'attributes');
-        let attributes = [];
+        let attributes = Ember.A();
 
         // iterate over keys and create attribute array
         modelClassAttributes.forEach((meta, name) => {
-          let attribute = {
+          let attribute = Ember.Object.create({
             property: name,
             label: this._formatColumnLabel(name),
-          };
+            isActive: true,
+          });
           attributes.push(attribute);
         });
         columns = attributes;
@@ -263,6 +254,15 @@ export default Ember.Component.extend({
       return columns;
     },
   }),
+
+  /**
+   * Template for table's row
+   *
+   * @type {string}
+   * @default 'components/models-table/row'
+   * @name ModelsTable#rowTemplate
+   */
+  trRow: 'components/ember-tabular-row',
 
   _formatColumnLabel(text) {
     let result = text.replace(/([A-Z])/g, ' $1');

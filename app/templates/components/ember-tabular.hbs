@@ -21,23 +21,25 @@
                 <thead>
                     <tr>
                         {{#each columns as |header|}}
-                            {{#if header.property}}
-                                <th id="{{dot-to-dash-filter header.property}}" class="{{if header.sort sortableClass}} {{if header.filter "filterable"}}">
-                                    {{#if header.filter}}
-                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
-                                    {{/if}}
-                                    {{#if header.sort}}
-                                        <div {{action "sortBy" header.property}} class="btn-sort">
-                                            {{header.label}}
-                                        </div>
-                                    {{else}}
-                                        <div>
-                                            {{header.label}}
-                                        </div>
-                                    {{/if}}
-                                </th>
-                            {{else}}
-                                <th>{{header.label}}</th>
+                            {{#if header.isActive}}
+                                {{#if header.property}}
+                                    <th id="{{dot-to-dash-filter header.property}}" class="{{if header.sort sortableClass}} {{if header.filter "filterable"}}">
+                                        {{#if header.filter}}
+                                            <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
+                                        {{/if}}
+                                        {{#if header.sort}}
+                                            <div {{action "sortBy" header.property}} class="btn-sort">
+                                                {{header.label}}
+                                            </div>
+                                        {{else}}
+                                            <div>
+                                                {{header.label}}
+                                            </div>
+                                        {{/if}}
+                                    </th>
+                                {{else}}
+                                    <th>{{header.label}}</th>
+                                {{/if}}
                             {{/if}}
                         {{/each}}
                     </tr>
@@ -45,10 +47,12 @@
                         {{#if showFilterRow}}
                             <tr>
                                 {{#each columns as |header|}}
-                                    {{#if header.filter}}
-                                        {{ember-tabular-filter modelName=modelName columns=columns property=header.property record=record query=query filter=filter header=header}}
-                                    {{else}}
-                                        <th>{{!-- Blank to reserve table column --}}</th>
+                                    {{#if header.isActive}}
+                                        {{#if header.filter}}
+                                            {{ember-tabular-filter modelName=modelName columns=columns property=header.property record=record query=query filter=filter header=header}}
+                                        {{else}}
+                                            <th>{{!-- Blank to reserve table column --}}</th>
+                                        {{/if}}
                                     {{/if}}
                                 {{/each}}
                             </tr>
@@ -58,6 +62,9 @@
             {{/if}}
             <tbody>
                 {{#if record}}
+                    {{#each record as |row|}}
+                        {{partial trRow}}
+                    {{/each}}
                     {{yield body}}
                 {{else}}
                     <tr>

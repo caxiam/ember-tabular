@@ -14,7 +14,7 @@ export default Ember.Component.extend({
 
   actions: {
     toggleColumn(column) {
-      console.log('column', column);
+      column.toggleProperty('isActive');
     },
   },
 });

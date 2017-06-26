@@ -1,6 +1,24 @@
 <h5>Example #1</h5>
 <h1>Table - Column Select</h1>
 {{#ember-tabular class="table-column-select" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" modelName="user" record=users5 sort=sort2 as |section|}}
+    {{#if section.isHeader}}
+        Section Header
+    {{/if}}
+    {{!-- {{section.cell colProperty="username"}} --}}
+    {{#section.cell colProperty="emailAddress" as |record column|}}
+        <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
+    {{/section.cell}}
+    {{!-- {{section.cell colProperty="password"}} --}}
+    {{!-- {{section.cell colProperty="firstName"}} --}}
+    {{!-- {{section.cell colProperty="lastName"}} --}}
+    {{!-- {{section.cell colProperty="isAdmin"}} --}}
+    {{!-- {{section.cell colProperty="createdAt"}} --}}
+    {{#section.cell colProperty="updatedAt" as |record column|}}
+        {{moment-format (get record column.property) 'MM/DD/YYYY'}}
+    {{/section.cell}}
+    {{#if section.isFooter}}
+        Section Footer
+    {{/if}}
     {{!-- {{#if section.isBody}}
         {{#each users5 as |row|}}
             <tr>

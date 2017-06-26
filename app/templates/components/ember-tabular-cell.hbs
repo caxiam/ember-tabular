@@ -1,0 +1,7 @@
+{{#if hasColProperty}}
+  {{#if hasBlock}}
+    <td>{{yield record column}}</td>
+  {{else}}
+    <td>{{get record column.property}}</td>
+  {{/if}}
+{{/if}}

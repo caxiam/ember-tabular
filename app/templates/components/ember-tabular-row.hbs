@@ -1,9 +1,14 @@
 <tr>
   {{#each columns as |column|}}
     {{#if column.isActive}}
-      <td>
-        {{get row column.property}}
-      </td>
+      {{!-- TODO: must be a way to use yield or inline form based on a property --}}
+      {{#if column.isCustom}}
+        {{yield (hash
+          cell=(component "ember-tabular-cell" column=column record=row colProperty=colProperty)
+        )}}
+      {{else}}
+        {{ember-tabular-cell column=column record=row colProperty=column.property}}
+      {{/if}}
     {{/if}}
   {{/each}}
 </tr>

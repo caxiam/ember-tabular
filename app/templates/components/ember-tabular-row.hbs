@@ -3,10 +3,10 @@
     {{#if column.isActive}}
       {{#if (compare-with columnsConfig "property" column.property "isCustomTemplate")}}
         {{yield (hash
-          cell=(component "ember-tabular-cell" column=column record=row colProperty=colProperty)
+          cell=(component "ember-tabular-cell" column=column record=row property=property)
         )}}
       {{else}}
-        {{ember-tabular-cell column=column record=row colProperty=column.property}}
+        {{ember-tabular-cell column=column record=row property=column.property}}
       {{/if}}
     {{/if}}
   {{/each}}

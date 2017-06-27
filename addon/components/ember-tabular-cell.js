@@ -12,10 +12,10 @@ export default Ember.Component.extend({
   */
   tagName: '',
   action: null,
-  hasColProperty: Ember.computed('colProperty', 'column', function () {
-    const colProperty = this.get('colProperty');
+  hasProperty: Ember.computed('property', 'column', function () {
+    const property = this.get('property');
     const column = this.get('column');
-    if (colProperty === column.property) {
+    if (property === column.property) {
       return true;
     }
     return false;

@@ -1,6 +1,6 @@
 <h5>Example #1</h5>
 <h1>Table - Column Select</h1>
-{{#ember-tabular modelName="user" sort=sort2 columnsConfig=columnsConfig as |section|}}
+{{#ember-tabular modelName="user" sort=sort1 columnsConfig=columnsConfig as |section|}}
     {{#section.cell property="emailAddress" as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/section.cell}}
@@ -16,11 +16,11 @@
 
 <h5>Example #2</h5>
 <h1>Table - Default</h1>
-{{ember-tabular modelName="user" sort=sort isColumnSelect=false}}
+{{ember-tabular modelName="user" sort=sort2 isColumnSelect=false}}
 
 <h5>Example #3</h5>
 <h1>Table - Override Columns/Templates</h1>
-{{#ember-tabular class="table-default" columns=columns modelName="user" record=users sort=sort as |section|}}
+{{#ember-tabular class="table-default" columns=columns modelName="user" record=users sort=sort3 as |section|}}
     {{#section.cell property="username" as |record column|}}
         {{record.username}}
     {{/section.cell}}
@@ -57,7 +57,7 @@
 
 <h5>Example #3</h5>
 <h1>Table - Persist Filtering</h1>
-{{#ember-tabular class="table-persist" columns=columns modelName="user" record=users4 filter=filter3 persistFiltering=true sort=sort1 as |section|}}
+{{#ember-tabular class="table-persist" columns=columns modelName="user" record=users4 filter=filter3 persistFiltering=true sort=sort4 as |section|}}
     {{#section.cell property="username" as |record column|}}
         {{record.username}}
     {{/section.cell}}

@@ -908,7 +908,7 @@ export default Ember.Component.extend({
       property = sort.replace(/^-/, '');
       // convert relationships
       classProperty = property.replace(/\./g, '-');
-      $tableHeader = Ember.$(`#${classProperty}`);
+      $tableHeader = $table.find(`#${classProperty}`);
 
       // Remove all classes on th.sortable but sortable class
       $table.find('th').removeClass(function (i, group) {

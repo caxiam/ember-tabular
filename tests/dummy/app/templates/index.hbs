@@ -1,34 +1,15 @@
 <h5>Example #1</h5>
 <h1>Table - Column Select</h1>
-{{#ember-tabular class="table-column-select" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" modelName="user" record=users5 columnsConfig=columnsConfig sort=sort2 as |section|}}
-    {{#if section.isHeader}}
-        Section Header
-    {{/if}}
-    {{!-- {{section.cell colProperty="username"}} --}}
+{{#ember-tabular modelName="user" record=users5 sort=sort2 columnsConfig=columnsConfig as |section|}}
     {{#section.cell colProperty="emailAddress" as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/section.cell}}
-    {{!-- {{section.cell colProperty="password"}} --}}
-    {{!-- {{section.cell colProperty="firstName"}} --}}
-    {{!-- {{section.cell colProperty="lastName"}} --}}
-    {{!-- {{section.cell colProperty="isAdmin"}} --}}
-    {{!-- {{section.cell colProperty="createdAt"}} --}}
     {{#section.cell colProperty="updatedAt" as |record column|}}
         {{moment-format (get record column.property) 'MM/DD/YYYY'}}
     {{/section.cell}}
-    {{#if section.isFooter}}
-        Section Footer
-    {{/if}}
-    {{!-- {{#if section.isBody}}
-        {{#each users5 as |row|}}
-            <tr>
-                <td>{{row.username}}</td>
-            </tr>
-        {{/each}}
-    {{/if}} --}}
 {{/ember-tabular}}
 
-<h5>Example #2</h5>
+{{!-- <h5>Example #2</h5>
 <h1>Table - Default</h1>
 {{#ember-tabular class="table-default" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" columns=columns modelName="user" record=users sort=sort as |section|}}
     {{#if section.isBody}}
@@ -60,7 +41,7 @@
             </tr>
         {{/each}}
     {{/if}}
-{{/ember-tabular}}
+{{/ember-tabular}} --}}
 
 {{!-- <h5>Example #3</h5>
 <h1>Table - Persist Filtering</h1>

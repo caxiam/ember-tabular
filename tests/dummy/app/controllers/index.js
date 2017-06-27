@@ -16,11 +16,11 @@ export default Ember.Controller.extend({
   columnsConfig: [
     {
       property: 'emailAddress',
-      isCustom: true,
+      isCustomTemplate: true,
     },
     {
       property: 'updatedAt',
-      isCustom: true,
+      isCustomTemplate: true,
     },
   ],
   columns: [

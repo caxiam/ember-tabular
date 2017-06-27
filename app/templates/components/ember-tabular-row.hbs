@@ -1,8 +1,7 @@
 <tr>
   {{#each columns as |column|}}
     {{#if column.isActive}}
-      {{!-- TODO: must be a way to use yield or inline form based on a property --}}
-      {{#if (find-by columnsConfig "property" column.property)}}
+      {{#if (compare-with columnsConfig "property" column.property "isCustomTemplate")}}
         {{yield (hash
           cell=(component "ember-tabular-cell" column=column record=row colProperty=colProperty)
         )}}

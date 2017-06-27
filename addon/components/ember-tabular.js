@@ -239,16 +239,16 @@ export default Ember.Component.extend({
       if (modelName) {
         const modelClass = this.get('store').modelFor(modelName);
         const modelClassAttributes = Ember.get(modelClass, 'attributes');
-        let attributes = Ember.A();
+        let attributes = [];
 
         // iterate over keys and create attribute array
         modelClassAttributes.forEach((meta, name) => {
-          let attribute = Ember.Object.create({
+          let attribute = {
             property: name,
             label: this._formatColumnLabel(name),
             isActive: true,
             isCustomTemplate: false,
-          });
+          };
           attributes.push(attribute);
         });
         columns = attributes;
@@ -256,8 +256,14 @@ export default Ember.Component.extend({
       // merge columnsConfig with columns
       if (columnsConfig) {
         for (var i = columnsConfig.length - 1; i >= 0; i--) {
-          let item = columns.findBy('property', columnsConfig[i].property);
-          let newItem = Ember.merge(item, columnsConfig[i]);
+          let item = columns.find((el) => {
+            return el.property === columnsConfig[i].property;
+          });
+          if (item) {
+            let newItem = Ember.merge(item, columnsConfig[i]);
+          } else {
+            columns.push(columnsConfig[i]);
+          }
         }
       }
       return columns;

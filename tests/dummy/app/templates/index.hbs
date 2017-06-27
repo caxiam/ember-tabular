@@ -1,6 +1,6 @@
 <h5>Example #1</h5>
 <h1>Table - Column Select</h1>
-{{#ember-tabular class="table-column-select" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" modelName="user" record=users5 sort=sort2 as |section|}}
+{{#ember-tabular class="table-column-select" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" modelName="user" record=users5 columnsConfig=columnsConfig sort=sort2 as |section|}}
     {{#if section.isHeader}}
         Section Header
     {{/if}}

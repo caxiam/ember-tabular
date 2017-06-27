@@ -255,6 +255,8 @@ export default Ember.Component.extend({
     },
   }),
 
+  columnsConfig: null,
+
   /**
    * Template for table's row
    *

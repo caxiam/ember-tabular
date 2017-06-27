@@ -230,9 +230,10 @@ export default Ember.Component.extend({
   * @type Array
   * @default null
   */
-  columns: Ember.computed('columnsMap', {
+  columns: Ember.computed('columnsConfig', {
     get() {
       const modelName = this.get('modelName');
+      const columnsConfig = this.get('columnsConfig');
       let columns = [];
       // used if ember-tabular is making request
       if (modelName) {
@@ -246,10 +247,18 @@ export default Ember.Component.extend({
             property: name,
             label: this._formatColumnLabel(name),
             isActive: true,
+            isCustomTemplate: false,
           });
           attributes.push(attribute);
         });
         columns = attributes;
+      }
+      // merge columnsConfig with columns
+      if (columnsConfig) {
+        for (var i = columnsConfig.length - 1; i >= 0; i--) {
+          let item = columns.findBy('property', columnsConfig[i].property);
+          let newItem = Ember.merge(item, columnsConfig[i]);
+        }
       }
       return columns;
     },

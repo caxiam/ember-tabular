@@ -5,7 +5,6 @@ export default Ember.Controller.extend({
   users2: null,
   users3: null,
   users4: null,
-  users5: null,
   filter: null,
   filter2: null,
   filter3: null,
@@ -21,6 +20,10 @@ export default Ember.Controller.extend({
     {
       property: 'updatedAt',
       isCustomTemplate: true,
+    },
+    {
+      property: 'password',
+      isActive: false,
     },
   ],
   columns: [

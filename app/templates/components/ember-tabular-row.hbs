@@ -1,7 +1,7 @@
 <tr>
   {{#each columns as |column|}}
     {{#if column.isActive}}
-      {{#if (compare-with columnsConfig "property" column.property "isCustomTemplate")}}
+      {{#if (compare-with columns "property" column.property "isCustomTemplate")}}
         {{yield (hash
           cell=(component "ember-tabular-cell" column=column record=row property=property)
         )}}

@@ -102,21 +102,41 @@ export default Ember.Controller.extend({
       isActive: true,
     },
   ],
-  columns2: [
+  columnsForDropdownFilter: [
     {
       label: 'Username',
+      property: 'username',
+      isActive: true,
+      filter: false,
+      sort: false,
     },
     {
       label: 'Email',
+      property: 'emailAddress',
+      isActive: true,
+      filter: false,
+      sort: false,
     },
     {
       label: 'First Name',
+      property: 'firstName',
+      isActive: true,
+      filter: false,
+      sort: false,
     },
     {
       label: 'Last Name',
+      property: 'lastName',
+      isActive: true,
+      filter: false,
+      sort: false,
     },
     {
       label: 'Last Updated',
+      property: 'updatedAt',
+      isActive: true,
+      filter: false,
+      sort: false,
     },
   ],
   actions: {

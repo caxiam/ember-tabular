@@ -41,7 +41,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       sort: sort,
       type: type,
     };
-    if (isCustom && registry) {
+    if (typeof this.get('isCustom') !== 'undefined' && registry) {
       let item = registry.find((el) => {
         return el.property === property;
       });

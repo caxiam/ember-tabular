@@ -162,6 +162,12 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   * @default null
   */
   record: null,
+
+  init() {
+    this._super(...arguments);
+    this.set('registry', Ember.A());
+  },
+
   /**
   * This is typically setup on the controller and passed into the component, and is used to construct the table headers/filtering.
   *
@@ -290,7 +296,8 @@ export default Ember.Component.extend(EmberTabularHelpers, {
 
   registryDone: false,
 
-  registry: Ember.A(),
+  // Ember.A() to be defined in init()
+  registry: null,
 
   registryDiff: Ember.computed('registry.[]', function () {
     const modelName = this.get('modelName');

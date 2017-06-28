@@ -4,7 +4,7 @@
     {{#et.column property="emailAddress" isCustom=true as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/et.column}}
-    {{#et.column property="updatedAt" isCustom=true as |record column|}}
+    {{#et.column property="updatedAt" isCustom=true type="date" as |record column|}}
         {{moment-format (get record column.property) 'MM/DD/YYYY'}}
     {{/et.column}}
     {{#et.column

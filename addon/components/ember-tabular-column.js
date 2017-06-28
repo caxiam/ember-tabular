@@ -41,12 +41,13 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       sort: sort,
       type: type,
     };
-    if (isCustom) {
+    if (isCustom && registry) {
       let item = registry.find((el) => {
         return el.property === property;
       });
       if (!item) {
-        registry.addObject(column);
+        // pass action up to ember-tabular to add column to registry
+        this.get('addToRegistry')(column);
       }
     }
   },

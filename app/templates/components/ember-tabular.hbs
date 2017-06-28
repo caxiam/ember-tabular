@@ -65,9 +65,7 @@
                     {{#each record as |row|}}
                         {{partial trRow}}
                     {{/each}}
-                    {{yield (hash
-                        footer=(component "ember-tabular-footer" registerComplete=(action "registerComplete"))
-                    )}}
+                    {{ember-tabular-footer registerComplete=(action "registerComplete")}}
                 {{else}}
                     <tr>
                         <td class="text-center" colspan="{{columnLength}}">

@@ -909,6 +909,10 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       // tells ember-tabular that the custom registry is complete
       this.set('registryDone', value);
     },
+    addToRegistry(column) {
+      // adds column to registry coming from ember-tabular-column
+      this.get('registry').addObject(column);
+    },
   },
 
   /**

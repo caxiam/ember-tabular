@@ -65,7 +65,7 @@
                     {{#each record as |row|}}
                         {{partial trRow}}
                     {{/each}}
-                    {{ember-tabular-footer registerComplete=(action "registerComplete")}}
+                    {{ember-tabular-footer registryComplete=(action "registryComplete")}}
                 {{else}}
                     <tr>
                         <td class="text-center" colspan="{{columnLength}}">

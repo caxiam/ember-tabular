@@ -877,7 +877,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     toggleFilterRow() {
       this.toggleProperty('showFilterRow');
     },
-    registerComplete(value) {
+    registryComplete(value) {
       // tells ember-tabular that the custom registry is complete
       this.set('registryDone', value);
     },

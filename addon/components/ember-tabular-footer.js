@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     // fix somehow modifying `columns` twice
     Ember.run.next(() => {
       // tell ember-tabular that the custom yields are complete
-      this.get('registerComplete')(true);
+      this.get('registryComplete')(true);
     });
   },
 });

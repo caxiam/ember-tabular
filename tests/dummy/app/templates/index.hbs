@@ -1,6 +1,6 @@
 <h5>Example #1</h5>
 <h1>Table - Column Select</h1>
-{{#ember-tabular modelName="user" sort=sort1 as |et|}}
+{{#ember-tabular modelName="user" sort=sort1 columnOrder=orderConfig as |et|}}
     {{#et.column property="emailAddress" isCustom=true as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/et.column}}

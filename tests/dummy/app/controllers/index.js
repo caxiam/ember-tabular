@@ -13,6 +13,17 @@ export default Ember.Controller.extend({
   sort3: 'username',
   sort4: 'username',
   isAdminFilter: null,
+  orderConfig: [
+    'username',
+    'emailAddress',
+    'password',
+    'firstName',
+    'lastName',
+    'isAdmin',
+    'createdAt',
+    'updatedAt',
+    'actions',
+  ],
   columnsConfig: [
     {
       property: 'emailAddress',

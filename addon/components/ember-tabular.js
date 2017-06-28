@@ -276,18 +276,27 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   //     return columns;
   //   },
   // }),
-  columns: Ember.computed('registry', 'registryDiff', 'registryDone', function () {
+  columns: Ember.computed('registry', 'registryDiff', 'registryDone', 'columnOrder', function () {
     const columns = Ember.A();
     // only output columns array when registry is done
     if (this.get('registryDone')) {
       const registry = this.get('registry');
       const registryDiff = this.get('registryDiff');
+      const columnOrder = this.get('columnOrder');
 
       if (registry && registryDiff) {
         columns.pushObjects(registry);
         columns.pushObjects(registryDiff);
-        console.log('columns', columns);
       }
+
+      // sort the colums array by columnOrder
+      if (columnOrder) {
+        columns.sort((a, b) => {
+          return columnOrder.indexOf(a.property) < columnOrder.indexOf(b.property) ? -1 : 1;
+        });
+      }
+
+      console.log('columns', columns);
     }
     return columns;
   }),

@@ -270,19 +270,30 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   //     return columns;
   //   },
   // }),
-  columns: Ember.computed.union('registryDiff', 'registry'),
+  columns: Ember.computed('registry', 'registryDiff', 'registryDone', function () {
+    const columns = Ember.A();
+    // only output columns array when registry is done
+    if (this.get('registryDone')) {
+      const registry = this.get('registry');
+      const registryDiff = this.get('registryDiff');
 
-  checkColumns: Ember.observer('columns.[]', function () {
-    console.log('columns', this.get('columns'));
+      if (registry && registryDiff) {
+        columns.pushObjects(registry);
+        columns.pushObjects(registryDiff);
+        console.log('columns', columns);
+      }
+    }
+    return columns;
   }),
 
   columnsConfig: null,
+
+  registryDone: false,
 
   registry: Ember.A(),
 
   registryDiff: Ember.computed('registry.[]', function () {
     const modelName = this.get('modelName');
-    const columnsConfig = this.get('columnsConfig');
     const registry = this.get('registry');
     let registryDiff = Ember.A();
     if (modelName) {
@@ -893,6 +904,10 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     },
     toggleFilterRow() {
       this.toggleProperty('showFilterRow');
+    },
+    registerComplete(value) {
+      // tells ember-tabular that the custom registry is complete
+      this.set('registryDone', value);
     },
   },
 

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-helpers';
 
 /**
 * ## Basic Usage
@@ -63,7 +64,7 @@ import Ember from 'ember';
 *
 * @class EmberTabular
 */
-export default Ember.Component.extend({
+export default Ember.Component.extend(EmberTabularHelpers, {
   store: Ember.inject.service('store'),
   action: null,
   classNames: ['ember-tabular'],
@@ -280,11 +281,6 @@ export default Ember.Component.extend({
    * @name ModelsTable#rowTemplate
    */
   trRow: 'components/ember-tabular-row',
-
-  _formatColumnLabel(text) {
-    let result = text.replace(/([A-Z])/g, ' $1');
-    return result.charAt(0).toUpperCase() + result.slice(1);
-  },
 
   /**
   * Whether to display the panel to select different table columns.

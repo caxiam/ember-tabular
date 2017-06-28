@@ -1,123 +1,112 @@
 <h5>Example #1</h5>
 <h1>Table - Column Select</h1>
-{{#ember-tabular modelName="user" sort=sort1 columnsConfig=columnsConfig as |section|}}
-    {{#section.cell property="emailAddress" as |record column|}}
+{{#ember-tabular modelName="user" sort=sort1 as |et|}}
+    {{#et.column property="emailAddress" isCustom=true as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
-    {{/section.cell}}
-    {{#section.cell property="updatedAt" as |record column|}}
+    {{/et.column}}
+    {{#et.column property="updatedAt" isCustom=true as |record column|}}
         {{moment-format (get record column.property) 'MM/DD/YYYY'}}
-    {{/section.cell}}
-    {{#section.cell property="actions"}}
+    {{/et.column}}
+    {{#et.column
+        property="actions"
+        isCustom=true
+        filter=false
+        sort=false
+    }}
         {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
             Edit
         {{/link-to}}
-    {{/section.cell}}
+    {{/et.column}}
 {{/ember-tabular}}
 
-<h5>Example #2</h5>
+{{!-- <h5>Example #2</h5>
 <h1>Table - Default</h1>
 {{ember-tabular modelName="user" sort=sort2 isColumnSelect=false}}
 
 <h5>Example #3</h5>
 <h1>Table - Override Columns/Templates</h1>
 {{#ember-tabular class="table-default" columns=columns modelName="user" record=users sort=sort3 as |section|}}
-    {{#section.cell property="username" as |record column|}}
+    {{#section.column property="username" as |record column|}}
         {{record.username}}
-    {{/section.cell}}
-    {{#section.cell property="emailAddress" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="emailAddress" as |record column|}}
         {{record.emailAddress}}
-    {{/section.cell}}
-    {{#section.cell property="firstName" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="firstName" as |record column|}}
         {{record.firstName}}
-    {{/section.cell}}
-    {{#section.cell property="lastName" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="lastName" as |record column|}}
         {{record.lastName}}
-    {{/section.cell}}
-    {{#section.cell property="isAdmin" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="isAdmin" as |record column|}}
         {{#if record.isAdmin}}
             Yes
         {{else}}
             No
         {{/if}}
-    {{/section.cell}}
-    {{#section.cell property="updatedAt" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="updatedAt" as |record column|}}
         {{#if record.updatedAt}}
             {{moment-format record.updatedAt 'MM/DD/YYYY'}}
         {{else}}
             {{moment-format record.createdAt 'MM/DD/YYYY'}}
         {{/if}}
-    {{/section.cell}}
-    {{#section.cell property="actions" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="actions" as |record column|}}
         {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
             Edit
         {{/link-to}}
-    {{/section.cell}}
+    {{/section.column}}
 {{/ember-tabular}}
 
 
 <h5>Example #3</h5>
 <h1>Table - Persist Filtering</h1>
 {{#ember-tabular class="table-persist" columns=columns modelName="user" record=users4 filter=filter3 persistFiltering=true sort=sort4 as |section|}}
-    {{#section.cell property="username" as |record column|}}
+    {{#section.column property="username" as |record column|}}
         {{record.username}}
-    {{/section.cell}}
-    {{#section.cell property="emailAddress" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="emailAddress" as |record column|}}
         {{record.emailAddress}}
-    {{/section.cell}}
-    {{#section.cell property="firstName" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="firstName" as |record column|}}
         {{record.firstName}}
-    {{/section.cell}}
-    {{#section.cell property="lastName" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="lastName" as |record column|}}
         {{record.lastName}}
-    {{/section.cell}}
-    {{#section.cell property="isAdmin" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="isAdmin" as |record column|}}
         {{#if record.isAdmin}}
             Yes
         {{else}}
             No
         {{/if}}
-    {{/section.cell}}
-    {{#section.cell property="updatedAt" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="updatedAt" as |record column|}}
         {{#if record.updatedAt}}
             {{moment-format record.updatedAt 'MM/DD/YYYY'}}
         {{else}}
             {{moment-format record.createdAt 'MM/DD/YYYY'}}
         {{/if}}
-    {{/section.cell}}
-    {{#section.cell property="actions" as |record column|}}
+    {{/section.column}}
+    {{#section.column property="actions" as |record column|}}
         {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
             Edit
         {{/link-to}}
-    {{/section.cell}}
+    {{/section.column}}
 {{/ember-tabular}}
 
-{{!-- <h5>Example #4</h5>
+<h5>Example #4</h5>
 <h1>Table - Basic - Global Filter</h1>
-{{#ember-tabular class="table-basic-global-filter" columns=columns2 modelName="user" record=users2 filter=filter as |section|}}
+{{#ember-tabular class="table-basic-global-filter" modelName="user" record=users2 filter=filter columnsConfig=columnsConfigForGlobalFilter as |section|}}
     {{#if section.isHeader}}
         {{ember-tabular-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
-    {{else if section.isBody}}
-        {{#each users2 as |row|}}
-            <tr>
-                <td>{{row.username}}</td>
-                <td>{{row.emailAddress}}</td>
-                <td>{{row.firstName}}</td>
-                <td>{{row.lastName}}</td>
-                <td>
-                    {{#if row.updatedAt}}
-                        {{moment-format row.updatedAt 'MM/DD/YYYY'}}
-                    {{else}}
-                        {{moment-format row.createdAt 'MM/DD/YYYY'}}
-                    {{/if}}
-                </td>
-            </tr>
-        {{/each}}
     {{/if}}
 {{/ember-tabular}}
 
 <h5>Example #5</h5>
 <h1>Table - Basic - Dropdown Filter / Date Filter</h1>
-{{#ember-tabular class="table-basic-global-date-filter" columns=columns2 modelName="user" record=users3 filter=filter2 as |section|}}
+{{#ember-tabular class="table-basic-global-date-filter" modelName="user" record=users3 filter=filter2 columns=columnsForDropdownFilter as |section|}}
     {{#if section.isHeader}}
         <div class="row">
             <div class="col-sm-6">
@@ -140,27 +129,11 @@
                 {{ember-tabular-date-filter filter=filter2 filterProperty="updatedAt" label="Last Updated"}}
             </div>
         </div>
-    {{else if section.isBody}}
-        {{#each users3 as |row|}}
-            <tr>
-                <td>{{row.username}}</td>
-                <td>{{row.emailAddress}}</td>
-                <td>{{row.firstName}}</td>
-                <td>{{row.lastName}}</td>
-                <td>
-                    {{#if row.updatedAt}}
-                        {{moment-format row.updatedAt 'MM/DD/YYYY'}}
-                    {{else}}
-                        {{moment-format row.createdAt 'MM/DD/YYYY'}}
-                    {{/if}}
-                </td>
-            </tr>
-        {{/each}}
     {{/if}}
-{{/ember-tabular}} --}}
+{{/ember-tabular}}
 
 
 <h5>Example #6</h5>
 {{#link-to 'example4' class="link-ex4"}}
     Route Binds Model to Table
-{{/link-to}}
+{{/link-to}} --}}

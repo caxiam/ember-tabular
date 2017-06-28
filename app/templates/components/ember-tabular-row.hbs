@@ -1,12 +1,16 @@
 <tr>
+  {{!-- required outside of columns loop to trigger the render of the custom yielded columns --}}
+  {{yield (hash
+    column=(component "ember-tabular-column" registry=registry column=column record=row property=property)
+  )}}
   {{#each columns as |column|}}
     {{#if column.isActive}}
       {{#if (compare-with columns "property" column.property "isCustomTemplate")}}
         {{yield (hash
-          cell=(component "ember-tabular-cell" column=column record=row property=property)
+          column=(component "ember-tabular-column" registry=registry column=column record=row property=property)
         )}}
       {{else}}
-        {{ember-tabular-cell column=column record=row property=column.property}}
+        {{ember-tabular-column registry=registry column=column record=row property=column.property}}
       {{/if}}
     {{/if}}
   {{/each}}

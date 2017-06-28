@@ -231,47 +231,83 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   * @type Array
   * @default null
   */
-  columns: Ember.computed('columnsConfig', {
-    get() {
-      const modelName = this.get('modelName');
-      const columnsConfig = this.get('columnsConfig');
-      let columns = [];
-      // used if ember-tabular is making request
-      if (modelName) {
-        const modelClass = this.get('store').modelFor(modelName);
-        const modelClassAttributes = Ember.get(modelClass, 'attributes');
-        let attributes = [];
+  // columns: Ember.computed('columnsConfig', {
+  //   get() {
+  //     const modelName = this.get('modelName');
+  //     const columnsConfig = this.get('columnsConfig');
+  //     let columns = [];
+  //     // used if ember-tabular is making request
+  //     if (modelName) {
+  //       const modelClass = this.get('store').modelFor(modelName);
+  //       const modelClassAttributes = Ember.get(modelClass, 'attributes');
+  //       let attributes = [];
 
-        // iterate over keys and create attribute array
-        modelClassAttributes.forEach((meta, name) => {
-          let attribute = {
-            property: name,
-            label: this._formatColumnLabel(name),
-            isActive: true,
-            isCustomTemplate: false,
-          };
-          attributes.push(attribute);
-        });
-        columns = attributes;
-      }
-      // merge columnsConfig with columns
-      if (columnsConfig) {
-        for (var i = columnsConfig.length - 1; i >= 0; i--) {
-          let item = columns.find((el) => {
-            return el.property === columnsConfig[i].property;
-          });
-          if (item) {
-            let newItem = Ember.merge(item, columnsConfig[i]);
-          } else {
-            columns.push(columnsConfig[i]);
-          }
-        }
-      }
-      return columns;
-    },
+  //       // iterate over keys and create attribute array
+  //       modelClassAttributes.forEach((meta, name) => {
+  //         let attribute = {
+  //           property: name,
+  //           label: this._formatColumnLabel(name),
+  //           isActive: true,
+  //           isCustomTemplate: false,
+  //         };
+  //         attributes.push(attribute);
+  //       });
+  //       columns = attributes;
+  //     }
+  //     // merge columnsConfig with columns
+  //     if (columnsConfig) {
+  //       for (var i = columnsConfig.length - 1; i >= 0; i--) {
+  //         let item = columns.find((el) => {
+  //           return el.property === columnsConfig[i].property;
+  //         });
+  //         if (item) {
+  //           let newItem = Ember.merge(item, columnsConfig[i]);
+  //         } else {
+  //           columns.push(columnsConfig[i]);
+  //         }
+  //       }
+  //     }
+  //     return columns;
+  //   },
+  // }),
+  columns: Ember.computed.union('registryDiff', 'registry'),
+
+  checkColumns: Ember.observer('columns.[]', function () {
+    console.log('columns', this.get('columns'));
   }),
 
   columnsConfig: null,
+
+  registry: Ember.A(),
+
+  registryDiff: Ember.computed('registry.[]', function () {
+    const modelName = this.get('modelName');
+    const columnsConfig = this.get('columnsConfig');
+    const registry = this.get('registry');
+    let registryDiff = Ember.A();
+    if (modelName) {
+      const modelClass = this.get('store').modelFor(modelName);
+      const modelClassAttributes = Ember.get(modelClass, 'attributes');
+      // iterate over keys and create attribute array
+      modelClassAttributes.forEach((meta, property) => {
+        let attribute = {
+          property: property,
+          label: this._formatColumnLabel(property),
+          isActive: true,
+          isCustomTemplate: false,
+        };
+        // look for duplicate
+        let item = registry.find((el) => {
+          return el.property === property;
+        });
+        if (!item) {
+          registryDiff.addObject(attribute);
+        }
+      });
+    }
+    console.log('REGISTRYDIFF', registryDiff);
+    return registryDiff;
+  }),
 
   /**
    * Template for table's row
@@ -733,7 +769,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   *
   * @method setColumnDefaults
   */
-  setColumnDefaults: Ember.on('init', function () {
+  setColumnDefaults: Ember.observer('columns.[]', function () {
     this.get('columns').map(function (column) {
       // if column does not have a sort property defined set to true
       if (!column.hasOwnProperty('sort')) {

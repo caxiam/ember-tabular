@@ -46,7 +46,6 @@ export default Ember.Component.extend(EmberTabularHelpers, {
         return el.property === property;
       });
       if (!item) {
-        console.log('ADD TO REGISTRY', column);
         registry.addObject(column);
       }
     }

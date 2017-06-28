@@ -295,6 +295,9 @@ export default Ember.Component.extend(EmberTabularHelpers, {
           label: this._formatColumnLabel(property),
           isActive: true,
           isCustomTemplate: false,
+          filter: true,
+          sort: true,
+          type: 'text',
         };
         // look for duplicate
         let item = registry.find((el) => {
@@ -769,7 +772,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   *
   * @method setColumnDefaults
   */
-  setColumnDefaults: Ember.observer('columns.[]', function () {
+  setColumnDefaults: Ember.on('init', function () {
     this.get('columns').map(function (column) {
       // if column does not have a sort property defined set to true
       if (!column.hasOwnProperty('sort')) {

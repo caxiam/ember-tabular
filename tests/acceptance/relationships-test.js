@@ -27,9 +27,9 @@ test('Check for expected url when filtering relationships', function(assert) {
   });
 
   andThen(function() {
-    click('.table-default table .btn-toggle-filter:eq(0)');
-    fillIn('.table-default table thead tr:eq(1) th:eq(0) input', 'Testing Relationships');
-    find('.table-default table thead tr:eq(1) th:eq(0) input').trigger('keyup');
+    click('.table-override-columns-template table .btn-toggle-filter:eq(0)');
+    fillIn('.table-override-columns-template table thead tr:eq(1) th:eq(0) input', 'Testing Relationships');
+    find('.table-override-columns-template table thead tr:eq(1) th:eq(0) input').trigger('keyup');
   });
 
   andThen(function() {
@@ -42,13 +42,13 @@ test('Check for expected url when filtering relationships', function(assert) {
 
   andThen(function() {
     // clear filter
-    click('.table-default table .clearFilter');
+    click('.table-override-columns-template table .clearFilter');
   });
 
   andThen(function() {
     // make another request to the relationship
-    fillIn('.table-default table thead tr:eq(1) th:eq(0) input', 'Testing Relationships 2');
-    find('.table-default table thead tr:eq(1) th:eq(0) input').trigger('keyup');
+    fillIn('.table-override-columns-template table thead tr:eq(1) th:eq(0) input', 'Testing Relationships 2');
+    find('.table-override-columns-template table thead tr:eq(1) th:eq(0) input').trigger('keyup');
   });
 
   andThen(function() {

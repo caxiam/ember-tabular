@@ -1,11 +1,21 @@
 <h5>Example #1</h5>
+<h1>Table - Default</h1>
+{{ember-tabular class="table-default" modelName="user" sort=sort2 isColumnSelect=false}}
+
+<h5>Example #2</h5>
 <h1>Table - Column Select</h1>
-{{#ember-tabular modelName="user" sort=sort1 columnOrder=orderConfig as |et|}}
+{{#ember-tabular class="table-column-select" modelName="user" sort=sort1 columnOrder=orderConfig as |et|}}
     {{#et.column property="emailAddress" isCustom=true as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/et.column}}
-    {{#et.column property="updatedAt" isCustom=true type="date" as |record column|}}
-        {{moment-format (get record column.property) 'MM/DD/YYYY'}}
+    {{et.column property="password" isActive=false isCustom=false filter=false sort=false}}
+    {{et.column property="createdAt" isActive=false isCustom=false filter=false sort=false}}
+    {{#et.column property="updatedAt" label="Last Updated" isCustom=true type="date" as |record column|}}
+        {{#if record.updatedAt}}
+            {{moment-format record.updatedAt 'MM/DD/YYYY'}}
+        {{else}}
+            {{moment-format record.createdAt 'MM/DD/YYYY'}}
+        {{/if}}
     {{/et.column}}
     {{#et.column
         property="actions"
@@ -19,13 +29,9 @@
     {{/et.column}}
 {{/ember-tabular}}
 
-<h5>Example #2</h5>
-<h1>Table - Default</h1>
-{{ember-tabular modelName="user" sort=sort2 isColumnSelect=false}}
-
 <h5>Example #3</h5>
 <h1>Table - Override Columns/Templates</h1>
-{{#ember-tabular class="table-default" columns=columns modelName="user" record=users sort=sort3 as |et|}}
+{{#ember-tabular class="table-override-columns-template" columns=columns modelName="user" record=users sort=sort3 as |et|}}
     {{#et.column property="username" as |record column|}}
         {{record.username}}
     {{/et.column}}

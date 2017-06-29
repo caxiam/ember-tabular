@@ -26,37 +26,44 @@ let columns = [
   {
     property: 'username',
     label: 'Username',
+    isActive: true,
     type: 'text',
     defaultSort: 'username',
   },
   {
     property: 'email-address',
     label: 'Email',
+    isActive: true,
     type: 'text',
   },
   {
     property: 'first-name',
     label: 'First Name',
+    isActive: true,
     type: 'text',
   },
   {
     property: 'last-name',
     label: 'Last Name',
+    isActive: true,
     type: 'text',
   },
   {
     property: 'updated-at',
     label: 'Last Updated',
+    isActive: true,
     type: 'date',
   },
   {
+    property: 'actions',
     label: 'Actions',
+    isActive: true,
   },
 ];
 
 moduleForComponent('ember-tabular', 'Unit | Component | ember table jsonapi', {
   unit: true,
-  needs: ['helper:dot-to-dash-filter', 'component:ember-tabular-filter', 'helper:and', 'component:pagination-pager'],
+  needs: ['helper:dot-to-dash-filter', 'component:ember-tabular-filter', 'component:ember-tabular-footer', 'helper:and', 'component:pagination-pager', 'template:components/ember-tabular-row', 'component:ember-tabular-column-select', 'helper:compare-with', 'component:ember-tabular-column'],
   beforeEach: function() {
     component = this.subject({
       record: model,

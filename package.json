@@ -36,6 +36,8 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "2.13.1",
     "ember-disable-prototype-extensions": "^1.1.0",
+    "ember-drag-drop": "^0.4.4",
+    "ember-drag-drop-polyfill": "0.0.2",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
     "ember-moment": "7.3.0",
@@ -56,6 +58,7 @@
     "pagination-pager": "2.4.1",
     "ember-truth-helpers": "1.2.0",
     "ember-power-select": "1.4.3",
+    "ember-drag-drop": "^0.4.4",
     "broccoli-merge-trees": "2.0.0",
     "broccoli-funnel": "1.2.0"
   },

@@ -5,6 +5,7 @@ machine:
 
 dependencies:
   pre:
+    - npm install -g npm@5.0.2
     - npm install -g ember-cli@2.4.2
     - npm install -g phantomjs@1.9.8
     - npm install

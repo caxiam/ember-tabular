@@ -35,10 +35,5 @@ module.exports = function(defaults) {
   app.import('bower_components/bootstrap/dist/css/bootstrap.css');
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
 
-  // Specifically for PhantomJS 1.9.8
-  if (environment === 'test') {
-    app.import('bower_components/DOM-shim/lib/DOM-shim.js');
-  }
-
   return mergeTrees([app.toTree(), vendor]);
 };

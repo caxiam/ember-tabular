@@ -1,7 +1,7 @@
 <h5>Example #4</h5>
 <h1>Table - Basic - Route Binds Model to Table</h1>
 {{#ember-tabular class="table-basic-route-model" columns=columns makeRequest=false record=model page=page pageLimit=pageLimit isLoading=isLoading sort=sort as |et|}}
-    {{#et.column property="updatedAt" label="Last Updated" isCustom=true type="date" as |record column|}}
+    {{#et.column property="updatedAt" as |record column|}}
         {{#if record.updatedAt}}
             {{moment-format record.updatedAt 'MM/DD/YYYY'}}
         {{else}}

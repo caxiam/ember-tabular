@@ -4,18 +4,19 @@ var Funnel = require('broccoli-funnel');
 var mergeTrees = require('broccoli-merge-trees');
 
 module.exports = function(defaults) {
-  var environment = process.env.EMBER_ENV,
-    config = {};
+  var environment = process.env.EMBER_ENV;
 
-  if (environment === 'test') {
-    config = {
-      babel: {
-        includePolyfill: true
-      }
-    };
-  }
-
-  var app = new EmberAddon(defaults, config);
+  var app = new EmberAddon(defaults, {
+    babel: {
+      includePolyfill: environment === 'test',
+    },
+    ['ember-drag-drop-polyfill']: {
+      includeCSS: true,
+      includeIconsCss: false,
+      includeDebugCss: false,
+      includeScrollBehavior: false,
+    }
+  });
 
   /*
     This build file specifies the options for the dummy test app of this

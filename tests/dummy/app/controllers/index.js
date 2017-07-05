@@ -54,7 +54,7 @@ export default Ember.Controller.extend({
       sort: false,
     },
   ],
-  columns: [
+  columns: Ember.A([
     {
       property: 'username',
       label: 'Username',
@@ -112,7 +112,7 @@ export default Ember.Controller.extend({
       sort: false,
       isActive: true,
     },
-  ],
+  ]),
   columnsForDropdownFilter: [
     {
       label: 'Username',

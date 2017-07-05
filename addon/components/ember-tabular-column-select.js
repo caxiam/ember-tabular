@@ -20,5 +20,8 @@ export default Ember.Component.extend({
         Ember.set(column, 'isActive', true);
       }
     },
+    sortEndAction() {
+      // override to perform custom actions on end of sort
+    },
   },
 });

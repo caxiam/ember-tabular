@@ -4,7 +4,7 @@
     </button>
     {{#sortable-objects sortableObjectList=columns sortEndAction="sortEndAction" sortingScope="a" class="dropdown-menu pull-left" tagName="ul"}}
         {{#each columns as |column|}}
-            {{#draggable-object content=column  overrideClass="sortObject" isSortable=true sortingScope="a" dragHandle=".js-dragHandle" tagName="li"}}
+            {{#draggable-object content=column  overrideClass="sortObject" isSortable=true sortingScope="a" tagName="li"}}
                 <a {{action "toggleColumn" column}}>
                     <span class="{{if column.isActive "fa fa-check-square-o" "fa fa-square-o"}}"></span> {{column.label}}
                     <span class="fa fa-bars js-dragHandle pull-right"></span>

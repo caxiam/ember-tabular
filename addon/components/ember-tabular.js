@@ -169,7 +169,8 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   },
 
   /**
-  * This is typically setup on the controller and passed into the component, and is used to construct the table headers/filtering.
+  * Use this property only if you want to completely override what ember-tabular would generate based on the ember data model.
+  * If you plan on using column drag re-ordering then wrapping the columns in `columns: Ember.A([...])` will be required.
   *
   ```js
   export default Ember.Controller.extend({

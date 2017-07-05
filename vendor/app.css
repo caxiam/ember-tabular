@@ -134,3 +134,16 @@
         transform: scale(1) rotate(360deg); @include transform(scale(1) rotate(360deg) transform-origin(50% 50%));
     }
 }
+
+/* ember-tabular-column-select */
+
+.btn-group-column-select .js-draggableObject{
+    position:relative;
+}
+.btn-group-column-select .js-dragHandle{
+    cursor:move;
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+    right:9px;
+}

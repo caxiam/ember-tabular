@@ -11,6 +11,7 @@ export default Ember.Component.extend({
   * @default 'div'
   */
   tagName: 'div',
+  classNames: ['btn-group', 'btn-group-column-select'],
 
   actions: {
     toggleColumn(column) {

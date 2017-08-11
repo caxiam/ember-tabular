@@ -84,10 +84,10 @@
 {{yield footer}}
 
 <div class="row">
-    {{#if isColumnSelect}}
-        {{ember-tabular-column-select columns=columns}}
-    {{/if}}
     <div class="{{unless isDropdownLimit 'col-sm-12' 'col-sm-9'}}">
+        {{#if isColumnSelect}}
+            {{ember-tabular-column-select columns=columns}}
+        {{/if}}
         <nav class="{{if paginationWrapperClass paginationWrapperClass}}">
             {{pagination-pager current=page count=pageLimit}}
         </nav>

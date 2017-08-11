@@ -1,15 +1,13 @@
-<div class="btn-group btn-group-column-select">
-    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default dropdown-toggle">
-        Columns <span class="caret"></span>
-    </button>
-    {{#sortable-objects sortableObjectList=columns sortEndAction="sortEndAction" sortingScope="a" class="dropdown-menu pull-left" tagName="ul"}}
-        {{#each columns as |column|}}
-            {{#draggable-object content=column  overrideClass="sortObject" isSortable=true sortingScope="a" tagName="li"}}
-                <a {{action "toggleColumn" column}}>
-                    <span class="{{if column.isActive "fa fa-check-square-o" "fa fa-square-o"}}"></span> {{column.label}}
-                    <span class="fa fa-bars js-dragHandle pull-right"></span>
-                </a>
-            {{/draggable-object}}
-        {{/each}}
-    {{/sortable-objects}}
-</div>
+<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default dropdown-toggle">
+    Columns <span class="caret"></span>
+</button>
+{{#sortable-objects sortableObjectList=columns sortEndAction="sortEndAction" sortingScope="a" class="dropdown-menu pull-left" tagName="ul"}}
+    {{#each columns as |column|}}
+        {{#draggable-object content=column  overrideClass="sortObject" isSortable=true sortingScope="a" tagName="li"}}
+            <a {{action "toggleColumn" column}}>
+                <span class="{{if column.isActive "fa fa-check-square-o" "fa fa-square-o"}}"></span> {{column.label}}
+                <span class="fa fa-bars js-dragHandle pull-right"></span>
+            </a>
+        {{/draggable-object}}
+    {{/each}}
+{{/sortable-objects}}

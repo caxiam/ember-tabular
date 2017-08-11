@@ -78,8 +78,18 @@
     cursor: pointer;
 }
 
+.ember-tabular nav{
+    display: inline-block;
+}
+
 .ember-tabular .pagination {
     margin-top: 0;
+    margin-bottom: 0;
+}
+
+.ember-tabular .btn-group-column-select{
+    vertical-align: initial;
+    margin-right: 15px;
 }
 
 .ember-tabular .form-control-inline {

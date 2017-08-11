@@ -93,8 +93,8 @@ test('Check for hidden column after interacting with column-select component (.t
 
     let cells = find('.table-column-select table tbody tr').eq(0).find('td');
 
-    assert.equal(find('.table-column-select table thead tr th').length, 7, 'Show expected number of columns');
-    assert.equal(cells.length, 7, 'Show expected number of columns');
+    assert.equal(find('.table-column-select table thead tr th').length, 7, 'Show expected number of <th> columns');
+    assert.equal(cells.length, 7, 'Show expected number of <td> columns');
     assert.equal(cells.eq(0).text().trim(), 'AnakinSkywalker9', 'Check for username');
     assert.equal(cells.eq(1).text().trim(), 'skywalker@domain.com', 'Check for email');
 
@@ -105,8 +105,8 @@ test('Check for hidden column after interacting with column-select component (.t
   andThen(function() {
     let cells = find('.table-column-select table tbody tr').eq(0).find('td');
 
-    assert.equal(find('.table-column-select table thead tr th').length, 6, 'Show expected number of columns');
-    assert.equal(cells.length, 6, 'Show expected number of columns');
+    assert.equal(find('.table-column-select table thead tr th').length, 6, 'Show expected number of <th> columns');
+    assert.equal(cells.length, 6, 'Show expected number of <td> columns');
     assert.equal(cells.eq(0).text().trim(), 'skywalker@domain.com', 'Check for email, username is hidden');
     assert.equal(cells.eq(1).text().trim(), 'Anakin', 'Check for first name');
 
@@ -473,7 +473,7 @@ test('Check for dropdown clear success (.table-override-columns-template)', func
   });
 });
 
-test('Check table-basic-global-filter for expected content after filtering', function(assert) {
+test('Check for expected content after filtering (.table-basic-global-filter)', function(assert) {
   server.loadFixtures('users');
   visit('/');
 
@@ -534,7 +534,7 @@ test('Check for clearFilter action success (.table-default)', function(assert) {
   });
 });
 
-test('Check table-basic-global-filter for clearFilter action success', function(assert) {
+test('Check for clearFilter action success (.table-basic-global-filter )', function(assert) {
   server.loadFixtures('users');
   visit('/');
 
@@ -560,7 +560,7 @@ test('Check table-basic-global-filter for clearFilter action success', function(
   });
 });
 
-test('Check table-basic-global-date-filter to filter by date and is-admin', function(assert) {
+test('Check to filter by date and is-admin (.table-basic-global-date-filter)', function(assert) {
   server.loadFixtures('users');
   visit('/');
 
@@ -586,7 +586,7 @@ test('Check table-basic-global-date-filter to filter by date and is-admin', func
   });
 });
 
-test('Check table-basic-global-date-filter for infinite request loop', function(assert) {
+test('Check for infinite request loop (.table-basic-global-date-filter)', function(assert) {
   // error occurs if controller properties that are shared
   // with ember-tabular components are not defined within controller
   server.loadFixtures('users');
@@ -614,7 +614,7 @@ test('Check table-basic-global-date-filter for infinite request loop', function(
   });
 });
 
-test('Check table-basic-global-date-filter for date clearFilter action success', function(assert) {
+test('Check for date clearFilter action success (.table-basic-global-date-filter)', function(assert) {
   server.loadFixtures('users');
   visit('/');
 
@@ -640,7 +640,7 @@ test('Check table-basic-global-date-filter for date clearFilter action success',
   });
 });
 
-test('Check table-persist for persistent filters on transition', function(assert) {
+test('Check for persistent filters on transition (.table-persist)', function(assert) {
   server.loadFixtures('users');
   visit('/');
 

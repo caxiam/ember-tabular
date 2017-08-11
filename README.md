@@ -24,30 +24,68 @@ Setup the ember-tabular template.
 
 You have full control over your table's `tbody` content. We are setting this to render the content into the `{{yield body}}` of the table component.
 ```hbs
-{{! app/templates/my-route.hbs }}
+{{! app/templates/basic-usage.hbs}}
 
-{{#ember-tabular columns=columns modelName="user" record=users as |section|}}
-    {{#if section.isBody}}
-        {{#each users as |row|}}
-            <tr>
-                <td>{{row.username}}</td>
-                <td>{{row.emailAddress}}</td>
-                <td>{{row.firstName}}</td>
-                <td>{{row.lastName}}</td>
-                <td>{{row.updatedAt}}</td>
-                <td>
-                    {{#link-to "index" class="btn btn-xs" role="button"}}
-                        Edit
-                    {{/link-to}}
-                </td>
-            </tr>
-        {{/each}}
-    {{/if}}
+{{ember-tabular modelName="user"}}
+
+
+{{! app/templates/custom-usage.hbs }}
+
+{{#ember-tabular modelName="user" sort=sort as |et|}}
+    {{#et.column property="emailAddress" isCustom=true as |record column|}}
+        <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
+    {{/et.column}}
+    {{et.column property="password" isActive=false isCustom=false filter=false sort=false}}
+    {{et.column property="createdAt" isActive=false isCustom=false filter=false sort=false}}
+    {{#et.column property="updatedAt" label="Last Updated" isCustom=true type="date" as |record column|}}
+        {{#if record.updatedAt}}
+            {{moment-format record.updatedAt 'MM/DD/YYYY'}}
+        {{else}}
+            {{moment-format record.createdAt 'MM/DD/YYYY'}}
+        {{/if}}
+    {{/et.column}}
+    {{#et.column
+        property="actions"
+        isCustom=true
+        filter=false
+        sort=false
+    }}
+        {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
+            Edit
+        {{/link-to}}
+    {{/et.column}}
+{{/ember-tabular}}
+
+
+{{! app/templates/advanced-usage.hbs }}
+
+{{#ember-tabular columns=columns modelName="user" record=users sort=sort as |et|}}
+    {{#et.column property="username" as |record column|}}
+        {{record.username}}
+    {{/et.column}}
+    {{#et.column property="emailAddress" as |record column|}}
+        {{record.emailAddress}}
+    {{/et.column}}
+    {{#et.column property="firstName" as |record column|}}
+        {{record.firstName}}
+    {{/et.column}}
+    {{#et.column property="updatedAt" as |record column|}}
+        {{#if record.updatedAt}}
+            {{moment-format record.updatedAt 'MM/DD/YYYY'}}
+        {{else}}
+            {{moment-format record.createdAt 'MM/DD/YYYY'}}
+        {{/if}}
+    {{/et.column}}
+    {{#et.column property="actions" as |record column|}}
+        {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
+            Edit
+        {{/link-to}}
+    {{/et.column}}
 {{/ember-tabular}}
 ```
 
 ### Controller
-Setup the columns array, which is how the table headers are constructed, `label` is required in all cases.
+Optionally setup the columns array, which is how to override the table headers, `property` is required in all cases.
 ```js
 // app/controllers/my-route.js
 
@@ -56,7 +94,6 @@ export default Ember.Controller.extend({
     columns: [
         {
             property: 'username',
-            label: 'Username',
             defaultSort: 'username',
         },
         {
@@ -65,11 +102,6 @@ export default Ember.Controller.extend({
         },
         {
             property: 'firstName',
-            label: 'First Name',
-        },
-        {
-            property: 'lastName',
-            label: 'Last Name',
         },
         {
             property: 'updatedAt',
@@ -77,7 +109,7 @@ export default Ember.Controller.extend({
             type: 'date',
         },
         {
-            label: 'Actions',
+            property: 'actions',
         },
     ],
 });
@@ -98,12 +130,14 @@ Ember Tabular sticks very closely to jsonapi spec, a few examples of requests:
 
 ### Template - Yields
 ```hbs
-{{#ember-tabular columns=columns record=users as |section|}}
-    {{#if section.isHeader}}
+{{#ember-tabular record=users as |et|}}
+    {{#if et.isHeader}}
         ... place content in header yield ...
-    {{else if section.isBody}}
-        ... place content within <tbody></tbody> ...
-    {{else if section.isFooter}}
+    {{/if}}
+
+    ... place content within <tbody></tbody> ...
+
+    {{#if et.isFooter}}
         ... place content in footer yield ...
     {{/if}}
 {{/ember-tabular}}
@@ -116,18 +150,18 @@ Component has 3 yields setup by default, `header`, `body`, and `footer`:
 
 ### Sub-Components - Templates
 #### Global Filter
-Typically the global filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if section.isHeader}} ...`. However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
+Typically the global filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if et.isHeader}} ...`. However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
 
-* Sent in request as: `?filter[filterProperty]=searchFilter`, e.g. `?filter[username]=John.Doe2`
+* Sent in request as: `?filter[filterProperty]=searchFilter`, e.g. `?filter[first-name]=John.Doe2`
 ```hbs
 {{ember-tabular-global-filter 
     filter=filter 
-    filterProperty="username" 
-    filterPlaceholder="Search by Username"}}
+    filterProperty="firstName" 
+    filterPlaceholder="Search by First Name"}}
 ```
 
 #### Date Filter
-Date filter changes `input type="date"` to take advantage of a browser's HTML5 date widget. Typically the date filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if section.isHeader}} ...`. However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
+Date filter changes `input type="date"` to take advantage of a browser's HTML5 date widget. Typically the date filter component would be rendered into the `{{yield header}}` of the main table component using the yield conditional `{{#if et.isHeader}} ...`. However, it can be used outside of the context of the main component if the proper properties are shared between the main component and sub-component.
 
 * Sent in request as: `?filter[filterProperty]=dateFilter`, e.g. `?filter[updated-at]=2015-06-29`
 ```hbs

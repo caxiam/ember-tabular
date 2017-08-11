@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 /**
+* Generates a bootstrap compliant dropdown containing the `columns`
+* in a selectable/reorderable list.
 *
 * @class EmberTabularColumnSelect
 */
@@ -12,6 +14,7 @@ export default Ember.Component.extend({
   */
   tagName: 'div',
   classNames: ['btn-group', 'btn-group-column-select'],
+  columns: null,
 
   actions: {
     toggleColumn(column) {
@@ -23,6 +26,7 @@ export default Ember.Component.extend({
     },
     sortEndAction() {
       // override to perform custom actions on end of sort
+      // perhaps to save the columns order
     },
   },
 });

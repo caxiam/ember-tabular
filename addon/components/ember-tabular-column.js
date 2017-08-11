@@ -2,8 +2,30 @@ import Ember from 'ember';
 import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-helpers';
 
 /**
+* Generates a column object used within ember tabular table headings
+* Sets sensible defaults which can be overwritten when setting up the template
+* for ember tabular
 *
-* @class EmberTabularCell
+  ```hbs
+  {{! app/templates/my-route.hbs }}
+
+  {{#ember-tabular class="table-basic-global-filter" modelName="user" record=users2 filter=filter as |et|}}
+    {{et.column property="username" isCustom=false filter=false sort=false}}
+    {{et.column property="createdAt" isActive=false isCustom=false filter=true sort=true type="date"}}
+  {{/ember-tabular}}
+
+  {{#ember-tabular class="table-basic-global-filter" modelName="user" record=users2 filter=filter as |et|}}
+    {{#et.column property="isAdmin" as |record column|}}
+        {{#if record.isAdmin}}
+            Yes
+        {{else}}
+            No
+        {{/if}}
+    {{/et.column}}
+  {{/ember-tabular}}
+  ```
+*
+* @class EmberTabularColumn
 */
 export default Ember.Component.extend(EmberTabularHelpers, {
   /**

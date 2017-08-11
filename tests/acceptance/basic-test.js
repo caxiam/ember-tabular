@@ -147,7 +147,7 @@ test('Check for proper row count when dropdown-limit is changed (.table-default)
     assert.equal(rows.length, 10, 'Check for 10 items in table');
 
     // change table limit to 25
-    selectChoose('.table-default .limit:eq(0)', '25');
+    selectChoose($('.table-default .limit:eq(0)')[0], '25');
 
     andThen(function() {
       let rows = find('.table-default table tbody tr');
@@ -430,7 +430,7 @@ test('Check for expected content dropdown filter (.table-override-columns-templa
     assert.equal(currentPath(), 'index');
 
     click('.table-override-columns-template table .btn-toggle-filter:eq(0)');
-    selectChoose('.table-override-columns-template .ember-tabular-ember-power-select:eq(0)', 'Yes');
+    selectChoose('.table-override-columns-template .ember-tabular-ember-power-select', 'Yes');
   });
 
   andThen(function() {
@@ -453,7 +453,7 @@ test('Check for dropdown clear success (.table-override-columns-template)', func
   });
 
   andThen(function() {
-    selectChoose('.table-override-columns-template .ember-tabular-ember-power-select:eq(0)', 'Yes');
+    selectChoose($('.table-override-columns-template .ember-tabular-ember-power-select:eq(0)')[0], 'Yes');
   });
 
   andThen(function() {
@@ -569,7 +569,7 @@ test('Check table-basic-global-date-filter to filter by date and is-admin', func
   });
 
   andThen(function() {
-    selectChoose('.table-basic-global-date-filter .ember-tabular-ember-power-select:eq(0)', 'Yes');
+    selectChoose($('.table-basic-global-date-filter .ember-tabular-ember-power-select:eq(0)')[0], 'Yes');
 
     fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
     find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');

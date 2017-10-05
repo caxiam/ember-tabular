@@ -38,6 +38,7 @@
     "ember-cli-test-loader": "^1.1.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-cli-yuidoc": "0.8.8",
+    "yuidoc-bootstrap-theme": "1.0.6",
     "ember-data": "^2.10.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-disable-proxy-controllers": "1.0.1",

@@ -72,9 +72,9 @@ export default Ember.Component.extend({
   *
   * @method filterBy
   */
-  filterBy: Ember.observer(function () {
+  filterBy() {
     Ember.run.debounce(this, 'filterName', 750);
-  }),
+  },
   /**
   * @property isClearable
   */

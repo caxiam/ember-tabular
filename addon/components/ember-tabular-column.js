@@ -48,6 +48,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     this._super(...arguments);
     const registry = this.get('registry');
     const property = this.get('property');
+    const selectable = this.get('selectable');
     const label = this.get('label') || this._formatColumnLabel(property);
     const isActive = this._checkIfUndefined(this.get('isActive'), true);
     const isCustom = this.get('isCustom') || false;
@@ -57,6 +58,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     const type = this.get('type') || 'text';
     let column = {
       property: property,
+      selectable: selectable,
       label: label,
       isActive: isActive,
       isCustomTemplate: isCustom,

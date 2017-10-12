@@ -8,7 +8,7 @@
     {{#et.column property="emailAddress" isCustom=true as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/et.column}}
-    {{!-- pass enum of dropdown filter values list=adminContent, works just like columns.list --}}
+    <!-- pass enum of dropdown filter values list=adminContent, works just like columns.list -->
     {{#et.column property="isAdmin" list=adminContent isCustom=true as |record|}}
         {{#if record.isAdmin}}
             Yes
@@ -151,8 +151,13 @@
     {{/if}}
 {{/ember-tabular}}
 
-
 <h5>Example #6</h5>
+<h1>Table - Select Row</h1>
+{{#ember-tabular class="table-select-row" modelName="user" sort=sort2 isColumnSelect=false as |et|}}
+    {{et.column property="checked" selectable=true isCustom=false filter=false sort=false}}
+{{/ember-tabular}}
+
+<h5>Example #7</h5>
 {{#link-to 'example4' class="link-ex4"}}
     Route Binds Model to Table
 {{/link-to}}

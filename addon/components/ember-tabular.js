@@ -44,6 +44,14 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   */
   persistFiltering: false,
   /**
+  * Will check all table rows
+  *
+  * @property allChecked
+  * @type Boolean
+  * @default false
+  */
+  allChecked: false,
+  /**
   * @property sortableClass
   * @type String
   * @default 'sortable'
@@ -942,6 +950,24 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       } else {
         $tableHeader.addClass('sort-asc');
       }
+    }
+  }),
+
+  /**
+  * Takes `record` loops and sets each `row.checked`.
+  *
+  * @method checkAllRecords
+  */
+  checkAllRecords: Ember.observer('allChecked', function () {
+    const allChecked = this.get('allChecked');
+    if (allChecked) {
+      this.get('record').forEach((row) => {
+        row.set('checked', true);
+      });
+    } else {
+      this.get('record').forEach((row) => {
+        row.set('checked', false);
+      });
     }
   }),
 

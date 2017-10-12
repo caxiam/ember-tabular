@@ -1,6 +1,15 @@
 {{#if hasProperty}}
   {{#if hasBlock}}
     <td>{{yield record column}}</td>
+  {{else if column.selectable}}
+    <td>
+      <div class="checkbox-no-label checkbox-sm">
+          <label>
+              {{input type="checkbox" name="checked" checked=record.checked}}
+              <span class="fake-checkbox"></span>
+          </label>
+      </div>
+    </td>
   {{else}}
     <td>{{get record column.property}}</td>
   {{/if}}

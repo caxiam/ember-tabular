@@ -703,7 +703,7 @@ test('Check for persistent filters on transition (.table-persist)', function(ass
     andThen(function() {
       let request = getPretenderRequest(server, 'GET', 'users');
 
-      assert.equal(request.length, 14, 'Check that additional request was not made when opening filter row');
+      assert.equal(request.length, 16, 'Check that additional request was not made when opening filter row');
     });
   });
 });
@@ -722,6 +722,58 @@ test('Check for expected request count when transitioning', function(assert) {
   andThen(function() {
     let request = getPretenderRequest(server, 'GET', 'users');
 
-    assert.equal(request.length, 7, 'Should only see 7 requests, checking to ensure extra requests are not made on transition');
+    assert.equal(request.length, 8, 'Should only see 8 requests, checking to ensure extra requests are not made on transition');
+  });
+});
+
+test('Check for expected content (.table-select-row)', function(assert) {
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    let cells = find('.table-select-row table tbody tr').eq(0).find('td');
+
+    assert.equal(cells.eq(0).find('input').prop('checked'), false, 'Check for checkbox');
+    assert.equal(cells.eq(1).text().trim(), 'AnakinSkywalker9', 'Check for username');
+    assert.equal(cells.eq(2).text().trim(), 'skywalker@domain.com', 'Check for email');
+    assert.equal(cells.eq(3).text().trim(), '1082hudsasd', 'Check for password');
+    assert.equal(cells.eq(4).text().trim(), 'Anakin', 'Check for first name');
+    assert.equal(cells.eq(5).text().trim(), 'Skywalker', 'Check for last name');
+    assert.equal(cells.eq(6).text().trim(), 'false', 'Check for is admin');
+    assert.equal(cells.eq(7).text().trim(), 'Wed Jul 22 2009 00:00:00 GMT+0000', 'Check for created at');
+    assert.equal(cells.eq(8).text().trim(), 'Thu Jul 23 2009 00:00:00 GMT+0000', 'Check for updated at');
+
+    assert.equal(find('.table-select-row table tbody tr').length, 10, 'Check for 10 items in table');
+  });
+});
+
+test('Check for checking all rows (.table-select-row)', function(assert) {
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    click('.table-select-row .allChecked');
+  });
+
+  andThen(function() {
+    let rows = find('.table-select-row table tbody tr');
+
+    assert.equal(rows.eq(0).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows.eq(1).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows.eq(2).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+
+    click('.table-select-row .allChecked');
+  });
+
+  andThen(function() {
+    let rows = find('.table-select-row table tbody tr');
+
+    assert.equal(rows.eq(0).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows.eq(1).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows.eq(2).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
   });
 });

@@ -72,6 +72,15 @@
     position: relative;
 }
 
+.ember-tabular .ember-tabular-row-checkbox:focus{
+    outline: none;
+    border-color: inherit;
+    box-shadow: none;
+}
+.ember-tabular .unselectable{
+    user-select: none;
+}
+
 .ember-tabular a,
 .ember-tabular [class^="btn"],
 .ember-tabular .clearFilter {

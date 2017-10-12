@@ -4,10 +4,7 @@
   {{else if column.selectable}}
     <td>
       <div class="checkbox-no-label checkbox-sm">
-          <label>
-              {{input type="checkbox" name="checked" checked=record.checked}}
-              <span class="fake-checkbox"></span>
-          </label>
+          {{ember-tabular-row-checkbox name="checked" model=record collection=collection}}
       </div>
     </td>
   {{else}}

@@ -777,3 +777,29 @@ test('Check for checking all rows (.table-select-row)', function(assert) {
     assert.equal(rows.eq(2).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
   });
 });
+
+test('Check for checking rows using shift + click (.table-select-row)', function(assert) {
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    let rows = find('.table-select-row table tbody tr');
+
+    // select the second row through the 5th
+    click(find(rows.eq(1).find('td:eq(0) input[type="checkbox"]:eq(0)')));
+    triggerEvent(find(rows.eq(4).find('td:eq(0) input[type="checkbox"]:eq(0)')), 'click', {
+        shiftKey: true,
+    });
+
+    andThen(function () {
+      assert.equal(rows.eq(0).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+      assert.equal(rows.eq(1).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+      assert.equal(rows.eq(2).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+      assert.equal(rows.eq(3).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+      assert.equal(rows.eq(4).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+      assert.equal(rows.eq(5).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    });
+  });
+});

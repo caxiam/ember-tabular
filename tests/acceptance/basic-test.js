@@ -76,7 +76,7 @@ test('Check for expected content (.table-column-select)', function(assert) {
     assert.equal(cells.eq(1).text().trim(), 'skywalker@domain.com', 'Check for email');
     assert.equal(cells.eq(2).text().trim(), 'Anakin', 'Check for first name');
     assert.equal(cells.eq(3).text().trim(), 'Skywalker', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), 'false', 'Check for is admin');
+    assert.equal(cells.eq(4).text().trim(), 'No', 'Check for is admin');
     assert.equal(cells.eq(5).text().trim(), '07/23/2009', 'Check for last updated');
     assert.equal(cells.eq(6).text().trim(), 'Edit', 'Check for edit link');
 
@@ -431,6 +431,26 @@ test('Check for expected content dropdown filter (.table-override-columns-templa
 
     click('.table-override-columns-template table .btn-toggle-filter:eq(0)');
     selectChoose('.table-override-columns-template .ember-tabular-ember-power-select', 'Yes');
+  });
+
+  andThen(function() {
+    var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+    assert.equal(request.status, 200);
+    assert.equal(request.method, 'GET');
+    assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+  });
+});
+
+test('Check for expected content dropdown filter (.table-column-select) (pass in array of values for dropdown into ember-tabular-column)', function(assert) {
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    click('.table-column-select table .btn-toggle-filter:eq(0)');
+    selectChoose('.table-column-select .ember-tabular-ember-power-select', 'Yes');
   });
 
   andThen(function() {

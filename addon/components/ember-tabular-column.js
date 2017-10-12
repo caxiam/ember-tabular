@@ -52,6 +52,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     const isActive = this._checkIfUndefined(this.get('isActive'), true);
     const isCustom = this.get('isCustom') || false;
     const filter = this._checkIfUndefined(this.get('filter'), true);
+    const list = this.get('list') || null;
     const sort = this._checkIfUndefined(this.get('sort'), true);
     const type = this.get('type') || 'text';
     let column = {
@@ -60,6 +61,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       isActive: isActive,
       isCustomTemplate: isCustom,
       filter: filter,
+      list: list,
       sort: sort,
       type: type,
     };

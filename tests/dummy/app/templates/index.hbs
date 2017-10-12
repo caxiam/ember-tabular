@@ -8,6 +8,14 @@
     {{#et.column property="emailAddress" isCustom=true as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/et.column}}
+    {{!-- pass enum of dropdown filter values list=adminContent, works just like columns.list --}}
+    {{#et.column property="isAdmin" list=adminContent isCustom=true as |record|}}
+        {{#if record.isAdmin}}
+            Yes
+        {{else}}
+            No
+        {{/if}}
+    {{/et.column}}
     {{et.column property="password" isActive=false isCustom=false filter=false sort=false}}
     {{et.column property="createdAt" isActive=false isCustom=false filter=false sort=false}}
     {{#et.column property="updatedAt" label="Last Updated" isCustom=true type="date" as |record column|}}

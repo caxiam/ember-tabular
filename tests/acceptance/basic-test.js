@@ -300,11 +300,11 @@ test('Check for disabled sorting (.table-override-columns-template)', function(a
   });
 
   andThen(function() {
-    let request = getPretenderRequest(server, 'GET', 'users')[0];
+    let request = getPretenderRequest(server, 'GET', 'users')[4];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
-    assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL, no sort');
+    assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL, no sort');
   });
 });
 

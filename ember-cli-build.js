@@ -7,7 +7,7 @@ module.exports = function(defaults) {
   var environment = process.env.EMBER_ENV;
 
   var app = new EmberAddon(defaults, {
-    babel: {
+    'ember-cli-babel': {
       includePolyfill: environment === 'test',
     },
     ['ember-drag-drop-polyfill']: {

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import layout from 'ember-tabular/templates/components/ember-tabular';
 import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-helpers';
 
 /**
@@ -16,6 +17,7 @@ import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-h
 * @class EmberTabular
 */
 export default Ember.Component.extend(EmberTabularHelpers, {
+  layout,
   store: Ember.inject.service('store'),
   action: null,
   classNames: ['ember-tabular'],

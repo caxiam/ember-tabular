@@ -1,4 +1,5 @@
 import EmberTabularGlobalFilter from './ember-tabular-global-filter';
+import layout from 'ember-tabular/templates/components/ember-tabular-date-filter';
 
 /**
 * ## Date Filter
@@ -15,4 +16,6 @@ import EmberTabularGlobalFilter from './ember-tabular-global-filter';
 ```
 * @class EmberTabularDateFilter
 */
-export default EmberTabularGlobalFilter.extend();
+export default EmberTabularGlobalFilter.extend({
+  layout,
+});

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import layout from 'ember-tabular/templates/components/ember-tabular-column-select';
 
 /**
 * Generates a bootstrap compliant dropdown containing the `columns`
@@ -7,6 +8,7 @@ import Ember from 'ember';
 * @class EmberTabularColumnSelect
 */
 export default Ember.Component.extend({
+  layout,
   /**
   * @property tagName
   * @type String

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import layout from 'ember-tabular/templates/components/ember-tabular-column';
 import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-helpers';
 
 /**
@@ -28,6 +29,7 @@ import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-h
 * @class EmberTabularColumn
 */
 export default Ember.Component.extend(EmberTabularHelpers, {
+  layout,
   /**
   * @property tagName
   * @type String

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import layout from 'ember-tabular/templates/components/ember-tabular-alert';
 
 /**
 * Any errors returned from the request(s) are displayed in an alert box.
@@ -6,6 +7,7 @@ import Ember from 'ember';
 * @class EmberTabularAlert
 */
 export default Ember.Component.extend({
+  layout,
   /**
   * @property tagName
   * @type String

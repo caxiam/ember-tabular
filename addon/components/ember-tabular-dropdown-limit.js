@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import layout from 'ember-tabular/templates/components/ember-tabular-dropdown-limit';
 
 /**
 * Sets up component for changing the table row count/limit.
@@ -6,6 +7,7 @@ import Ember from 'ember';
 * @class EmberTabularDropdownLimit
 */
 export default Ember.Component.extend({
+  layout,
   /**
   * @property tagName
   * @type String

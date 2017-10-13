@@ -1,10 +1,12 @@
 import Ember from 'ember';
+import layout from 'ember-tabular/templates/components/ember-tabular-footer';
 
 /**
 *
 * @class EmberTabularFooter
 */
 export default Ember.Component.extend({
+  layout,
   /**
   * @property tagName
   * @type String

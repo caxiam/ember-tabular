@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import layout from 'ember-tabular/templates/components/ember-tabular-row-checkbox';
 
 export default Ember.Component.extend({
+  layout,
   tagName: 'div',
   classNames: ['ember-tabular-row-checkbox'],
   // allow div to be focusable so keyDown/keyUp events are triggered

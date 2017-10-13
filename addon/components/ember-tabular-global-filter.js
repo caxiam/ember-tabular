@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import layout from 'ember-tabular/templates/components/ember-tabular-global-filter';
 
 /**
 * ## Global Filter
@@ -17,6 +18,7 @@ import Ember from 'ember';
 * @class EmberTabularGlobalFilter
 */
 export default Ember.Component.extend({
+  layout,
   /**
   * @property tagName
   * @type String

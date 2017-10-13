@@ -1,4 +1,5 @@
 import EmberTabularGlobalFilter from './ember-tabular-global-filter';
+import layout from 'ember-tabular/templates/components/ember-tabular-dropdown-filter';
 
 /**
 * ## Dropdown Filter
@@ -47,4 +48,6 @@ export default Ember.Controller.extend({
 * @class EmberTabularDropdownFilter
 * @extends EmberTabularGlobalFilter
 */
-export default EmberTabularGlobalFilter.extend();
+export default EmberTabularGlobalFilter.extend({
+  layout,
+});

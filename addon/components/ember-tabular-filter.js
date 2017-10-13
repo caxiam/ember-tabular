@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import layout from 'ember-tabular/templates/components/ember-tabular-filter';
 
 /**
 * Filtering on a column by column basis within the component's `<table/>`.
@@ -6,6 +7,7 @@ import Ember from 'ember';
 * @class EmberTabularFilter
 */
 export default Ember.Component.extend({
+  layout,
   /**
   * @property tagName
   * @type String

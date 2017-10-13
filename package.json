@@ -62,7 +62,6 @@
     "broccoli-funnel": "1.2.0"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config",
-    "after": "ember-power-select"
+    "configPath": "tests/dummy/config"
   }
 }

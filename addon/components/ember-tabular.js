@@ -292,15 +292,6 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   }),
 
   /**
-   * Template for table's row
-   *
-   * @type {string}
-   * @default 'components/models-table/row'
-   * @name ModelsTable#rowTemplate
-   */
-  trRow: 'components/ember-tabular-row',
-
-  /**
   * Whether to display the panel to select different table columns.
   *
   * @property isColumnSelect

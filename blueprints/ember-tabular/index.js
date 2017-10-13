@@ -1,4 +1,6 @@
 module.exports = {
+  normalizeEntityName() {},
+
   afterInstall() {
     return this.addBowerPackagesToProject([
       {
@@ -7,6 +9,4 @@ module.exports = {
       },
     ]);
   },
-
-  normalizeEntityName() {},
 };

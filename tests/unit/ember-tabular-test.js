@@ -63,7 +63,7 @@ let columns = [
 
 moduleForComponent('ember-tabular', 'Unit | Component | ember table jsonapi', {
   unit: true,
-  needs: ['helper:dot-to-dash-filter', 'component:ember-tabular-filter', 'component:ember-tabular-footer', 'helper:and', 'component:pagination-pager', 'template:components/ember-tabular-row', 'component:ember-tabular-column-select', 'helper:compare-with', 'component:ember-tabular-column'],
+  needs: ['helper:dot-to-dash-filter', 'component:ember-tabular-filter', 'component:ember-tabular-footer', 'helper:and', 'component:pagination-pager', 'component:ember-tabular-column-select', 'component:sortable-objects', 'service:dragCoordinator', 'component:draggable-object', 'helper:compare-with', 'component:ember-tabular-column'],
   beforeEach: function() {
     component = this.subject({
       record: model,

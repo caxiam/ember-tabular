@@ -5,27 +5,27 @@
 <h5>Example #2</h5>
 <h1>Table - Column Select</h1>
 {{#ember-tabular class="table-column-select" modelName="user" sort=sort1 columnOrder=orderConfig as |et|}}
-    {{#et.column property="emailAddress" isCustom=true as |record column|}}
+    {{#component et.column property="emailAddress" isCustom=true as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
-    {{/et.column}}
+    {{/component}}
     <!-- pass enum of dropdown filter values list=adminContent, works just like columns.list -->
-    {{#et.column property="isAdmin" list=adminContent isCustom=true as |record|}}
+    {{#component et.column property="isAdmin" list=adminContent isCustom=true as |record|}}
         {{#if record.isAdmin}}
             Yes
         {{else}}
             No
         {{/if}}
-    {{/et.column}}
-    {{et.column property="password" isActive=false isCustom=false filter=false sort=false}}
-    {{et.column property="createdAt" isActive=false isCustom=false filter=false sort=false}}
-    {{#et.column property="updatedAt" label="Last Updated" isCustom=true type="date" as |record column|}}
+    {{/component}}
+    {{component et.column property="password" isActive=false isCustom=false filter=false sort=false}}
+    {{component et.column property="createdAt" isActive=false isCustom=false filter=false sort=false}}
+    {{#component et.column property="updatedAt" label="Last Updated" isCustom=true type="date" as |record column|}}
         {{#if record.updatedAt}}
             {{moment-format record.updatedAt 'MM/DD/YYYY'}}
         {{else}}
             {{moment-format record.createdAt 'MM/DD/YYYY'}}
         {{/if}}
-    {{/et.column}}
-    {{#et.column
+    {{/component}}
+    {{#component et.column
         property="actions"
         isCustom=true
         filter=false
@@ -34,80 +34,80 @@
         {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
             Edit
         {{/link-to}}
-    {{/et.column}}
+    {{/component}}
 {{/ember-tabular}}
 
 <h5>Example #3</h5>
 <h1>Table - Override Columns/Templates</h1>
 {{#ember-tabular class="table-override-columns-template" columns=columns modelName="user" record=users as |et|}}
-    {{#et.column property="username" as |record column|}}
+    {{#component et.column property="username" as |record column|}}
         {{record.username}}
-    {{/et.column}}
-    {{#et.column property="emailAddress" as |record column|}}
+    {{/component}}
+    {{#component et.column property="emailAddress" as |record column|}}
         {{record.emailAddress}}
-    {{/et.column}}
-    {{#et.column property="firstName" as |record column|}}
+    {{/component}}
+    {{#component et.column property="firstName" as |record column|}}
         {{record.firstName}}
-    {{/et.column}}
-    {{#et.column property="lastName" as |record column|}}
+    {{/component}}
+    {{#component et.column property="lastName" as |record column|}}
         {{record.lastName}}
-    {{/et.column}}
-    {{#et.column property="isAdmin" as |record column|}}
+    {{/component}}
+    {{#component et.column property="isAdmin" as |record column|}}
         {{#if record.isAdmin}}
             Yes
         {{else}}
             No
         {{/if}}
-    {{/et.column}}
-    {{#et.column property="updatedAt" as |record column|}}
+    {{/component}}
+    {{#component et.column property="updatedAt" as |record column|}}
         {{#if record.updatedAt}}
             {{moment-format record.updatedAt 'MM/DD/YYYY'}}
         {{else}}
             {{moment-format record.createdAt 'MM/DD/YYYY'}}
         {{/if}}
-    {{/et.column}}
-    {{#et.column property="actions" as |record column|}}
+    {{/component}}
+    {{#component et.column property="actions" as |record column|}}
         {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
             Edit
         {{/link-to}}
-    {{/et.column}}
+    {{/component}}
 {{/ember-tabular}}
 
 
 <h5>Example #3</h5>
 <h1>Table - Persist Filtering</h1>
 {{#ember-tabular class="table-persist" columns=columns modelName="user" record=users4 filter=filter3 persistFiltering=true sort=sort4 as |et|}}
-    {{#et.column property="username" as |record column|}}
+    {{#component et.column property="username" as |record column|}}
         {{record.username}}
-    {{/et.column}}
-    {{#et.column property="emailAddress" as |record column|}}
+    {{/component}}
+    {{#component et.column property="emailAddress" as |record column|}}
         {{record.emailAddress}}
-    {{/et.column}}
-    {{#et.column property="firstName" as |record column|}}
+    {{/component}}
+    {{#component et.column property="firstName" as |record column|}}
         {{record.firstName}}
-    {{/et.column}}
-    {{#et.column property="lastName" as |record column|}}
+    {{/component}}
+    {{#component et.column property="lastName" as |record column|}}
         {{record.lastName}}
-    {{/et.column}}
-    {{#et.column property="isAdmin" as |record column|}}
+    {{/component}}
+    {{#component et.column property="isAdmin" as |record column|}}
         {{#if record.isAdmin}}
             Yes
         {{else}}
             No
         {{/if}}
-    {{/et.column}}
-    {{#et.column property="updatedAt" as |record column|}}
+    {{/component}}
+    {{#component et.column property="updatedAt" as |record column|}}
         {{#if record.updatedAt}}
             {{moment-format record.updatedAt 'MM/DD/YYYY'}}
         {{else}}
             {{moment-format record.createdAt 'MM/DD/YYYY'}}
         {{/if}}
-    {{/et.column}}
-    {{#et.column property="actions" as |record column|}}
+    {{/component}}
+    {{#component et.column property="actions" as |record column|}}
         {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
             Edit
         {{/link-to}}
-    {{/et.column}}
+    {{/component}}
 {{/ember-tabular}}
 
 <h5>Example #4</h5>
@@ -116,11 +116,11 @@
     {{#if et.isHeader}}
         {{ember-tabular-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
     {{/if}}
-    {{et.column property="username" isCustom=false filter=false sort=false}}
-    {{et.column property="emailAddress" isCustom=false filter=false sort=false}}
-    {{et.column property="password" isActive=false isCustom=false filter=false sort=false}}
-    {{et.column property="createdAt" isActive=false isCustom=false filter=false sort=false}}
-    {{et.column property="updatedAt" isActive=false isCustom=false filter=false sort=false}}
+    {{component et.column property="username" isCustom=false filter=false sort=false}}
+    {{component et.column property="emailAddress" isCustom=false filter=false sort=false}}
+    {{component et.column property="password" isActive=false isCustom=false filter=false sort=false}}
+    {{component et.column property="createdAt" isActive=false isCustom=false filter=false sort=false}}
+    {{component et.column property="updatedAt" isActive=false isCustom=false filter=false sort=false}}
 {{/ember-tabular}}
 
 <h5>Example #5</h5>
@@ -154,7 +154,7 @@
 <h5>Example #6</h5>
 <h1>Table - Select Row</h1>
 {{#ember-tabular class="table-select-row" modelName="user" sort="username" isColumnSelect=false as |et|}}
-    {{et.column property="checked" selectable=true isCustom=false filter=false sort=false}}
+    {{component et.column property="checked" selectable=true isCustom=false filter=false sort=false}}
 {{/ember-tabular}}
 
 <h5>Example #7</h5>

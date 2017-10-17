@@ -1,12 +1,13 @@
 /* eslint-env node */
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
-var Funnel = require('broccoli-funnel');
-var mergeTrees = require('broccoli-merge-trees');
+'use strict';
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+let Funnel = require('broccoli-funnel');
+let mergeTrees = require('broccoli-merge-trees');
 
 module.exports = function(defaults) {
-  var environment = process.env.EMBER_ENV;
+  let environment = process.env.EMBER_ENV;
 
-  var app = new EmberAddon(defaults, {
+  let app = new EmberAddon(defaults, {
     'ember-cli-babel': {
       includePolyfill: environment === 'test',
     },
@@ -25,7 +26,7 @@ module.exports = function(defaults) {
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
   // Copy non-compiled bootstrap dependency
-  var vendor = new Funnel('bower_components/bootstrap/dist/css/', {
+  let vendor = new Funnel('bower_components/bootstrap/dist/css/', {
     srcDir: '/',
     include: ['bootstrap.css.map'],
     destDir: '/assets'

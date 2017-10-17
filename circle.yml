@@ -7,7 +7,6 @@ dependencies:
   pre:
     - npm install -g npm@5.0.2
     - npm install -g ember-cli@2.15.1
-    - npm install -g phantomjs@2.1.1
     - npm install
     - bower install
   override:

@@ -70,11 +70,11 @@
             <tbody>
                 {{#if record}}
                     {{#each record as |row|}}
+                        {{!-- required outside of columns loop to trigger the render of the custom yielded columns --}}
+                        {{yield (hash
+                            column=(component "ember-tabular-column-register" registry=registry addToRegistry=(action "addToRegistry"))
+                        )}}
                         <tr>
-                            {{!-- required outside of columns loop to trigger the render of the custom yielded columns --}}
-                            {{yield (hash
-                                column=(component "ember-tabular-column" registry=registry addToRegistry=(action "addToRegistry"))
-                            )}}
                             {{#each columns as |column|}}
                                 {{#if column.isActive}}
                                     {{#if (compare-with columns "property" column.property "isCustomTemplate")}}

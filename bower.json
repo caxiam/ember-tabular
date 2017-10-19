@@ -9,7 +9,6 @@
     "lodash": "3.7.0",
     "Faker": "~3.0.0",
     "bootstrap": "3.3.5",
-    "font-awesome": "4.6.2",
     "DOM-shim": "Raynos/DOM-shim"
   },
   "resolutions": {

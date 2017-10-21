@@ -9,24 +9,5 @@ module.exports = {
     this._super.included.apply(this, arguments);
 
     app.import('vendor/app.css');
-    app.import(app.bowerDirectory + '/font-awesome/css/font-awesome.css');
   },
-  postprocessTree: function( type, tree ) {
-    // extract font-awesome fonts and place into /fonts directory
-    var fonts = new Funnel( 'bower_components/font-awesome', {
-      srcDir: 'fonts',
-      destDir: '/fonts',
-      include: [ 'fontawesome-webfont.*' ]
-    });
-
-    return mergeTrees(
-      [
-        tree,
-        fonts
-      ],
-      {
-        overwrite: true
-      }
-    );
-  }
 };

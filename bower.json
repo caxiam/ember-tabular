@@ -1,9 +1,7 @@
 {
   "name": "ember-tabular",
   "dependencies": {
-    "Faker": "~3.0.0",
     "bootstrap": "3.3.5",
-    "font-awesome": "4.6.2",
     "drag-drop-polyfill": "2.0.0-beta.3"
   }
 }

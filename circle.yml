@@ -16,4 +16,4 @@ dependencies:
 
 test:
   override:
-    - JOBS=1 ember test
+    - JOBS=2 npm test

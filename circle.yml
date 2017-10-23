@@ -13,3 +13,7 @@ dependencies:
   override:
     - npm i
     - bower i
+
+test:
+  override:
+    - JOBS=1 ember test

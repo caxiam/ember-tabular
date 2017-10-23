@@ -28,10 +28,16 @@ export default Ember.Component.extend({
     let previousIndex = this.get('previousIndex');
 
     if (e.shiftKey) {
+      // ensure we set checked first
+      model.toggleProperty('checked');
       if (currentIndex < previousIndex) {
-        collection.slice(currentIndex, previousIndex + 1).setEach('checked', this.toggleProperty('model.checked'));
+        collection.slice(currentIndex, previousIndex + 1).forEach((item, index) => {
+          item.set('checked', model.get('checked'));
+        });
       } else {
-        collection.slice(previousIndex, currentIndex + 1).setEach('checked', this.toggleProperty('model.checked'));
+        collection.slice(previousIndex, currentIndex + 1).forEach((item, index) => {
+          item.set('checked', model.get('checked'));
+        });
       }
     } else {
       this.toggleProperty('model.checked');

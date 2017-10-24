@@ -30,6 +30,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     const list = this.get('list') || null;
     const sort = this._checkIfUndefined(this.get('sort'), true);
     const type = this.get('type') || 'text';
+    const columnClass = this._checkIfUndefined(this.get('class'), null);
     let column = {
       property: property,
       selectable: selectable,
@@ -40,6 +41,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       list: list,
       sort: sort,
       type: type,
+      class: columnClass,
     };
     if (typeof this.get('isCustom') !== 'undefined' && registry) {
       let item = registry.find((el) => {

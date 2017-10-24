@@ -24,6 +24,13 @@ export default Ember.Controller.extend({
     'updatedAt',
     'actions',
   ],
+  hideOmittedConfig: [
+    'username',
+    'emailAddress',
+    'firstName',
+    'lastName',
+    'isAdmin',
+  ],
   columnsConfig: [
     {
       property: 'emailAddress',

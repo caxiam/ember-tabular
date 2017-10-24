@@ -514,6 +514,7 @@ test('Check for expected content after filtering (.table-basic-global-filter)', 
     assert.equal(cells.eq(2).text().trim(), 'John', 'Check for first name');
     assert.equal(cells.eq(3).text().trim(), 'McClane', 'Check for last name');
     assert.equal(cells.eq(4).text().trim(), 'true', 'Check for is admin');
+    assert.equal(cells.eq(5).length, 0, 'Check for no more columns');
 
     assert.equal(find('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
   });

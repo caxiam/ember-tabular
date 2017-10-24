@@ -228,6 +228,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
 
   /**
   * If you want to set a specific order but you do not want to completely replace the `columns`, you can pass a simple array of properties to determine the order of the columns.
+  * Note: You must include all attributes you want displayed, if any attributes are omitted then their column will be set to isActive=false, hiding them from display.
   *
   ```js
   [
@@ -273,7 +274,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
         let attribute = {
           property: property,
           label: this._formatColumnLabel(property),
-          isActive: true,
+          isActive: this.checkConfigForColumn(property),
           isCustomTemplate: false,
           filter: true,
           sort: true,
@@ -290,6 +291,14 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     }
     return registryDiff;
   }),
+
+  checkConfigForColumn(property) {
+    const columnOrder = this.get('columnOrder');
+    if (columnOrder && columnOrder.indexOf(property) === -1) {
+      return false;
+    }
+    return true;
+  },
 
   /**
   * Whether to display the panel to select different table columns.

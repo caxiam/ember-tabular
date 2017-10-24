@@ -112,15 +112,12 @@
 
 <h5>Example #4</h5>
 <h1>Table - Basic - Global Filter</h1>
-{{#ember-tabular class="table-basic-global-filter" modelName="user" record=users2 filter=filter as |et|}}
+{{#ember-tabular class="table-basic-global-filter" modelName="user" record=users2 filter=filter columnOrder=hideOmittedConfig as |et|}}
     {{#if et.isHeader}}
         {{ember-tabular-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
     {{/if}}
     {{component et.column property="username" isCustom=false filter=false sort=false}}
     {{component et.column property="emailAddress" isCustom=false filter=false sort=false}}
-    {{component et.column property="password" isActive=false isCustom=false filter=false sort=false}}
-    {{component et.column property="createdAt" isActive=false isCustom=false filter=false sort=false}}
-    {{component et.column property="updatedAt" isActive=false isCustom=false filter=false sort=false}}
 {{/ember-tabular}}
 
 <h5>Example #5</h5>

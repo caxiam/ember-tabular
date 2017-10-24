@@ -100,11 +100,17 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   header: {
     isHeader: true,
   },
+  wrapperHeader: {
+    isWrapperHeader: true,
+  },
   body: {
     isBody: true,
   },
   footer: {
     isFooter: true,
+  },
+  wrapperFooter: {
+    isWrapperFooter: true,
   },
 
   /**

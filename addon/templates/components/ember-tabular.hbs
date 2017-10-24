@@ -16,7 +16,8 @@
 {{yield header}}
 
 <div class="table-responsive {{if tableWrapperClass tableWrapperClass}}">
-    <table class="table {{if tableClass tableClass 'table-bordered table-hover'}} {{if isLoading 'loading'}}">
+    {{yield wrapperHeader}}
+    <table class="table {{if tableClass tableClass "table-bordered table-hover"}} {{if isLoading "loading"}}">
             {{#if columns}}
                 <thead>
                     <tr>
@@ -102,12 +103,13 @@
                 {{/if}}
             </tbody>
     </table>
+    {{yield wrapperFooter}}
 </div>
 
 {{yield footer}}
 
 <div class="row">
-    <div class="{{unless isDropdownLimit 'col-sm-12' 'col-sm-9'}}">
+    <div class="{{unless isDropdownLimit "col-sm-12" "col-sm-9"}}">
         {{#if isColumnSelect}}
             {{ember-tabular-column-select columns=columns}}
         {{/if}}

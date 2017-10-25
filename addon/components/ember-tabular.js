@@ -761,6 +761,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
 
   /**
   * Runs on init to setup the table header default columns.
+  * Runs if the `columns` are passed in from controller.
   *
   * @method setColumnDefaults
   */
@@ -783,6 +784,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
 
   /**
   * Runs on init to set the default sort param.
+  * Sets the defaultSort when `columns` is passed in from controller
   *
   * @method defaultSort
   */
@@ -930,20 +932,17 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   * @method updateSortUI
   * @param sortProperty {String}
   */
-  updateSortUI: Ember.on('didInsertElement', function (sortProperty) {
+  updateSortUI: Ember.on('didRender', function (sortProperty) {
     if (this.get('sort') || sortProperty) {
       const _this = this;
       const $table = this.$();
       const sort = this.get('sort');
-      let property,
-        classProperty,
-        $tableHeader;
 
       // convert property to camelCase
-      property = sort.replace(/^-/, '');
+      let property = sort.replace(/^-/, '');
       // convert relationships
-      classProperty = property.replace(/\./g, '-');
-      $tableHeader = $table.find(`#${classProperty}`);
+      let classProperty = property.replace(/\./g, '-');
+      let $tableHeader = $table.find(`#${classProperty}`);
 
       // Remove all classes on th.sortable but sortable class
       $table.find('th').removeClass(function (i, group) {

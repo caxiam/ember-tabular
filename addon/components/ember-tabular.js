@@ -228,6 +228,9 @@ export default Ember.Component.extend(EmberTabularHelpers, {
           return columnOrder.indexOf(a.property) < columnOrder.indexOf(b.property) ? -1 : 1;
         });
       }
+      Ember.run.next(() => {
+        this.set('isLoading', false);
+      });
     }
     return columns;
   }),
@@ -714,7 +717,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   * @type Function
   */
   isRecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
-  'modelName', function () {
+  'modelName', 'columns', function () {
     // If record array isLoaded but empty
     if (this.get('record.isLoaded')) {
       return true;
@@ -735,7 +738,6 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     if (this.get('record') === null && this.get('modelName') === null) {
       return true;
     }
-
     return false;
   }),
 
@@ -849,7 +851,9 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       function (data) {
         if (!this.isDestroyed || !this.isDestroying) {
           data = this.normalize(data, params);
-          this.set('isLoading', false);
+          if (!Ember.isEmpty(this.get('columns'))) {
+            this.set('isLoading', false);
+          }
           this.set('record', data);
         }
       }.bind(this),

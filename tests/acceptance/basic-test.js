@@ -24,7 +24,7 @@ test('Check table pagination - 0 pages (.table-default)', function(assert) {
     let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(find('.table-default table tbody tr').length, 1, 'Check for 1 items in table');
-    assert.equal(cells.eq(0).html().trim(), 'No Data.', 'No Data.');
+    assertIn(assert, cells.eq(0).html().trim(), 'No Data.', 'No Data.');
     assert.equal(find('.table-default .pagination').hasClass('hidden'), true, 'Pagination is hidden');
   });
 });
@@ -210,7 +210,7 @@ test('Check table rendering for no data or loading (.table-default)', function(a
   andThen(function() {
     let cells = find('.table-default table tbody tr').eq(0).find('td');
 
-    assert.equal(cells.eq(0).html().trim(), 'No Data.', 'No Data.');
+    assertIn(assert, cells.eq(0).html().trim(), 'No Data.', 'No Data.');
   });
 });
 

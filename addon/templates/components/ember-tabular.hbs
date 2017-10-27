@@ -70,36 +70,35 @@
         {{/if}}
         <tbody>
             {{#if record}}
-                {{#each record as |row|}}
-                    {{!-- required outside of columns loop to trigger the render of the custom yielded columns --}}
-                    {{yield (hash
-                        column=(component "ember-tabular-column-register" registry=registry addToRegistry=(action "addToRegistry"))
-                    )}}
-                    <tr>
-                        {{#each columns as |column|}}
-                            {{#if column.isActive}}
-                                {{#if (compare-with columns "property" column.property "isCustom")}}
-                                    {{yield (hash
-                                        column=(component "ember-tabular-column" column=column record=row property=property collection=record class=column.class)
-                                    )}}
-                                {{else}}
-                                    {{ember-tabular-column column=column record=row property=column.property collection=record class=column.class}}
+                {{yield (hash
+                    column=(component "ember-tabular-column-register" registry=registry addToRegistry=(action "addToRegistry"))
+                )}}
+                {{ember-tabular-registry registryComplete=(action "registryComplete")}}
+                {{#if (and record columns)}}
+                    {{#each record as |row|}}
+                        <tr>
+                            {{#each columns as |column|}}
+                                {{#if column.isActive}}
+                                    {{#if (compare-with columns "property" column.property "isCustom")}}
+                                        {{yield (hash
+                                            column=(component "ember-tabular-column" column=column record=row property=property collection=record class=column.class)
+                                        )}}
+                                    {{else}}
+                                        {{ember-tabular-column column=column record=row property=column.property collection=record class=column.class}}
+                                    {{/if}}
                                 {{/if}}
-                            {{/if}}
-                        {{/each}}
-                    </tr>
-                {{/each}}
-                {{ember-tabular-footer registryComplete=(action "registryComplete")}}
-            {{else}}
-                <tr>
-                    <td class="text-center" colspan="{{columnLength}}">
-                        {{#if isRecordLoaded}}
-                            {{tableLoadedMessage}}
-                        {{else}}
+                            {{/each}}
+                        </tr>
+                    {{/each}}
+                {{else}}
+                    <tr>
+                        <td class="text-center" colspan="{{columnLength}}">
                             Loading...
-                        {{/if}}
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                {{/if}}
+            {{else}}
+                {{ember-tabular-loading isRecordLoaded=isRecordLoaded columnLength=columnLength tableLoadedMessage=tableLoadedMessage registryComplete=(action "registryComplete")}}
             {{/if}}
         </tbody>
     </table>
@@ -108,18 +107,20 @@
 
 {{yield footer}}
 
-<div class="row">
-    <div class="{{unless isDropdownLimit "col-sm-12" "col-sm-9"}}">
-        {{#if isColumnSelect}}
-            {{ember-tabular-column-select columns=columns}}
-        {{/if}}
-        <nav class="{{if paginationWrapperClass paginationWrapperClass}}">
-            {{pagination-pager current=page count=pageLimit}}
-        </nav>
-    </div>
-    {{#if isDropdownLimit}}
-        <div class="col-sm-3">
-            {{ember-tabular-dropdown-limit limit=limit record=record count=pageLimit}}
+{{#if columns}}
+    <div class="row">
+        <div class="{{unless isDropdownLimit "col-sm-12" "col-sm-9"}}">
+            {{#if isColumnSelect}}
+                {{ember-tabular-column-select columns=columns}}
+            {{/if}}
+            <nav class="{{if paginationWrapperClass paginationWrapperClass}}">
+                {{pagination-pager current=page count=pageLimit}}
+            </nav>
         </div>
-    {{/if}}
-</div>
+        {{#if isDropdownLimit}}
+            <div class="col-sm-3">
+                {{ember-tabular-dropdown-limit limit=limit record=record count=pageLimit}}
+            </div>
+        {{/if}}
+    </div>
+{{/if}}

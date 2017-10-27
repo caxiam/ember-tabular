@@ -20,9 +20,9 @@
     {{component et.column property="createdAt" isActive=false isCustom=false filter=false sort=false}}
     {{#component et.column property="updatedAt" label="Last Updated" isCustom=true type="date" as |record column|}}
         {{#if record.updatedAt}}
-            {{moment-format record.updatedAt 'MM/DD/YYYY'}}
+            {{moment-format record.updatedAt "MM/DD/YYYY"}}
         {{else}}
-            {{moment-format record.createdAt 'MM/DD/YYYY'}}
+            {{moment-format record.createdAt "MM/DD/YYYY"}}
         {{/if}}
     {{/component}}
     {{#component et.column
@@ -61,9 +61,9 @@
     {{/component}}
     {{#component et.column property="updatedAt" as |record column|}}
         {{#if record.updatedAt}}
-            {{moment-format record.updatedAt 'MM/DD/YYYY'}}
+            {{moment-format record.updatedAt "MM/DD/YYYY"}}
         {{else}}
-            {{moment-format record.createdAt 'MM/DD/YYYY'}}
+            {{moment-format record.createdAt "MM/DD/YYYY"}}
         {{/if}}
     {{/component}}
     {{#component et.column property="actions" as |record column|}}
@@ -74,7 +74,7 @@
 {{/ember-tabular}}
 
 
-<h5>Example #3</h5>
+<h5>Example #4</h5>
 <h1>Table - Persist Filtering</h1>
 {{#ember-tabular class="table-persist" columns=columns modelName="user" record=users4 filter=filter3 persistFiltering=true sort=sort4 as |et|}}
     {{#component et.column property="username" as |record column|}}
@@ -98,9 +98,9 @@
     {{/component}}
     {{#component et.column property="updatedAt" as |record column|}}
         {{#if record.updatedAt}}
-            {{moment-format record.updatedAt 'MM/DD/YYYY'}}
+            {{moment-format record.updatedAt "MM/DD/YYYY"}}
         {{else}}
-            {{moment-format record.createdAt 'MM/DD/YYYY'}}
+            {{moment-format record.createdAt "MM/DD/YYYY"}}
         {{/if}}
     {{/component}}
     {{#component et.column property="actions" as |record column|}}
@@ -110,7 +110,7 @@
     {{/component}}
 {{/ember-tabular}}
 
-<h5>Example #4</h5>
+<h5>Example #5</h5>
 <h1>Table - Basic - Global Filter</h1>
 {{#ember-tabular class="table-basic-global-filter" modelName="user" record=users2 filter=filter columnOrder=hideOmittedConfig as |et|}}
     {{#if et.isHeader}}
@@ -120,7 +120,7 @@
     {{component et.column property="emailAddress" isCustom=false filter=false sort=false}}
 {{/ember-tabular}}
 
-<h5>Example #5</h5>
+<h5>Example #6</h5>
 <h1>Table - Basic - Dropdown Filter / Date Filter</h1>
 {{#ember-tabular class="table-basic-global-date-filter" modelName="user" record=users3 filter=filter2 columns=columnsForDropdownFilter isColumnSelect=false as |et|}}
     {{#if et.isHeader}}
@@ -129,7 +129,7 @@
                 {{#ember-tabular-dropdown-filter filter=filter2 filterProperty="isAdmin" label="Is Admin" searchFilter=isAdminFilter}}
                     {{#power-select
                         options=adminContent
-                        selected=(find-by adminContent 'value' isAdminFilter)
+                        selected=(find-by adminContent "value" isAdminFilter)
                         searchField="label"
                         searchEnabled=false
                         placeholder="Select to filter"
@@ -148,13 +148,13 @@
     {{/if}}
 {{/ember-tabular}}
 
-<h5>Example #6</h5>
+<h5>Example #7</h5>
 <h1>Table - Select Row</h1>
 {{#ember-tabular class="table-select-row" modelName="user" sort="username" isColumnSelect=false as |et|}}
     {{component et.column property="checked" selectable=true isCustom=false filter=false sort=false}}
 {{/ember-tabular}}
 
-<h5>Example #7</h5>
-{{#link-to 'example4' class="link-ex4"}}
+<h5>Example #8</h5>
+{{#link-to "example4" class="link-ex4"}}
     Route Binds Model to Table
 {{/link-to}}

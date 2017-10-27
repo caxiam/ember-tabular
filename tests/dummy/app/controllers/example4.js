@@ -30,7 +30,7 @@ export default Ember.Controller.extend({
       property: 'updatedAt',
       label: 'Last Updated',
       isActive: true,
-      isCustomTemplate: true,
+      isCustom: true,
       filter: false,
     },
   ],

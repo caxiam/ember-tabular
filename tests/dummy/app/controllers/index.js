@@ -34,11 +34,11 @@ export default Ember.Controller.extend({
   columnsConfig: [
     {
       property: 'emailAddress',
-      isCustomTemplate: true,
+      isCustom: true,
     },
     {
       property: 'updatedAt',
-      isCustomTemplate: true,
+      isCustom: true,
     },
     {
       property: 'password',
@@ -55,7 +55,7 @@ export default Ember.Controller.extend({
     {
       label: 'Actions',
       property: 'actions',
-      isCustomTemplate: true,
+      isCustom: true,
       isActive: true,
       filter: false,
       sort: false,
@@ -66,31 +66,31 @@ export default Ember.Controller.extend({
       property: 'username',
       label: 'Username',
       defaultSort: 'username',
-      isCustomTemplate: true,
+      isCustom: true,
       isActive: true,
     },
     {
       property: 'emailAddress',
       label: 'Email',
-      isCustomTemplate: true,
+      isCustom: true,
       isActive: true,
     },
     {
       property: 'firstName',
       label: 'First Name',
-      isCustomTemplate: true,
+      isCustom: true,
       isActive: true,
     },
     {
       property: 'lastName',
       label: 'Last Name',
-      isCustomTemplate: true,
+      isCustom: true,
       isActive: true,
     },
     {
       property: 'isAdmin',
       label: 'Is Admin',
-      isCustomTemplate: true,
+      isCustom: true,
       isActive: true,
       list: [
         {
@@ -106,7 +106,7 @@ export default Ember.Controller.extend({
     {
       property: 'updatedAt',
       label: 'Last Updated',
-      isCustomTemplate: true,
+      isCustom: true,
       isActive: true,
       type: 'date',
       sort: false,
@@ -114,7 +114,7 @@ export default Ember.Controller.extend({
     {
       property: 'actions',
       label: 'Actions',
-      isCustomTemplate: true,
+      isCustom: true,
       filter: false,
       sort: false,
       isActive: true,

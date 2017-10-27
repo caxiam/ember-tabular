@@ -36,7 +36,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       selectable: selectable,
       label: label,
       isActive: isActive,
-      isCustomTemplate: isCustom,
+      isCustom: isCustom,
       filter: filter,
       list: list,
       sort: sort,

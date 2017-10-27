@@ -281,7 +281,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
           property: property,
           label: this._formatColumnLabel(property),
           isActive: this.checkConfigForColumn(property),
-          isCustomTemplate: false,
+          isCustom: false,
           filter: true,
           sort: true,
           type: 'text',

@@ -22,17 +22,19 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    // prevent dropdown from closing when clicking within
     this.$().on({
-      'shown.bs.dropdown': function() {
-        $(this).data('closable', false);
+      'click': function(e) {
+        if ($(e.target).closest('.dropdown-toggle').length) {
+          $(this).data('closable', true);
+        } else {
+          $(this).data('closable', false);
+        }
       },
-      'click': function(event) {
-        $(this).data('closable', false);
-      },
-      'hide.bs.dropdown': function(event) {
-        let temp = $(this).data('closable');
+      'hide.bs.dropdown': function(e) {
+        let hide = $(this).data('closable');
         $(this).data('closable', true);
-        return temp;
+        return hide;
       }
     });
   },

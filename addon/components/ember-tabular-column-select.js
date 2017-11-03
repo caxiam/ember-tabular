@@ -20,6 +20,23 @@ export default Ember.Component.extend({
   btnCopy: 'Columns',
   useIcon: true,
 
+  didInsertElement() {
+    this._super(...arguments);
+    this.$().on({
+      'shown.bs.dropdown': function() {
+        $(this).data('closable', false);
+      },
+      'click': function(event) {
+        $(this).data('closable', false);
+      },
+      'hide.bs.dropdown': function(event) {
+        let temp = $(this).data('closable');
+        $(this).data('closable', true);
+        return temp;
+      }
+    });
+  },
+
   actions: {
     toggleColumn(column) {
       if (column.isActive) {

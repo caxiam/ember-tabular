@@ -15,8 +15,10 @@ export default Ember.Component.extend({
   * @default 'div'
   */
   tagName: 'div',
-  classNames: ['btn-group', 'btn-group-column-select'],
+  classNames: ['btn-group', 'btn-group-column-select', 'dropup'],
   columns: null,
+  btnCopy: 'Columns',
+  useIcon: true,
 
   actions: {
     toggleColumn(column) {

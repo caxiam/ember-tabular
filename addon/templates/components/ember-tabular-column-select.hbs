@@ -1,5 +1,5 @@
 <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default dropdown-toggle">
-    Columns <span class="caret"></span>
+    {{#if useIcon}}<span class="fa fa-columns"></span>{{/if}} {{btnCopy}} <span class="caret"></span>
 </button>
 {{#sortable-objects sortableObjectList=columns sortEndAction="sortEndAction" sortingScope="a" class="dropdown-menu pull-left" tagName="ul"}}
     {{#each columns as |column|}}

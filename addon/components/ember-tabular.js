@@ -848,7 +848,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     params = this.serialize(params);
 
     return this.get('store').query(modelName, params).then(
-      function (data) {
+      (data) => {
         if (!this.isDestroyed || !this.isDestroying) {
           data = this.normalize(data, params);
           if (!Ember.isEmpty(this.get('columns'))) {
@@ -856,12 +856,12 @@ export default Ember.Component.extend(EmberTabularHelpers, {
           }
           this.set('record', data);
         }
-      }.bind(this),
-      function (errors) {
+      },
+      (errors) => {
         if (!this.isDestroyed || !this.isDestroying) {
           this.failure(errors);
         }
-      }.bind(this)
+      }
     );
   },
 
@@ -996,6 +996,10 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     // Set per field errors if found
     if ('errors' in response) {
       this.set('errors', response.errors);
+    } else {
+      // attempt to catch/display errors that are outside of the expected format
+      // preventing them from being swalled by ember-tabular
+      throw new Error(response);
     }
   },
 

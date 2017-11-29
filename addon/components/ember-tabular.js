@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import layout from 'ember-tabular/templates/components/ember-tabular';
 import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-helpers';
-import { dasherize, camelize } from 'ember-inflector';
 
 /**
 * ## Basic Usage
@@ -571,7 +570,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       // ?filter[lastName]&sort=isAdmin
       // (pseudo code)
       if (property) {
-        return camelize(property);
+        return Ember.String.camelize(property);
       }
 
       return null;
@@ -585,7 +584,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   */
   serializeProperty(property) {
     if (property) {
-      return dasherize(property);
+      return Ember.String.dasherize(property);
     }
 
     return null;
@@ -694,7 +693,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   */
   normalizeProperty(property) {
     if (property) {
-      return camelize(property);
+      return Ember.String.camelize(property);
     }
 
     return null;

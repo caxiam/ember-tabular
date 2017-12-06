@@ -210,7 +210,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   * @default null
   */
   columns: Ember.computed('registry', 'registryDiff', 'registryDone', 'columnOrder', function () {
-    const columns = Ember.A();
+    let columns = Ember.A();
     // only output columns array when registry is done
     if (this.get('registryDone')) {
       const registry = this.get('registry');
@@ -224,9 +224,18 @@ export default Ember.Component.extend(EmberTabularHelpers, {
 
       // sort the colums array by columnOrder
       if (columnOrder) {
-        columns.sort((a, b) => {
+        // break out the excludes so we can add them to the end
+        let excludes = [];
+        let includes = columns.filter((el) => {
+          if (columnOrder.indexOf(el.property) > -1) {
+            return el;
+          }
+          excludes.push(el);
+        });
+        includes.sort((a, b) => {
           return columnOrder.indexOf(a.property) < columnOrder.indexOf(b.property) ? -1 : 1;
         });
+        columns = includes.concat(excludes);
       }
       Ember.run.next(() => {
         this.set('isLoading', false);

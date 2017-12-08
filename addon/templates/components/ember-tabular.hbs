@@ -69,11 +69,11 @@
             </thead>
         {{/if}}
         <tbody>
+            {{yield (hash
+                column=(component "ember-tabular-column-register" registry=registry addToRegistry=(action "addToRegistry"))
+            )}}
+            {{ember-tabular-registry registryComplete=(action "registryComplete")}}
             {{#if record}}
-                {{yield (hash
-                    column=(component "ember-tabular-column-register" registry=registry addToRegistry=(action "addToRegistry"))
-                )}}
-                {{ember-tabular-registry registryComplete=(action "registryComplete")}}
                 {{#if (and record columns)}}
                     {{#each record as |row|}}
                         <tr>

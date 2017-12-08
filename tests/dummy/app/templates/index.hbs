@@ -1,6 +1,6 @@
-<h5>Example #1</h5>
+{{!-- <h5>Example #1</h5>
 <h1>Table - Default</h1>
-{{ember-tabular class="table-default" modelName="user" sort=sort2 isColumnSelect=false}}
+{{ember-tabular class="table-default" modelName="user" sort=sort2 isColumnSelect=false}} --}}
 
 <h5>Example #2</h5>
 <h1>Table - Column Select</h1>
@@ -37,7 +37,7 @@
     {{/component}}
 {{/ember-tabular}}
 
-<h5>Example #3</h5>
+{{!-- <h5>Example #3</h5>
 <h1>Table - Override Columns/Templates</h1>
 {{#ember-tabular class="table-override-columns-template" columns=columns modelName="user" record=users as |et|}}
     {{#component et.column property="username" as |record column|}}
@@ -153,6 +153,8 @@
 {{#ember-tabular class="table-select-row" modelName="user" sort="username" isColumnSelect=false as |et|}}
     {{component et.column property="checked" selectable=true isCustom=false filter=false sort=false}}
 {{/ember-tabular}}
+
+ --}}
 
 <h5>Example #8</h5>
 {{#link-to "example4" class="link-ex4"}}

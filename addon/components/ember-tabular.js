@@ -209,13 +209,14 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   * @type Array
   * @default null
   */
-  columns: Ember.computed('registry', 'registryDiff', 'registryDone', 'columnOrder', function () {
+  columns: Ember.computed('registry', 'registryDiff', 'registryDone', function () {
     let columns = Ember.A();
     // only output columns array when registry is done
     if (this.get('registryDone')) {
       const registry = this.get('registry');
       const registryDiff = this.get('registryDiff');
       const columnOrder = this.get('columnOrder');
+      console.log('columns columnOrder', columnOrder);
 
       if (registry && registryDiff) {
         columns.pushObjects(registry);
@@ -242,6 +243,23 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       });
     }
     return columns;
+  }),
+
+  saveColumnOrder: Ember.observer('columns', 'columns.@each.isActive', function () {
+    const columns = this.get('columns');
+    console.log('saveColumnOrder', columns);
+    // filter out columns that are not active
+    let filterColumns = columns.filter((el) => {
+      if (el.isActive) {
+        return el;
+      }
+    });
+    // only return array of properties
+    let columnOrder = filterColumns.map((el) => {
+      return el.property;
+    });
+    console.log('saveColumnOrder columnOrder', columnOrder);
+    this.set('columnOrder', columnOrder);
   }),
 
   /**
@@ -312,6 +330,7 @@ export default Ember.Component.extend(EmberTabularHelpers, {
 
   checkConfigForColumn(property) {
     const columnOrder = this.get('columnOrder');
+    console.log('checkConfigForColumn', property, columnOrder.indexOf(property));
     if (columnOrder && columnOrder.indexOf(property) === -1) {
       return false;
     }

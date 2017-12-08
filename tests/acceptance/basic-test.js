@@ -528,6 +528,27 @@ test('Check for expected content after filtering (.table-basic-global-filter)', 
   });
 });
 
+test('Check for proper order of ommitted columns from orderColumn within column select list(.table-basic-global-filter)', function(assert) {
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    let columnSelectItem = find('.table-basic-global-filter .btn-group-column-select .dropdown-menu > li');
+
+    assert.equal(columnSelectItem.length, 8, 'Check for 8 items in column select list');
+    assert.equal(columnSelectItem.eq(0).text().trim(), 'Username', 'Check for username');
+    assert.equal(columnSelectItem.eq(1).text().trim(), 'Email Address', 'Check for email');
+    assert.equal(columnSelectItem.eq(2).text().trim(), 'First Name', 'Check for first name');
+    assert.equal(columnSelectItem.eq(3).text().trim(), 'Last Name', 'Check for last name');
+    assert.equal(columnSelectItem.eq(4).text().trim(), 'Is Admin', 'Check for is admin');
+    assert.equal(columnSelectItem.eq(5).text().trim(), 'Password', 'Check for password, item not within columnOrder');
+    assert.equal(columnSelectItem.eq(6).text().trim(), 'Created At', 'Check for created at, item not within columnOrder');
+    assert.equal(columnSelectItem.eq(7).text().trim(), 'Updated At', 'Check for updated at, item not within columnOrder');
+  });
+});
+
 test('Check for clearFilter action success (.table-default)', function(assert) {
   server.loadFixtures('users');
   visit('/');

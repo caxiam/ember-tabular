@@ -917,12 +917,16 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       this.toggleProperty('showFilterRow');
     },
     registryComplete(value) {
-      // tells ember-tabular that the custom registry is complete
-      this.set('registryDone', value);
+      if (!this.isDestroyed || !this.isDestroying) {
+        // tells ember-tabular that the custom registry is complete
+        this.set('registryDone', value);
+      }
     },
     addToRegistry(column) {
-      // adds column to registry coming from ember-tabular-column
-      this.get('registry').addObject(column);
+      if (!this.isDestroyed || !this.isDestroying) {
+        // adds column to registry coming from ember-tabular-column
+        this.get('registry').addObject(column);
+      }
     },
   },
 

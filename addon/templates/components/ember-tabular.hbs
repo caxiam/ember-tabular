@@ -70,7 +70,7 @@
         {{/if}}
         <tbody>
             {{yield (hash
-                column=(component "ember-tabular-column-register" registry=registry addToRegistry=(action "addToRegistry"))
+                column=(component "ember-tabular-column-register" registry=registry columnOrder=columnOrder addToRegistry=(action "addToRegistry"))
             )}}
             {{ember-tabular-registry registryComplete=(action "registryComplete")}}
             {{#if record}}

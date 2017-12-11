@@ -18,13 +18,14 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   tagName: '',
   action: null,
   registry: null,
+  columnOrder: null,
   init() {
     this._super(...arguments);
     const registry = this.get('registry');
     const property = this.get('property');
     const selectable = this.get('selectable');
     const label = this.get('label') || this._formatColumnLabel(property);
-    const isActive = this._checkIfUndefined(this.get('isActive'), true);
+    const isActive = this._checkConfigForColumn(property);
     const isCustom = this.get('isCustom') || false;
     const filter = this._checkIfUndefined(this.get('filter'), true);
     const list = this.get('list') || null;
@@ -55,5 +56,15 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   },
   _checkIfUndefined(property, defaultValue) {
     return typeof property !== 'undefined' ? property : defaultValue;
+  },
+  _checkConfigForColumn(property) {
+    const columnOrder = this.get('columnOrder');
+    if (columnOrder) {
+      if (columnOrder.indexOf(property) === -1) {
+        return false;
+      }
+      return true;
+    }
+    return this._checkIfUndefined(this.get('isActive'), true);
   },
 });

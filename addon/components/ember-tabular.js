@@ -216,7 +216,6 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       const registry = this.get('registry');
       const registryDiff = this.get('registryDiff');
       const columnOrder = this.get('columnOrder');
-      console.log('columns columnOrder', columnOrder);
 
       if (registry && registryDiff) {
         columns.pushObjects(registry);
@@ -247,7 +246,6 @@ export default Ember.Component.extend(EmberTabularHelpers, {
 
   saveColumnOrder: Ember.observer('columns', 'columns.@each.isActive', function () {
     const columns = this.get('columns');
-    console.log('saveColumnOrder', columns);
     // filter out columns that are not active
     let filterColumns = columns.filter((el) => {
       if (el.isActive) {
@@ -255,16 +253,15 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       }
     });
     // only return array of properties
-    let columnOrder = filterColumns.map((el) => {
+    let newColumnOrder = filterColumns.map((el) => {
       return el.property;
     });
-    console.log('saveColumnOrder columnOrder', columnOrder);
-    this.set('columnOrder', columnOrder);
+    this.set('columnOrder', newColumnOrder);
   }),
 
   /**
   * If you want to set a specific order but you do not want to completely replace the `columns`, you can pass a simple array of properties to determine the order of the columns.
-  * Note: You must include all attributes you want displayed, if any attributes are omitted then their column will be set to isActive=false, hiding them from display.
+  * Note: You must include all attributes you want displayed, if any attributes are omitted then their column will be set to isActive=false, hiding them from display. If this property is shared with a long lived object (controller/service/etc), it will persist.
   *
   ```js
   [
@@ -330,7 +327,6 @@ export default Ember.Component.extend(EmberTabularHelpers, {
 
   checkConfigForColumn(property) {
     const columnOrder = this.get('columnOrder');
-    console.log('checkConfigForColumn', property, columnOrder.indexOf(property));
     if (columnOrder && columnOrder.indexOf(property) === -1) {
       return false;
     }

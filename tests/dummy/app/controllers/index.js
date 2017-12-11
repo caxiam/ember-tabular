@@ -16,11 +16,9 @@ export default Ember.Controller.extend({
   orderConfig: [
     'username',
     'emailAddress',
-    'password',
     'firstName',
     'lastName',
     'isAdmin',
-    'createdAt',
     'updatedAt',
     'actions',
   ],

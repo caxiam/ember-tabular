@@ -730,6 +730,42 @@ test('Check for persistent filters on transition (.table-persist)', function(ass
   });
 });
 
+test('Check for persistent columnOrder (isActive) on transition (.table-column-select)', function(assert) {
+  server.loadFixtures('users');
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+     assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').text().trim(), 'Actions', 'Check for last column in table being Actions');
+  });
+
+  andThen(function() {
+    click('.table-column-select .btn-group-column-select button');
+    // click password
+    click('.table-column-select .btn-group-column-select li:eq(7) a');
+  });
+
+  andThen(function() {
+    assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').text().trim(), 'Password', 'Check for last column in table being Password');
+  });
+
+  andThen(function() {
+    // transition to different page
+    click('.link-ex4');
+  });
+
+  andThen(function() {
+    assert.equal(currentPath(), 'example4');
+    // transition back to index
+    click('.link-index');
+  });
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+    assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').text().trim(), 'Password', 'Check for last column in table being Password');
+  });
+});
+
 test('Check for expected request count when transitioning', function(assert) {
   server.loadFixtures('users');
   visit('/');

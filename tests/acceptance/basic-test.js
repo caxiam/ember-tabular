@@ -84,6 +84,42 @@ test('Check for expected content (.table-column-select)', function(assert) {
   });
 });
 
+test('Check for pagination reset after filter change (.table-column-select)', function(assert) {
+  server.createList('user', 25, {
+    isAdmin: true,
+  });
+  server.createList('user', 5, {
+    isAdmin: false,
+  });
+  visit('/');
+
+  andThen(function() {
+    assert.equal(currentPath(), 'index');
+
+    click('.table-column-select .pagination li:eq(2) a');
+  });
+
+  andThen(function() {
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
+    assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=10&sort=username', 'Expected for offset 10 in URL');
+
+    assert.equal(find('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
+  });
+
+  andThen(function() {
+    click('.table-override-columns-template table .btn-toggle-filter:eq(0)');
+    // filter by is-admin
+    selectChoose('.table-override-columns-template .ember-tabular-ember-power-select', 'Yes');
+  });
+
+  andThen(function() {
+    let request = getPretenderRequest(server, 'GET', 'users')[0];
+    assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL but page is reset to 1, offset 0');
+
+    assert.equal(find('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
+  });
+});
+
 test('Check for hidden column after interacting with column-select component (.table-column-select)', function(assert) {
   server.loadFixtures('users');
   visit('/');

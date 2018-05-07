@@ -834,6 +834,11 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     }
   },
 
+  filterChanged: Ember.observer('filter.@each.value', function () {
+    // reset page to 1 if filter changes
+    this.set('page', 1);
+  }),
+
   /**
   * Constructs the query object to be used in `request`.
   *

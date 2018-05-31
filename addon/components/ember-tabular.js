@@ -256,7 +256,12 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     let newColumnOrder = filterColumns.map((el) => {
       return el.property;
     });
-    this.set('columnOrder', newColumnOrder);
+    // bubble up and trigger the updateColumnOrder action to persist the columnOrder on the controller
+    if (this.get('updateColumnOrder')) {
+      this.get('updateColumnOrder')(newColumnOrder);
+    } else {
+      this.set('columnOrder', newColumnOrder);
+    }
   }),
 
   /**

@@ -4,7 +4,7 @@
 
 <h5>Example #2</h5>
 <h1>Table - Column Select</h1>
-{{#ember-tabular class="table-column-select" modelName="user" sort=sort1 columnOrder=orderConfig as |et|}}
+{{#ember-tabular class="table-column-select" modelName="user" sort=sort1 columnOrder=orderConfig updateColumnOrder=(action "updateColumnOrder") as |et|}}
     {{#component et.column property="emailAddress" isCustom=true as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/component}}

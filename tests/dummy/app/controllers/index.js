@@ -163,6 +163,11 @@ export default Ember.Controller.extend({
         this.set('isAdminFilter', null);
       }
     },
+    updateColumnOrder(order) {
+      if (order) {
+        this.set('orderConfig', order);
+      }
+    },
   },
   adminContent: Ember.computed(function() {
     return [

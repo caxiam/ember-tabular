@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(Ember.Evented, {
   users: null,
   users2: null,
   users3: null,
@@ -175,5 +175,8 @@ export default Ember.Controller.extend({
         value: false,
       }
     ];
+  }),
+  onFiltering: Ember.on('onFiltering', function () {
+    console.log('detected event from component');
   }),
 });

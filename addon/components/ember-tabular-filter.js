@@ -52,6 +52,9 @@ export default Ember.Component.extend({
         this.set('headerFilter', null);
       }
     },
+    focusFilter() {
+      this.get('focusFilter')();
+    },
   },
   setHeaderFilter: Ember.on('init', function () {
     const filter = this.get('filter');

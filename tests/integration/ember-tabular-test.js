@@ -1,5 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
 
 let record = [
   {
@@ -319,4 +320,24 @@ test('Do not render specific column', function(assert) {
   assert.equal($component.find('thead tr th:eq(0)').text().trim(), 'Email', 'Email is the first column, not Username');
   assert.equal($component.find('thead tr th').length, 4, 'Username is hidden, only 4 columns are rendering');
   assert.equal($component.find('tbody tr:eq(0) td').length, 4, 'Tbody columns match the thead columns, username is hidden');
+});
+
+test('Emits onFiltering events', function(assert) {
+  assert.expect(3);
+  this.set('columns', columns);
+  this.set('onFilteringChange', () => {
+    assert.ok(true, 'onFiltering event was triggered');
+  });
+  this.render(hbs`
+    {{ember-tabular columns=columns record=record makeRequest=false isDropdownLimit=false onFiltering=onFilteringChange}}
+  `);
+  // Set record after render b/c of component this.reset()
+  this.set('record', record);
+
+  var $component = this.$();
+  assert.equal($component.find('thead tr th:eq(0)').text().trim(), 'Username', 'Username is the first column');
+  assert.equal($component.find('thead tr th').length, 7, 'All columns are rendering');
+
+  $component.find('thead .btn-toggle-filter:eq(0)').click();
+  $component.find('thead input:eq(0)').focus();
 });

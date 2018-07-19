@@ -16,7 +16,7 @@ import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-h
 *
 * @class EmberTabular
 */
-export default Ember.Component.extend(EmberTabularHelpers, {
+export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   layout,
   store: Ember.inject.service('store'),
   action: null,
@@ -932,6 +932,10 @@ export default Ember.Component.extend(EmberTabularHelpers, {
         // adds column to registry coming from ember-tabular-column
         this.get('registry').addObject(column);
       }
+    },
+    triggerOnFilterFocus() {
+      // trigger the event onFiltering
+      this.trigger('onFiltering');
     },
   },
 

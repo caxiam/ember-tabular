@@ -32,39 +32,19 @@
             sortBy=(action "sortBy")
             focusFilter=(action "triggerOnFilterFocus")
         }}
-        <tbody>
-            {{yield (hash
-                column=(component "ember-tabular-column-register" registry=registry columnOrder=columnOrder addToRegistry=(action "addToRegistry"))
-            )}}
-            {{ember-tabular-registry registryComplete=(action "registryComplete")}}
-            {{#if record}}
-                {{#if (and record columns)}}
-                    {{#each record as |row|}}
-                        <tr>
-                            {{#each columns as |column|}}
-                                {{#if column.isActive}}
-                                    {{#if (compare-with columns "property" column.property "isCustom")}}
-                                        {{yield (hash
-                                            column=(component "ember-tabular-column" column=column record=row property=property collection=record class=column.class)
-                                        )}}
-                                    {{else}}
-                                        {{ember-tabular-column column=column record=row property=column.property collection=record class=column.class}}
-                                    {{/if}}
-                                {{/if}}
-                            {{/each}}
-                        </tr>
-                    {{/each}}
-                {{else}}
-                    <tr>
-                        <td class="text-center td-loading" colspan="{{columnLength}}">
-                            Loading...
-                        </td>
-                    </tr>
-                {{/if}}
-            {{else}}
-                {{ember-tabular-loading isRecordLoaded=isRecordLoaded columnLength=columnLength tableLoadedMessage=tableLoadedMessage registryComplete=(action "registryComplete")}}
-            {{/if}}
-        </tbody>
+        {{#ember-tabular-tbody
+            record=record
+            columns=columns
+            registry=registry
+            columnOrder=columnOrder
+            columnLength=columnLength
+            isRecordLoaded=isRecordLoaded
+            tableLoadedMessage=tableLoadedMessage
+            addToRegistry=(action "addToRegistry")
+            registryComplete=(action "registryComplete")
+        as |tbody|}}
+            {{yield (hash column=tbody.column)}}
+        {{/ember-tabular-tbody}}
     </table>
     {{yield wrapperFooter}}
 </div>

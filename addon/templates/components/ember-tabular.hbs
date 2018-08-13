@@ -18,56 +18,20 @@
 <div class="table-responsive {{if tableWrapperClass tableWrapperClass}}">
     {{yield wrapperHeader}}
     <table class="table {{if tableClass tableClass "table-bordered table-hover"}} {{if isLoading "loading"}}">
-        {{#if columns}}
-            <thead>
-                <tr>
-                    {{#each columns as |header|}}
-                        {{#if header.isActive}}
-                            {{#if header.property}}
-                                <th id="{{dot-to-dash-filter header.property}}" class="{{if header.sort sortableClass}} {{if header.filter "filterable"}}">
-                                    {{#if header.filter}}
-                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
-                                    {{/if}}
-                                    {{#if header.sort}}
-                                        <div {{action "sortBy" header.property}} class="btn-sort">
-                                            {{header.label}}
-                                        </div>
-                                    {{else if header.selectable}}
-                                        <div class="checkbox-no-label checkbox-sm">
-                                            <label>
-                                                {{input class="allChecked" type="checkbox" checked=allChecked}}
-                                                <span class="fake-checkbox"></span>
-                                            </label>
-                                        </div>
-                                    {{else}}
-                                        <div>
-                                            {{header.label}}
-                                        </div>
-                                    {{/if}}
-                                </th>
-                            {{else}}
-                                <th>{{header.label}}</th>
-                            {{/if}}
-                        {{/if}}
-                    {{/each}}
-                </tr>
-                {{#if isColumnFilters}}
-                    {{#if showFilterRow}}
-                        <tr>
-                            {{#each columns as |header|}}
-                                {{#if header.isActive}}
-                                    {{#if header.filter}}
-                                        {{ember-tabular-filter modelName=modelName columns=columns property=header.property record=record query=query filter=filter header=header focusFilter=(action "triggerOnFilterFocus")}}
-                                    {{else}}
-                                        <th>{{!-- Blank to reserve table column --}}</th>
-                                    {{/if}}
-                                {{/if}}
-                            {{/each}}
-                        </tr>
-                    {{/if}}
-                {{/if}}
-            </thead>
-        {{/if}}
+        {{ember-tabular-thead
+            columns=columns
+            isColumnFilters=isColumnFilters
+            showFilterRow=showFilterRow
+            sortableClass=sortableClass
+            modelName=modelName
+            record=record
+            query=query
+            filter=filter
+            allChecked=allChecked
+            toggleFilterRow=(action "toggleFilterRow")
+            sortBy=(action "sortBy")
+            focusFilter=(action "triggerOnFilterFocus")
+        }}
         <tbody>
             {{yield (hash
                 column=(component "ember-tabular-column-register" registry=registry columnOrder=columnOrder addToRegistry=(action "addToRegistry"))

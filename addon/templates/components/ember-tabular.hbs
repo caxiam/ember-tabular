@@ -1,17 +1,4 @@
-{{#if isFailure}}
-    {{#ember-tabular-alert type="danger"}}
-        {{failureMessage}}
-        {{#if errors}}
-            <ul>
-                {{#each errors as |error|}}
-                    <li>
-                        {{error.detail}}
-                    </li>
-                {{/each}}
-            </ul>
-        {{/if}}
-    {{/ember-tabular-alert}}
-{{/if}}
+{{ember-tabular-alert type="danger" isFailure=isFailure failureMessage=failureMessage errors=errors}}
 
 {{yield header}}
 
@@ -51,20 +38,12 @@
 
 {{yield footer}}
 
-{{#if columns}}
-    <div class="row">
-        <div class="{{unless isDropdownLimit "col-sm-12" "col-sm-9"}}">
-            {{#if isColumnSelect}}
-                {{ember-tabular-column-select columns=columns}}
-            {{/if}}
-            <nav class="{{if paginationWrapperClass paginationWrapperClass}}">
-                {{pagination-pager current=page count=pageLimit}}
-            </nav>
-        </div>
-        {{#if isDropdownLimit}}
-            <div class="col-sm-3">
-                {{ember-tabular-dropdown-limit limit=limit record=record count=pageLimit}}
-            </div>
-        {{/if}}
-    </div>
-{{/if}}
+{{ember-tabular-footer
+    columns=columns
+    isDropdownLimit=isDropdownLimit
+    isColumnSelect=isColumnSelect
+    paginationWrapperClass=paginationWrapperClass
+    page=page
+    pageLimit=pageLimit
+    limit=limit
+    record=record}}

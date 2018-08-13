@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Upgrades ember-power-select to 1.4.3, may require refactoring of `class` to `triggerClass` if applicable.
 - Upgrade ember and ember-cli to 2.10.0
+- Updated ember-tabular.hbs to use subcomponents for rendering.
 
 ### Fixed
 

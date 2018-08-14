@@ -13,7 +13,7 @@ module('Acceptance: Example4 Table', {
   }
 });
 
-test('Check table-basic-route-model for expected content', function(assert) {
+test('Check for expected content (.table-basic-route-model)', function(assert) {
   server.loadFixtures('users');
   visit('/example4');
 
@@ -29,7 +29,7 @@ test('Check table-basic-route-model for expected content', function(assert) {
   });
 });
 
-test('Check table-basic-route-model pagination - 5 pages', function(assert) {
+test('Check pagination - 5 pages (.table-basic-route-model)', function(assert) {
   server.createList('user', 50);
   visit('/example4');
 
@@ -41,7 +41,7 @@ test('Check table-basic-route-model pagination - 5 pages', function(assert) {
   });
 });
 
-test('Check table-basic-route-model ability to sort', function(assert) {
+test('Check ability to sort (.table-basic-route-model)', function(assert) {
   server.createList('user', 50);
   visit('/example4');
 

@@ -1,12 +1,36 @@
 import Ember from 'ember';
+import layout from 'ember-tabular/templates/components/ember-tabular-dropdown-limit';
 
+/**
+* Sets up component for changing the table row count/limit.
+*
+* @class EmberTabularDropdownLimit
+*/
 export default Ember.Component.extend({
+  layout,
+  /**
+  * @property tagName
+  * @type String
+  * @default 'div'
+  */
   tagName: 'div',
   classNames: ['ember-tabular-dropdown-limit'],
 
-  // populates limit dropdown
+  /**
+  * @property limits
+  * @type Array
+  * @default [10, 25, 50, 100, 500]
+  */
   limits: [10, 25, 50, 100, 500],
 
+  /**
+  * Computed Property to determine if the result set is large enough to display the dropdown limit component.
+  *
+  * @property autoHide
+  * @param record
+  * @param count
+  * @return Boolean
+  */
   autoHide: Ember.computed('record', 'count', function() {
     let record = this.get('record');
     let count = this.get('count');

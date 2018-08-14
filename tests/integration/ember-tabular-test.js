@@ -1,5 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
 
 let record = [
   {
@@ -27,23 +28,28 @@ let columns = [
   {
     property: 'username',
     label: 'Username',
+    isActive: true,
     defaultSort: 'username',
   },
   {
     property: 'emailAddress',
     label: 'Email',
+    isActive: true,
   },
   {
     property: 'firstName',
     label: 'First Name',
+    isActive: true,
   },
   {
     property: 'lastName',
     label: 'Last Name',
+    isActive: true,
   },
   {
     property: 'isAdmin',
     label: 'Is Admin',
+    isActive: true,
     list: [
       {
         label: 'Yes',
@@ -58,50 +64,68 @@ let columns = [
   {
     property: 'updatedAt',
     label: 'Last Updated',
+    isActive: true,
     type: 'date',
+  },
+  {
+    property: 'actions',
+    label: 'Actions',
+    isActive: true,
+    filter: false,
+    sort: false,
   },
 ];
 let columnsLabels = [
   {
     label: 'Username',
+    isActive: true,
   },
   {
     label: 'Email',
+    isActive: true,
   },
   {
     label: 'First Name',
+    isActive: true,
   },
   {
     label: 'Last Name',
+    isActive: true,
   },
   {
     label: 'Last Updated',
+    isActive: true,
   },
 ];
 let columnsNoFilter = [
   {
     property: 'username',
     label: 'Username',
+    isActive: false,
     filter: false,
   },
   {
     property: 'emailAddress',
     label: 'Email',
+    isActive: true,
     filter: false,
   },
   {
     property: 'firstName',
     label: 'First Name',
+    isActive: true,
     filter: false,
   },
   {
     property: 'lastName',
     label: 'Last Name',
+    isActive: true,
     filter: false,
   },
   {
     property: 'updatedAt',
     label: 'Last Updated',
+    isActive: true,
     filter: false,
   },
 ];
@@ -129,19 +153,13 @@ test('Render header yield', function(assert) {
 test('Render body yield', function(assert) {
   this.set('columns', columns);
   this.render(hbs`
-    {{#ember-tabular columns=columns record=record makeRequest=false isDropdownLimit=false as |section|}}
-      {{#if section.isBody}}
-        <div class="body">
-          Test Body Yield
-        </div>
-      {{/if}}
-    {{/ember-tabular}}
+    {{ember-tabular columns=columns record=record makeRequest=false isDropdownLimit=false}}
   `);
   // Set record after render b/c of component this.reset()
   this.set('record', record);
 
   var $component = this.$();
-  assert.equal($component.find('.body').text().trim(), 'Test Body Yield');
+  assert.equal($component.find('tbody tr:eq(0) td:eq(0)').text().trim(), 'YippieKiYay');
 });
 
 test('Render footer yield', function(assert) {
@@ -227,6 +245,17 @@ test('Render dropdown filter component', function(assert) {
   assert.equal($component.find('.table-filter .search-filter').length, 1, 'Test ember power select loads within global filter');
 });
 
+test('Render column select component', function(assert) {
+  this.set('columns', columns);
+  this.render(hbs`
+    {{ember-tabular columns=columns record=record makeRequest=false}}
+  `);
+
+  var $component = this.$();
+  assert.equal($component.find('.btn-group-column-select').length, 1, 'Column select renders');
+  assert.equal($component.find('.btn-group-column-select li').length, 7, 'Column select renders columns in a list');
+});
+
 test('Render isLoading class on component', function(assert) {
   this.set('columns', columns);
   this.render(hbs`
@@ -277,4 +306,38 @@ test('Do not render column filters', function(assert) {
   assert.equal($component.find('thead tr').length, 1, 'Do not render filter row');
   assert.equal($component.find('thead tr th:eq(0)').attr('class'), 'sortable ', 'Filterable class is missing from columns');
   assert.equal($component.find('thead tr th:eq(0) .btn-toggle-filter').length, 0, 'Do not render column filter');
+});
+
+test('Do not render specific column', function(assert) {
+  this.set('columnsNoFilter', columnsNoFilter);
+  this.render(hbs`
+    {{ember-tabular columns=columnsNoFilter record=record makeRequest=false isDropdownLimit=false}}
+  `);
+  // Set record after render b/c of component this.reset()
+  this.set('record', record);
+
+  var $component = this.$();
+  assert.equal($component.find('thead tr th:eq(0)').text().trim(), 'Email', 'Email is the first column, not Username');
+  assert.equal($component.find('thead tr th').length, 4, 'Username is hidden, only 4 columns are rendering');
+  assert.equal($component.find('tbody tr:eq(0) td').length, 4, 'Tbody columns match the thead columns, username is hidden');
+});
+
+test('Emits onFiltering events', function(assert) {
+  assert.expect(3);
+  this.set('columns', columns);
+  this.set('onFilteringChange', () => {
+    assert.ok(true, 'onFiltering event was triggered');
+  });
+  this.render(hbs`
+    {{ember-tabular columns=columns record=record makeRequest=false isDropdownLimit=false onFiltering=onFilteringChange}}
+  `);
+  // Set record after render b/c of component this.reset()
+  this.set('record', record);
+
+  var $component = this.$();
+  assert.equal($component.find('thead tr th:eq(0)').text().trim(), 'Username', 'Username is the first column');
+  assert.equal($component.find('thead tr th').length, 7, 'All columns are rendering');
+
+  $component.find('thead .btn-toggle-filter:eq(0)').click();
+  $component.find('thead input:eq(0)').focus();
 });

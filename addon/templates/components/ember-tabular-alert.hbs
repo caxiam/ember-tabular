@@ -1,0 +1,18 @@
+{{#if isFailure}}
+    <div class="alert {{typeClass}}" role="alert">
+        {{#if hasBlock}}
+            {{yield}}
+        {{else}}
+            {{failureMessage}}
+            {{#if errors}}
+                <ul>
+                    {{#each errors as |error|}}
+                        <li>
+                            {{error.detail}}
+                        </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
+        {{/if}}
+    </div>
+{{/if}}

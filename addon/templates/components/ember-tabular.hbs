@@ -1,0 +1,56 @@
+{{ember-tabular-alert type="danger" isFailure=isFailure failureMessage=failureMessage errors=errors}}
+
+{{yield header}}
+
+<div class="table-responsive {{if tableWrapperClass tableWrapperClass}}">
+    {{yield wrapperHeader}}
+    <table class="table {{if tableClass tableClass "table-bordered table-hover"}} {{if isLoading "loading"}}">
+        {{ember-tabular-thead
+            columns=columns
+            isColumnFilters=isColumnFilters
+            showFilterRow=showFilterRow
+            sortableClass=sortableClass
+            modelName=modelName
+            record=record
+            query=query
+            filter=filter
+            allChecked=allChecked
+            toggleFilterRow=(action "toggleFilterRow")
+            sortBy=(action "sortBy")
+            focusFilter=(action "triggerOnFilterFocus")
+        }}
+        {{#ember-tabular-tbody
+            record=record
+            columns=columns
+            registry=registry
+            columnOrder=columnOrder
+            columnLength=columnLength
+            isRecordLoaded=isRecordLoaded
+            tableLoadedMessage=tableLoadedMessage
+            refreshTabular=refreshTabular
+            query=query
+            filter=filter
+            page=page
+            pageLimit=pageLimit
+            addToRegistry=(action "addToRegistry")
+            registryComplete=(action "registryComplete")
+        as |tbody|}}
+            {{yield (hash column=tbody.column)}}
+        {{/ember-tabular-tbody}}
+    </table>
+    {{yield wrapperFooter}}
+</div>
+
+{{yield footer}}
+
+{{ember-tabular-footer
+    columns=columns
+    isDropdownLimit=isDropdownLimit
+    isColumnSelect=isColumnSelect
+    paginationWrapperClass=paginationWrapperClass
+    filter=filter
+    allChecked=allChecked
+    page=page
+    pageLimit=pageLimit
+    limit=limit
+    record=record}}

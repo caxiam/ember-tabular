@@ -26,6 +26,9 @@ export default Ember.Route.extend({
     if (params['page[offset]']) {
       params.offset = params['page[offset]'];
     }
+    if (params.sort) {
+      params.sort = Ember.String.dasherize(params.sort);
+    }
 
     // Override to set dynamic offset based on page and limit
     params.offset = (params.page * params.limit) - params.limit;

@@ -30,6 +30,13 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   */
   makeRequest: true,
   /**
+  *
+  * @property refreshTabular
+  * @type Boolean
+  * @default false
+  */
+  refreshTabular: false,
+  /**
   * Used to toggle the filter row bar.
   *
   * @property showFilterRow
@@ -847,7 +854,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @return {Object}
   */
   query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',
-  'staticParams', function () {
+  'staticParams', 'refreshTabular', function () {
     let query = {};
     const filter = this.get('filter') || [];
     query = {

@@ -238,7 +238,9 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
         columns = includes.concat(excludes);
       }
       Ember.run.next(() => {
-        this.set('isLoading', false);
+        if (!this.isDestroyed || !this.isDestroying) {
+          this.set('isLoading', false);
+        }
       });
     }
     return columns;
@@ -1046,13 +1048,15 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @method reset
   */
   reset() {
-    this.setProperties({
-      isLoading: false,
-      errors: null,
-      isSuccess: false,
-      isFailure: false,
-      successMessage: this.get('defaultSuccessMessage'),
-      failureMessage: this.get('defaultFailureMessage'),
-    });
+    if (!this.isDestroyed || !this.isDestroying) {
+      this.setProperties({
+        isLoading: false,
+        errors: null,
+        isSuccess: false,
+        isFailure: false,
+        successMessage: this.get('defaultSuccessMessage'),
+        failureMessage: this.get('defaultFailureMessage'),
+      });
+    }
   },
 });

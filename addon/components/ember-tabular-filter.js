@@ -23,6 +23,7 @@ export default Ember.Component.extend({
   * @default ''
   */
   headerFilter: '',
+  focusFilter: null,
 
   /**
   * Pass the `query` object from the parent component if it is different or if used outside of the context of the component, otherwise `query` is optional and the component will attempt to grab within the context of the parent component.
@@ -53,7 +54,9 @@ export default Ember.Component.extend({
       }
     },
     focusFilter() {
-      this.get('focusFilter')();
+      if (this.get('focusFilter')) {
+        this.get('focusFilter')();
+      }
     },
   },
   setHeaderFilter: Ember.on('init', function () {

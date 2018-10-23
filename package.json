@@ -54,7 +54,7 @@
     "ember-truth-helpers": "^2.1.0",
     "ember-font-awesome": "^4.0.0-alpha.13",
     "ember-power-select": "1.10.4",
-    "ember-drag-drop": "0.4.5",
+    "ember-drag-drop": "0.4.8",
     "broccoli-merge-trees": "2.0.0",
     "broccoli-funnel": "1.2.0"
   },

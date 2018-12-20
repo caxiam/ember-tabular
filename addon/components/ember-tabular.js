@@ -237,11 +237,6 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
         });
         columns = includes.concat(excludes);
       }
-      Ember.run.next(() => {
-        if (!this.isDestroyed || !this.isDestroying) {
-          this.set('isLoading', false);
-        }
-      });
     }
     return columns;
   }),

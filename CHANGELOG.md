@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [UNRELEASED]
+### Changed
+- Updated ember-power-select to 2.0.0 which requires ember 2.9+.
+
 ## [0.2.0] - 2017-05-17 - Ember v2.X.X
 ### Added
 - Adds ability to set column filter/sort independently.

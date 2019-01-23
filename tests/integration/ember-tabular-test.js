@@ -252,8 +252,10 @@ test('Render column select component', function(assert) {
   `);
 
   var $component = this.$();
-  assert.equal($component.find('.btn-group-column-select').length, 1, 'Column select renders');
-  assert.equal($component.find('.btn-group-column-select li').length, 7, 'Column select renders columns in a list');
+  $component.find('.dropdown-toggle:eq(0)').click();
+
+  assert.equal($component.find('.ember-basic-dropdown-content').length, 1, 'Column select renders');
+  assert.equal($component.find('.ember-basic-dropdown-content li').length, 7, 'Column select renders columns in a list');
 });
 
 test('Render isLoading class on component', function(assert) {

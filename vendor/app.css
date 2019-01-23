@@ -160,13 +160,26 @@
 
 /* ember-tabular-column-select */
 
-.btn-group-column-select .js-draggableObject{
+/* override default behavior to not hide */
+.dropdown-menu.dropdown-menu-always-show{
+    position:static !important;
+    display:block;
+    float:none;
+    left:auto;
+    top:auto;
+    right:auto;
+}
+
+.ember-basic-dropdown-content .js-draggableObject{
     position:relative;
 }
-.btn-group-column-select .js-dragHandle{
+.ember-basic-dropdown-content .js-dragHandle{
     cursor:move;
     position:absolute;
     top:50%;
     transform: translateY(-50%);
     right:9px;
+}
+.ember-basic-dropdown-content .dropdown-menu > li > a {
+    padding:3px 20px 3px 10px;
 }

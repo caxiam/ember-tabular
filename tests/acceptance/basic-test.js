@@ -1,4 +1,7 @@
 import { click, fillIn, find, findAll, currentURL, triggerEvent, visit } from '@ember/test-helpers';
+import { assertIn, getPretenderRequest } from '../../tests/helpers/util';
+import { selectChoose } from 'ember-power-select/test-support/helpers';
+import { clickTrigger, tapTrigger } from 'ember-basic-dropdown/test-support/helpers';
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
@@ -16,10 +19,10 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    let cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
     assert.equal(findAll('.table-default table tbody tr').length, 1, 'Check for 1 items in table');
-    assertIn(assert, cells.eq(0).html().trim(), 'No Data.', 'No Data.');
+    assertIn(assert, cells[0].textContent.trim(), 'No Data.', 'No Data.');
     assert.equal(find('.table-default .pagination').classList.contains('hidden'), true, 'Pagination is hidden');
   });
 
@@ -39,16 +42,16 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    let cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells.eq(0).text().trim(), 'AnakinSkywalker9', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'skywalker@domain.com', 'Check for email');
-    assert.equal(cells.eq(2).text().trim(), '1082hudsasd', 'Check for password');
-    assert.equal(cells.eq(3).text().trim(), 'Anakin', 'Check for first name');
-    assert.equal(cells.eq(4).text().trim(), 'Skywalker', 'Check for last name');
-    assert.equal(cells.eq(5).text().trim(), 'false', 'Check for is admin');
-    assert.equal(cells.eq(6).text().trim(), 'Wed Jul 22 2009 00:00:00 GMT+0000', 'Check for created at');
-    assert.equal(cells.eq(7).text().trim(), 'Thu Jul 23 2009 00:00:00 GMT+0000', 'Check for updated at');
+    assert.equal(cells[0].textContent.trim(), 'AnakinSkywalker9', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'skywalker@domain.com', 'Check for email');
+    assert.equal(cells[2].textContent.trim(), '1082hudsasd', 'Check for password');
+    assert.equal(cells[3].textContent.trim(), 'Anakin', 'Check for first name');
+    assert.equal(cells[4].textContent.trim(), 'Skywalker', 'Check for last name');
+    assert.equal(cells[5].textContent.trim(), 'false', 'Check for is admin');
+    assert.equal(cells[6].textContent.trim(), 'Wed Jul 22 2009 00:00:00 GMT+0000', 'Check for created at');
+    assert.equal(cells[7].textContent.trim(), 'Thu Jul 23 2009 00:00:00 GMT+0000', 'Check for updated at');
 
     assert.equal(findAll('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
   });
@@ -59,15 +62,15 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    let cells = find('.table-column-select table tbody tr').eq(0).find('td');
+    let cells = find('.table-column-select table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells.eq(0).text().trim(), 'AnakinSkywalker9', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'skywalker@domain.com', 'Check for email');
-    assert.equal(cells.eq(2).text().trim(), 'Anakin', 'Check for first name');
-    assert.equal(cells.eq(3).text().trim(), 'Skywalker', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), 'No', 'Check for is admin');
-    assert.equal(cells.eq(5).text().trim(), '07/23/2009', 'Check for last updated');
-    assert.equal(cells.eq(6).text().trim(), 'Edit', 'Check for edit link');
+    assert.equal(cells[0].textContent.trim(), 'AnakinSkywalker9', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'skywalker@domain.com', 'Check for email');
+    assert.equal(cells[2].textContent.trim(), 'Anakin', 'Check for first name');
+    assert.equal(cells[3].textContent.trim(), 'Skywalker', 'Check for last name');
+    assert.equal(cells[4].textContent.trim(), 'No', 'Check for is admin');
+    assert.equal(cells[5].textContent.trim(), '07/23/2009', 'Check for last updated');
+    assert.equal(cells[6].textContent.trim(), 'Edit', 'Check for edit link');
 
     assert.equal(findAll('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
   });
@@ -83,15 +86,15 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    await click('.table-column-select .pagination li:eq(2) a');
-    let request = getPretenderRequest(server, 'GET', 'users')[0];
+    await click(findAll('.table-column-select .pagination li')[2].getElementsByTagName('a')[0]);
+    let request = await getPretenderRequest(server, 'GET', 'users')[0];
     assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=10&sort=username', 'Expected for offset 10 in URL');
 
     assert.equal(findAll('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
     await click(find('.table-override-columns-template table .btn-toggle-filter'));
     // filter by is-admin
-    selectChoose('.table-override-columns-template .ember-tabular-ember-power-select', 'Yes');
-    let request2 = getPretenderRequest(server, 'GET', 'users')[0];
+    await selectChoose('.table-override-columns-template .ember-tabular-ember-power-select', 'Yes');
+    let request2 = await getPretenderRequest(server, 'GET', 'users')[0];
     assert.equal(request2.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL but page is reset to 1, offset 0');
 
     assert.equal(findAll('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
@@ -103,24 +106,21 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    let cells = find('.table-column-select table tbody tr').eq(0).find('td');
+    let cells = find('.table-column-select table tbody tr').getElementsByTagName('td');
 
     assert.equal(findAll('.table-column-select table thead tr th').length, 7, 'Show expected number of <th> columns');
     assert.equal(cells.length, 7, 'Show expected number of <td> columns');
-    assert.equal(cells.eq(0).text().trim(), 'AnakinSkywalker9', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'skywalker@domain.com', 'Check for email');
+    assert.equal(cells[0].textContent.trim(), 'AnakinSkywalker9', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'skywalker@domain.com', 'Check for email');
 
-    await click('.table-column-select .btn-group-column-select button');
-    await click('.table-column-select .btn-group-column-select li:eq(0) a');
-    let cells2 = find('.table-column-select table tbody tr').eq(0).find('td');
+    await clickTrigger('.table-column-select .dropdown-toggle');
+    await click(find('.ember-basic-dropdown-content li a'));
+    let cells2 = find('.table-column-select table tbody tr').getElementsByTagName('td');
 
     assert.equal(findAll('.table-column-select table thead tr th').length, 6, 'Show expected number of <th> columns');
     assert.equal(cells2.length, 6, 'Show expected number of <td> columns');
-    assert.equal(cells2.eq(0).text().trim(), 'skywalker@domain.com', 'Check for email, username is hidden');
-    assert.equal(cells2.eq(1).text().trim(), 'Anakin', 'Check for first name');
-
-    await click('.table-column-select .btn-group-column-select button');
-    await click('.table-column-select .btn-group-column-select li:eq(0) a');
+    assert.equal(cells2[0].textContent.trim(), 'skywalker@domain.com', 'Check for email, username is hidden');
+    assert.equal(cells2[1].textContent.trim(), 'Anakin', 'Check for first name');
   });
 
   test('Check for expected content (.table-override-columns-template)', async function(assert) {
@@ -129,15 +129,15 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    let cells = find('.table-override-columns-template table tbody tr').eq(0).find('td');
+    let cells = find('.table-override-columns-template table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells.eq(0).text().trim(), 'AnakinSkywalker9', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'skywalker@domain.com', 'Check for email');
-    assert.equal(cells.eq(2).text().trim(), 'Anakin', 'Check for first name');
-    assert.equal(cells.eq(3).text().trim(), 'Skywalker', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), 'No', 'Check for is admin');
-    assert.equal(cells.eq(5).text().trim(), '07/23/2009', 'Check for last updated');
-    assert.equal(cells.eq(6).text().trim(), 'Edit', 'Check for edit link');
+    assert.equal(cells[0].textContent.trim(), 'AnakinSkywalker9', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'skywalker@domain.com', 'Check for email');
+    assert.equal(cells[2].textContent.trim(), 'Anakin', 'Check for first name');
+    assert.equal(cells[3].textContent.trim(), 'Skywalker', 'Check for last name');
+    assert.equal(cells[4].textContent.trim(), 'No', 'Check for is admin');
+    assert.equal(cells[5].textContent.trim(), '07/23/2009', 'Check for last updated');
+    assert.equal(cells[6].textContent.trim(), 'Edit', 'Check for edit link');
 
     assert.equal(findAll('.table-override-columns-template table tbody tr').length, 10, 'Check for 10 items in table');
   });
@@ -148,13 +148,13 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    let rows = find('.table-default table tbody tr');
+    let rows = findAll('.table-default table tbody tr');
     assert.equal(rows.length, 10, 'Check for 10 items in table');
 
     // change table limit to 25
-    selectChoose($('.table-default .limit:eq(0)')[0], '25');
+    await selectChoose('.table-default .limit', '25');
 
-    let rows2 = find('.table-default table tbody tr');
+    let rows2 = findAll('.table-default table tbody tr');
     assert.equal(rows2.length, 25, 'Check for 25 items in table');
   });
 
@@ -164,7 +164,7 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    let rows = find('.table-default table tbody tr');
+    let rows = findAll('.table-default table tbody tr');
     assert.equal(rows.length, 10, 'Check for 10 items in table');
 
     assert.equal(findAll('.table-default .ember-tabular-dropdown-limit > *').length, 0, 'ember-tabular-dropdown-limit is hidden');
@@ -194,13 +194,15 @@ module('Acceptance: Simple Table', function(hooks) {
     server.loadFixtures('users');
     await visit('/');
 
+    Ember.run(() => {
+      this.store = this.owner.lookup('service:store');
+      this.store.unloadAll('user');
+    })
+
     assert.equal(currentURL(), '/');
+    let cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
-    let store = application.__container__.lookup('service:store');
-    store.unloadAll('user');
-    let cells = find('.table-default table tbody tr').eq(0).find('td');
-
-    assertIn(assert, cells.eq(0).html().trim(), 'No Data.', 'No Data.');
+    assertIn(assert, cells[0].textContent.trim(), 'No Data.', 'No Data.');
   });
 
   test('Check table rendering for pagination (.table-default)', async function(assert) {
@@ -210,16 +212,16 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
     // Transition to the next page
     await click('.table-default .pagination .next a');
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    var cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells.eq(0).text().trim(), 'mcclane.jr', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'jack.mcclane@domain.com', 'Check for email');
-    assert.equal(cells.eq(2).text().trim(), 'h1d69sljq98', 'Check for password');
-    assert.equal(cells.eq(3).text().trim(), 'Jack', 'Check for first name');
-    assert.equal(cells.eq(4).text().trim(), 'McClane', 'Check for last name');
-    assert.equal(cells.eq(5).text().trim(), 'false', 'Check for is admin');
-    assert.equal(cells.eq(6).text().trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
-    assert.equal(cells.eq(7).text().trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
+    assert.equal(cells[0].textContent.trim(), 'mcclane.jr', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'jack.mcclane@domain.com', 'Check for email');
+    assert.equal(cells[2].textContent.trim(), 'h1d69sljq98', 'Check for password');
+    assert.equal(cells[3].textContent.trim(), 'Jack', 'Check for first name');
+    assert.equal(cells[4].textContent.trim(), 'McClane', 'Check for last name');
+    assert.equal(cells[5].textContent.trim(), 'false', 'Check for is admin');
+    assert.equal(cells[6].textContent.trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
+    assert.equal(cells[7].textContent.trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
 
     assert.equal(findAll('.table-default table tbody tr').length, 2, 'Check for 2 items in table on second page');
   });
@@ -230,17 +232,17 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    await click('.table-default table th:contains("Last Name") .btn-sort');
-    let cells = find('.table-default table tbody tr').eq(0).find('td');
+    await click(findAll('.table-default table th')[4].querySelector('.btn-sort'));
+    let cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells.eq(0).text().trim(), 'Dooku', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'count.dooku@domain.com', 'Check for email');
-    assert.equal(cells.eq(2).text().trim(), '-912dh9ds', 'Check for password');
-    assert.equal(cells.eq(3).text().trim(), 'Count', 'Check for first name');
-    assert.equal(cells.eq(4).text().trim(), 'Dooku', 'Check for last name');
-    assert.equal(cells.eq(5).text().trim(), 'false', 'Check for is admin');
-    assert.equal(cells.eq(6).text().trim(), 'Sat Jul 22 2006 00:00:00 GMT+0000', 'Check for created at');
-    assert.equal(cells.eq(7).text().trim(), 'Sun Jul 23 2006 00:00:00 GMT+0000', 'Check for updated at');
+    assert.equal(cells[0].textContent.trim(), 'Dooku', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'count.dooku@domain.com', 'Check for email');
+    assert.equal(cells[2].textContent.trim(), '-912dh9ds', 'Check for password');
+    assert.equal(cells[3].textContent.trim(), 'Count', 'Check for first name');
+    assert.equal(cells[4].textContent.trim(), 'Dooku', 'Check for last name');
+    assert.equal(cells[5].textContent.trim(), 'false', 'Check for is admin');
+    assert.equal(cells[6].textContent.trim(), 'Sat Jul 22 2006 00:00:00 GMT+0000', 'Check for created at');
+    assert.equal(cells[7].textContent.trim(), 'Sun Jul 23 2006 00:00:00 GMT+0000', 'Check for updated at');
 
     assert.equal(findAll('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
@@ -256,17 +258,17 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    await click('.table-override-columns-template table th:contains("Last Updated")');
-    let cells = find('.table-override-columns-template table tbody tr').eq(0).find('td');
+    await click(findAll('.table-override-columns-template table th')[5]);
+    let cells = find('.table-override-columns-template table tbody tr').getElementsByTagName('td');
 
     assert.equal(find('.table-override-columns-template #updated-at').classList.contains('sortable'), false, 'Check for missing sortable class');
 
-    assert.equal(cells.eq(0).text().trim(), 'AnakinSkywalker9', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'skywalker@domain.com', 'Check for email');
-    assert.equal(cells.eq(2).text().trim(), 'Anakin', 'Check for first name');
-    assert.equal(cells.eq(3).text().trim(), 'Skywalker', 'Check for last name');
-    assert.equal(cells.eq(5).text().trim(), '07/23/2009', 'Check for date');
-    assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
+    assert.equal(cells[0].textContent.trim(), 'AnakinSkywalker9', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'skywalker@domain.com', 'Check for email');
+    assert.equal(cells[2].textContent.trim(), 'Anakin', 'Check for first name');
+    assert.equal(cells[3].textContent.trim(), 'Skywalker', 'Check for last name');
+    assert.equal(cells[5].textContent.trim(), '07/23/2009', 'Check for date');
+    assert.equal(cells[6].find('a').textContent.trim(), 'Edit', 'Check for actions');
 
     assert.equal(findAll('.table-override-columns-template table tbody tr').length, 10, 'Check for 10 items in table');
     let request = getPretenderRequest(server, 'GET', 'users')[4];
@@ -285,16 +287,16 @@ module('Acceptance: Simple Table', function(hooks) {
     await click(find('.table-default table .btn-toggle-filter'));
     await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
     find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
-    let cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells.eq(0).text().trim(), 'YippieKiYay', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'john.mcclane@domain.com', 'Check for email');
-    assert.equal(cells.eq(2).text().trim(), '12s2s2132x', 'Check for password');
-    assert.equal(cells.eq(3).text().trim(), 'John', 'Check for first name');
-    assert.equal(cells.eq(4).text().trim(), 'McClane', 'Check for last name');
-    assert.equal(cells.eq(5).text().trim(), 'true', 'Check for is admin');
-    assert.equal(cells.eq(6).text().trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
-    assert.equal(cells.eq(7).text().trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
+    assert.equal(cells[0].textContent.trim(), 'YippieKiYay', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'john.mcclane@domain.com', 'Check for email');
+    assert.equal(cells[2].textContent.trim(), '12s2s2132x', 'Check for password');
+    assert.equal(cells[3].textContent.trim(), 'John', 'Check for first name');
+    assert.equal(cells[4].textContent.trim(), 'McClane', 'Check for last name');
+    assert.equal(cells[5].textContent.trim(), 'true', 'Check for is admin');
+    assert.equal(cells[6].textContent.trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
+    assert.equal(cells[7].textContent.trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
 
     assert.equal(findAll('.table-default table tbody tr').length, 2, 'Check for 2 items in table');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
@@ -315,16 +317,16 @@ module('Acceptance: Simple Table', function(hooks) {
     find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
     await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
     find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
-    var cells = find('.table-default table tbody tr').eq(0).find('td');
+    var cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells.eq(0).text().trim(), 'YippieKiYay', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'john.mcclane@domain.com', 'Check for email');
-    assert.equal(cells.eq(2).text().trim(), '12s2s2132x', 'Check for password');
-    assert.equal(cells.eq(3).text().trim(), 'John', 'Check for first name');
-    assert.equal(cells.eq(4).text().trim(), 'McClane', 'Check for last name');
-    assert.equal(cells.eq(5).text().trim(), 'true', 'Check for is admin');
-    assert.equal(cells.eq(6).text().trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
-    assert.equal(cells.eq(7).text().trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
+    assert.equal(cells[0].textContent.trim(), 'YippieKiYay', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'john.mcclane@domain.com', 'Check for email');
+    assert.equal(cells[2].textContent.trim(), '12s2s2132x', 'Check for password');
+    assert.equal(cells[3].textContent.trim(), 'John', 'Check for first name');
+    assert.equal(cells[4].textContent.trim(), 'McClane', 'Check for last name');
+    assert.equal(cells[5].textContent.trim(), 'true', 'Check for is admin');
+    assert.equal(cells[6].textContent.trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
+    assert.equal(cells[7].textContent.trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
 
     assert.equal(findAll('.table-default table tbody tr').length, 1, 'Check for 1 item in table');
     var request = getPretenderRequest(server, 'GET', 'users')[0];
@@ -340,20 +342,20 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    await click('.table-default table th:contains("Last Name") .btn-sort');
+    await click(findAll('.table-default table th')[4].querySelector('.btn-sort'));
     await click(find('.table-default table .btn-toggle-filter'));
     await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
     find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
-    let cells = find('.table-default table tbody tr').eq(0).find('td');
+    let cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells.eq(0).text().trim(), 'YippieKiYay', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'john.mcclane@domain.com', 'Check for email');
-    assert.equal(cells.eq(2).text().trim(), '12s2s2132x', 'Check for password');
-    assert.equal(cells.eq(3).text().trim(), 'John', 'Check for first name');
-    assert.equal(cells.eq(4).text().trim(), 'McClane', 'Check for last name');
-    assert.equal(cells.eq(5).text().trim(), 'true', 'Check for is admin');
-    assert.equal(cells.eq(6).text().trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
-    assert.equal(cells.eq(7).text().trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
+    assert.equal(cells[0].textContent.trim(), 'YippieKiYay', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'john.mcclane@domain.com', 'Check for email');
+    assert.equal(cells[2].textContent.trim(), '12s2s2132x', 'Check for password');
+    assert.equal(cells[3].textContent.trim(), 'John', 'Check for first name');
+    assert.equal(cells[4].textContent.trim(), 'McClane', 'Check for last name');
+    assert.equal(cells[5].textContent.trim(), 'true', 'Check for is admin');
+    assert.equal(cells[6].textContent.trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
+    assert.equal(cells[7].textContent.trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
 
     assert.equal(findAll('.table-default table tbody tr').length, 2, 'Check for 1 item in table');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
@@ -370,7 +372,7 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
 
     await click(find('.table-override-columns-template table .btn-toggle-filter'));
-    selectChoose('.table-override-columns-template .ember-tabular-ember-power-select', 'Yes');
+    await selectChoose('.table-override-columns-template .ember-tabular-ember-power-select', 'Yes');
     var request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
@@ -385,7 +387,7 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
 
     await click(find('.table-column-select table .btn-toggle-filter'));
-    selectChoose('.table-column-select .ember-tabular-ember-power-select', 'Yes');
+    await selectChoose('.table-column-select .ember-tabular-ember-power-select', 'Yes');
     var request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
@@ -400,7 +402,7 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
 
     await click(find('.table-override-columns-template .btn-toggle-filter'));
-    selectChoose($('.table-override-columns-template .ember-tabular-ember-power-select:eq(0)')[0], 'Yes');
+    await selectChoose($('.table-override-columns-template .ember-tabular-ember-power-select:eq(0)')[0], 'Yes');
     var request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
@@ -418,14 +420,14 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
     await fillIn('.table-basic-global-filter .table-filter input', 'YippieKiYay');
     find('.table-basic-global-filter .table-filter input').trigger('keyup');
-    let cells = find('.table-basic-global-filter table tbody tr').eq(0).find('td');
+    let cells = find('.table-basic-global-filter table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells.eq(0).text().trim(), 'YippieKiYay', 'Check for username');
-    assert.equal(cells.eq(1).text().trim(), 'john.mcclane@domain.com', 'Check for email');
-    assert.equal(cells.eq(2).text().trim(), 'John', 'Check for first name');
-    assert.equal(cells.eq(3).text().trim(), 'McClane', 'Check for last name');
-    assert.equal(cells.eq(4).text().trim(), 'true', 'Check for is admin');
-    assert.equal(cells.eq(5).length, 0, 'Check for no more columns');
+    assert.equal(cells[0].textContent.trim(), 'YippieKiYay', 'Check for username');
+    assert.equal(cells[1].textContent.trim(), 'john.mcclane@domain.com', 'Check for email');
+    assert.equal(cells[2].textContent.trim(), 'John', 'Check for first name');
+    assert.equal(cells[3].textContent.trim(), 'McClane', 'Check for last name');
+    assert.equal(cells[4].textContent.trim(), 'true', 'Check for is admin');
+    assert.equal(cells[5].length, 0, 'Check for no more columns');
 
     assert.equal(findAll('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
@@ -444,14 +446,14 @@ module('Acceptance: Simple Table', function(hooks) {
     let columnSelectItem = find('.table-basic-global-filter .btn-group-column-select .dropdown-menu > li');
 
     assert.equal(columnSelectItem.length, 8, 'Check for 8 items in column select list');
-    assert.equal(columnSelectItem.eq(0).text().trim(), 'Username', 'Check for username');
-    assert.equal(columnSelectItem.eq(1).text().trim(), 'Email Address', 'Check for email');
-    assert.equal(columnSelectItem.eq(2).text().trim(), 'First Name', 'Check for first name');
-    assert.equal(columnSelectItem.eq(3).text().trim(), 'Last Name', 'Check for last name');
-    assert.equal(columnSelectItem.eq(4).text().trim(), 'Is Admin', 'Check for is admin');
-    assert.equal(columnSelectItem.eq(5).text().trim(), 'Password', 'Check for password, item not within columnOrder');
-    assert.equal(columnSelectItem.eq(6).text().trim(), 'Created At', 'Check for created at, item not within columnOrder');
-    assert.equal(columnSelectItem.eq(7).text().trim(), 'Updated At', 'Check for updated at, item not within columnOrder');
+    assert.equal(columnSelectItem[0].textContent.trim(), 'Username', 'Check for username');
+    assert.equal(columnSelectItem[1].textContent.trim(), 'Email Address', 'Check for email');
+    assert.equal(columnSelectItem[2].textContent.trim(), 'First Name', 'Check for first name');
+    assert.equal(columnSelectItem[3].textContent.trim(), 'Last Name', 'Check for last name');
+    assert.equal(columnSelectItem[4].textContent.trim(), 'Is Admin', 'Check for is admin');
+    assert.equal(columnSelectItem[5].textContent.trim(), 'Password', 'Check for password, item not within columnOrder');
+    assert.equal(columnSelectItem[6].textContent.trim(), 'Created At', 'Check for created at, item not within columnOrder');
+    assert.equal(columnSelectItem[7].textContent.trim(), 'Updated At', 'Check for updated at, item not within columnOrder');
   });
 
   test('Check for clearFilter action success (.table-default)', async function(assert) {
@@ -484,7 +486,7 @@ module('Acceptance: Simple Table', function(hooks) {
     await visit('/');
 
     assert.equal(currentURL(), '/');
-    selectChoose($('.table-basic-global-date-filter .ember-tabular-ember-power-select:eq(0)')[0], 'Yes');
+    await selectChoose($('.table-basic-global-date-filter .ember-tabular-ember-power-select:eq(0)')[0], 'Yes');
 
     await fillIn(find('.table-basic-global-date-filter .table-filter input'), '2017-01-02');
     find(find('.table-basic-global-date-filter .table-filter input')).trigger('keyup');
@@ -558,9 +560,9 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
     assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').textContent.trim(), 'Actions', 'Check for last column in table being Actions');
-    await click('.table-column-select .btn-group-column-select button');
+    await click('.ember-basic-dropdown-content button');
     // click password
-    await click('.table-column-select .btn-group-column-select li:eq(7) a');
+    await click('.ember-basic-dropdown-content li:eq(7) a');
     assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').textContent.trim(), 'Password', 'Check for last column in table being Password');
     // transition to different page
     await click('.link-ex4');
@@ -590,17 +592,17 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    let cells = find('.table-select-row table tbody tr').eq(0).find('td');
+    let cells = find('.table-select-row table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells.eq(0).find('input').prop('checked'), false, 'Check for checkbox');
-    assert.equal(cells.eq(1).text().trim(), 'AnakinSkywalker9', 'Check for username');
-    assert.equal(cells.eq(2).text().trim(), 'skywalker@domain.com', 'Check for email');
-    assert.equal(cells.eq(3).text().trim(), '1082hudsasd', 'Check for password');
-    assert.equal(cells.eq(4).text().trim(), 'Anakin', 'Check for first name');
-    assert.equal(cells.eq(5).text().trim(), 'Skywalker', 'Check for last name');
-    assert.equal(cells.eq(6).text().trim(), 'false', 'Check for is admin');
-    assert.equal(cells.eq(7).text().trim(), 'Wed Jul 22 2009 00:00:00 GMT+0000', 'Check for created at');
-    assert.equal(cells.eq(8).text().trim(), 'Thu Jul 23 2009 00:00:00 GMT+0000', 'Check for updated at');
+    assert.equal(cells[0].find('input').prop('checked'), false, 'Check for checkbox');
+    assert.equal(cells[1].textContent.trim(), 'AnakinSkywalker9', 'Check for username');
+    assert.equal(cells[2].textContent.trim(), 'skywalker@domain.com', 'Check for email');
+    assert.equal(cells[3].textContent.trim(), '1082hudsasd', 'Check for password');
+    assert.equal(cells[4].textContent.trim(), 'Anakin', 'Check for first name');
+    assert.equal(cells[5].textContent.trim(), 'Skywalker', 'Check for last name');
+    assert.equal(cells[6].textContent.trim(), 'false', 'Check for is admin');
+    assert.equal(cells[7].textContent.trim(), 'Wed Jul 22 2009 00:00:00 GMT+0000', 'Check for created at');
+    assert.equal(cells[8].textContent.trim(), 'Thu Jul 23 2009 00:00:00 GMT+0000', 'Check for updated at');
 
     assert.equal(findAll('.table-select-row table tbody tr').length, 10, 'Check for 10 items in table');
   });
@@ -614,16 +616,16 @@ module('Acceptance: Simple Table', function(hooks) {
     await click('.table-select-row .allChecked');
     let rows = find('.table-select-row table tbody tr');
 
-    assert.equal(rows.eq(0).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows.eq(1).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows.eq(2).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows[0].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows[1].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows[2].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
 
     await click('.table-select-row .allChecked');
     let rows2 = find('.table-select-row table tbody tr');
 
-    assert.equal(rows2.eq(0).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-    assert.equal(rows2.eq(1).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-    assert.equal(rows2.eq(2).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows2[0].find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows2[1].find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows2[2].find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
   });
 
   test('Check for checking rows using shift + click (.table-select-row)', async function(assert) {
@@ -635,16 +637,16 @@ module('Acceptance: Simple Table', function(hooks) {
     let rows = find('.table-select-row table tbody tr');
 
     // select the second row through the 5th
-    await click(find(rows.eq(1).find('td:eq(0) input[type="checkbox"]:eq(0)')));
-    await triggerEvent(find(rows.eq(4).find('td:eq(0) input[type="checkbox"]:eq(0)')), 'click', {
+    await click(find(rows[1].find('td:eq(0) input[type="checkbox"]:eq(0)')));
+    await triggerEvent(find(rows[4].find('td:eq(0) input[type="checkbox"]:eq(0)')), 'click', {
         shiftKey: true,
     });
 
-    assert.equal(rows.eq(0).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-    assert.equal(rows.eq(1).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows.eq(2).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows.eq(3).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows.eq(4).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows.eq(5).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows[0].find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows[1].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows[2].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows[3].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows[4].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows[5].find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
   });
 });

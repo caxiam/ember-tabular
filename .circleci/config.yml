@@ -24,6 +24,7 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
       - run: npm install
+      - run: npm install -g bower
       - run: bower install
       - save_cache:
           paths:

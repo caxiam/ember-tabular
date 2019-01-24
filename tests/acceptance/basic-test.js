@@ -1,52 +1,43 @@
+import { click, fillIn, find, findAll, currentURL, triggerEvent, visit } from '@ember/test-helpers';
 import Ember from 'ember';
 import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import { setupApplicationTest } from 'ember-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 var application;
 
-module('Acceptance: Simple Table', {
-  beforeEach: function() {
-    application = startApp();
-  },
-  afterEach: function() {
-    destroyApp(application);
-  }
-});
+module('Acceptance: Simple Table', function(hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
-test('Check table pagination - 0 pages (.table-default)', function(assert) {
-  server.createList('user', 0);
-  visit('/');
+  test('Check table pagination - 0 pages (.table-default)', async function(assert) {
+    server.createList('user', 0);
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     let cells = find('.table-default table tbody tr').eq(0).find('td');
 
-    assert.equal(find('.table-default table tbody tr').length, 1, 'Check for 1 items in table');
+    assert.equal(findAll('.table-default table tbody tr').length, 1, 'Check for 1 items in table');
     assertIn(assert, cells.eq(0).html().trim(), 'No Data.', 'No Data.');
-    assert.equal(find('.table-default .pagination').hasClass('hidden'), true, 'Pagination is hidden');
+    assert.equal(find('.table-default .pagination').classList.contains('hidden'), true, 'Pagination is hidden');
   });
-});
 
-test('Check table pagination - 5 pages (.table-default)', function(assert) {
-  server.createList('user', 50);
-  visit('/');
+  test('Check table pagination - 5 pages (.table-default)', async function(assert) {
+    server.createList('user', 50);
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
-    assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
-    assert.equal(find('.table-default .pagination > *').length, 7, 'Pagination is 5 pages');
+    assert.equal(findAll('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
+    assert.equal(findAll('.table-default .pagination > *').length, 7, 'Pagination is 5 pages');
   });
-});
 
-test('Check for expected content (.table-default)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for expected content (.table-default)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     let cells = find('.table-default table tbody tr').eq(0).find('td');
 
@@ -59,16 +50,14 @@ test('Check for expected content (.table-default)', function(assert) {
     assert.equal(cells.eq(6).text().trim(), 'Wed Jul 22 2009 00:00:00 GMT+0000', 'Check for created at');
     assert.equal(cells.eq(7).text().trim(), 'Thu Jul 23 2009 00:00:00 GMT+0000', 'Check for updated at');
 
-    assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
+    assert.equal(findAll('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
   });
-});
 
-test('Check for expected content (.table-column-select)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for expected content (.table-column-select)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     let cells = find('.table-column-select table tbody tr').eq(0).find('td');
 
@@ -80,83 +69,65 @@ test('Check for expected content (.table-column-select)', function(assert) {
     assert.equal(cells.eq(5).text().trim(), '07/23/2009', 'Check for last updated');
     assert.equal(cells.eq(6).text().trim(), 'Edit', 'Check for edit link');
 
-    assert.equal(find('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
-  });
-});
-
-test('Check for pagination reset after filter change (.table-column-select)', function(assert) {
-  server.createList('user', 25, {
-    isAdmin: true,
-  });
-  server.createList('user', 5, {
-    isAdmin: false,
-  });
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-
-    click('.table-column-select .pagination li:eq(2) a');
+    assert.equal(findAll('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
   });
 
-  andThen(function() {
+  test('Check for pagination reset after filter change (.table-column-select)', async function(assert) {
+    server.createList('user', 25, {
+      isAdmin: true,
+    });
+    server.createList('user', 5, {
+      isAdmin: false,
+    });
+    await visit('/');
+
+    assert.equal(currentURL(), '/');
+
+    await click('.table-column-select .pagination li:eq(2) a');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
     assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=10&sort=username', 'Expected for offset 10 in URL');
 
-    assert.equal(find('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
-  });
-
-  andThen(function() {
-    click('.table-override-columns-template table .btn-toggle-filter:eq(0)');
+    assert.equal(findAll('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
+    await click(find('.table-override-columns-template table .btn-toggle-filter'));
     // filter by is-admin
     selectChoose('.table-override-columns-template .ember-tabular-ember-power-select', 'Yes');
+    let request2 = getPretenderRequest(server, 'GET', 'users')[0];
+    assert.equal(request2.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL but page is reset to 1, offset 0');
+
+    assert.equal(findAll('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
   });
 
-  andThen(function() {
-    let request = getPretenderRequest(server, 'GET', 'users')[0];
-    assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL but page is reset to 1, offset 0');
+  test('Check for hidden column after interacting with column-select component (.table-column-select)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-    assert.equal(find('.table-column-select table tbody tr').length, 10, 'Check for 10 items in table');
-  });
-});
-
-test('Check for hidden column after interacting with column-select component (.table-column-select)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     let cells = find('.table-column-select table tbody tr').eq(0).find('td');
 
-    assert.equal(find('.table-column-select table thead tr th').length, 7, 'Show expected number of <th> columns');
+    assert.equal(findAll('.table-column-select table thead tr th').length, 7, 'Show expected number of <th> columns');
     assert.equal(cells.length, 7, 'Show expected number of <td> columns');
     assert.equal(cells.eq(0).text().trim(), 'AnakinSkywalker9', 'Check for username');
     assert.equal(cells.eq(1).text().trim(), 'skywalker@domain.com', 'Check for email');
 
-    click('.table-column-select .btn-group-column-select button');
-    click('.table-column-select .btn-group-column-select li:eq(0) a');
+    await click('.table-column-select .btn-group-column-select button');
+    await click('.table-column-select .btn-group-column-select li:eq(0) a');
+    let cells2 = find('.table-column-select table tbody tr').eq(0).find('td');
+
+    assert.equal(findAll('.table-column-select table thead tr th').length, 6, 'Show expected number of <th> columns');
+    assert.equal(cells2.length, 6, 'Show expected number of <td> columns');
+    assert.equal(cells2.eq(0).text().trim(), 'skywalker@domain.com', 'Check for email, username is hidden');
+    assert.equal(cells2.eq(1).text().trim(), 'Anakin', 'Check for first name');
+
+    await click('.table-column-select .btn-group-column-select button');
+    await click('.table-column-select .btn-group-column-select li:eq(0) a');
   });
 
-  andThen(function() {
-    let cells = find('.table-column-select table tbody tr').eq(0).find('td');
+  test('Check for expected content (.table-override-columns-template)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-    assert.equal(find('.table-column-select table thead tr th').length, 6, 'Show expected number of <th> columns');
-    assert.equal(cells.length, 6, 'Show expected number of <td> columns');
-    assert.equal(cells.eq(0).text().trim(), 'skywalker@domain.com', 'Check for email, username is hidden');
-    assert.equal(cells.eq(1).text().trim(), 'Anakin', 'Check for first name');
-
-    click('.table-column-select .btn-group-column-select button');
-    click('.table-column-select .btn-group-column-select li:eq(0) a');
-  });
-});
-
-test('Check for expected content (.table-override-columns-template)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     let cells = find('.table-override-columns-template table tbody tr').eq(0).find('td');
 
@@ -168,16 +139,14 @@ test('Check for expected content (.table-override-columns-template)', function(a
     assert.equal(cells.eq(5).text().trim(), '07/23/2009', 'Check for last updated');
     assert.equal(cells.eq(6).text().trim(), 'Edit', 'Check for edit link');
 
-    assert.equal(find('.table-override-columns-template table tbody tr').length, 10, 'Check for 10 items in table');
+    assert.equal(findAll('.table-override-columns-template table tbody tr').length, 10, 'Check for 10 items in table');
   });
-});
 
-test('Check for proper row count when dropdown-limit is changed (.table-default)', function(assert) {
-  server.createList('user', 50);
-  visit('/');
+  test('Check for proper row count when dropdown-limit is changed (.table-default)', async function(assert) {
+    server.createList('user', 50);
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     let rows = find('.table-default table tbody tr');
     assert.equal(rows.length, 10, 'Check for 10 items in table');
@@ -185,82 +154,62 @@ test('Check for proper row count when dropdown-limit is changed (.table-default)
     // change table limit to 25
     selectChoose($('.table-default .limit:eq(0)')[0], '25');
 
-    andThen(function() {
-      let rows = find('.table-default table tbody tr');
-      assert.equal(rows.length, 25, 'Check for 25 items in table');
-    });
+    let rows2 = find('.table-default table tbody tr');
+    assert.equal(rows2.length, 25, 'Check for 25 items in table');
   });
-});
 
-test('Check for dropdown-limit autoHide (.table-default)', function(assert) {
-  server.createList('user', 10);
-  visit('/');
+  test('Check for dropdown-limit autoHide (.table-default)', async function(assert) {
+    server.createList('user', 10);
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     let rows = find('.table-default table tbody tr');
     assert.equal(rows.length, 10, 'Check for 10 items in table');
 
-    andThen(function() {
-      assert.equal(find('.table-default .ember-tabular-dropdown-limit > *').length, 0, 'ember-tabular-dropdown-limit is hidden');
-    });
-  });
-});
-
-test('Check for error handling', function(assert) {
-  server.get('/users',
-    {
-      errors: [
-        {
-          'status': '400',
-          'title':  'Bad Request',
-          'detail': 'Error returning users'
-        }
-      ]
-    },
-    400
-  );
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-
-    assertIn(assert, find('.alert').text(), 'Error', 'Check for general error message.');
-  });
-});
-
-test('Check table rendering for no data or loading (.table-default)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(findAll('.table-default .ember-tabular-dropdown-limit > *').length, 0, 'ember-tabular-dropdown-limit is hidden');
   });
 
-  let store = application.__container__.lookup('service:store');
-  andThen(function() {
+  test('Check for error handling', async function(assert) {
+    server.get('/users',
+      {
+        errors: [
+          {
+            'status': '400',
+            'title':  'Bad Request',
+            'detail': 'Error returning users'
+          }
+        ]
+      },
+      400
+    );
+    await visit('/');
+
+    assert.equal(currentURL(), '/');
+
+    assertIn(assert, find('.alert').textContent, 'Error', 'Check for general error message.');
+  });
+
+  test('Check table rendering for no data or loading (.table-default)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
+
+    assert.equal(currentURL(), '/');
+
+    let store = application.__container__.lookup('service:store');
     store.unloadAll('user');
-  });
-
-  andThen(function() {
     let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assertIn(assert, cells.eq(0).html().trim(), 'No Data.', 'No Data.');
   });
-});
 
-test('Check table rendering for pagination (.table-default)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check table rendering for pagination (.table-default)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
     // Transition to the next page
-    click('.table-default .pagination .next a');
-  });
-
-  andThen(function() {
+    await click('.table-default .pagination .next a');
     var cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).text().trim(), 'mcclane.jr', 'Check for username');
@@ -272,21 +221,16 @@ test('Check table rendering for pagination (.table-default)', function(assert) {
     assert.equal(cells.eq(6).text().trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
     assert.equal(cells.eq(7).text().trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
 
-    assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 items in table on second page');
-  });
-});
-
-test('Check for expected content sorting (.table-default)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-
-    click('.table-default table th:contains("Last Name") .btn-sort');
+    assert.equal(findAll('.table-default table tbody tr').length, 2, 'Check for 2 items in table on second page');
   });
 
-  andThen(function() {
+  test('Check for expected content sorting (.table-default)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
+
+    assert.equal(currentURL(), '/');
+
+    await click('.table-default table th:contains("Last Name") .btn-sort');
     let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).text().trim(), 'Dooku', 'Check for username');
@@ -298,32 +242,24 @@ test('Check for expected content sorting (.table-default)', function(assert) {
     assert.equal(cells.eq(6).text().trim(), 'Sat Jul 22 2006 00:00:00 GMT+0000', 'Check for created at');
     assert.equal(cells.eq(7).text().trim(), 'Sun Jul 23 2006 00:00:00 GMT+0000', 'Check for updated at');
 
-    assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
-  });
-
-  andThen(function() {
+    assert.equal(findAll('.table-default table tbody tr').length, 10, 'Check for 10 items in table');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=last-name', 'Expected query params in URL');
   });
-});
 
-test('Check for disabled sorting (.table-override-columns-template)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for disabled sorting (.table-override-columns-template)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
-    click('.table-override-columns-template table th:contains("Last Updated")');
-  });
-
-  andThen(function() {
+    await click('.table-override-columns-template table th:contains("Last Updated")');
     let cells = find('.table-override-columns-template table tbody tr').eq(0).find('td');
 
-    assert.equal(find('.table-override-columns-template #updated-at').hasClass('sortable'), false, 'Check for missing sortable class');
+    assert.equal(find('.table-override-columns-template #updated-at').classList.contains('sortable'), false, 'Check for missing sortable class');
 
     assert.equal(cells.eq(0).text().trim(), 'AnakinSkywalker9', 'Check for username');
     assert.equal(cells.eq(1).text().trim(), 'skywalker@domain.com', 'Check for email');
@@ -332,31 +268,23 @@ test('Check for disabled sorting (.table-override-columns-template)', function(a
     assert.equal(cells.eq(5).text().trim(), '07/23/2009', 'Check for date');
     assert.equal(cells.eq(6).find('a').text().trim(), 'Edit', 'Check for actions');
 
-    assert.equal(find('.table-override-columns-template table tbody tr').length, 10, 'Check for 10 items in table');
-  });
-
-  andThen(function() {
+    assert.equal(findAll('.table-override-columns-template table tbody tr').length, 10, 'Check for 10 items in table');
     let request = getPretenderRequest(server, 'GET', 'users')[4];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL, no sort');
   });
-});
 
-test('Check for expected content filter (.table-default)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for expected content filter (.table-default)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
-    click('.table-default table .btn-toggle-filter:eq(0)');
-    fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
+    await click(find('.table-default table .btn-toggle-filter'));
+    await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
     find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
-  });
-
-  andThen(function() {
     let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).text().trim(), 'YippieKiYay', 'Check for username');
@@ -368,33 +296,25 @@ test('Check for expected content filter (.table-default)', function(assert) {
     assert.equal(cells.eq(6).text().trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
     assert.equal(cells.eq(7).text().trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
 
-    assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 items in table');
-  });
-
-  andThen(function() {
+    assert.equal(findAll('.table-default table tbody tr').length, 2, 'Check for 2 items in table');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?filter%5Blast-name%5D=McClane&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
   });
-});
 
-test('Check for expected content multiple filters (.table-default)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for expected content multiple filters (.table-default)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
-    click('.table-default table .btn-toggle-filter:eq(0)');
-    fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'John');
+    await click(find('.table-default table .btn-toggle-filter'));
+    await fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'John');
     find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
-    fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
+    await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
     find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
-  });
-
-  andThen(function() {
     var cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).text().trim(), 'YippieKiYay', 'Check for username');
@@ -406,35 +326,24 @@ test('Check for expected content multiple filters (.table-default)', function(as
     assert.equal(cells.eq(6).text().trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
     assert.equal(cells.eq(7).text().trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
 
-    assert.equal(find('.table-default table tbody tr').length, 1, 'Check for 1 item in table');
-  });
-
-  andThen(function() {
+    assert.equal(findAll('.table-default table tbody tr').length, 1, 'Check for 1 item in table');
     var request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?filter%5Bfirst-name%5D=John&filter%5Blast-name%5D=McClane&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
   });
-});
 
-test('Check for expected content sort/filter (.table-default)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for expected content sort/filter (.table-default)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
-    click('.table-default table th:contains("Last Name") .btn-sort');
-  });
-
-  andThen(function() {
-    click('.table-default table .btn-toggle-filter:eq(0)');
-    fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
+    await click('.table-default table th:contains("Last Name") .btn-sort');
+    await click(find('.table-default table .btn-toggle-filter'));
+    await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
     find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
-  });
-
-  andThen(function() {
     let cells = find('.table-default table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).text().trim(), 'YippieKiYay', 'Check for username');
@@ -446,103 +355,69 @@ test('Check for expected content sort/filter (.table-default)', function(assert)
     assert.equal(cells.eq(6).text().trim(), 'Sun Jan 01 2017 00:00:00 GMT+0000', 'Check for created at');
     assert.equal(cells.eq(7).text().trim(), 'Mon Jan 02 2017 00:00:00 GMT+0000', 'Check for updated at');
 
-    assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 1 item in table');
-  });
-
-  andThen(function() {
+    assert.equal(findAll('.table-default table tbody tr').length, 2, 'Check for 1 item in table');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?filter%5Blast-name%5D=McClane&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=last-name', 'Expected query params in URL');
   });
-});
 
-test('Check for expected content dropdown filter (.table-override-columns-template)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for expected content dropdown filter (.table-override-columns-template)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
-    click('.table-override-columns-template table .btn-toggle-filter:eq(0)');
+    await click(find('.table-override-columns-template table .btn-toggle-filter'));
     selectChoose('.table-override-columns-template .ember-tabular-ember-power-select', 'Yes');
-  });
-
-  andThen(function() {
     var request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
   });
-});
 
-test('Check for expected content dropdown filter (.table-column-select) (pass in array of values for dropdown into ember-tabular-column)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for expected content dropdown filter (.table-column-select) (pass in array of values for dropdown into ember-tabular-column)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
-    click('.table-column-select table .btn-toggle-filter:eq(0)');
+    await click(find('.table-column-select table .btn-toggle-filter'));
     selectChoose('.table-column-select .ember-tabular-ember-power-select', 'Yes');
-  });
-
-  andThen(function() {
     var request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
   });
-});
 
-test('Check for dropdown clear success (.table-override-columns-template)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for dropdown clear success (.table-override-columns-template)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
-    click('.table-override-columns-template .btn-toggle-filter:eq(0)');
-  });
-
-  andThen(function() {
+    await click(find('.table-override-columns-template .btn-toggle-filter'));
     selectChoose($('.table-override-columns-template .ember-tabular-ember-power-select:eq(0)')[0], 'Yes');
-  });
-
-  andThen(function() {
     var request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+    await click(find('.table-override-columns-template .ember-power-select-clear-btn'));
+
+    var request = getPretenderRequest(server, 'GET', 'users')[0];
+
+    assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
   });
 
-  andThen(function() {
-    click('.table-override-columns-template .ember-power-select-clear-btn:eq(0)');
+  test('Check for expected content after filtering (.table-basic-global-filter)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-    andThen(function() {
-      var request = getPretenderRequest(server, 'GET', 'users')[0];
-
-      assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
-    });
-  });
-});
-
-test('Check for expected content after filtering (.table-basic-global-filter)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-  });
-
-  andThen(function() {
-    fillIn('.table-basic-global-filter .table-filter input', 'YippieKiYay');
+    assert.equal(currentURL(), '/');
+    await fillIn('.table-basic-global-filter .table-filter input', 'YippieKiYay');
     find('.table-basic-global-filter .table-filter input').trigger('keyup');
-  });
-
-  andThen(function() {
     let cells = find('.table-basic-global-filter table tbody tr').eq(0).find('td');
 
     assert.equal(cells.eq(0).text().trim(), 'YippieKiYay', 'Check for username');
@@ -552,24 +427,19 @@ test('Check for expected content after filtering (.table-basic-global-filter)', 
     assert.equal(cells.eq(4).text().trim(), 'true', 'Check for is admin');
     assert.equal(cells.eq(5).length, 0, 'Check for no more columns');
 
-    assert.equal(find('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
-  });
-
-  andThen(function() {
+    assert.equal(findAll('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?filter%5Busername%5D=YippieKiYay&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
   });
-});
 
-test('Check for proper order of ommitted columns from orderColumn within column select list(.table-basic-global-filter)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for proper order of ommitted columns from orderColumn within column select list(.table-basic-global-filter)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     let columnSelectItem = find('.table-basic-global-filter .btn-group-column-select .dropdown-menu > li');
 
@@ -583,78 +453,42 @@ test('Check for proper order of ommitted columns from orderColumn within column 
     assert.equal(columnSelectItem.eq(6).text().trim(), 'Created At', 'Check for created at, item not within columnOrder');
     assert.equal(columnSelectItem.eq(7).text().trim(), 'Updated At', 'Check for updated at, item not within columnOrder');
   });
-});
 
-test('Check for clearFilter action success (.table-default)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for clearFilter action success (.table-default)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-  });
-
-  andThen(function() {
-    click('.table-default table .btn-toggle-filter:eq(0)');
-    fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
+    assert.equal(currentURL(), '/');
+    await click(find('.table-default table .btn-toggle-filter'));
+    await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
     find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
+    assert.equal(findAll('.table-default table tbody tr').length, 2, 'Check for 2 item in table');
+    await click('.table-default table .clearFilter');
+    assert.equal(findAll('.table-default table tbody tr').length, 10, 'Check for 10 item in table');
   });
 
-  andThen(function() {
-    assert.equal(find('.table-default table tbody tr').length, 2, 'Check for 2 item in table');
-  });
+  test('Check for clearFilter action success (.table-basic-global-filter )', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    click('.table-default table .clearFilter');
-  });
-
-  andThen(function() {
-    assert.equal(find('.table-default table tbody tr').length, 10, 'Check for 10 item in table');
-  });
-});
-
-test('Check for clearFilter action success (.table-basic-global-filter )', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-  });
-
-  andThen(function() {
-    fillIn('.table-basic-global-filter .table-filter input', 'YippieKiYay');
+    assert.equal(currentURL(), '/');
+    await fillIn('.table-basic-global-filter .table-filter input', 'YippieKiYay');
     find('.table-basic-global-filter .table-filter input').trigger('keyup');
+    assert.equal(findAll('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
+    await click('.table-basic-global-filter .clearFilter');
+    assert.equal(findAll('.table-basic-global-filter table tbody tr').length, 10, 'Check for 10 item in table');
   });
 
-  andThen(function() {
-    assert.equal(find('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
-  });
+  test('Check to filter by date and is-admin (.table-basic-global-date-filter)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    click('.table-basic-global-filter .clearFilter');
-  });
-
-  andThen(function() {
-    assert.equal(find('.table-basic-global-filter table tbody tr').length, 10, 'Check for 10 item in table');
-  });
-});
-
-test('Check to filter by date and is-admin (.table-basic-global-date-filter)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-  });
-
-  andThen(function() {
+    assert.equal(currentURL(), '/');
     selectChoose($('.table-basic-global-date-filter .ember-tabular-ember-power-select:eq(0)')[0], 'Yes');
 
-    fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
-    find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
-  });
-
-  andThen(function() {
-    assert.equal(find('.table-basic-global-date-filter table tbody tr').length, 1, 'Check for 1 item in table');
+    await fillIn(find('.table-basic-global-date-filter .table-filter input'), '2017-01-02');
+    find(find('.table-basic-global-date-filter .table-filter input')).trigger('keyup');
+    assert.equal(findAll('.table-basic-global-date-filter table tbody tr').length, 1, 'Check for 1 item in table');
 
     let request = getPretenderRequest(server, 'GET', 'users')[0];
 
@@ -662,25 +496,17 @@ test('Check to filter by date and is-admin (.table-basic-global-date-filter)', f
     assert.equal(request.method, 'GET');
     assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
   });
-});
 
-test('Check for infinite request loop (.table-basic-global-date-filter)', function(assert) {
-  // error occurs if controller properties that are shared
-  // with ember-tabular components are not defined within controller
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for infinite request loop (.table-basic-global-date-filter)', async function(assert) {
+    // error occurs if controller properties that are shared
+    // with ember-tabular components are not defined within controller
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-  });
-
-  andThen(function() {
+    assert.equal(currentURL(), '/');
     // only trigger date
-    fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
-    find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
-  });
-
-  andThen(function() {
+    await fillIn(find('.table-basic-global-date-filter .table-filter input'), '2017-01-02');
+    find(find('.table-basic-global-date-filter .table-filter input')).trigger('keyup');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.url, '/users?filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
@@ -690,142 +516,79 @@ test('Check for infinite request loop (.table-basic-global-date-filter)', functi
       assert.equal(requests.reduce(function(n, request) {return n + (request.url === '/users?filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=');}, 0), 1, '1 GET request to /users are occurring');
     }, 1000);
   });
-});
 
-test('Check for date clearFilter action success (.table-basic-global-date-filter)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for date clearFilter action success (.table-basic-global-date-filter)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
+    await fillIn(find('.table-basic-global-date-filter .table-filter input'), '2017-01-02');
+    find(find('.table-basic-global-date-filter .table-filter input')).trigger('keyup');
+    assert.equal(findAll('.table-basic-global-date-filter table tbody tr').length, 2, 'Check for 2 items in table');
+    await click('.table-basic-global-date-filter .clearFilter');
+    assert.equal(findAll('.table-basic-global-date-filter table tbody tr').length, 10, 'Check for 10 item in table');
   });
 
-  andThen(function() {
-    fillIn('.table-basic-global-date-filter .table-filter input:eq(0)', '2017-01-02');
-    find('.table-basic-global-date-filter .table-filter input:eq(0)').trigger('keyup');
-  });
+  test('Check for persistent filters on transition (.table-persist)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(find('.table-basic-global-date-filter table tbody tr').length, 2, 'Check for 2 items in table');
-  });
-
-  andThen(function() {
-    click('.table-basic-global-date-filter .clearFilter');
-  });
-
-  andThen(function() {
-    assert.equal(find('.table-basic-global-date-filter table tbody tr').length, 10, 'Check for 10 item in table');
-  });
-});
-
-test('Check for persistent filters on transition (.table-persist)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-  });
-
-  andThen(function() {
-    assert.equal(find('.table-persist table tbody tr').length, 10, 'Check for 10 item in table');
-  });
-
-  andThen(function() {
-    click('.table-persist table .btn-toggle-filter:eq(0)');
-    fillIn('.table-persist table thead tr:eq(1) th:eq(3) input', 'McClane');
+    assert.equal(currentURL(), '/');
+    assert.equal(findAll('.table-persist table tbody tr').length, 10, 'Check for 10 item in table');
+    await click(find('.table-persist table .btn-toggle-filter'));
+    await fillIn('.table-persist table thead tr:eq(1) th:eq(3) input', 'McClane');
     find('.table-persist table thead tr:eq(1) th:eq(3) input').trigger('keyup');
-  });
-
-  andThen(function() {
-    assert.equal(find('.table-persist table tbody tr').length, 2, 'Check for 2 item in table');
-  });
-
-  andThen(function() {
+    assert.equal(findAll('.table-persist table tbody tr').length, 2, 'Check for 2 item in table');
     // transition to different page
-    click('.link-ex4');
-  });
-
-  andThen(function() {
+    await click('.link-ex4');
     // transition back to index
-    click('.link-index');
+    await click('.link-index');
+    assert.equal(findAll('.table-persist table tbody tr').length, 2, 'Check for 2 item in table');
+
+    await click(find('.table-persist table .btn-toggle-filter'));
+    assert.equal(find('.table-persist table thead tr:eq(1) th:eq(3) input').value, 'McClane', 'Check for populated filter on transition');
+    let request = getPretenderRequest(server, 'GET', 'users');
+
+    assert.equal(request.length, 16, 'Check that additional request was not made when opening filter row');
   });
 
-  andThen(function() {
-    assert.equal(find('.table-persist table tbody tr').length, 2, 'Check for 2 item in table');
+  test('Check for persistent columnOrder (isActive) on transition (.table-column-select)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-    click('.table-persist table .btn-toggle-filter:eq(0)');
-    andThen(function() {
-      assert.equal(find('.table-persist table thead tr:eq(1) th:eq(3) input').val(), 'McClane', 'Check for populated filter on transition');
-    });
-
-    andThen(function() {
-      let request = getPretenderRequest(server, 'GET', 'users');
-
-      assert.equal(request.length, 16, 'Check that additional request was not made when opening filter row');
-    });
-  });
-});
-
-test('Check for persistent columnOrder (isActive) on transition (.table-column-select)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-     assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').text().trim(), 'Actions', 'Check for last column in table being Actions');
-  });
-
-  andThen(function() {
-    click('.table-column-select .btn-group-column-select button');
+    assert.equal(currentURL(), '/');
+    assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').textContent.trim(), 'Actions', 'Check for last column in table being Actions');
+    await click('.table-column-select .btn-group-column-select button');
     // click password
-    click('.table-column-select .btn-group-column-select li:eq(7) a');
-  });
-
-  andThen(function() {
-    assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').text().trim(), 'Password', 'Check for last column in table being Password');
-  });
-
-  andThen(function() {
+    await click('.table-column-select .btn-group-column-select li:eq(7) a');
+    assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').textContent.trim(), 'Password', 'Check for last column in table being Password');
     // transition to different page
-    click('.link-ex4');
-  });
-
-  andThen(function() {
-    assert.equal(currentPath(), 'example4');
+    await click('.link-ex4');
+    assert.equal(currentURL(), 'example4');
     // transition back to index
-    click('.link-index');
+    await click('.link-index');
+    assert.equal(currentURL(), '/');
+    assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').textContent.trim(), 'Password', 'Check for last column in table being Password');
   });
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-    assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').text().trim(), 'Password', 'Check for last column in table being Password');
-  });
-});
+  test('Check for expected request count when transitioning', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-test('Check for expected request count when transitioning', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     // transition user to other page
-    click('.link-ex4');
-  });
-
-  andThen(function() {
+    await click('.link-ex4');
     let request = getPretenderRequest(server, 'GET', 'users');
 
     assert.equal(request.length, 8, 'Should only see 8 requests, checking to ensure extra requests are not made on transition');
   });
-});
 
-test('Check for expected content (.table-select-row)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for expected content (.table-select-row)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     let cells = find('.table-select-row table tbody tr').eq(0).find('td');
 
@@ -839,61 +602,49 @@ test('Check for expected content (.table-select-row)', function(assert) {
     assert.equal(cells.eq(7).text().trim(), 'Wed Jul 22 2009 00:00:00 GMT+0000', 'Check for created at');
     assert.equal(cells.eq(8).text().trim(), 'Thu Jul 23 2009 00:00:00 GMT+0000', 'Check for updated at');
 
-    assert.equal(find('.table-select-row table tbody tr').length, 10, 'Check for 10 items in table');
-  });
-});
-
-test('Check for checking all rows (.table-select-row)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
-
-    click('.table-select-row .allChecked');
+    assert.equal(findAll('.table-select-row table tbody tr').length, 10, 'Check for 10 items in table');
   });
 
-  andThen(function() {
+  test('Check for checking all rows (.table-select-row)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
+
+    assert.equal(currentURL(), '/');
+
+    await click('.table-select-row .allChecked');
     let rows = find('.table-select-row table tbody tr');
 
     assert.equal(rows.eq(0).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
     assert.equal(rows.eq(1).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
     assert.equal(rows.eq(2).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
 
-    click('.table-select-row .allChecked');
+    await click('.table-select-row .allChecked');
+    let rows2 = find('.table-select-row table tbody tr');
+
+    assert.equal(rows2.eq(0).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows2.eq(1).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows2.eq(2).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
   });
 
-  andThen(function() {
-    let rows = find('.table-select-row table tbody tr');
+  test('Check for checking rows using shift + click (.table-select-row)', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-    assert.equal(rows.eq(0).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-    assert.equal(rows.eq(1).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-    assert.equal(rows.eq(2).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-  });
-});
-
-test('Check for checking rows using shift + click (.table-select-row)', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     let rows = find('.table-select-row table tbody tr');
 
     // select the second row through the 5th
-    click(find(rows.eq(1).find('td:eq(0) input[type="checkbox"]:eq(0)')));
-    triggerEvent(find(rows.eq(4).find('td:eq(0) input[type="checkbox"]:eq(0)')), 'click', {
+    await click(find(rows.eq(1).find('td:eq(0) input[type="checkbox"]:eq(0)')));
+    await triggerEvent(find(rows.eq(4).find('td:eq(0) input[type="checkbox"]:eq(0)')), 'click', {
         shiftKey: true,
     });
 
-    andThen(function () {
-      assert.equal(rows.eq(0).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-      assert.equal(rows.eq(1).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-      assert.equal(rows.eq(2).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-      assert.equal(rows.eq(3).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-      assert.equal(rows.eq(4).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-      assert.equal(rows.eq(5).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-    });
+    assert.equal(rows.eq(0).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows.eq(1).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows.eq(2).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows.eq(3).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows.eq(4).find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows.eq(5).find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
   });
 });

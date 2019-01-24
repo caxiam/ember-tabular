@@ -1,0 +1,46 @@
+defaults: &defaults
+  docker:
+    - image: circleci/node:6-browsers
+      environment:
+        JOBS: 2
+  working_directory: ~/caxiam/ember-tabular
+
+version: 2
+jobs:
+  build:
+    <<: *defaults
+    parallelism: 1
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+    steps:
+      - checkout
+      # Prepare for artifact and test results
+      - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+      # Restore the dependency cache
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+	        # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: echo 'export PATH=~/caxiam/ember-tabular/node_modules/.bin:$PATH' >> $BASH_ENV
+      # Test
+      - run:
+          name: Run Tests
+          command: |
+            JOBS=2 ember test
+      # Teardown
+      # Save test results
+      - store_test_results:
+          path: /tmp/circleci-test-results
+      # Save artifacts
+      - store_artifacts:
+          path: /tmp/circleci-artifacts
+      - store_artifacts:
+          path: /tmp/circleci-test-results

@@ -1,13 +1,12 @@
-import { click, fillIn, find, findAll, currentURL, triggerEvent, visit } from '@ember/test-helpers';
+import { click, fillIn, find, findAll, currentURL, triggerEvent, visit, pauseTest } from '@ember/test-helpers';
 import { assertIn, getPretenderRequest } from '../../tests/helpers/util';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
-import { clickTrigger, tapTrigger } from 'ember-basic-dropdown/test-support/helpers';
+import { clickTrigger } from 'ember-basic-dropdown/test-support/helpers';
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-var application;
 
 module('Acceptance: Simple Table', function(hooks) {
   setupApplicationTest(hooks);
@@ -261,14 +260,14 @@ module('Acceptance: Simple Table', function(hooks) {
     await click(findAll('.table-override-columns-template table th')[5]);
     let cells = find('.table-override-columns-template table tbody tr').getElementsByTagName('td');
 
-    assert.equal(find('.table-override-columns-template #updated-at').classList.contains('sortable'), false, 'Check for missing sortable class');
+    assert.equal(find('.table-override-columns-template #updatedAt').classList.contains('sortable'), false, 'Check for missing sortable class');
 
     assert.equal(cells[0].textContent.trim(), 'AnakinSkywalker9', 'Check for username');
     assert.equal(cells[1].textContent.trim(), 'skywalker@domain.com', 'Check for email');
     assert.equal(cells[2].textContent.trim(), 'Anakin', 'Check for first name');
     assert.equal(cells[3].textContent.trim(), 'Skywalker', 'Check for last name');
     assert.equal(cells[5].textContent.trim(), '07/23/2009', 'Check for date');
-    assert.equal(cells[6].find('a').textContent.trim(), 'Edit', 'Check for actions');
+    assert.equal(cells[6].getElementsByTagName('a')[0].textContent.trim(), 'Edit', 'Check for actions');
 
     assert.equal(findAll('.table-override-columns-template table tbody tr').length, 10, 'Check for 10 items in table');
     let request = getPretenderRequest(server, 'GET', 'users')[4];
@@ -285,8 +284,7 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
 
     await click(find('.table-default table .btn-toggle-filter'));
-    await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
-    find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
+    await fillIn('.table-default table thead #filter-lastName input', 'McClane');
     let cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
     assert.equal(cells[0].textContent.trim(), 'YippieKiYay', 'Check for username');
@@ -313,10 +311,8 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
 
     await click(find('.table-default table .btn-toggle-filter'));
-    await fillIn('.table-default table thead tr:eq(1) th:eq(3) input', 'John');
-    find('.table-default table thead tr:eq(1) th:eq(3) input').trigger('keyup');
-    await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
-    find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
+    await fillIn('.table-default table thead #filter-firstName input', 'John');
+    await fillIn('.table-default table thead #filter-lastName input', 'McClane');
     var cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
     assert.equal(cells[0].textContent.trim(), 'YippieKiYay', 'Check for username');
@@ -344,8 +340,7 @@ module('Acceptance: Simple Table', function(hooks) {
 
     await click(findAll('.table-default table th')[4].querySelector('.btn-sort'));
     await click(find('.table-default table .btn-toggle-filter'));
-    await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
-    find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
+    await fillIn('.table-default table thead #filter-lastName input', 'McClane');
     let cells = find('.table-default table tbody tr').getElementsByTagName('td');
 
     assert.equal(cells[0].textContent.trim(), 'YippieKiYay', 'Check for username');
@@ -402,15 +397,15 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
 
     await click(find('.table-override-columns-template .btn-toggle-filter'));
-    await selectChoose($('.table-override-columns-template .ember-tabular-ember-power-select:eq(0)')[0], 'Yes');
+    await selectChoose(find('.table-override-columns-template .ember-tabular-ember-power-select'), 'Yes');
     var request = getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.url, '/users?filter%5Bis-admin%5D=true&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
     await click(find('.table-override-columns-template .ember-power-select-clear-btn'));
 
-    var request = getPretenderRequest(server, 'GET', 'users')[0];
+    var request2 = getPretenderRequest(server, 'GET', 'users')[0];
 
-    assert.equal(request.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
+    assert.equal(request2.url, '/users?page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'Expected query params in URL');
   });
 
   test('Check for expected content after filtering (.table-basic-global-filter)', async function(assert) {
@@ -419,7 +414,6 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
     await fillIn('.table-basic-global-filter .table-filter input', 'YippieKiYay');
-    find('.table-basic-global-filter .table-filter input').trigger('keyup');
     let cells = find('.table-basic-global-filter table tbody tr').getElementsByTagName('td');
 
     assert.equal(cells[0].textContent.trim(), 'YippieKiYay', 'Check for username');
@@ -427,7 +421,6 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(cells[2].textContent.trim(), 'John', 'Check for first name');
     assert.equal(cells[3].textContent.trim(), 'McClane', 'Check for last name');
     assert.equal(cells[4].textContent.trim(), 'true', 'Check for is admin');
-    assert.equal(cells[5].length, 0, 'Check for no more columns');
 
     assert.equal(findAll('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
     let request = getPretenderRequest(server, 'GET', 'users')[0];
@@ -443,7 +436,8 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    let columnSelectItem = find('.table-basic-global-filter .btn-group-column-select .dropdown-menu > li');
+    await clickTrigger('.table-basic-global-filter .dropdown-toggle');
+    let columnSelectItem = findAll('.ember-basic-dropdown-content .dropdown-menu > li');
 
     assert.equal(columnSelectItem.length, 8, 'Check for 8 items in column select list');
     assert.equal(columnSelectItem[0].textContent.trim(), 'Username', 'Check for username');
@@ -462,8 +456,7 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
     await click(find('.table-default table .btn-toggle-filter'));
-    await fillIn('.table-default table thead tr:eq(1) th:eq(4) input', 'McClane');
-    find('.table-default table thead tr:eq(1) th:eq(4) input').trigger('keyup');
+    await fillIn('.table-default table thead #filter-lastName input', 'McClane');
     assert.equal(findAll('.table-default table tbody tr').length, 2, 'Check for 2 item in table');
     await click('.table-default table .clearFilter');
     assert.equal(findAll('.table-default table tbody tr').length, 10, 'Check for 10 item in table');
@@ -475,7 +468,6 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
     await fillIn('.table-basic-global-filter .table-filter input', 'YippieKiYay');
-    find('.table-basic-global-filter .table-filter input').trigger('keyup');
     assert.equal(findAll('.table-basic-global-filter table tbody tr').length, 1, 'Check for 1 item in table');
     await click('.table-basic-global-filter .clearFilter');
     assert.equal(findAll('.table-basic-global-filter table tbody tr').length, 10, 'Check for 10 item in table');
@@ -489,7 +481,6 @@ module('Acceptance: Simple Table', function(hooks) {
     await selectChoose($('.table-basic-global-date-filter .ember-tabular-ember-power-select:eq(0)')[0], 'Yes');
 
     await fillIn(find('.table-basic-global-date-filter .table-filter input'), '2017-01-02');
-    find(find('.table-basic-global-date-filter .table-filter input')).trigger('keyup');
     assert.equal(findAll('.table-basic-global-date-filter table tbody tr').length, 1, 'Check for 1 item in table');
 
     let request = getPretenderRequest(server, 'GET', 'users')[0];
@@ -508,15 +499,12 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
     // only trigger date
     await fillIn(find('.table-basic-global-date-filter .table-filter input'), '2017-01-02');
-    find(find('.table-basic-global-date-filter .table-filter input')).trigger('keyup');
-    let request = getPretenderRequest(server, 'GET', 'users')[0];
+    let request = await getPretenderRequest(server, 'GET', 'users')[0];
 
     assert.equal(request.url, '/users?filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=', 'Expected query params in URL');
 
-    Ember.run.later(function() {
-      var requests = getPretenderRequest(server, 'GET');
-      assert.equal(requests.reduce(function(n, request) {return n + (request.url === '/users?filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=');}, 0), 1, '1 GET request to /users are occurring');
-    }, 1000);
+    var requests = await getPretenderRequest(server, 'GET');
+    assert.equal(requests.reduce(function(n, request) {return n + (request.url === '/users?filter%5Bupdated-at%5D=2017-01-02&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=');}, 0), 1, '1 GET request to /users are occurring');
   });
 
   test('Check for date clearFilter action success (.table-basic-global-date-filter)', async function(assert) {
@@ -525,7 +513,6 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
     await fillIn(find('.table-basic-global-date-filter .table-filter input'), '2017-01-02');
-    find(find('.table-basic-global-date-filter .table-filter input')).trigger('keyup');
     assert.equal(findAll('.table-basic-global-date-filter table tbody tr').length, 2, 'Check for 2 items in table');
     await click('.table-basic-global-date-filter .clearFilter');
     assert.equal(findAll('.table-basic-global-date-filter table tbody tr').length, 10, 'Check for 10 item in table');
@@ -538,8 +525,7 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
     assert.equal(findAll('.table-persist table tbody tr').length, 10, 'Check for 10 item in table');
     await click(find('.table-persist table .btn-toggle-filter'));
-    await fillIn('.table-persist table thead tr:eq(1) th:eq(3) input', 'McClane');
-    find('.table-persist table thead tr:eq(1) th:eq(3) input').trigger('keyup');
+    await fillIn('.table-persist table thead #filter-lastName input', 'McClane');
     assert.equal(findAll('.table-persist table tbody tr').length, 2, 'Check for 2 item in table');
     // transition to different page
     await click('.link-ex4');
@@ -548,7 +534,7 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(findAll('.table-persist table tbody tr').length, 2, 'Check for 2 item in table');
 
     await click(find('.table-persist table .btn-toggle-filter'));
-    assert.equal(find('.table-persist table thead tr:eq(1) th:eq(3) input').value, 'McClane', 'Check for populated filter on transition');
+    assert.equal(find('.table-persist table thead #filter-lastName input').value, 'McClane', 'Check for populated filter on transition');
     let request = getPretenderRequest(server, 'GET', 'users');
 
     assert.equal(request.length, 16, 'Check that additional request was not made when opening filter row');
@@ -559,18 +545,18 @@ module('Acceptance: Simple Table', function(hooks) {
     await visit('/');
 
     assert.equal(currentURL(), '/');
-    assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').textContent.trim(), 'Actions', 'Check for last column in table being Actions');
-    await click('.ember-basic-dropdown-content button');
+    assert.equal(findAll('.table-column-select table thead tr th')[6].textContent.trim(), 'Actions', 'Check for last column in table being Actions');
+    await clickTrigger('.table-column-select .dropdown-toggle');
     // click password
-    await click('.ember-basic-dropdown-content li:eq(7) a');
-    assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').textContent.trim(), 'Password', 'Check for last column in table being Password');
+    await click(findAll('.ember-basic-dropdown-content li')[7].getElementsByTagName('a')[0]);
+    assert.equal(findAll('.table-column-select table thead tr th')[7].textContent.trim(), 'Password', 'Check for last column in table being Password');
     // transition to different page
     await click('.link-ex4');
-    assert.equal(currentURL(), 'example4');
+    assert.equal(currentURL(), '/example4');
     // transition back to index
     await click('.link-index');
     assert.equal(currentURL(), '/');
-    assert.equal(find('.table-column-select table thead tr:eq(0) th:last-child').textContent.trim(), 'Password', 'Check for last column in table being Password');
+    assert.equal(findAll('.table-column-select table thead tr th')[7].textContent.trim(), 'Password', 'Check for last column in table being Password');
   });
 
   test('Check for expected request count when transitioning', async function(assert) {
@@ -594,7 +580,7 @@ module('Acceptance: Simple Table', function(hooks) {
 
     let cells = find('.table-select-row table tbody tr').getElementsByTagName('td');
 
-    assert.equal(cells[0].find('input').prop('checked'), false, 'Check for checkbox');
+    assert.equal(cells[0].getElementsByTagName('input')[0].checked, false, 'Check for checkbox');
     assert.equal(cells[1].textContent.trim(), 'AnakinSkywalker9', 'Check for username');
     assert.equal(cells[2].textContent.trim(), 'skywalker@domain.com', 'Check for email');
     assert.equal(cells[3].textContent.trim(), '1082hudsasd', 'Check for password');
@@ -614,18 +600,18 @@ module('Acceptance: Simple Table', function(hooks) {
     assert.equal(currentURL(), '/');
 
     await click('.table-select-row .allChecked');
-    let rows = find('.table-select-row table tbody tr');
+    let rows = findAll('.table-select-row table tbody tr');
 
-    assert.equal(rows[0].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows[1].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows[2].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
+    assert.equal(rows[0].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, true, 'Check for checked checkbox');
+    assert.equal(rows[1].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, true, 'Check for checked checkbox');
+    assert.equal(rows[2].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, true, 'Check for checked checkbox');
 
     await click('.table-select-row .allChecked');
-    let rows2 = find('.table-select-row table tbody tr');
+    let rows2 = findAll('.table-select-row table tbody tr');
 
-    assert.equal(rows2[0].find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-    assert.equal(rows2[1].find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-    assert.equal(rows2[2].find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows2[0].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, false, 'Check for unchecked checkbox');
+    assert.equal(rows2[1].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, false, 'Check for unchecked checkbox');
+    assert.equal(rows2[2].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, false, 'Check for unchecked checkbox');
   });
 
   test('Check for checking rows using shift + click (.table-select-row)', async function(assert) {
@@ -634,19 +620,19 @@ module('Acceptance: Simple Table', function(hooks) {
 
     assert.equal(currentURL(), '/');
 
-    let rows = find('.table-select-row table tbody tr');
+    let rows = findAll('.table-select-row table tbody tr');
 
     // select the second row through the 5th
-    await click(find(rows[1].find('td:eq(0) input[type="checkbox"]:eq(0)')));
-    await triggerEvent(find(rows[4].find('td:eq(0) input[type="checkbox"]:eq(0)')), 'click', {
+    await click(find(rows[1].getElementsByTagName('td')[0].getElementsByTagName('input')[0]));
+    await triggerEvent(find(rows[4].getElementsByTagName('td')[0].getElementsByTagName('input')[0]), 'click', {
         shiftKey: true,
     });
 
-    assert.equal(rows[0].find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
-    assert.equal(rows[1].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows[2].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows[3].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows[4].find('td:eq(0) input').prop('checked'), true, 'Check for checked checkbox');
-    assert.equal(rows[5].find('td:eq(0) input').prop('checked'), false, 'Check for unchecked checkbox');
+    assert.equal(rows[0].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, false, 'Check for unchecked checkbox');
+    assert.equal(rows[1].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, true, 'Check for checked checkbox');
+    assert.equal(rows[2].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, true, 'Check for checked checkbox');
+    assert.equal(rows[3].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, true, 'Check for checked checkbox');
+    assert.equal(rows[4].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, true, 'Check for checked checkbox');
+    assert.equal(rows[5].getElementsByTagName('td')[0].getElementsByTagName('input')[0].checked, false, 'Check for unchecked checkbox');
   });
 });

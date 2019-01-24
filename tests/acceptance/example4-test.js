@@ -1,18 +1,13 @@
-import { click, findAll, currentURL, visit } from '@ember/test-helpers';
+import { click, fillIn, find, findAll, currentURL, triggerEvent, visit, pauseTest } from '@ember/test-helpers';
+import { assertIn, getPretenderRequest } from '../../tests/helpers/util';
 import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import { setupApplicationTest } from 'ember-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-var application;
 
 module('Acceptance: Example4 Table', function(hooks) {
-  hooks.beforeEach(function() {
-    application = startApp();
-  });
-
-  hooks.afterEach(function() {
-    destroyApp(application);
-  });
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
   test('Check for expected content (.table-basic-route-model)', async function(assert) {
     server.loadFixtures('users');
@@ -44,7 +39,7 @@ module('Acceptance: Example4 Table', function(hooks) {
 
     assert.equal(currentURL(), '/example4');
 
-    await click('table th:contains("Last Name") .btn-sort');
+    await click('table #lastName .btn-sort');
     assert.equal(findAll('.table-basic-route-model table tbody tr').length, 10, 'Check for 10 items in table');
     assert.equal(findAll('.table-basic-route-model .pagination > *').length, 7, 'Pagination is 5 pages');
 

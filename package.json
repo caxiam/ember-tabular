@@ -35,7 +35,6 @@
     "ember-export-application-global": "2.0.0",
     "ember-load-initializers": "1.0.0",
     "ember-moment": "^7.8.0",
-    "ember-power-select": "^2.2.1",
     "ember-qunit": "^4.2.0",
     "ember-resolver": "4.5.0",
     "ember-source": "2.15.0",
@@ -55,6 +54,7 @@
     "ember-cli-htmlbars-inline-precompile": "1.0.0",
     "ember-truth-helpers": "^2.1.0",
     "ember-font-awesome": "^4.0.0-alpha.13",
+    "ember-power-select": "^2.2.1",
     "ember-drag-drop": "0.4.8",
     "broccoli-merge-trees": "2.0.0",
     "broccoli-funnel": "1.2.0"

@@ -72,14 +72,33 @@
     position: relative;
 }
 
+.ember-tabular .ember-tabular-row-checkbox:focus{
+    outline: none;
+    border-color: inherit;
+    box-shadow: none;
+}
+.ember-tabular .unselectable{
+    user-select: none;
+}
+
 .ember-tabular a,
 .ember-tabular [class^="btn"],
 .ember-tabular .clearFilter {
     cursor: pointer;
 }
 
+.ember-tabular nav{
+    display: inline-block;
+}
+
 .ember-tabular .pagination {
     margin-top: 0;
+    margin-bottom: 0;
+}
+
+.ember-tabular .btn-group-column-select{
+    vertical-align: initial;
+    margin-right: 15px;
 }
 
 .ember-tabular .form-control-inline {
@@ -100,7 +119,7 @@
     content: "\f021";
     position: absolute;
     top: 50%;
-    margin-top:-10px;
+    margin-top:-30px;
     left:50%;
     margin-left:-10px;
     display: inline-block;
@@ -125,6 +144,10 @@
     background:rgba(255,255,255,0.7);
     z-index:1;
 }
+.ember-tabular .td-loading{
+    height:100px;
+    vertical-align:middle;
+}
 
 @keyframes spin {
     from {
@@ -133,4 +156,30 @@
     to {
         transform: scale(1) rotate(360deg); @include transform(scale(1) rotate(360deg) transform-origin(50% 50%));
     }
+}
+
+/* ember-tabular-column-select */
+
+/* override default behavior to not hide */
+.dropdown-menu.dropdown-menu-always-show{
+    position:static !important;
+    display:block;
+    float:none;
+    left:auto;
+    top:auto;
+    right:auto;
+}
+
+.ember-basic-dropdown-content .js-draggableObject{
+    position:relative;
+}
+.ember-basic-dropdown-content .js-dragHandle{
+    cursor:move;
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+    right:9px;
+}
+.ember-basic-dropdown-content .dropdown-menu > li > a {
+    padding:3px 20px 3px 10px;
 }

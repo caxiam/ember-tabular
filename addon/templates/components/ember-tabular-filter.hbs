@@ -8,11 +8,12 @@
             triggerClass="ember-tabular-ember-power-select"
             allowClear=true
             onchange=(action "setHeaderFilter")
+            onfocus=(action "focusFilter")
             as |option|}}
                 {{option.label}}
         {{/power-select}}
     {{else}}
-        {{input value=headerFilter type=header.type class=(concat "form-control filter " header.type) placeholder=inputPlaceholder}}
+        {{input value=headerFilter focus-in=(action "focusFilter") type=header.type class=(concat "form-control filter " header.type) placeholder=inputPlaceholder}}
         {{#if isClearable}}
             <span {{action 'clearFilter'}} class="fa fa-remove clearFilter"></span>
         {{/if}}

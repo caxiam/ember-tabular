@@ -25,6 +25,8 @@ export default Ember.Component.extend({
   headerFilter: '',
   focusFilter: null,
 
+  'data-test-table-header-filter': Ember.computed.readOnly('property'),
+
   /**
   * Pass the `query` object from the parent component if it is different or if used outside of the context of the component, otherwise `query` is optional and the component will attempt to grab within the context of the parent component.
   *

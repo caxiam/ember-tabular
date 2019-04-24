@@ -1,13 +1,13 @@
 {{#if hasProperty}}
   {{#if hasBlock}}
-    <td class="{{class}}">{{yield record column}}</td>
+    <td class="{{class}}" data-test-table-column="{{column.property}}">{{yield record column}}</td>
   {{else if column.selectable}}
-    <td class="{{class}}">
+    <td class="{{class}}" data-test-table-column="{{column.property}}">
       <div class="checkbox-no-label checkbox-sm">
           {{ember-tabular-row-checkbox name="checked" model=record collection=collection}}
       </div>
     </td>
   {{else}}
-    <td class="{{class}}">{{get record column.property}}</td>
+    <td class="{{class}}" data-test-table-column="{{column.property}}">{{get record column.property}}</td>
   {{/if}}
 {{/if}}

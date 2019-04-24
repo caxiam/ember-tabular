@@ -38,6 +38,7 @@
     "ember-qunit": "^4.2.0",
     "ember-resolver": "4.5.0",
     "ember-source": "2.15.0",
+    "ember-test-selectors": "^2.1.0",
     "loader.js": "4.6.0",
     "pagination-pager": "^2.4.1"
   },

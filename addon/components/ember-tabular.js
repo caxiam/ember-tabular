@@ -46,6 +46,45 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   */
   persistFiltering: false,
   /**
+  * Persists `filter`/`sort`/`columnOrder` to browser's localStorage
+  * Requires `persistFiltering` and `tableName`
+  *
+  * @property persistLocalStorage
+  * @type Boolean
+  * @default false
+  */
+  persistLocalStorage: false,
+  /**
+  * method used to persist current state of ET
+  *
+  * @method toPersist
+  */
+  toPersist() {
+    const ls = window.localStorage;
+    const tableName = this.get('tableName');
+    const sort = this.get('sort');
+    const filter = this.get('filter');
+    const columns = this.get('columns');
+    const columnOrder = this.get('columnOrder');
+
+    let data = {
+      columnOrder: columnOrder,
+      filter: filter,
+      sort: sort,
+    };
+
+    ls.setItem(tableName, JSON.stringify(data));
+  },
+  /**
+  * Unique table name
+  * Required for `persistLocalStorage`
+  *
+  * @property tableName
+  * @type String
+  * @default undefined
+  */
+  tableName: undefined,
+  /**
   * Will check all table rows
   *
   * @property allChecked
@@ -134,6 +173,18 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
     this._super(...arguments);
     // ensures a unique `registry` is generated per ember tabular instance
     this.set('registry', Ember.A());
+    if (this.persistLocalStorage) {
+      const tableName = this.tableName;
+      const ls = window.localStorage;
+      if (!tableName) {
+        Ember.assert('tableName attribute is required, and should be unique', tableName);
+      } else if (ls.getItem(tableName)) {
+        const parsedData = JSON.parse(ls.getItem(tableName));
+        this.setProperties(parsedData);
+      }
+    }
+    // setup sort/filter dependency key
+
   },
 
   /**
@@ -826,8 +877,12 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
     this._super(...arguments);
     // clear any filters if we are not persisting filtering
     const persistFiltering = this.get('persistFiltering');
+    const isPersisting = this.get('persistLocalStorage');
     if (!persistFiltering) {
       this.set('filter', null);
+    }
+    if (isPersisting) {
+      this.toPersist();
     }
   },
 

@@ -1,4 +1,4 @@
-<h5>Example #1</h5>
+{{!-- <h5>Example #1</h5>
 <h1>Table - Default</h1>
 {{ember-tabular class="table-default" modelName="user" sort=sort2 isColumnSelect=false onFiltering=onFiltering}}
 
@@ -71,12 +71,12 @@
             Edit
         {{/link-to}}
     {{/component}}
-{{/ember-tabular}}
+{{/ember-tabular}} --}}
 
 
 <h5>Example #4</h5>
 <h1>Table - Persist Filtering</h1>
-{{#ember-tabular class="table-persist" columns=columns modelName="user" record=users4 filter=filter3 persistFiltering=true sort=sort4 as |et|}}
+{{#ember-tabular class="table-persist" modelName="user" record=users4 filter=filter3 persistFiltering=true persistLocalStorage=true tableName="persistTable" columnOrder=orderConfig sort=sort4 as |et|}}
     {{#component et.column property="username" as |record column|}}
         {{record.username}}
     {{/component}}
@@ -103,14 +103,14 @@
             {{moment-format record.createdAt "MM/DD/YYYY"}}
         {{/if}}
     {{/component}}
-    {{#component et.column property="actions" as |record column|}}
+    {{#component et.column property="actions" isCustom=true as |record column|}}
         {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
             Edit
         {{/link-to}}
     {{/component}}
 {{/ember-tabular}}
 
-<h5>Example #5</h5>
+{{!-- <h5>Example #5</h5>
 <h1>Table - Basic - Global Filter</h1>
 {{#ember-tabular class="table-basic-global-filter" modelName="user" record=users2 filter=filter columnOrder=hideOmittedConfig as |et|}}
     {{#if et.isHeader}}
@@ -152,7 +152,7 @@
 <h1>Table - Select Row</h1>
 {{#ember-tabular class="table-select-row" modelName="user" sort="username" isColumnSelect=false as |et|}}
     {{component et.column property="checked" selectable=true isCustom=false filter=false sort=false}}
-{{/ember-tabular}}
+{{/ember-tabular}} --}}
 
 <h5>Example #8</h5>
 {{#link-to "example4" class="link-ex4"}}

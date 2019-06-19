@@ -46,38 +46,48 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   */
   persistFiltering: false,
   /**
-  * Persists `filter`/`sort`/`columnOrder` to browser's localStorage
+  * Persists `columnOrder` via toPersist/getPersist
   * Requires `persistFiltering` and `tableName`
   *
-  * @property persistLocalStorage
+  * @property isPersisting
   * @type Boolean
   * @default false
   */
-  persistLocalStorage: false,
+  isPersisting: false,
   /**
   * method used to persist current state of ET
+  * this can be overwritten/extended
   *
   * @method toPersist
   */
   toPersist() {
     const ls = window.localStorage;
     const tableName = this.get('tableName');
-    const sort = this.get('sort');
-    const filter = this.get('filter');
-    const columns = this.get('columns');
     const columnOrder = this.get('columnOrder');
 
     let data = {
       columnOrder: columnOrder,
-      filter: filter,
-      sort: sort,
     };
 
     ls.setItem(tableName, JSON.stringify(data));
   },
   /**
+  * method used to grab persisted data from localStorage
+  * this can be overwritten/extended
+  *
+  * @method getPersist
+  */
+  getPersist() {
+    const tableName = this.get('tableName');
+    const ls = window.localStorage;
+    if (ls.getItem(tableName)) {
+      const parsedData = JSON.parse(ls.getItem(tableName));
+      this.setProperties(parsedData);
+    }
+  },
+  /**
   * Unique table name
-  * Required for `persistLocalStorage`
+  * Required for `isPersisting`
   *
   * @property tableName
   * @type String
@@ -173,18 +183,16 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
     this._super(...arguments);
     // ensures a unique `registry` is generated per ember tabular instance
     this.set('registry', Ember.A());
-    if (this.persistLocalStorage) {
+    if (this.get('isPersisting')) {
       const tableName = this.tableName;
-      const ls = window.localStorage;
       if (!tableName) {
         Ember.assert('tableName attribute is required, and should be unique', tableName);
-      } else if (ls.getItem(tableName)) {
-        const parsedData = JSON.parse(ls.getItem(tableName));
-        this.setProperties(parsedData);
       }
+      this.getPersist();
     }
-    // setup sort/filter dependency key
-
+    if (!this.get('sort')) {
+      this.defaultSort();
+    }
   },
 
   /**
@@ -862,7 +870,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   *
   * @method defaultSort
   */
-  defaultSort: Ember.on('init', function () {
+  defaultSort() {
     const sort = this.get('sort');
     if (!sort) {
       this.get('columns').map((el) => {
@@ -871,18 +879,14 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
         }
       });
     }
-  }),
+  },
 
   willDestroy() {
     this._super(...arguments);
     // clear any filters if we are not persisting filtering
     const persistFiltering = this.get('persistFiltering');
-    const isPersisting = this.get('persistLocalStorage');
     if (!persistFiltering) {
       this.set('filter', null);
-    }
-    if (isPersisting) {
-      this.toPersist();
     }
   },
 
@@ -988,6 +992,14 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
     triggerOnFilterFocus() {
       // trigger the event onFiltering
       this.trigger('onFiltering');
+    },
+    /**
+    * action used to persist current state of ET
+    */
+    toPersist() {
+      if (this.get('isPersisting')) {
+        this.toPersist();
+      }
     },
   },
 

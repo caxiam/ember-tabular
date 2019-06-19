@@ -19,6 +19,7 @@ export default Ember.Component.extend({
   columns: null,
   btnCopy: 'Columns',
   useIcon: true,
+  saveColumns: undefined,
 
   didInsertElement() {
     this._super(...arguments);
@@ -46,10 +47,14 @@ export default Ember.Component.extend({
       } else {
         Ember.set(column, 'isActive', true);
       }
+      // fire action to saveColumns
+      this.get('saveColumns')();
     },
     sortEndAction() {
       // override to perform custom actions on end of sort
       // perhaps to save the columns order
+      // fire action to saveColumns
+      this.get('saveColumns')();
     },
   },
 });

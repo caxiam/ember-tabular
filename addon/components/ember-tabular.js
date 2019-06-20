@@ -62,7 +62,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   */
   toPersist() {
     const ls = window.localStorage;
-    const tableName = this.get('tableName');
+    const tableName = this.get('prefixedTableName');
     const columnOrder = this.get('columnOrder');
 
     let data = {
@@ -78,7 +78,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @method getPersist
   */
   getPersist() {
-    const tableName = this.get('tableName');
+    const tableName = this.get('prefixedTableName');
     const ls = window.localStorage;
     if (ls.getItem(tableName)) {
       const parsedData = JSON.parse(ls.getItem(tableName));
@@ -94,6 +94,9 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @default undefined
   */
   tableName: undefined,
+  prefixedTableName: Ember.computed('tableName', function () {
+    return `tabular:${this.get('tableName')}`;
+  }),
   /**
   * Will check all table rows
   *
@@ -184,7 +187,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
     // ensures a unique `registry` is generated per ember tabular instance
     this.set('registry', Ember.A());
     if (this.get('isPersisting')) {
-      const tableName = this.tableName;
+      const tableName = this.get('tableName');
       if (!tableName) {
         Ember.assert('tableName attribute is required, and should be unique', tableName);
       }
@@ -309,9 +312,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
       }
     });
     // only return array of properties
-    let newColumnOrder = filterColumns.map((el) => {
-      return el.property;
-    });
+    let newColumnOrder = filterColumns.map((el) => el.property);
     this.set('columnOrder', newColumnOrder);
   }),
 
@@ -848,7 +849,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @method setColumnDefaults
   */
   setColumnDefaults: Ember.on('init', function () {
-    this.get('columns').map(function (column) {
+    this.get('columns').forEach((column) => {
       // if column does not have a sort property defined set to true
       if (!column.hasOwnProperty('sort')) {
         Ember.set(column, 'sort', true);

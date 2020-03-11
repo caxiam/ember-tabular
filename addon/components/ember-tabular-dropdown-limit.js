@@ -19,9 +19,9 @@ export default Ember.Component.extend({
   /**
   * @property limits
   * @type Array
-  * @default [10, 25, 50, 100, 500]
+  * @default [10, 25, 50, 100]
   */
-  limits: [10, 25, 50, 100, 500],
+  limits: [10, 25, 50, 100],
 
   /**
   * Computed Property to determine if the result set is large enough to display the dropdown limit component.

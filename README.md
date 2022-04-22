@@ -244,6 +244,14 @@ If you are not using Ember Data or following json:api then you can extend this c
 * `npm install`
 * `bower install`
 
+
+Compatibility
+------------------------------------------------------------------------------
+
+* Ember.js v2.18 or above
+* Ember CLI v2.13 or above
+
+
 Installation
 ------------------------------------------------------------------------------
 

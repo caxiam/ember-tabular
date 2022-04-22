@@ -12,14 +12,6 @@ module.exports = function() {
       useYarn: true,
       scenarios: [
         {
-          name: 'ember-lts-3.0.0',
-          npm: {
-            devDependencies: {
-              'ember-source': '~3.0.0'
-            }
-          }
-        },
-        {
           name: 'ember-lts-2.16',
           env: {
             EMBER_OPTIONAL_FEATURES: JSON.stringify({ 'jquery-integration': true })

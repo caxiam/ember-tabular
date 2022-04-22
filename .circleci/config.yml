@@ -16,9 +16,9 @@ jobs:
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
     steps:
       - checkout
-      Prepare for artifact and test results
+      # Prepare for artifact and test results
       - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-      Restore the dependency cache
+      # Restore the dependency cache
       - restore_cache:
           keys:
             - v1-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}

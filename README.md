@@ -239,6 +239,7 @@ If you are not using Ember Data or following json:api then you can extend this c
 
 ## Installation
 
+<<<<<<< HEAD
 * `git clone` this repository
 * `npm install`
 * `bower install`
@@ -270,6 +271,8 @@ ember install ember-tabular
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
 
+=======
+>>>>>>> dcb5c6e (v3.5.1...v3.6.1)
 License
 ------------------------------------------------------------------------------
 

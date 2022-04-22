@@ -32,8 +32,8 @@ module.exports = function(defaults) {
   });
 
     // Bootstrap - https://github.com/twbs/bootstrap
-  app.import('bower_components/bootstrap/dist/css/bootstrap.css');
-  app.import('bower_components/bootstrap/dist/js/bootstrap.js');
+  // app.import('bower_components/bootstrap/dist/css/bootstrap.css');
+  // app.import('bower_components/bootstrap/dist/js/bootstrap.js');
 
   return mergeTrees([app.toTree(), vendor]);
 };

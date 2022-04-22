@@ -10,11 +10,15 @@ Sortable/filterable jsonapi compliant tables for ember-cli.
 * Make physical requests to the API when filtering/sorting/paginating
 
 # How to use this addon
-## Installation
+Installation
+------------------------------------------------------------------------------
 
 ```
 $ ember install ember-tabular
 ```
+* Ember.js v2.18 or above
+* Ember CLI v2.13 or above
+* Node.js v8 or above
 
 ## Usage
 ### Template

@@ -33,7 +33,7 @@
     "ember-cli-sri": "2.1.1",
     "ember-cli-uglify": "2.0.0",
     "ember-data": "2.15.3",
-    "ember-drag-drop-polyfill": "0.0.2",
+    "ember-drag-drop-polyfill": "2.0.0",
     "ember-export-application-global": "2.0.0",
     "ember-load-initializers": "1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
@@ -60,16 +60,12 @@
   "dependencies": {
     "broccoli-funnel": "1.2.0",
     "broccoli-merge-trees": "2.0.0",
-    "ember-cli-babel": "^7.1.2",
     "ember-cli-htmlbars": "2.0.1",
     "ember-cli-htmlbars-inline-precompile": "1.0.0",
-    "ember-drag-drop": "0.4.8",
+    "ember-drag-drop": "0.8.2",
     "ember-font-awesome": "^4.0.0-alpha.13",
     "ember-power-select": "1.10.4",
     "ember-truth-helpers": "^2.1.0"
-  },
-  "resolutions": {
-    "ember-cli-babel": "^7.1.2"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

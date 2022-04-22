@@ -25,15 +25,15 @@ module.exports = function(defaults) {
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
   // Copy non-compiled bootstrap dependency
-  let vendor = new Funnel('bower_components/bootstrap/dist/css/', {
+  let vendor = new Funnel('node_modules/bootstrap/dist/css/', {
     srcDir: '/',
     include: ['bootstrap.css.map'],
     destDir: '/assets'
   });
 
-    // Bootstrap - https://github.com/twbs/bootstrap
-  // app.import('bower_components/bootstrap/dist/css/bootstrap.css');
-  // app.import('bower_components/bootstrap/dist/js/bootstrap.js');
+  // Bootstrap - https://github.com/twbs/bootstrap
+  app.import('node_modules/bootstrap/dist/css/bootstrap.css');
+  app.import('node_modules/bootstrap/dist/js/bootstrap.js');
 
   return mergeTrees([app.toTree(), vendor]);
 };

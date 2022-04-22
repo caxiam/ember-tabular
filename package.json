@@ -21,7 +21,9 @@
   "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@ember/optional-features": "^0.6.3",
+    "@ember/jquery": "^2.0.0",
+    "@ember/optional-features": "^2.0.0",
+    "bootstrap": "3.3.7",
     "broccoli-asset-rev": "2.7.0",
     "ember-basic-dropdown": "^1.1.2",
     "ember-cli": "3.6.1",
@@ -59,9 +61,9 @@
     "json api"
   ],
   "dependencies": {
-    "ember-cli-babel": "^7.26.11",
     "broccoli-funnel": "^2.0.0",
     "broccoli-merge-trees": "4.0.0",
+    "ember-cli-babel": "^7.26.11",
     "ember-cli-htmlbars": "^3.0.0",
     "ember-cli-htmlbars-inline-precompile": "^3.0.0",
     "ember-drag-drop": "0.8.2",

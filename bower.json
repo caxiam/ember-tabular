@@ -1,7 +1,0 @@
-{
-  "name": "ember-tabular",
-  "dependencies": {
-    "bootstrap": "3.3.5",
-    "drag-drop-polyfill": "2.0.0-beta.3"
-  }
-}

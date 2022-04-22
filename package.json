@@ -60,6 +60,9 @@
     "broccoli-merge-trees": "2.0.0",
     "broccoli-funnel": "1.2.0"
   },
+  "resolutions": {
+"ember-cli-babel": "^7.1.2"
+  },
   "ember-addon": {
     "configPath": "tests/dummy/config"
   }

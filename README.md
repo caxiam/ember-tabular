@@ -1,4 +1,5 @@
-# ember-tabular
+ember-tabular
+==============================================================================
 
 [![CircleCI](https://circleci.com/gh/caxiam/ember-tabular.svg?style=shield&circle-token=4983e3daf7018ac0a3ce79929e2fb4c965560e38)](https://circleci.com/gh/caxiam/ember-tabular)
 [![Code Climate](https://codeclimate.com/github/caxiam/ember-tabular/badges/gpa.svg)](https://codeclimate.com/github/caxiam/ember-tabular)
@@ -235,25 +236,40 @@ If you are using Ember Data, then you can lean on your application's custom adap
 If you are not using Ember Data or following json:api then you can extend this component and override a set of serialize and normalized methods, checkout the [API specs/documentation](/docs/index.html) for more details/examples.
 
 # Contributing to this addon
+
 ## Installation
 
 * `git clone` this repository
 * `npm install`
 * `bower install`
 
-## Running
+Installation
+------------------------------------------------------------------------------
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+```
+ember install ember-tabular
+```
 
-## Running Tests
 
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+### Linting
 
-## Building
+* `yarn lint:js`
+* `yarn lint:js --fix`
 
-* `ember build`
+### Running tests
+
+* `ember test` – Runs the test suite on the current Ember version
+* `ember test --server` – Runs the test suite in "watch mode"
+* `yarn test` – Runs `ember try:each` to test your addon against multiple Ember versions
+
+### Running the dummy application
+
+* `ember serve`
+* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+
+License
+------------------------------------------------------------------------------
+
+This project is licensed under the [MIT License](LICENSE.md).

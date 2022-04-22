@@ -1,4 +1,5 @@
 /* eslint-env node */
+'use strict';
 
 module.exports = function(environment) {
   var ENV = {
@@ -41,13 +42,14 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
+
     ENV['ember-cli-mirage'] = {
       trackRequests: true,
     };
   }
 
   if (environment === 'production') {
-
+    // here you can enable a production-specific feature
   }
 
   return ENV;

@@ -1,6 +1,28 @@
-/*jshint node:true*/
+/* eslint-env node */
 module.exports = {
   scenarios: [
+    {
+      name: 'ember-lts-2.4',
+      bower: {
+        dependencies: {
+          'ember': 'components/ember#lts-2-4'
+        },
+        resolutions: {
+          'ember': 'lts-2-4'
+        }
+      },
+      npm: {
+        dependencies: {
+          'ember-font-awesome': null
+        },
+        peerDependencies: {
+          'ember-font-awesome': '^3.0.0'
+        },
+        devDependencies: {
+          'ember-source': null
+        }
+      }
+    },
     {
       name: 'ember-lts-2.8',
       bower: {
@@ -9,6 +31,33 @@ module.exports = {
         },
         resolutions: {
           'ember': 'lts-2-8'
+        }
+      },
+      npm: {
+        dependencies: {
+          'ember-font-awesome': null
+        },
+        peerDependencies: {
+          'ember-font-awesome': '^3.0.0'
+        },
+        devDependencies: {
+          'ember-source': null
+        }
+      }
+    },
+    {
+      name: 'ember-lts-2.12.2',
+      bower: {
+        dependencies: {
+          'ember': 'components/ember#2.12.2'
+        },
+        resolutions: {
+          'ember': 'lts-2-12'
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
         }
       }
     },
@@ -21,6 +70,11 @@ module.exports = {
         resolutions: {
           'ember': 'release'
         }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
       }
     },
     {
@@ -31,6 +85,11 @@ module.exports = {
         },
         resolutions: {
           'ember': 'beta'
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
         }
       }
     },
@@ -43,6 +102,17 @@ module.exports = {
         resolutions: {
           'ember': 'canary'
         }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
+      }
+    },
+    {
+      name: 'ember-default',
+      npm: {
+        devDependencies: {}
       }
     }
   ]

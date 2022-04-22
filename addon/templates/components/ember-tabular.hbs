@@ -1,0 +1,126 @@
+{{#if isFailure}}
+    {{#ember-tabular-alert type="danger"}}
+        {{failureMessage}}
+        {{#if errors}}
+            <ul>
+                {{#each errors as |error|}}
+                    <li>
+                        {{error.detail}}
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    {{/ember-tabular-alert}}
+{{/if}}
+
+{{yield header}}
+
+<div class="table-responsive {{if tableWrapperClass tableWrapperClass}}">
+    {{yield wrapperHeader}}
+    <table class="table {{if tableClass tableClass "table-bordered table-hover"}} {{if isLoading "loading"}}">
+        {{#if columns}}
+            <thead>
+                <tr>
+                    {{#each columns as |header|}}
+                        {{#if header.isActive}}
+                            {{#if header.property}}
+                                <th id="{{dot-to-dash-filter header.property}}" class="{{if header.sort sortableClass}} {{if header.filter "filterable"}}" data-test-table-header="{{header.property}}">
+                                    {{#if header.filter}}
+                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
+                                    {{/if}}
+                                    {{#if header.sort}}
+                                        <div {{action "sortBy" header.property}} class="btn-sort">
+                                            {{header.label}}
+                                        </div>
+                                    {{else if header.selectable}}
+                                        <div class="checkbox-no-label checkbox-sm">
+                                            <label>
+                                                {{input class="allChecked" type="checkbox" checked=allChecked}}
+                                                <span class="fake-checkbox"></span>
+                                            </label>
+                                        </div>
+                                    {{else}}
+                                        <div>
+                                            {{header.label}}
+                                        </div>
+                                    {{/if}}
+                                </th>
+                            {{else}}
+                                <th data-test-table-header="{{header.property}}">{{header.label}}</th>
+                            {{/if}}
+                        {{/if}}
+                    {{/each}}
+                </tr>
+                {{#if isColumnFilters}}
+                    {{#if showFilterRow}}
+                        <tr>
+                            {{#each columns as |header|}}
+                                {{#if header.isActive}}
+                                    {{#if header.filter}}
+                                        {{ember-tabular-filter modelName=modelName columns=columns property=header.property record=record query=query filter=filter header=header focusFilter=(action "triggerOnFilterFocus")}}
+                                    {{else}}
+                                        <th data-test-table-header="{{header.property}}">{{!-- Blank to reserve table column --}}</th>
+                                    {{/if}}
+                                {{/if}}
+                            {{/each}}
+                        </tr>
+                    {{/if}}
+                {{/if}}
+            </thead>
+        {{/if}}
+        <tbody>
+            {{yield (hash
+                column=(component "ember-tabular-column-register" registry=registry columnOrder=columnOrder addToRegistry=(action "addToRegistry"))
+            )}}
+            {{ember-tabular-registry registryComplete=(action "registryComplete")}}
+            {{#if record}}
+                {{#if (and record columns)}}
+                    {{#each record as |row index|}}
+                        <tr data-test-table-row="{{index}}">
+                            {{#each columns as |column|}}
+                                {{#if column.isActive}}
+                                    {{#if (compare-with columns "property" column.property "isCustom")}}
+                                        {{yield (hash
+                                            column=(component "ember-tabular-column" column=column record=row property=property collection=record class=column.class)
+                                        )}}
+                                    {{else}}
+                                        {{ember-tabular-column column=column record=row property=column.property collection=record class=column.class}}
+                                    {{/if}}
+                                {{/if}}
+                            {{/each}}
+                        </tr>
+                    {{/each}}
+                {{else}}
+                    <tr>
+                        <td class="text-center td-loading" colspan="{{columnLength}}">
+                            Loading...
+                        </td>
+                    </tr>
+                {{/if}}
+            {{else}}
+                {{ember-tabular-loading isRecordLoaded=isRecordLoaded columnLength=columnLength tableLoadedMessage=tableLoadedMessage registryComplete=(action "registryComplete")}}
+            {{/if}}
+        </tbody>
+    </table>
+    {{yield wrapperFooter}}
+</div>
+
+{{yield footer}}
+
+{{#if columns}}
+    <div class="row">
+        <div class="{{unless isDropdownLimit "col-sm-12" "col-sm-9"}}">
+            {{#if isColumnSelect}}
+                {{ember-tabular-column-select columns=columns saveColumns=(action "toPersist")}}
+            {{/if}}
+            <nav class="{{if paginationWrapperClass paginationWrapperClass}}">
+                {{pagination-pager current=page count=pageLimit}}
+            </nav>
+        </div>
+        {{#if isDropdownLimit}}
+            <div class="col-sm-3">
+                {{ember-tabular-dropdown-limit limit=limit record=record count=pageLimit}}
+            </div>
+        {{/if}}
+    </div>
+{{/if}}

@@ -31,19 +31,18 @@ module.exports = function(defaults) {
     destDir: '/assets'
   });
 
+  let fontawesome = new Funnel('node_modules/@fortawesome/fontawesome-free/webfonts', {
+      srcDir: '/',
+      include: ['*.woff2', '*.ttf'],
+      destDir: '/webfonts'
+  });
+
   // Bootstrap - https://github.com/twbs/bootstrap
   app.import('node_modules/bootstrap/dist/css/bootstrap.css');
   app.import('node_modules/bootstrap/dist/js/bootstrap.js');
 
   // Font Awesome
   app.import('node_modules/@fortawesome/fontawesome-free/css/all.css');
-  // app.import('node_modules/@fortawesome/fontawesome-free/css/solid.css');
-
-  let fontawesome = new Funnel('node_modules/@fortawesome/fontawesome-free/webfonts', {
-      srcDir: '/',
-      include: ['*.woff2', '*.ttf'],
-      destDir: '/webfonts'
-  });
 
   return mergeTrees([app.toTree(), vendor, fontawesome]);
 };

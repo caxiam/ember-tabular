@@ -3,7 +3,7 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 let Funnel = require('broccoli-funnel');
 let mergeTrees = require('broccoli-merge-trees');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   let environment = process.env.EMBER_ENV;
 
   let app = new EmberAddon(defaults, {

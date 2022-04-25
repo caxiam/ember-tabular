@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from 'ember-tabular/templates/components/ember-tabular';
 import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-helpers';
+import { next } from '@ember/runloop';
 
 /**
 * ## Basic Usage
@@ -987,7 +988,9 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
     addToRegistry(column) {
       if (!this.isDestroyed || !this.isDestroying) {
         // adds column to registry coming from ember-tabular-column
-        this.get('registry').addObject(column);
+        next(() => {
+          this.get('registry').addObject(column);
+        });
       }
     },
     triggerOnFilterFocus() {

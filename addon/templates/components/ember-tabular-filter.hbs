@@ -7,8 +7,8 @@
             searchEnabled=false
             triggerClass="ember-tabular-ember-power-select"
             allowClear=true
-            onchange=(action "setHeaderFilter")
-            onfocus=(action "focusFilter")
+            onChange=(action "setHeaderFilter")
+            onFocus=(action "focusFilter")
             as |option|}}
                 {{option.label}}
         {{/power-select}}

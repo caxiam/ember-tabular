@@ -38,7 +38,7 @@ export default Ember.Controller.extend({
         searchField="label"
         searchEnabled=false
         placeholder="Select to filter"
-        onchange=(action "setIsAdminFilter")
+        onChange=(action "setIsAdminFilter")
         as |option|}}
             {{option.label}}
     {{/power-select}}

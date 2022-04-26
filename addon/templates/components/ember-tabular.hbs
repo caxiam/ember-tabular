@@ -21,10 +21,10 @@
         {{#if this.columns}}
             <thead>
                 <tr>
-                    {{#each columns as |header|}}
+                    {{#each this.columns as |header|}}
                         {{#if header.isActive}}
                             {{#if header.property}}
-                                <th id="{{dot-to-dash-filter header.property}}" class="{{if header.sort sortableClass}} {{if header.filter "filterable"}}" data-test-table-header="{{header.property}}">
+                                <th id="{{dot-to-dash-filter header.property}}" class="{{if header.sort this.sortableClass}} {{if header.filter "filterable"}}" data-test-table-header="{{header.property}}">
                                     {{#if header.filter}}
                                         <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
                                     {{/if}}
@@ -54,7 +54,7 @@
                 {{#if this.isColumnFilters}}
                     {{#if this.showFilterRow}}
                         <tr>
-                            {{#each columns as |header|}}
+                            {{#each this.columns as |header|}}
                                 {{#if header.isActive}}
                                     {{#if header.filter}}
                                         {{ember-tabular-filter modelName=this.modelName columns=this.columns property=header.property record=this.record query=this.query filter=this.filter header=header focusFilter=(action "triggerOnFilterFocus")}}
@@ -114,7 +114,11 @@
                 {{ember-tabular-column-select columns=this.columns saveColumns=(action "toPersist")}}
             {{/if}}
             <nav class="{{if this.paginationWrapperClass this.paginationWrapperClass}}">
-                {{pagination-pager current=this.page count=this.pageLimit}}
+                <PaginationPager
+                  @current={{this.page}}
+                  @count={{this.pageLimit}}
+                  @change={{fn (mut this.page)}}
+                />
             </nav>
         </div>
         {{#if this.isDropdownLimit}}

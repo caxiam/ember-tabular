@@ -1,11 +1,11 @@
 {{#if this.label}}
     <label for="filter-{{this.elementId}}" class="control-label {{this.labelClass}}">
-        {{label}}
+        {{this.label}}
     </label>
 {{/if}}
 <div class="{{this.inputClass}} date-filter">
     {{input value=this.searchFilter type="date" id=(concat "filter-" this.elementId) class="form-control" placeholder=this.filterPlaceholder}}
-    {{#if isClearable}}
+    {{#if this.isClearable}}
         <span {{action 'clearFilter'}} class="fa fa-remove clearFilter"></span>
     {{/if}}
 </div>

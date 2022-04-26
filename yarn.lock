@@ -4822,7 +4822,7 @@ ember-cli-babel-plugin-helpers@^1.0.0, ember-cli-babel-plugin-helpers@^1.1.0, em
   resolved "https://registry.yarnpkg.com/ember-cli-babel-plugin-helpers/-/ember-cli-babel-plugin-helpers-1.1.1.tgz#5016b80cdef37036c4282eef2d863e1d73576879"
   integrity sha512-sKvOiPNHr5F/60NLd7SFzMpYPte/nnGkq/tMIfXejfKHIhaiIkYFqX8Z9UFTKWLLn+V7NOaby6niNPZUdvKCRw==
 
-ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.12.0, ember-cli-babel@^6.16.0, ember-cli-babel@^6.18.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.2, ember-cli-babel@^6.8.2:
+ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.16.0, ember-cli-babel@^6.18.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.2, ember-cli-babel@^6.8.2:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.18.0.tgz#3f6435fd275172edeff2b634ee7b29ce74318957"
   integrity sha512-7ceC8joNYxY2wES16iIBlbPSxwKDBhYwC8drU3ZEvuPDMwVv1KzxCNu1fvxyFEBWhwaRNTUxSCsEVoTd9nosGA==
@@ -9354,12 +9354,13 @@ package-json@^4.0.1:
     registry-url "^3.0.3"
     semver "^5.1.0"
 
-pagination-pager@^3.0.0:
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/pagination-pager/-/pagination-pager-3.2.4.tgz#c201f9fbab45e5c375edc4fe492b7336c8bdb2c8"
-  integrity sha512-7uRHJibWacdO5ufezl+Io6OK/80t5FCaHCCiXxajpUqO74zLPhsKG7qClfTnJzTvIXr/XhEaTyf0T0M2LTKQkg==
+"pagination-pager@^4.0.1 ":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/pagination-pager/-/pagination-pager-4.0.1.tgz#0e021adc6da8db01712b4e9a714154aa8a42a94a"
+  integrity sha512-1+BH3fgAIgfdaschubBq1Ue1IIeJ0CYldc9R875rizvUOvMGwwJlBpHbpTS/zYYDfLSE8Q+IoTHXeWP5yNnwAA==
   dependencies:
-    ember-cli-babel "^6.12.0"
+    ember-cli-babel "^7.21.0"
+    ember-cli-htmlbars "^5.2.0"
 
 pako@~1.0.5:
   version "1.0.11"

@@ -1,5 +1,5 @@
 {{#if this.hasProperty}}
-  {{#if hasBlock}}
+  {{#if (has-block)}}
     <td class="{{this.class}}" data-test-table-column="{{this.column.property}}">{{yield this.record this.column}}</td>
   {{else if this.column.selectable}}
     <td class="{{this.class}}" data-test-table-column="{{this.column.property}}">

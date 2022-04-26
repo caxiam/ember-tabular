@@ -9,7 +9,7 @@
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/component}}
     <!-- pass enum of dropdown filter values list=adminContent, works just like columns.list -->
-    {{#component et.column property="isAdmin" list=adminContent isCustom=true as |record|}}
+    {{#component et.column property="isAdmin" list=this.adminContent isCustom=true as |record|}}
         {{#if record.isAdmin}}
             Yes
         {{else}}
@@ -31,9 +31,9 @@
         filter=false
         sort=false
     }}
-        {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
+        <LinkTo @route="index" class="btn btn-default btn-xs" role="button">
             Edit
-        {{/link-to}}
+        </LinkTo>
     {{/component}}
 {{/ember-tabular}}
 
@@ -67,9 +67,9 @@
         {{/if}}
     {{/component}}
     {{#et.column property="actions"}}
-        {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
+        <LinkTo @route="index" class="btn btn-default btn-xs" role="button">
             Edit
-        {{/link-to}}
+        </LinkTo>
     {{/et.column}}
 {{/ember-tabular}}
 
@@ -92,9 +92,9 @@
         {{/if}}
     {{/component}}
     {{#component et.column property="actions" isCustom=true as |record|}}
-        {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
+        <LinkTo @route="index" class="btn btn-default btn-xs" role="button">
             Edit
-        {{/link-to}}
+        </LinkTo>
     {{/component}}
 {{/ember-tabular}}
 
@@ -102,7 +102,7 @@
 <h1>Table - Basic - Global Filter</h1>
 {{#ember-tabular class="table-basic-global-filter" modelName="user" record=this.users2 filter=this.filter columnOrder=this.hideOmittedConfig as |et|}}
     {{#if et.isHeader}}
-        {{ember-tabular-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
+        {{ember-tabular-global-filter filter=this.filter filterProperty="username" filterPlaceholder="Search by Username"}}
     {{/if}}
     {{component et.column property="username" isCustom=false filter=false sort=false}}
     {{component et.column property="emailAddress" isCustom=false filter=false sort=false}}
@@ -114,10 +114,10 @@
     {{#if et.isHeader}}
         <div class="row">
             <div class="col-sm-6">
-                {{#ember-tabular-dropdown-filter filter=filter2 filterProperty="isAdmin" label="Is Admin" searchFilter=isAdminFilter}}
+                {{#ember-tabular-dropdown-filter filter=this.filter2 filterProperty="isAdmin" label="Is Admin" searchFilter=this.isAdminFilter}}
                     {{#power-select
-                        options=adminContent
-                        selected=(find-by adminContent "value" isAdminFilter)
+                        options=this.adminContent
+                        selected=(find-by adminContent "value" this.isAdminFilter)
                         searchField="label"
                         searchEnabled=false
                         placeholder="Select to filter"
@@ -130,7 +130,7 @@
                 {{/ember-tabular-dropdown-filter}}
             </div>
             <div class="col-sm-6">
-                {{ember-tabular-date-filter filter=filter2 filterProperty="updatedAt" label="Last Updated"}}
+                {{ember-tabular-date-filter filter=this.filter2 filterProperty="updatedAt" label="Last Updated"}}
             </div>
         </div>
     {{/if}}
@@ -143,6 +143,7 @@
 {{/ember-tabular}}
 
 <h5>Example #8</h5>
-{{#link-to "example4" class="link-ex4"}}
+
+<LinkTo @route="example4" class="link-ex4">
     Route Binds Model to Table
-{{/link-to}}
+</LinkTo>

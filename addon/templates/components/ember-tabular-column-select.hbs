@@ -1,10 +1,10 @@
 {{#basic-dropdown verticalPosition="below" as |dd|}}
     {{#dd.trigger class="btn btn-default dropdown-toggle"}}
-        {{#if useIcon}}<span class="fa fa-columns"></span>{{/if}} {{btnCopy}} <span class="caret"></span>
+        {{#if this.useIcon}}<span class="fa fa-columns"></span>{{/if}} {{this.btnCopy}} <span class="caret"></span>
     {{/dd.trigger}}
     {{#dd.content}}
-        {{#sortable-objects sortableObjectList=columns sortEndAction="sortEndAction" sortingScope="a" class="dropdown-menu dropdown-menu-always-show pull-left" tagName="ul"}}
-            {{#each columns as |column|}}
+        {{#sortable-objects sortableObjectList=this.columns sortEndAction="sortEndAction" sortingScope="a" class="dropdown-menu dropdown-menu-always-show pull-left" tagName="ul"}}
+            {{#each this.columns as |column|}}
                 {{#draggable-object content=column  overrideClass="sortObject" isSortable=true sortingScope="a" tagName="li"}}
                     <a {{action "toggleColumn" column}}>
                         <span class="{{if column.isActive "fa fa-check-square-o" "fa fa-square-o"}}"></span> {{column.label}}

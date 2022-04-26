@@ -1,16 +1,16 @@
-{{#if autoHide}}
+{{#if this.autoHide}}
     <div class="form-group form-inline text-right">
         <label class="control-label" for="limit">
             Show
         </label>
         {{#power-select
-            options=limits
-            selected=limit
+            options=this.limits
+            selected=this.limit
             searchField="label"
             searchEnabled=false
             placeholder="Select the table count"
             triggerClass="limit text-left form-control-inline"
-            onChange=(action (mut limit))
+            onChange=(action (mut this.limit))
             as |size|}}
                 {{size}}
         {{/power-select}}

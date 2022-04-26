@@ -1,10 +1,10 @@
 <div class="table-filter">
-    {{#if label}}
-        <label for="filter-{{elementId}}" class="control-label {{labelClass}}">
-            {{label}}
+    {{#if this.label}}
+        <label for="filter-{{this.elementId}}" class="control-label {{this.labelClass}}">
+            {{this.label}}
         </label>
     {{/if}}
-    <div class="{{inputClass}} search-filter">
+    <div class="{{this.inputClass}} search-filter">
         {{yield}}
     </div>
 </div>

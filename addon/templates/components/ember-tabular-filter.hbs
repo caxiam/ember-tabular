@@ -1,8 +1,8 @@
-<div id="filter-{{dot-to-dash-filter property}}">
-    {{#if header.list}}
+<div id="filter-{{dot-to-dash-filter this.property}}">
+    {{#if this.header.list}}
         {{#power-select
-            options=header.list
-            selected=(find-by header.list 'value' headerFilter)
+            options=this.header.list
+            selected=(find-by this.header.list 'value' this.headerFilter)
             searchField="label"
             searchEnabled=false
             triggerClass="ember-tabular-ember-power-select"
@@ -13,8 +13,8 @@
                 {{option.label}}
         {{/power-select}}
     {{else}}
-        {{input value=headerFilter focus-in=(action "focusFilter") type=header.type class=(concat "form-control filter " header.type) placeholder=inputPlaceholder}}
-        {{#if isClearable}}
+        {{input value=this.headerFilter focus-in=(action "focusFilter") type=this.header.type class=(concat "form-control filter " this.header.type) placeholder=this.inputPlaceholder}}
+        {{#if this.isClearable}}
             <span {{action 'clearFilter'}} class="fa fa-remove clearFilter"></span>
         {{/if}}
     {{/if}}

@@ -1,8 +1,8 @@
 <tr>
-    <td class="text-center td-loading" colspan="{{columnLength}}">
-        {{#if isRecordLoaded}}
-            {{tableLoadedMessage}}
-            {{ember-tabular-registry registryComplete=registryComplete}}
+    <td class="text-center td-loading" colspan="{{this.columnLength}}">
+        {{#if this.isRecordLoaded}}
+            {{this.tableLoadedMessage}}
+            {{ember-tabular-registry registryComplete=this.registryComplete}}
         {{else}}
             Loading...
         {{/if}}

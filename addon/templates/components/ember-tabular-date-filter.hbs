@@ -1,10 +1,10 @@
-{{#if label}}
-    <label for="filter-{{elementId}}" class="control-label {{labelClass}}">
+{{#if this.label}}
+    <label for="filter-{{this.elementId}}" class="control-label {{this.labelClass}}">
         {{label}}
     </label>
 {{/if}}
-<div class="{{inputClass}} date-filter">
-    {{input value=searchFilter type="date" id=(concat "filter-" elementId) class="form-control" placeholder=filterPlaceholder}}
+<div class="{{this.inputClass}} date-filter">
+    {{input value=this.searchFilter type="date" id=(concat "filter-" this.elementId) class="form-control" placeholder=this.filterPlaceholder}}
     {{#if isClearable}}
         <span {{action 'clearFilter'}} class="fa fa-remove clearFilter"></span>
     {{/if}}

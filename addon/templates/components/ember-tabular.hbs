@@ -1,9 +1,9 @@
-{{#if isFailure}}
+{{#if this.isFailure}}
     {{#ember-tabular-alert type="danger"}}
-        {{failureMessage}}
-        {{#if errors}}
+        {{this.failureMessage}}
+        {{#if this.errors}}
             <ul>
-                {{#each errors as |error|}}
+                {{#each this.errors as |error|}}
                     <li>
                         {{error.detail}}
                     </li>
@@ -13,12 +13,12 @@
     {{/ember-tabular-alert}}
 {{/if}}
 
-{{yield header}}
+{{yield this.header}}
 
-<div class="table-responsive {{if tableWrapperClass tableWrapperClass}}">
-    {{yield wrapperHeader}}
-    <table class="table {{if tableClass tableClass "table-bordered table-hover"}} {{if isLoading "loading"}}">
-        {{#if columns}}
+<div class="table-responsive {{if this.tableWrapperClass this.tableWrapperClass}}">
+    {{yield this.wrapperHeader}}
+    <table class="table {{if this.tableClass this.tableClass "table-bordered table-hover"}} {{if this.isLoading "loading"}}">
+        {{#if this.columns}}
             <thead>
                 <tr>
                     {{#each columns as |header|}}
@@ -35,7 +35,7 @@
                                     {{else if header.selectable}}
                                         <div class="checkbox-no-label checkbox-sm">
                                             <label>
-                                                {{input class="allChecked" type="checkbox" checked=allChecked}}
+                                                {{input class="allChecked" type="checkbox" checked=this.allChecked}}
                                                 <span class="fake-checkbox"></span>
                                             </label>
                                         </div>
@@ -51,13 +51,13 @@
                         {{/if}}
                     {{/each}}
                 </tr>
-                {{#if isColumnFilters}}
-                    {{#if showFilterRow}}
+                {{#if this.isColumnFilters}}
+                    {{#if this.showFilterRow}}
                         <tr>
                             {{#each columns as |header|}}
                                 {{#if header.isActive}}
                                     {{#if header.filter}}
-                                        {{ember-tabular-filter modelName=modelName columns=columns property=header.property record=record query=query filter=filter header=header focusFilter=(action "triggerOnFilterFocus")}}
+                                        {{ember-tabular-filter modelName=this.modelName columns=this.columns property=header.property record=this.record query=this.query filter=this.filter header=header focusFilter=(action "triggerOnFilterFocus")}}
                                     {{else}}
                                         <th data-test-table-header="{{header.property}}">{{!-- Blank to reserve table column --}}</th>
                                     {{/if}}
@@ -70,21 +70,21 @@
         {{/if}}
         <tbody>
             {{yield (hash
-                column=(component "ember-tabular-column-register" registry=registry columnOrder=columnOrder addToRegistry=(action "addToRegistry"))
+                column=(component "ember-tabular-column-register" registry=this.registry columnOrder=this.columnOrder addToRegistry=(action "addToRegistry"))
             )}}
             {{ember-tabular-registry registryComplete=(action "registryComplete")}}
-            {{#if record}}
-                {{#if (and record columns)}}
-                    {{#each record as |row index|}}
+            {{#if this.record}}
+                {{#if (and this.record this.columns)}}
+                    {{#each this.record as |row index|}}
                         <tr data-test-table-row="{{index}}">
-                            {{#each columns as |column|}}
+                            {{#each this.columns as |column|}}
                                 {{#if column.isActive}}
                                     {{#if (compare-with columns "property" column.property "isCustom")}}
                                         {{yield (hash
-                                            column=(component "ember-tabular-column" column=column record=row property=property collection=record class=column.class)
+                                            column=(component "ember-tabular-column" column=column record=row property=property collection=this.record class=column.class)
                                         )}}
                                     {{else}}
-                                        {{ember-tabular-column column=column record=row property=column.property collection=record class=column.class}}
+                                        {{ember-tabular-column column=column record=row property=column.property collection=this.record class=column.class}}
                                     {{/if}}
                                 {{/if}}
                             {{/each}}
@@ -92,34 +92,34 @@
                     {{/each}}
                 {{else}}
                     <tr>
-                        <td class="text-center td-loading" colspan="{{columnLength}}">
+                        <td class="text-center td-loading" colspan="{{this.columnLength}}">
                             Loading...
                         </td>
                     </tr>
                 {{/if}}
             {{else}}
-                {{ember-tabular-loading isRecordLoaded=isRecordLoaded columnLength=columnLength tableLoadedMessage=tableLoadedMessage registryComplete=(action "registryComplete")}}
+                {{ember-tabular-loading isRecordLoaded=this.isRecordLoaded columnLength=this.columnLength tableLoadedMessage=this.tableLoadedMessage registryComplete=(action "registryComplete")}}
             {{/if}}
         </tbody>
     </table>
-    {{yield wrapperFooter}}
+    {{yield this.wrapperFooter}}
 </div>
 
-{{yield footer}}
+{{yield this.footer}}
 
-{{#if columns}}
+{{#if this.columns}}
     <div class="row">
-        <div class="{{unless isDropdownLimit "col-sm-12" "col-sm-9"}}">
-            {{#if isColumnSelect}}
-                {{ember-tabular-column-select columns=columns saveColumns=(action "toPersist")}}
+        <div class="{{unless this.isDropdownLimit "col-sm-12" "col-sm-9"}}">
+            {{#if this.isColumnSelect}}
+                {{ember-tabular-column-select columns=this.columns saveColumns=(action "toPersist")}}
             {{/if}}
-            <nav class="{{if paginationWrapperClass paginationWrapperClass}}">
-                {{pagination-pager current=page count=pageLimit}}
+            <nav class="{{if this.paginationWrapperClass this.paginationWrapperClass}}">
+                {{pagination-pager current=this.page count=this.pageLimit}}
             </nav>
         </div>
-        {{#if isDropdownLimit}}
+        {{#if this.isDropdownLimit}}
             <div class="col-sm-3">
-                {{ember-tabular-dropdown-limit limit=limit record=record count=pageLimit}}
+                {{ember-tabular-dropdown-limit limit=this.limit record=this.record count=this.pageLimit}}
             </div>
         {{/if}}
     </div>

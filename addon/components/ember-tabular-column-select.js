@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from 'ember-tabular/templates/components/ember-tabular-column-select';
+import jQuery from 'jquery';
 
 /**
 * Generates a bootstrap compliant dropdown containing the `columns`
@@ -24,7 +25,7 @@ export default Ember.Component.extend({
   didInsertElement() {
     this._super(...arguments);
     // prevent dropdown from closing when clicking within
-    this.$().on({
+    jQuery(this.element).on({
       'click': function(e) {
         if ($(e.target).closest('.dropdown-toggle').length) {
           $(this).data('closable', true);

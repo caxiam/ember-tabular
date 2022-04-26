@@ -1,5 +1,5 @@
 {{#if this.hasProperty}}
-  {{#if this.hasBlock}}
+  {{#if hasBlock}}
     <td class="{{this.class}}" data-test-table-column="{{this.column.property}}">{{yield this.record this.column}}</td>
   {{else if this.column.selectable}}
     <td class="{{this.class}}" data-test-table-column="{{this.column.property}}">
@@ -8,6 +8,8 @@
       </div>
     </td>
   {{else}}
-    <td class="{{this.class}}" data-test-table-column="{{this.column.property}}">{{get this.record this.column.property}}</td>
+    <td class="{{this.class}}" data-test-table-column="{{this.column.property}}">
+      {{get this.record this.column.property}}
+    </td>
   {{/if}}
 {{/if}}

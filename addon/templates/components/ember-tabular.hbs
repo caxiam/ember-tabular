@@ -79,9 +79,9 @@
                         <tr data-test-table-row="{{index}}">
                             {{#each this.columns as |column|}}
                                 {{#if column.isActive}}
-                                    {{#if (compare-with columns "property" column.property "isCustom")}}
+                                    {{#if (compare-with this.columns "property" column.property "isCustom")}}
                                         {{yield (hash
-                                            column=(component "ember-tabular-column" column=column record=row property=property collection=this.record class=column.class)
+                                            column=(component "ember-tabular-column" column=column record=row property=column.property collection=this.record class=column.class)
                                         )}}
                                     {{else}}
                                         {{ember-tabular-column column=column record=row property=column.property collection=this.record class=column.class}}

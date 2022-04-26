@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from 'ember-tabular/templates/components/ember-tabular-row-checkbox';
+import jQuery from 'jquery';
 
 export default Ember.Component.extend({
   layout,
@@ -48,13 +49,13 @@ export default Ember.Component.extend({
   keyDown(e) {
     // disable text selection if "shift" key is pressed
     if (e.keyCode === 16) {
-      this.$().parents('tbody').addClass('unselectable');
+      jQuery(this.element).parents('tbody').addClass('unselectable');
     }
   },
   keyUp(e) {
     // re-enable text selection if "shift" key is released
     if (e.keyCode === 16) {
-      this.$().parents('tbody').removeClass('unselectable');
+      jQuery(this.element).parents('tbody').removeClass('unselectable');
     }
   },
 });

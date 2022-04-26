@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from 'ember-tabular/templates/components/ember-tabular';
 import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-helpers';
 import { next } from '@ember/runloop';
+import jQuery from 'jquery';
 
 /**
 * ## Basic Usage
@@ -1044,7 +1045,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   updateSortUI: Ember.on('didRender', function (sortProperty) {
     if (this.get('sort') || sortProperty) {
       const _this = this;
-      const $table = this.$();
+      const $table = jQuery(this.element);
       const sort = this.get('sort');
 
       // convert property to camelCase

@@ -1,10 +1,10 @@
 <h5>Example #1</h5>
 <h1>Table - Default</h1>
-{{ember-tabular class="table-default" modelName="user" sort=sort2 isColumnSelect=false onFiltering=onFiltering}}
+{{ember-tabular class="table-default" modelName="user" sort=this.sort2 isColumnSelect=false onFiltering=this.onFiltering}}
 
 <h5>Example #2</h5>
 <h1>Table - Column Select</h1>
-{{#ember-tabular class="table-column-select" modelName="user" sort=sort1 columnOrder=orderConfig as |et|}}
+{{#ember-tabular class="table-column-select" modelName="user" sort=this.sort1 columnOrder=this.orderConfig as |et|}}
     {{#component et.column property="emailAddress" isCustom=true as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/component}}
@@ -39,7 +39,7 @@
 
 <h5>Example #3</h5>
 <h1>Table - Override Columns/Templates</h1>
-{{#ember-tabular class="table-override-columns-template" columns=columns modelName="user" record=users as |et|}}
+{{#ember-tabular class="table-override-columns-template" columns=this.columns modelName="user" record=this.users as |et|}}
     {{#component et.column property="username" as |record column|}}
         {{record.username}}
     {{/component}}
@@ -66,17 +66,17 @@
             {{moment-format record.createdAt "MM/DD/YYYY"}}
         {{/if}}
     {{/component}}
-    {{#component et.column property="actions" as |record column|}}
+    {{#et.column property="actions"}}
         {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
             Edit
         {{/link-to}}
-    {{/component}}
+    {{/et.column}}
 {{/ember-tabular}}
 
 
 <h5>Example #4</h5>
 <h1>Table - Persist Filtering</h1>
-{{#ember-tabular class="table-persist" modelName="user" record=users4 filter=filter3 persistFiltering=true isPersisting=true tableName="persistTable" columnOrder=orderConfig sort=sort4 as |et|}}
+{{#ember-tabular class="table-persist" modelName="user" record=this.users4 filter=this.filter3 persistFiltering=true isPersisting=true tableName="persistTable" columnOrder=this.orderConfig sort=this.sort4 as |et|}}
     {{#component et.column property="isAdmin" isCustom=true as |record|}}
         {{#if record.isAdmin}}
             Yes
@@ -100,7 +100,7 @@
 
 <h5>Example #5</h5>
 <h1>Table - Basic - Global Filter</h1>
-{{#ember-tabular class="table-basic-global-filter" modelName="user" record=users2 filter=filter columnOrder=hideOmittedConfig as |et|}}
+{{#ember-tabular class="table-basic-global-filter" modelName="user" record=this.users2 filter=this.filter columnOrder=this.hideOmittedConfig as |et|}}
     {{#if et.isHeader}}
         {{ember-tabular-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
     {{/if}}
@@ -110,7 +110,7 @@
 
 <h5>Example #6</h5>
 <h1>Table - Basic - Dropdown Filter / Date Filter</h1>
-{{#ember-tabular class="table-basic-global-date-filter" modelName="user" record=users3 filter=filter2 columns=columnsForDropdownFilter isColumnSelect=false as |et|}}
+{{#ember-tabular class="table-basic-global-date-filter" modelName="user" record=this.users3 filter=this.filter2 columns=this.columnsForDropdownFilter isColumnSelect=false as |et|}}
     {{#if et.isHeader}}
         <div class="row">
             <div class="col-sm-6">

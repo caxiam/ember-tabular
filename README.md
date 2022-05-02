@@ -239,3 +239,4 @@ If you are using Ember Data, then you can lean on your application's custom adap
   * This addon expects a `filter` object with nested property/value pairs.
 
 If you are not using Ember Data or following json:api then you can extend this component and override a set of serialize and normalized methods, checkout the [API specs/documentation](/docs/index.html) for more details/examples.
+

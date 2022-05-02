@@ -18,6 +18,8 @@ function filterObj(where, collection, query) {
 export default function() {
   this.namespace = '';
 
+  this.passthrough('/write-coverage');
+
   /*
   Routes
   */

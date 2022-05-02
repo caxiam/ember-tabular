@@ -1,4 +1,5 @@
-import Mirage, { faker }  from 'ember-cli-mirage';
+import Mirage from 'ember-cli-mirage';
+import faker from '@faker-js/faker';
 import moment from 'moment';
 
 export default Mirage.Factory.extend({

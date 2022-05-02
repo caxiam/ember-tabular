@@ -14,7 +14,7 @@ import { selectChoose } from 'ember-power-select/test-support/helpers';
 import { clickTrigger } from 'ember-basic-dropdown/test-support/helpers';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 
 module('Acceptance: Simple Table', function(hooks) {

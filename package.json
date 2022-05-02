@@ -1,7 +1,7 @@
 {
   "name": "ember-tabular",
-  "version": "0.2.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "1.0.0",
+  "description": "A table component for Ember.",
   "directories": {
     "doc": "doc",
     "test": "tests"

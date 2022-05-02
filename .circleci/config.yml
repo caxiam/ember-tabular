@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Install ember-cli & dependencies
           command: |
-            yarn global add ember-cli@3.7.1
+            yarn global add ember-cli@3.28.5
             yarn install
       - save_cache:
           key: v1-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}

@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import { debounce } from '@ember/runloop';
+import { observer, computed } from '@ember/object';
+import Component from '@ember/component';
 import layout from 'ember-tabular/templates/components/ember-tabular-global-filter';
 
 /**
@@ -17,7 +19,7 @@ import layout from 'ember-tabular/templates/components/ember-tabular-global-filt
 *
 * @class EmberTabularGlobalFilter
 */
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   /**
   * @property tagName
@@ -64,15 +66,15 @@ export default Ember.Component.extend({
   *
   * @method filterTable
   */
-  filterTable: Ember.observer('searchFilter', function () {
-    Ember.run.debounce(this, 'filterName', 750);
+  filterTable: observer('searchFilter', function () {
+    debounce(this, 'filterName', 750);
   }),
   /**
   * @property isClearable
   * @default false
   */
-  isClearable: Ember.computed('searchFilter', function () {
-    if (this.get('searchFilter')) {
+  isClearable: computed('searchFilter', function () {
+    if (this.searchFilter) {
       return true;
     }
     return false;
@@ -84,9 +86,9 @@ export default Ember.Component.extend({
   */
   filterName() {
     // Reference parent component query obj
-    const query = this.get('query') || this.get('parentView.query');
-    const property = this.get('filterProperty');
-    const value = this.get('searchFilter');
+    const query = this.query || this.get('parentView.query');
+    const property = this.filterProperty;
+    const value = this.searchFilter;
     let filter;
 
     // Set the query on the filter object

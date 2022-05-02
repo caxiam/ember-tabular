@@ -1,6 +1,19 @@
-import { click, fillIn, find, findAll, currentURL, triggerEvent, visit, pauseTest } from '@ember/test-helpers';
-import { assertIn, getPretenderRequest, getLastPretenderRequest } from '../../tests/helpers/util';
-import Ember from 'ember';
+import { set } from '@ember/object';
+import {
+  click,
+  fillIn,
+  find,
+  findAll,
+  currentURL,
+  triggerEvent,
+  visit,
+  pauseTest
+} from '@ember/test-helpers';
+import {
+  assertIn,
+  getPretenderRequest,
+  getLastPretenderRequest
+} from '../../tests/helpers/util';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -18,7 +31,7 @@ module('Acceptance: Relationships Tests', function(hooks) {
 
     // Override first table column.property to be relationship
     let controller = this.owner.lookup('controller:index');
-    Ember.set(controller.columns[0], 'property', 'account.username');
+    set(controller.columns[0], 'property', 'account.username');
     await click(find('.table-override-columns-template table .btn-toggle-filter'));
     await fillIn(findAll('.table-override-columns-template table thead tr')[1].getElementsByTagName('input')[0], 'Testing');
     let request = getLastPretenderRequest(server);

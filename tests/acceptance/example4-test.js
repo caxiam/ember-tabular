@@ -1,4 +1,13 @@
-import { click, fillIn, find, findAll, currentURL, triggerEvent, visit, pauseTest } from '@ember/test-helpers';
+import {
+  click,
+  fillIn,
+  find,
+  findAll,
+  currentURL,
+  triggerEvent,
+  visit,
+  pauseTest
+} from '@ember/test-helpers';
 import { assertIn, getPretenderRequest } from '../../tests/helpers/util';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
@@ -14,7 +23,7 @@ module('Acceptance: Example4 Table', function(hooks) {
     await visit('/example4');
 
     assert.equal(currentURL(), '/example4');
-    assert.equal(findAll('.table-basic-route-model table tbody tr').length, 10, 'Check for 10 items in table');
+    assert.dom('.table-basic-route-model table tbody tr').exists({ count: 10 }, 'Check for 10 items in table');
 
     let request = getPretenderRequest(server, 'GET', 'users')[0];
 
@@ -29,8 +38,8 @@ module('Acceptance: Example4 Table', function(hooks) {
 
     assert.equal(currentURL(), '/example4');
 
-    assert.equal(findAll('.table-basic-route-model table tbody tr').length, 10, 'Check for 10 items in table');
-    assert.equal(findAll('.table-basic-route-model .pagination > *').length, 7, 'Pagination is 5 pages');
+    assert.dom('.table-basic-route-model table tbody tr').exists({ count: 10 }, 'Check for 10 items in table');
+    assert.dom('.table-basic-route-model .pagination > *').exists({ count: 7 }, 'Pagination is 5 pages');
   });
 
   test('Check ability to sort (.table-basic-route-model)', async function(assert) {
@@ -40,8 +49,8 @@ module('Acceptance: Example4 Table', function(hooks) {
     assert.equal(currentURL(), '/example4');
 
     await click('table #lastName .btn-sort');
-    assert.equal(findAll('.table-basic-route-model table tbody tr').length, 10, 'Check for 10 items in table');
-    assert.equal(findAll('.table-basic-route-model .pagination > *').length, 7, 'Pagination is 5 pages');
+    assert.dom('.table-basic-route-model table tbody tr').exists({ count: 10 }, 'Check for 10 items in table');
+    assert.dom('.table-basic-route-model .pagination > *').exists({ count: 7 }, 'Pagination is 5 pages');
 
     let request = getPretenderRequest(server, 'GET', 'users')[0];
 

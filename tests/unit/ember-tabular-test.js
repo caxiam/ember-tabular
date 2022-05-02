@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import jQuery from 'jquery';
 
 module('Unit | Component | ember table jsonapi', function(hooks) {
   setupRenderingTest(hooks);
@@ -9,7 +10,7 @@ module('Unit | Component | ember table jsonapi', function(hooks) {
   test('it renders', async function(assert) {
     await render(hbs`{{ember-tabular makeRequest=false}}`);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.length, 1, 'It renders in DOM');
   });
 
@@ -75,7 +76,7 @@ module('Unit | Component | ember table jsonapi', function(hooks) {
     ];
     await render(hbs`{{ember-tabular record=model makeRequest=false columns=columns isDropdownLimit=false}}`);
 
-    var $component = this.$();
+    var $component = jQuery(this);
     assert.equal($component.find('thead tr:eq(0) th:eq(0)').text().trim(), 'Username', 'Table Filter - Username');
     assert.equal($component.find('thead tr:eq(0) th:eq(1)').text().trim(), 'Email', 'Table Filter - Email');
     assert.equal($component.find('thead tr:eq(0) th:eq(2)').text().trim(), 'First Name', 'Table Filter - First Name');

@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { set } from '@ember/object';
+import Component from '@ember/component';
 import layout from 'ember-tabular/templates/components/ember-tabular-column-select';
 import jQuery from 'jquery';
 
@@ -8,7 +9,7 @@ import jQuery from 'jquery';
 *
 * @class EmberTabularColumnSelect
 */
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   /**
   * @property tagName
@@ -44,18 +45,18 @@ export default Ember.Component.extend({
   actions: {
     toggleColumn(column) {
       if (column.isActive) {
-        Ember.set(column, 'isActive', false);
+        set(column, 'isActive', false);
       } else {
-        Ember.set(column, 'isActive', true);
+        set(column, 'isActive', true);
       }
       // fire action to saveColumns
-      this.get('saveColumns')();
+      this.saveColumns();
     },
     sortEndAction() {
       // override to perform custom actions on end of sort
       // perhaps to save the columns order
       // fire action to saveColumns
-      this.get('saveColumns')();
+      this.saveColumns();
     },
   },
 });

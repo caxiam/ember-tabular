@@ -2,7 +2,7 @@
     <td class="text-center td-loading" colspan="{{this.columnLength}}">
         {{#if this.isRecordLoaded}}
             {{this.tableLoadedMessage}}
-            {{ember-tabular-registry registryComplete=this.registryComplete}}
+            <EmberTabularRegistry @registryComplete={{this.registryComplete}} />
         {{else}}
             Loading...
         {{/if}}

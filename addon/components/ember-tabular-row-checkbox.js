@@ -1,32 +1,35 @@
-import Ember from 'ember';
+import { isNone } from '@ember/utils';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import layout from 'ember-tabular/templates/components/ember-tabular-row-checkbox';
 import jQuery from 'jquery';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   tagName: 'div',
   classNames: ['ember-tabular-row-checkbox'],
   // allow div to be focusable so keyDown/keyUp events are triggered
   attributeBindings: ['tabindex'],
-  globals: Ember.inject.service('ember-tabular-globals'),
-  previousIndex: Ember.computed.alias('globals.previousIndex'),
-  currentIndex: Ember.computed.alias('globals.currentIndex'),
-  checked: Ember.computed.alias('model.checked'),
+  globals: service('ember-tabular-globals'),
+  previousIndex: alias('globals.previousIndex'),
+  currentIndex: alias('globals.currentIndex'),
+  checked: alias('model.checked'),
   tabindex: -1,
   click(e) {
-    const collection = this.get('collection');
-    const model = this.get('model');
+    const collection = this.collection;
+    const model = this.model;
     const collectionIndex = collection.indexOf(model);
 
     this.set('currentIndex', collectionIndex);
 
     // ensure we always have a previousIndex
-    if (Ember.isNone(this.get('previousIndex'))) {
+    if (isNone(this.previousIndex)) {
       this.set('previousIndex', collectionIndex);
     }
 
-    let currentIndex = this.get('currentIndex');
-    let previousIndex = this.get('previousIndex');
+    let currentIndex = this.currentIndex;
+    let previousIndex = this.previousIndex;
 
     if (e.shiftKey) {
       // ensure we set checked first

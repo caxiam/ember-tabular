@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import layout from 'ember-tabular/templates/components/ember-tabular-column';
 
 /**
@@ -27,7 +28,7 @@ import layout from 'ember-tabular/templates/components/ember-tabular-column';
 *
 * @class EmberTabularColumn
 */
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   /**
   * @property tagName
@@ -36,9 +37,9 @@ export default Ember.Component.extend({
   */
   tagName: '',
   action: null,
-  hasProperty: Ember.computed('property', 'column', function () {
-    const property = this.get('property');
-    const column = this.get('column');
+  hasProperty: computed('property', 'column', function () {
+    const property = this.property;
+    const column = this.column;
     if (column && property === column.property) {
       return true;
     }

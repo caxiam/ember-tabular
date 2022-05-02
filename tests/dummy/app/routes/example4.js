@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import { dasherize } from '@ember/string';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
   queryParams: {
     page: {
       refreshModel: true
@@ -27,7 +28,7 @@ export default Ember.Route.extend({
       params.offset = params['page[offset]'];
     }
     if (params.sort) {
-      params.sort = Ember.String.dasherize(params.sort);
+      params.sort = dasherize(params.sort);
     }
 
     // Override to set dynamic offset based on page and limit

@@ -1,6 +1,8 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Evented, { on } from '@ember/object/evented';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend(Ember.Evented, {
+export default Controller.extend(Evented, {
   users: null,
   users2: null,
   users3: null,
@@ -164,7 +166,7 @@ export default Ember.Controller.extend(Ember.Evented, {
       }
     },
   },
-  adminContent: Ember.computed(function() {
+  adminContent: computed(function() {
     return [
       {
         label: 'Yes',
@@ -176,7 +178,7 @@ export default Ember.Controller.extend(Ember.Evented, {
       }
     ];
   }),
-  onFiltering: Ember.on('onFiltering', function () {
+  onFiltering: on('onFiltering', function () {
     console.log('detected event from component');
   }),
 });

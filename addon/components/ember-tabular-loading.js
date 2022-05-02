@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import layout from 'ember-tabular/templates/components/ember-tabular-loading';
 
 /**
@@ -7,7 +7,7 @@ import layout from 'ember-tabular/templates/components/ember-tabular-loading';
 *
 * @class EmberTabularColumn
 */
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   /**
   * @property tagName
@@ -18,7 +18,7 @@ export default Ember.Component.extend({
   action: null,
   actions: {
     registryComplete(value) {
-      this.get('registryComplete')(value);
+      this.registryComplete(value);
     },
   },
 });

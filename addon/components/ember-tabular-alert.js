@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import layout from 'ember-tabular/templates/components/ember-tabular-alert';
 
 /**
@@ -6,7 +7,7 @@ import layout from 'ember-tabular/templates/components/ember-tabular-alert';
 *
 * @class EmberTabularAlert
 */
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   /**
   * @property tagName
@@ -25,7 +26,7 @@ export default Ember.Component.extend({
   * @type String
   * @default 'alert-[type]'
   */
-  typeClass: Ember.computed('type', function () {
-    return `alert-${this.get('type')}`;
+  typeClass: computed('type', function () {
+    return `alert-${this.type}`;
   }),
 });

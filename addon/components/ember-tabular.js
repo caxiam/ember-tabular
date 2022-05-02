@@ -1,7 +1,15 @@
-import Ember from 'ember';
+import { isEmpty } from '@ember/utils';
+import { merge } from '@ember/polyfills';
+import { dasherize, camelize } from '@ember/string';
+import { assert } from '@ember/debug';
+import { A } from '@ember/array';
+import { computed, observer, get, set } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Evented, { on } from '@ember/object/evented';
+import Component from '@ember/component';
 import layout from 'ember-tabular/templates/components/ember-tabular';
 import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-helpers';
-import { next } from '@ember/runloop';
+import { next, once } from '@ember/runloop';
 import jQuery from 'jquery';
 
 /**
@@ -18,9 +26,9 @@ import jQuery from 'jquery';
 *
 * @class EmberTabular
 */
-export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
+export default Component.extend(Evented, EmberTabularHelpers, {
   layout,
-  store: Ember.inject.service('store'),
+  store: service('store'),
   action: null,
   classNames: ['ember-tabular'],
   /**
@@ -64,8 +72,8 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   */
   toPersist() {
     const ls = window.localStorage;
-    const tableName = this.get('prefixedTableName');
-    const columnOrder = this.get('columnOrder');
+    const tableName = this.prefixedTableName;
+    const columnOrder = this.columnOrder;
 
     let data = {
       columnOrder: columnOrder,
@@ -80,7 +88,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @method getPersist
   */
   getPersist() {
-    const tableName = this.get('prefixedTableName');
+    const tableName = this.prefixedTableName;
     const ls = window.localStorage;
     if (ls.getItem(tableName)) {
       const parsedData = JSON.parse(ls.getItem(tableName));
@@ -96,8 +104,8 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @default undefined
   */
   tableName: undefined,
-  prefixedTableName: Ember.computed('tableName', function () {
-    return `tabular:${this.get('tableName')}`;
+  prefixedTableName: computed('tableName', function () {
+    return `tabular:${this.tableName}`;
   }),
   /**
   * Will check all table rows
@@ -146,8 +154,8 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @param columns {Array}
   * @return {Number}
   */
-  columnLength: Ember.computed('columns', function () {
-    return this.get('columns').length;
+  columnLength: computed('columns', function () {
+    return this.columns.length;
   }),
 
   // Allows multiple yields
@@ -187,15 +195,15 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   init() {
     this._super(...arguments);
     // ensures a unique `registry` is generated per ember tabular instance
-    this.set('registry', Ember.A());
-    if (this.get('isPersisting')) {
-      const tableName = this.get('tableName');
+    this.set('registry', A());
+    if (this.isPersisting) {
+      const tableName = this.tableName;
       if (!tableName) {
-        Ember.assert('tableName attribute is required, and should be unique', tableName);
+        assert('tableName attribute is required, and should be unique', tableName);
       }
       this.getPersist();
     }
-    if (!this.get('sort')) {
+    if (!this.sort) {
       this.defaultSort();
     }
   },
@@ -273,13 +281,13 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @type Array
   * @default null
   */
-  columns: Ember.computed('registry', 'registryDiff', 'registryDone', function () {
-    let columns = Ember.A();
+  columns: computed('registry', 'registryDiff', 'registryDone', function () {
+    let columns = A();
     // only output columns array when registry is done
-    if (this.get('registryDone')) {
-      const registry = this.get('registry');
-      const registryDiff = this.get('registryDiff');
-      const columnOrder = this.get('columnOrder');
+    if (this.registryDone) {
+      const registry = this.registry;
+      const registryDiff = this.registryDiff;
+      const columnOrder = this.columnOrder;
 
       if (registry && registryDiff) {
         columns.pushObjects(registry);
@@ -305,8 +313,8 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
     return columns;
   }),
 
-  saveColumnOrder: Ember.observer('columns', 'columns.@each.isActive', function () {
-    const columns = this.get('columns');
+  saveColumnOrder: observer('columns', 'columns.@each.isActive', function () {
+    const columns = this.columns;
     // filter out columns that are not active
     let filterColumns = columns.filter((el) => {
       if (el.isActive) {
@@ -354,13 +362,13 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @type Array
   * @default []
   */
-  registryDiff: Ember.computed('registry.[]', function () {
-    const modelName = this.get('modelName');
-    const registry = this.get('registry');
-    let registryDiff = Ember.A();
+  registryDiff: computed('registry.[]', function () {
+    const modelName = this.modelName;
+    const registry = this.registry;
+    let registryDiff = A();
     if (modelName) {
-      const modelClass = this.get('store').modelFor(modelName);
-      const modelClassAttributes = Ember.get(modelClass, 'attributes');
+      const modelClass = this.store.modelFor(modelName);
+      const modelClassAttributes = get(modelClass, 'attributes');
       // iterate over keys and create attribute array
       modelClassAttributes.forEach((meta, property) => {
         let attribute = {
@@ -385,7 +393,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   }),
 
   checkConfigForColumn(property) {
-    const columnOrder = this.get('columnOrder');
+    const columnOrder = this.columnOrder;
     if (columnOrder && columnOrder.indexOf(property) === -1) {
       return false;
     }
@@ -518,8 +526,8 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   defaultFailureMessage: 'There was an issue. Please check below for errors.',
 
   // Messages
-  successMessage: Ember.get(Ember.Component, 'defaultSuccessMessage'),
-  failureMessage: Ember.get(Ember.Component, 'defaultFailureMessage'),
+  successMessage: get(Component, 'defaultSuccessMessage'),
+  failureMessage: get(Component, 'defaultFailureMessage'),
 
   /**
   * Conforms to json:api spec: http://jsonapi.org/format/#errors
@@ -667,7 +675,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   */
   serializeProperty(property) {
     if (property) {
-      return Ember.String.dasherize(property);
+      return dasherize(property);
     }
 
     return null;
@@ -776,7 +784,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   */
   normalizeProperty(property) {
     if (property) {
-      return Ember.String.camelize(property);
+      return camelize(property);
     }
 
     return null;
@@ -799,7 +807,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @property isRecordLoaded
   * @type Function
   */
-  isRecordLoaded: Ember.computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
+  isRecordLoaded: computed('errors', 'record', 'record.isFulfilled', 'record.isLoaded',
   'modelName', 'columns', function () {
     // If record array isLoaded but empty
     if (this.get('record.isLoaded')) {
@@ -810,15 +818,15 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
       return true;
     }
     // If errors
-    if (this.get('errors')) {
+    if (this.errors) {
       return true;
     }
     // If record array is empty
-    if (this.get('record') && this.get('record').length === 0) {
+    if (this.record && this.record.length === 0) {
       return true;
     }
     // Show custom tableLoadedMessage
-    if (this.get('record') === null && this.get('modelName') === null) {
+    if (this.record === null && this.modelName === null) {
       return true;
     }
     return false;
@@ -832,8 +840,8 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @return {Boolean}
   * @default false
   */
-  isColumnFilters: Ember.computed('columns', function () {
-    const columns = this.get('columns');
+  isColumnFilters: computed('columns', function () {
+    const columns = this.columns;
 
     for (let i = columns.length - 1; i >= 0; i--) {
       if (columns[i].hasOwnProperty('property')) {
@@ -850,19 +858,19 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   *
   * @method setColumnDefaults
   */
-  setColumnDefaults: Ember.on('init', function () {
-    this.get('columns').forEach((column) => {
+  setColumnDefaults: on('init', function () {
+    this.columns.forEach((column) => {
       // if column does not have a sort property defined set to true
       if (!column.hasOwnProperty('sort')) {
-        Ember.set(column, 'sort', true);
+        set(column, 'sort', true);
       }
       // if column does not have a type property defined set to text
       if (!column.hasOwnProperty('type')) {
-        Ember.set(column, 'type', 'text');
+        set(column, 'type', 'text');
       }
       // if column does not have a filter property defined set to true
       if (!column.hasOwnProperty('filter')) {
-        Ember.set(column, 'filter', true);
+        set(column, 'filter', true);
       }
     });
   }),
@@ -874,9 +882,9 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @method defaultSort
   */
   defaultSort() {
-    const sort = this.get('sort');
+    const sort = this.sort;
     if (!sort) {
-      this.get('columns').map((el) => {
+      this.columns.map((el) => {
         if (el.hasOwnProperty('defaultSort')) {
           this.set('sort', el.defaultSort);
         }
@@ -887,13 +895,13 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   willDestroy() {
     this._super(...arguments);
     // clear any filters if we are not persisting filtering
-    const persistFiltering = this.get('persistFiltering');
+    const persistFiltering = this.persistFiltering;
     if (!persistFiltering) {
       this.set('filter', null);
     }
   },
 
-  filterChanged: Ember.observer('filter.@each.value', function () {
+  filterChanged: observer('filter.@each.value', function () {
     // reset page to 1 if filter changes
     this.set('page', 1);
   }),
@@ -905,22 +913,22 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @type Object
   * @return {Object}
   */
-  query: Ember.computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',
+  query: computed('page', 'limit', 'offset', 'sort', 'filter.@each.value',
   'staticParams', function () {
     let query = {};
-    const filter = this.get('filter') || [];
+    const filter = this.filter || [];
     query = {
-      page: this.get('page'),
-      limit: this.get('limit'),
-      offset: this.get('offset'),
-      sort: this.get('sort'),
-      filter: filter.reduce((memo, filter) => Ember.merge(memo, {
+      page: this.page,
+      limit: this.limit,
+      offset: this.offset,
+      sort: this.sort,
+      filter: filter.reduce((memo, filter) => merge(memo, {
         [filter.field]: filter.value,
       }), {}),
     };
 
     // Merge staticParams/query into query
-    Ember.merge(query, this.get('staticParams'));
+    merge(query, this.staticParams);
 
     return query;
   }),
@@ -935,11 +943,11 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   request(params, modelName) {
     params = this.serialize(params);
 
-    return this.get('store').query(modelName, params).then(
+    return this.store.query(modelName, params).then(
       (data) => {
         if (!this.isDestroyed || !this.isDestroying) {
           data = this.normalize(data, params);
-          if (!Ember.isEmpty(this.get('columns'))) {
+          if (!isEmpty(this.columns)) {
             this.set('isLoading', false);
           }
           this.set('record', data);
@@ -958,14 +966,14 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   *
   * @method setModel
   */
-  setModel: Ember.on('init', Ember.observer('query', 'makeRequest', function () {
-    Ember.run.once(this, function () {
+  setModel: on('init', observer('query', 'makeRequest', function () {
+    once(this, function () {
       // If makeRequest is false do not make request and setModel
-      if (this.get('makeRequest')) {
+      if (this.makeRequest) {
         this.reset();
         this.set('isLoading', true);
-        const modelName = this.get('modelName');
-        const params = this.get('query');
+        const modelName = this.modelName;
+        const params = this.query;
 
         return this.request(params, modelName);
       }
@@ -990,7 +998,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
       if (!this.isDestroyed || !this.isDestroying) {
         // adds column to registry coming from ember-tabular-column
         next(() => {
-          this.get('registry').addObject(column);
+          this.registry.addObject(column);
         });
       }
     },
@@ -1002,7 +1010,7 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
     * action used to persist current state of ET
     */
     toPersist() {
-      if (this.get('isPersisting')) {
+      if (this.isPersisting) {
         this.toPersist();
       }
     },
@@ -1014,21 +1022,21 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @method setSort
   * @param sortProperty {String}
   */
-  setSort: Ember.on('didInsertElement', function (sortProperty) {
-    if (this.get('sort') || sortProperty) {
+  setSort: on('didInsertElement', function (sortProperty) {
+    if (this.sort || sortProperty) {
       let property;
 
       if (sortProperty) {
         property = sortProperty;
       } else {
-        property = this.get('sort').replace(/^-/, '');
+        property = this.sort.replace(/^-/, '');
         // Must be the opposite of property
         sortProperty = `-${property}`;
       }
 
       property = property;
 
-      if (this.get('sort') === sortProperty) {
+      if (this.sort === sortProperty) {
         this.set('sort', `-${property}`);
       } else {
         this.set('sort', property);
@@ -1042,11 +1050,11 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   * @method updateSortUI
   * @param sortProperty {String}
   */
-  updateSortUI: Ember.on('didRender', function (sortProperty) {
-    if (this.get('sort') || sortProperty) {
+  updateSortUI: on('didRender', function (sortProperty) {
+    if (this.sort || sortProperty) {
       const _this = this;
       const $table = jQuery(this.element);
-      const sort = this.get('sort');
+      const sort = this.sort;
 
       // convert property to camelCase
       let property = sort.replace(/^-/, '');
@@ -1075,14 +1083,14 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
   *
   * @method checkAllRecords
   */
-  checkAllRecords: Ember.observer('allChecked', function () {
-    const allChecked = this.get('allChecked');
+  checkAllRecords: observer('allChecked', function () {
+    const allChecked = this.allChecked;
     if (allChecked) {
-      this.get('record').forEach((row) => {
+      this.record.forEach((row) => {
         row.set('checked', true);
       });
     } else {
-      this.get('record').forEach((row) => {
+      this.record.forEach((row) => {
         row.set('checked', false);
       });
     }
@@ -1121,8 +1129,8 @@ export default Ember.Component.extend(Ember.Evented, EmberTabularHelpers, {
         errors: null,
         isSuccess: false,
         isFailure: false,
-        successMessage: this.get('defaultSuccessMessage'),
-        failureMessage: this.get('defaultFailureMessage'),
+        successMessage: this.defaultSuccessMessage,
+        failureMessage: this.defaultFailureMessage,
       });
     }
   },

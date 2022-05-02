@@ -1,4 +1,8 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { debounce } from '@ember/runloop';
+import { on } from '@ember/object/evented';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
 import layout from 'ember-tabular/templates/components/ember-tabular-filter';
 
 /**
@@ -6,7 +10,7 @@ import layout from 'ember-tabular/templates/components/ember-tabular-filter';
 *
 * @class EmberTabularFilter
 */
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   /**
   * @property tagName
@@ -25,7 +29,7 @@ export default Ember.Component.extend({
   headerFilter: '',
   focusFilter: null,
 
-  'data-test-table-header-filter': Ember.computed.readOnly('property'),
+  'data-test-table-header-filter': readOnly('property'),
 
   /**
   * Pass the `query` object from the parent component if it is different or if used outside of the context of the component, otherwise `query` is optional and the component will attempt to grab within the context of the parent component.
@@ -56,14 +60,14 @@ export default Ember.Component.extend({
       }
     },
     focusFilter() {
-      if (this.get('focusFilter')) {
-        this.get('focusFilter')();
+      if (this.focusFilter) {
+        this.focusFilter();
       }
     },
   },
-  setHeaderFilter: Ember.on('init', function () {
-    const filter = this.get('filter');
-    const property = this.get('property');
+  setHeaderFilter: on('init', function () {
+    const filter = this.filter;
+    const property = this.property;
 
     if (filter) {
       for (var i = filter.length - 1; i >= 0; i--) {
@@ -83,18 +87,18 @@ export default Ember.Component.extend({
   * @method filterBy
   */
   filterBy() {
-    Ember.run.debounce(this, 'filterName', 750);
+    debounce(this, 'filterName', 750);
   },
   /**
   * @property isClearable
   */
-  isClearable: Ember.computed('headerFilter', function () {
-    if (this.get('headerFilter')) {
+  isClearable: computed('headerFilter', function () {
+    if (this.headerFilter) {
       return true;
     }
     return false;
   }),
-  inputPlaceholder: Ember.computed('header.type', function () {
+  inputPlaceholder: computed('header.type', function () {
     const type = this.get('header.type');
 
     if (type === 'date') {
@@ -107,9 +111,9 @@ export default Ember.Component.extend({
   * @method filterName
   */
   filterName() {
-    const query = this.get('query');
-    const property = this.get('property');
-    const value = this.get('headerFilter');
+    const query = this.query;
+    const property = this.property;
+    const value = this.headerFilter;
     let filter;
 
     // Set the query on the filter object

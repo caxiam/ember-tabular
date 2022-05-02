@@ -1,10 +1,10 @@
 <h5>Example #1</h5>
 <h1>Table - Default</h1>
-{{ember-tabular class="table-default" modelName="user" sort=this.sort2 isColumnSelect=false onFiltering=this.onFiltering}}
+<EmberTabular @class="table-default" @modelName="user" @sort={{this.sort2}} @isColumnSelect={{false}} @onFiltering={{this.onFiltering}} />
 
 <h5>Example #2</h5>
 <h1>Table - Column Select</h1>
-{{#ember-tabular class="table-column-select" modelName="user" sort=this.sort1 columnOrder=this.orderConfig as |et|}}
+<EmberTabular @class="table-column-select" @modelName="user" @sort={{this.sort1}} @columnOrder={{this.orderConfig}} as |et|>
     {{#component et.column property="emailAddress" isCustom=true as |record column|}}
         <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
     {{/component}}
@@ -35,11 +35,11 @@
             Edit
         </LinkTo>
     {{/component}}
-{{/ember-tabular}}
+</EmberTabular>
 
 <h5>Example #3</h5>
 <h1>Table - Override Columns/Templates</h1>
-{{#ember-tabular class="table-override-columns-template" columns=this.columns modelName="user" record=this.users as |et|}}
+<EmberTabular @class="table-override-columns-template" @columns={{this.columns}} @modelName="user" @record={{this.users}} as |et|>
     {{#component et.column property="username" as |record column|}}
         {{record.username}}
     {{/component}}
@@ -66,17 +66,17 @@
             {{moment-format record.createdAt "MM/DD/YYYY"}}
         {{/if}}
     {{/component}}
-    {{#et.column property="actions"}}
+    <et.column @property="actions">
         <LinkTo @route="index" class="btn btn-default btn-xs" role="button">
             Edit
         </LinkTo>
-    {{/et.column}}
-{{/ember-tabular}}
+    </et.column>
+</EmberTabular>
 
 
 <h5>Example #4</h5>
 <h1>Table - Persist Filtering</h1>
-{{#ember-tabular class="table-persist" modelName="user" record=this.users4 filter=this.filter3 persistFiltering=true isPersisting=true tableName="persistTable" columnOrder=this.orderConfig sort=this.sort4 as |et|}}
+<EmberTabular @class="table-persist" @modelName="user" @record={{this.users4}} @filter={{this.filter3}} @persistFiltering={{true}} @isPersisting={{true}} @tableName="persistTable" @columnOrder={{this.orderConfig}} @sort={{this.sort4}} as |et|>
     {{#component et.column property="isAdmin" isCustom=true as |record|}}
         {{#if record.isAdmin}}
             Yes
@@ -96,51 +96,42 @@
             Edit
         </LinkTo>
     {{/component}}
-{{/ember-tabular}}
+</EmberTabular>
 
 <h5>Example #5</h5>
 <h1>Table - Basic - Global Filter</h1>
-{{#ember-tabular class="table-basic-global-filter" modelName="user" record=this.users2 filter=this.filter columnOrder=this.hideOmittedConfig as |et|}}
+<EmberTabular @class="table-basic-global-filter" @modelName="user" @record={{this.users2}} @filter={{this.filter}} @columnOrder={{this.hideOmittedConfig}} as |et|>
     {{#if et.isHeader}}
-        {{ember-tabular-global-filter filter=this.filter filterProperty="username" filterPlaceholder="Search by Username"}}
+        <EmberTabularGlobalFilter @filter={{this.filter}} @filterProperty="username" @filterPlaceholder="Search by Username" />
     {{/if}}
     {{component et.column property="username" isCustom=false filter=false sort=false}}
     {{component et.column property="emailAddress" isCustom=false filter=false sort=false}}
-{{/ember-tabular}}
+</EmberTabular>
 
 <h5>Example #6</h5>
 <h1>Table - Basic - Dropdown Filter / Date Filter</h1>
-{{#ember-tabular class="table-basic-global-date-filter" modelName="user" record=this.users3 filter=this.filter2 columns=this.columnsForDropdownFilter isColumnSelect=false as |et|}}
+<EmberTabular @class="table-basic-global-date-filter" @modelName="user" @record={{this.users3}} @filter={{this.filter2}} @columns={{this.columnsForDropdownFilter}} @isColumnSelect={{false}} as |et|>
     {{#if et.isHeader}}
         <div class="row">
             <div class="col-sm-6">
-                {{#ember-tabular-dropdown-filter filter=this.filter2 filterProperty="isAdmin" label="Is Admin" searchFilter=this.isAdminFilter}}
-                    {{#power-select
-                        options=this.adminContent
-                        selected=(find-by adminContent "value" this.isAdminFilter)
-                        searchField="label"
-                        searchEnabled=false
-                        placeholder="Select to filter"
-                        triggerClass="ember-tabular-ember-power-select"
-                        allowClear=true
-                        onChange=(action "setIsAdminFilter")
-                        as |option|}}
+                <EmberTabularDropdownFilter @filter={{this.filter2}} @filterProperty="isAdmin" @label="Is Admin" @searchFilter={{this.isAdminFilter}}>
+                    <PowerSelect @options={{this.adminContent}} @selected={{find-by adminContent "value" this.isAdminFilter}} @searchField="label" @searchEnabled={{false}} @placeholder="Select to filter" @triggerClass="ember-tabular-ember-power-select" @allowClear={{true}} @onChange={{action "setIsAdminFilter"}} as |option|>
                             {{option.label}}
-                    {{/power-select}}
-                {{/ember-tabular-dropdown-filter}}
+                    </PowerSelect>
+                </EmberTabularDropdownFilter>
             </div>
             <div class="col-sm-6">
-                {{ember-tabular-date-filter filter=this.filter2 filterProperty="updatedAt" label="Last Updated"}}
+                <EmberTabularDateFilter @filter={{this.filter2}} @filterProperty="updatedAt" @label="Last Updated" />
             </div>
         </div>
     {{/if}}
-{{/ember-tabular}}
+</EmberTabular>
 
 <h5>Example #7</h5>
 <h1>Table - Select Row</h1>
-{{#ember-tabular class="table-select-row" modelName="user" sort="username" isColumnSelect=false as |et|}}
+<EmberTabular @class="table-select-row" @modelName="user" @sort="username" @isColumnSelect={{false}} as |et|>
     {{component et.column property="checked" selectable=true isCustom=false filter=false sort=false}}
-{{/ember-tabular}}
+</EmberTabular>
 
 <h5>Example #8</h5>
 

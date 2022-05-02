@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { next } from '@ember/runloop';
+import Component from '@ember/component';
 
 /**
 *
 * @class EmberTabularFooter
 */
-export default Ember.Component.extend({
+export default Component.extend({
   /**
   * @property tagName
   * @type String
@@ -14,9 +15,9 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
     // fix somehow modifying `columns` twice
-    Ember.run.next(() => {
+    next(() => {
       // tell ember-tabular that the custom yields are complete
-      this.get('registryComplete')(true);
+      this.registryComplete(true);
     });
   },
 });

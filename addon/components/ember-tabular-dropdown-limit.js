@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import layout from 'ember-tabular/templates/components/ember-tabular-dropdown-limit';
 
 /**
@@ -6,7 +7,7 @@ import layout from 'ember-tabular/templates/components/ember-tabular-dropdown-li
 *
 * @class EmberTabularDropdownLimit
 */
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   /**
   * @property tagName
@@ -31,10 +32,10 @@ export default Ember.Component.extend({
   * @param count
   * @return Boolean
   */
-  autoHide: Ember.computed('record', 'count', function() {
-    let record = this.get('record');
-    let count = this.get('count');
-    let firstLimit = this.get('limits')[0];
+  autoHide: computed('record', 'count', function() {
+    let record = this.record;
+    let count = this.count;
+    let firstLimit = this.limits[0];
     if (record) {
       let resultsLength = record.get('length');
       if (resultsLength > firstLimit || (resultsLength === firstLimit && count > 1)) {

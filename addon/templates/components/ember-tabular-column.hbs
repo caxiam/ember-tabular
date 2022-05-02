@@ -4,7 +4,7 @@
   {{else if this.column.selectable}}
     <td class="{{this.class}}" data-test-table-column="{{this.column.property}}">
       <div class="checkbox-no-label checkbox-sm">
-          {{ember-tabular-row-checkbox name="checked" model=this.record collection=this.collection}}
+          <EmberTabularRowCheckbox @name="checked" @model={{this.record}} @collection={{this.collection}} />
       </div>
     </td>
   {{else}}

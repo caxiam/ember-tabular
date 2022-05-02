@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import layout from 'ember-tabular/templates/components/ember-tabular-column-register';
 import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-helpers';
 
@@ -8,7 +8,7 @@ import EmberTabularHelpers from 'ember-tabular/mixins/components/ember-tabular-h
 *
 * @class EmberTabularColumnRegister
 */
-export default Ember.Component.extend(EmberTabularHelpers, {
+export default Component.extend(EmberTabularHelpers, {
   layout,
   /**
   * @property tagName
@@ -21,17 +21,17 @@ export default Ember.Component.extend(EmberTabularHelpers, {
   columnOrder: null,
   init() {
     this._super(...arguments);
-    const registry = this.get('registry');
-    const property = this.get('property');
-    const selectable = this.get('selectable');
-    const label = this.get('label') || this._formatColumnLabel(property);
+    const registry = this.registry;
+    const property = this.property;
+    const selectable = this.selectable;
+    const label = this.label || this._formatColumnLabel(property);
     const isActive = this._checkConfigForColumn(property);
-    const isCustom = this.get('isCustom') || false;
-    const filter = this._checkIfUndefined(this.get('filter'), true);
-    const list = this.get('list') || null;
-    const sort = this._checkIfUndefined(this.get('sort'), true);
-    const type = this.get('type') || 'text';
-    const columnClass = this._checkIfUndefined(this.get('class'), null);
+    const isCustom = this.isCustom || false;
+    const filter = this._checkIfUndefined(this.filter, true);
+    const list = this.list || null;
+    const sort = this._checkIfUndefined(this.sort, true);
+    const type = this.type || 'text';
+    const columnClass = this._checkIfUndefined(this['class'], null);
     let column = {
       property: property,
       selectable: selectable,
@@ -44,13 +44,13 @@ export default Ember.Component.extend(EmberTabularHelpers, {
       type: type,
       class: columnClass,
     };
-    if (typeof this.get('isCustom') !== 'undefined' && registry) {
+    if (typeof this.isCustom !== 'undefined' && registry) {
       let item = registry.find((el) => {
         return el.property === property;
       });
       if (!item) {
         // pass action up to ember-tabular to add column to registry
-        this.get('addToRegistry')(column);
+        this.addToRegistry(column);
       }
     }
   },
@@ -58,13 +58,13 @@ export default Ember.Component.extend(EmberTabularHelpers, {
     return typeof property !== 'undefined' ? property : defaultValue;
   },
   _checkConfigForColumn(property) {
-    const columnOrder = this.get('columnOrder');
+    const columnOrder = this.columnOrder;
     if (columnOrder) {
       if (columnOrder.indexOf(property) === -1) {
         return false;
       }
       return true;
     }
-    return this._checkIfUndefined(this.get('isActive'), true);
+    return this._checkIfUndefined(this.isActive, true);
   },
 });

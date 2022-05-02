@@ -1,17 +1,17 @@
-{{#basic-dropdown verticalPosition="below" as |dd|}}
-    {{#dd.trigger class="btn btn-default dropdown-toggle"}}
+<BasicDropdown @verticalPosition="below" as |dd|>
+    <dd.Trigger class="btn btn-default dropdown-toggle">
         {{#if this.useIcon}}<span class="fa fa-columns"></span>{{/if}} {{this.btnCopy}} <span class="caret"></span>
-    {{/dd.trigger}}
-    {{#dd.content}}
-        {{#sortable-objects sortableObjectList=this.columns sortEndAction="sortEndAction" sortingScope="a" class="dropdown-menu dropdown-menu-always-show pull-left" tagName="ul"}}
+    </dd.Trigger>
+    <dd.Content>
+        <SortableObjects @sortableObjectList={{this.columns}} @sortEndAction="sortEndAction" @sortingScope="a" class="dropdown-menu dropdown-menu-always-show pull-left" @tagName="ul">
             {{#each this.columns as |column|}}
-                {{#draggable-object content=column  overrideClass="sortObject" isSortable=true sortingScope="a" tagName="li"}}
+                <DraggableObject @content={{column}} @overrideClass="sortObject" @isSortable={{true}} @sortingScope="a" @tagName="li">
                     <a {{action "toggleColumn" column}}>
                         <span class="{{if column.isActive "fa fa-check-square-o" "fa fa-square-o"}}"></span> {{column.label}}
                         <span class="fa fa-bars js-dragHandle pull-right"></span>
                     </a>
-                {{/draggable-object}}
+                </DraggableObject>
             {{/each}}
-        {{/sortable-objects}}
-    {{/dd.content}}
-{{/basic-dropdown}}
+        </SortableObjects>
+    </dd.Content>
+</BasicDropdown>

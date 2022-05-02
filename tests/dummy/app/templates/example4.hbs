@@ -1,6 +1,6 @@
 <h5>Example #4</h5>
 <h1>Table - Basic - Route Binds Model to Table</h1>
-{{#ember-tabular class="table-basic-route-model" columns=this.columns makeRequest=false record=this.model page=this.page pageLimit=this.pageLimit isLoading=this.isLoading sort=this.sort as |et|}}
+<EmberTabular @class="table-basic-route-model" @columns={{this.columns}} @makeRequest={{false}} @record={{this.model}} @page={{this.page}} @pageLimit={{this.pageLimit}} @isLoading={{this.isLoading}} @sort={{this.sort}} as |et|>
     {{#component et.column property="updatedAt" as |record column|}}
         {{#if record.updatedAt}}
             {{moment-format record.updatedAt 'MM/DD/YYYY'}}
@@ -8,8 +8,8 @@
             {{moment-format record.createdAt 'MM/DD/YYYY'}}
         {{/if}}
     {{/component}}
-{{/ember-tabular}}
+</EmberTabular>
 
-{{#link-to 'index' class="link-index"}}
+<LinkTo @route="index" class="link-index">
     Back to Index
-{{/link-to}}
+</LinkTo>

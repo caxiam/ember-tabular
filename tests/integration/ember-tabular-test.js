@@ -2,10 +2,16 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { render } from '@ember/test-helpers';
-import { click, findAll, fillIn, pauseTest, settled } from '@ember/test-helpers';
+import {
+  click,
+  findAll,
+  fillIn,
+  pauseTest,
+  settled
+} from '@ember/test-helpers';
 import { clickTrigger } from 'ember-basic-dropdown/test-support/helpers';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
+import jQuery from 'jquery';
 
 let record = [
   {
@@ -151,7 +157,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('.header').text().trim(), 'Test Header Yield');
   });
 
@@ -163,7 +169,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
     // Set record after render b/c of component this.reset()
     this.set('record', record);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('tbody tr:eq(0) td:eq(0)').text().trim(), 'YippieKiYay');
   });
 
@@ -179,7 +185,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('.footer').text().trim(), 'Test Footer Yield');
   });
 
@@ -193,7 +199,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     // show .btn-toggle-filter to show filter row
     $component.find('thead .btn-toggle-filter:eq(0)').click();
     assert.equal($component.find('thead tr:eq(1) th:eq(0) input').length, 1, 'Table Filter Input - Username');
@@ -215,7 +221,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('thead tr').length, 1, 'Do not render filter row');
   });
 
@@ -229,7 +235,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('.table-filter').length, 1, 'Test global filter');
   });
 
@@ -245,7 +251,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('.table-filter').length, 2, 'Test global filter');
     assert.equal($component.find('.table-filter .search-filter').length, 1, 'Test ember power select loads within global filter');
   });
@@ -258,8 +264,8 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
 
     await clickTrigger('.dropdown-toggle');
 
-    assert.equal(findAll('.ember-basic-dropdown-content').length, 1, 'Column select renders');
-    assert.equal(findAll('.ember-basic-dropdown-content li').length, 7, 'Column select renders columns in a list');
+    assert.dom('.ember-basic-dropdown-content').exists({ count: 1 }, 'Column select renders');
+    assert.dom('.ember-basic-dropdown-content li').exists({ count: 7 }, 'Column select renders columns in a list');
   });
 
   test('Render isLoading class on component', async function(assert) {
@@ -272,7 +278,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('.table').hasClass('loading'), true, 'Table has class loading');
   });
 
@@ -284,7 +290,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('.ember-tabular-dropdown-limit').length, 1, 'Test if ember-tabular-dropdown-limit exists');
   });
 
@@ -296,7 +302,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('.ember-tabular-dropdown-limit').length, 0, 'Test if ember-tabular-dropdown-limit exists');
   });
 
@@ -308,7 +314,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('thead tr').length, 1, 'Do not render filter row');
     assert.equal($component.find('thead tr th:eq(0)').attr('class'), 'sortable ', 'Filterable class is missing from columns');
     assert.equal($component.find('thead tr th:eq(0) .btn-toggle-filter').length, 0, 'Do not render column filter');
@@ -322,7 +328,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
     // Set record after render b/c of component this.reset()
     this.set('record', record);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('thead tr th:eq(0)').text().trim(), 'Email', 'Email is the first column, not Username');
     assert.equal($component.find('thead tr th').length, 4, 'Username is hidden, only 4 columns are rendering');
     assert.equal($component.find('tbody tr:eq(0) td').length, 4, 'Tbody columns match the thead columns, username is hidden');
@@ -340,7 +346,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
     // Set record after render b/c of component this.reset()
     this.set('record', record);
 
-    let $component = this.$();
+    let $component = jQuery(this);
     assert.equal($component.find('thead tr th:eq(0)').text().trim(), 'Username', 'Username is the first column');
     assert.equal($component.find('thead tr th').length, 7, 'All columns are rendering');
 

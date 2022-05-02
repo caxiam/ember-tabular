@@ -148,28 +148,29 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
   test('Render header yield', async function(assert) {
     this.set('columns', columns);
     await render(hbs`
-      {{#ember-tabular columns=columns record=record makeRequest=false as |section|}}
+      <EmberTabular @columns={{this.columns}} @record={{this.record}} @makeRequest={{false}} as |section|>
         {{#if section.isHeader}}
           <div class="header">
             Test Header Yield
           </div>
         {{/if}}
-      {{/ember-tabular}}
+      </EmberTabular>
     `);
 
-    let $component = jQuery(this);
-    assert.equal($component.find('.header').text().trim(), 'Test Header Yield');
+    assert.equal(this.element.querySelector('.header').textContent.trim(), 'Test Header Yield');
   });
 
   test('Render body yield', async function(assert) {
     this.set('columns', columns);
     await render(hbs`
-      {{ember-tabular columns=columns record=record makeRequest=false isDropdownLimit=false}}
+      <EmberTabular @columns={{this.columns}} @record={{this.record}} @makeRequest={{false}} @isDropdownLimit={{false}} />
     `);
     // Set record after render b/c of component this.reset()
     this.set('record', record);
 
-    let $component = jQuery(this);
+    //assert.equal(this.element.querySelector('tbody tr:eq(0) td:eq(0)').textContent.trim(), 'YippieKiYay');
+
+    let $component = jQuery(this.element);
     assert.equal($component.find('tbody tr:eq(0) td:eq(0)').text().trim(), 'YippieKiYay');
   });
 
@@ -185,7 +186,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     assert.equal($component.find('.footer').text().trim(), 'Test Footer Yield');
   });
 
@@ -199,7 +200,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     // show .btn-toggle-filter to show filter row
     $component.find('thead .btn-toggle-filter:eq(0)').click();
     assert.equal($component.find('thead tr:eq(1) th:eq(0) input').length, 1, 'Table Filter Input - Username');
@@ -221,7 +222,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     assert.equal($component.find('thead tr').length, 1, 'Do not render filter row');
   });
 
@@ -235,7 +236,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     assert.equal($component.find('.table-filter').length, 1, 'Test global filter');
   });
 
@@ -251,7 +252,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     assert.equal($component.find('.table-filter').length, 2, 'Test global filter');
     assert.equal($component.find('.table-filter .search-filter').length, 1, 'Test ember power select loads within global filter');
   });
@@ -278,7 +279,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     assert.equal($component.find('.table').hasClass('loading'), true, 'Table has class loading');
   });
 
@@ -290,7 +291,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     assert.equal($component.find('.ember-tabular-dropdown-limit').length, 1, 'Test if ember-tabular-dropdown-limit exists');
   });
 
@@ -302,7 +303,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     assert.equal($component.find('.ember-tabular-dropdown-limit').length, 0, 'Test if ember-tabular-dropdown-limit exists');
   });
 
@@ -314,7 +315,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
       {{/ember-tabular}}
     `);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     assert.equal($component.find('thead tr').length, 1, 'Do not render filter row');
     assert.equal($component.find('thead tr th:eq(0)').attr('class'), 'sortable ', 'Filterable class is missing from columns');
     assert.equal($component.find('thead tr th:eq(0) .btn-toggle-filter').length, 0, 'Do not render column filter');
@@ -328,7 +329,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
     // Set record after render b/c of component this.reset()
     this.set('record', record);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     assert.equal($component.find('thead tr th:eq(0)').text().trim(), 'Email', 'Email is the first column, not Username');
     assert.equal($component.find('thead tr th').length, 4, 'Username is hidden, only 4 columns are rendering');
     assert.equal($component.find('tbody tr:eq(0) td').length, 4, 'Tbody columns match the thead columns, username is hidden');
@@ -346,7 +347,7 @@ module('Integration | Component | ember table jsonapi', function(hooks) {
     // Set record after render b/c of component this.reset()
     this.set('record', record);
 
-    let $component = jQuery(this);
+    let $component = jQuery(this.element);
     assert.equal($component.find('thead tr th:eq(0)').text().trim(), 'Username', 'Username is the first column');
     assert.equal($component.find('thead tr th').length, 7, 'All columns are rendering');
 

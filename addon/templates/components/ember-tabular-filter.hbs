@@ -4,7 +4,7 @@
                 {{option.label}}
         </PowerSelect>
     {{else}}
-        <Input @value={{this.headerFilter}} @focus-in={{action "focusFilter"}} @type={{this.header.type}} class={{concat "form-control filter " this.header.type}} placeholder={{this.inputPlaceholder}} />
+        <Input @value={{this.headerFilter}} onfocus={{action "focusFilter"}} @type={{this.header.type}} class={{concat "form-control filter " this.header.type}} placeholder={{this.inputPlaceholder}} />
         {{#if this.isClearable}}
             <span {{action 'clearFilter'}} class="fa fa-remove clearFilter"></span>
         {{/if}}

@@ -1,6 +1,6 @@
 {
   "name": "ember-tabular",
-  "version": "1.0.0",
+  "version": "0.3.0",
   "description": "A table component for Ember.",
   "directories": {
     "doc": "doc",

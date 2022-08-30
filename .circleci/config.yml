@@ -1,0 +1,57 @@
+defaults: &defaults
+  docker:
+    - image: circleci/node:12-browsers
+      environment:
+        JOBS: 2
+  working_directory: ~/caxiam/ember-tabular
+
+version: 2
+jobs:
+  build:
+    <<: *defaults
+    parallelism: 1
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+    steps:
+      - checkout
+      # Prepare for artifact and test results
+      - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+      # Restore the dependency cache
+      - restore_cache:
+          keys:
+            - v1-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-deps-{{ .Branch }}-
+            - v1-deps-
+      - run:
+          name: Install ember-cli & dependencies
+          command: |
+            yarn global add ember-cli@3.28.5
+            yarn install
+      - save_cache:
+          key: v1-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+      - run: echo 'export PATH=~/caxiam/ember-tabular/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      # Test
+      - run:
+          name: Run Tests
+          command: |
+            ./cc-test-reporter before-build
+            COVERAGE=true ember test
+            ./cc-test-reporter after-build --exit-code $?
+      # Teardown
+      # Save test results
+      - store_test_results:
+          path: /tmp/circleci-test-results
+      # Save artifacts
+      - store_artifacts:
+          path: /tmp/circleci-artifacts
+      - store_artifacts:
+          path: /tmp/circleci-test-results

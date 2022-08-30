@@ -1,0 +1,10 @@
+{{#if this.autoHide}}
+    <div class="form-group form-inline text-right">
+        <label class="control-label" for="limit">
+            Show
+        </label>
+        <PowerSelect @options={{this.limits}} @selected={{this.limit}} @searchField="label" @searchEnabled={{false}} @placeholder="Select the table count" @triggerClass="limit text-left form-control-inline" @onChange={{action (mut this.limit)}} as |size|>
+                {{size}}
+        </PowerSelect>
+    </div>
+{{/if}}

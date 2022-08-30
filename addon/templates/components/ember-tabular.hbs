@@ -1,0 +1,131 @@
+{{#if this.isFailure}}
+    <EmberTabularAlert @type="danger">
+        {{this.failureMessage}}
+        {{#if this.errors}}
+            <ul>
+                {{#each this.errors as |error|}}
+                    <li>
+                        {{error.detail}}
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </EmberTabularAlert>
+{{/if}}
+
+{{yield this.header}}
+
+<div class="table-responsive {{if this.tableWrapperClass this.tableWrapperClass}}">
+    {{yield this.wrapperHeader}}
+    <table class="table {{if this.tableClass this.tableClass "table-bordered table-hover"}} {{if this.isLoading "loading"}}">
+        {{#if this.columns}}
+            <thead>
+                <tr>
+                    {{#each this.columns as |header|}}
+                        {{#if header.isActive}}
+                            {{#if header.property}}
+                                <th id="{{dot-to-dash-filter header.property}}" class="{{if header.sort this.sortableClass}} {{if header.filter "filterable"}}" data-test-table-header="{{header.property}}">
+                                    {{#if header.filter}}
+                                        <span {{action "toggleFilterRow"}} class="btn-toggle-filter glyphicon glyphicon-filter"></span>
+                                    {{/if}}
+                                    {{#if header.sort}}
+                                        <div {{action "sortBy" header.property}} class="btn-sort">
+                                            {{header.label}}
+                                        </div>
+                                    {{else if header.selectable}}
+                                        <div class="checkbox-no-label checkbox-sm">
+                                            <label>
+                                                <Input class="allChecked" @type="checkbox" @checked={{this.allChecked}} />
+                                                <span class="fake-checkbox"></span>
+                                            </label>
+                                        </div>
+                                    {{else}}
+                                        <div>
+                                            {{header.label}}
+                                        </div>
+                                    {{/if}}
+                                </th>
+                            {{else}}
+                                <th data-test-table-header="{{header.property}}">{{header.label}}</th>
+                            {{/if}}
+                        {{/if}}
+                    {{/each}}
+                </tr>
+                {{#if this.isColumnFilters}}
+                    {{#if this.showFilterRow}}
+                        <tr>
+                            {{#each this.columns as |header|}}
+                                {{#if header.isActive}}
+                                    {{#if header.filter}}
+                                        <EmberTabularFilter @modelName={{this.modelName}} @columns={{this.columns}} @property={{header.property}} @record={{this.record}} @query={{this.query}} @filter={{this.filter}} @header={{header}} @focusFilter={{action "triggerOnFilterFocus"}} />
+                                    {{else}}
+                                        <th data-test-table-header="{{header.property}}">{{!-- Blank to reserve table column --}}</th>
+                                    {{/if}}
+                                {{/if}}
+                            {{/each}}
+                        </tr>
+                    {{/if}}
+                {{/if}}
+            </thead>
+        {{/if}}
+        <tbody>
+            {{yield (hash
+                column=(component "ember-tabular-column-register" registry=this.registry columnOrder=this.columnOrder addToRegistry=(action "addToRegistry"))
+            )}}
+            <EmberTabularRegistry @registryComplete={{action "registryComplete"}} />
+            {{#if this.record}}
+                {{#if (and this.record this.columns)}}
+                    {{#each this.record as |row index|}}
+                        <tr data-test-table-row="{{index}}">
+                            {{#each this.columns as |column|}}
+                                {{#if column.isActive}}
+                                    {{#if (compare-with this.columns "property" column.property "isCustom")}}
+                                        {{yield (hash
+                                            column=(component "ember-tabular-column" column=column record=row property=column.property collection=this.record class=column.class)
+                                        )}}
+                                    {{else}}
+                                        <EmberTabularColumn @column={{column}} @record={{row}} @property={{column.property}} @collection={{this.record}} class={{column.class}} />
+                                    {{/if}}
+                                {{/if}}
+                            {{/each}}
+                        </tr>
+                    {{/each}}
+                {{else}}
+                    <tr>
+                        <td class="text-center td-loading" colspan="{{this.columnLength}}">
+                            Loading...
+                        </td>
+                    </tr>
+                {{/if}}
+            {{else}}
+                <EmberTabularLoading @isRecordLoaded={{this.isRecordLoaded}} @columnLength={{this.columnLength}} @tableLoadedMessage={{this.tableLoadedMessage}} @registryComplete={{action "registryComplete"}} />
+            {{/if}}
+        </tbody>
+    </table>
+    {{yield this.wrapperFooter}}
+</div>
+
+{{yield this.footer}}
+
+{{#if this.columns}}
+    <div class="row">
+        <div class="{{unless this.isDropdownLimit "col-sm-12" "col-sm-9"}}">
+            {{#if this.isColumnSelect}}
+                <EmberTabularColumnSelect @columns={{this.columns}} @saveColumns={{action "toPersist"}} />
+            {{/if}}
+            <nav class="{{if this.paginationWrapperClass this.paginationWrapperClass}}">
+                <PaginationPager
+                  @current={{this.page}}
+                  @count={{this.pageLimit}}
+                  @change={{fn (mut this.page)}}
+                  data-test="pagination-nav"
+                />
+            </nav>
+        </div>
+        {{#if this.isDropdownLimit}}
+            <div class="col-sm-3">
+                <EmberTabularDropdownLimit @limit={{this.limit}} @record={{this.record}} @count={{this.pageLimit}} />
+            </div>
+        {{/if}}
+    </div>
+{{/if}}

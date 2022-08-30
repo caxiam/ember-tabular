@@ -1,6 +1,8 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Evented, { on } from '@ember/object/evented';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend(Evented, {
   users: null,
   users2: null,
   users3: null,
@@ -8,30 +10,88 @@ export default Ember.Controller.extend({
   filter: null,
   filter2: null,
   filter3: null,
-  sort: 'username',
   sort1: 'username',
+  sort2: 'username',
+  sort3: 'username',
+  sort4: 'username',
   isAdminFilter: null,
+  orderConfig: [
+    'username',
+    'emailAddress',
+    'firstName',
+    'lastName',
+    'isAdmin',
+    'updatedAt',
+    'actions',
+  ],
+  hideOmittedConfig: [
+    'username',
+    'emailAddress',
+    'firstName',
+    'lastName',
+    'isAdmin',
+  ],
+  columnsConfig: [
+    {
+      property: 'emailAddress',
+      isCustom: true,
+    },
+    {
+      property: 'updatedAt',
+      isCustom: true,
+    },
+    {
+      property: 'password',
+      isActive: false,
+    },
+    {
+      property: 'createdAt',
+      isActive: false,
+    },
+    {
+      property: 'isAdmin',
+      isActive: false,
+    },
+    {
+      label: 'Actions',
+      property: 'actions',
+      isCustom: true,
+      isActive: true,
+      filter: false,
+      sort: false,
+    },
+  ],
   columns: [
     {
       property: 'username',
       label: 'Username',
       defaultSort: 'username',
+      isCustom: true,
+      isActive: true,
     },
     {
       property: 'emailAddress',
       label: 'Email',
+      isCustom: true,
+      isActive: true,
     },
     {
       property: 'firstName',
       label: 'First Name',
+      isCustom: true,
+      isActive: true,
     },
     {
       property: 'lastName',
       label: 'Last Name',
+      isCustom: true,
+      isActive: true,
     },
     {
       property: 'isAdmin',
       label: 'Is Admin',
+      isCustom: true,
+      isActive: true,
       list: [
         {
           label: 'Yes',
@@ -46,28 +106,55 @@ export default Ember.Controller.extend({
     {
       property: 'updatedAt',
       label: 'Last Updated',
+      isCustom: true,
+      isActive: true,
       type: 'date',
       sort: false,
     },
     {
+      property: 'actions',
       label: 'Actions',
+      isCustom: true,
+      filter: false,
+      sort: false,
+      isActive: true,
     },
   ],
-  columns2: [
+  columnsForDropdownFilter: [
     {
       label: 'Username',
+      property: 'username',
+      isActive: true,
+      filter: false,
+      sort: false,
     },
     {
       label: 'Email',
+      property: 'emailAddress',
+      isActive: true,
+      filter: false,
+      sort: false,
     },
     {
       label: 'First Name',
+      property: 'firstName',
+      isActive: true,
+      filter: false,
+      sort: false,
     },
     {
       label: 'Last Name',
+      property: 'lastName',
+      isActive: true,
+      filter: false,
+      sort: false,
     },
     {
       label: 'Last Updated',
+      property: 'updatedAt',
+      isActive: true,
+      filter: false,
+      sort: false,
     },
   ],
   actions: {
@@ -79,7 +166,7 @@ export default Ember.Controller.extend({
       }
     },
   },
-  adminContent: Ember.computed(function() {
+  adminContent: computed(function() {
     return [
       {
         label: 'Yes',
@@ -90,5 +177,8 @@ export default Ember.Controller.extend({
         value: false,
       }
     ];
+  }),
+  onFiltering: on('onFiltering', function () {
+    console.log('detected event from component');
   }),
 });

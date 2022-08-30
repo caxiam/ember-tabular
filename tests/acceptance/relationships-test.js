@@ -1,61 +1,52 @@
-import Ember from 'ember';
+import { set } from '@ember/object';
+import {
+  click,
+  fillIn,
+  find,
+  findAll,
+  currentURL,
+  triggerEvent,
+  visit,
+  pauseTest
+} from '@ember/test-helpers';
+import {
+  assertIn,
+  getPretenderRequest,
+  getLastPretenderRequest
+} from '../../tests/helpers/util';
 import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import { setupApplicationTest } from 'ember-qunit';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
-var application;
 
-module('Acceptance: Relationships Tests', {
-  beforeEach: function() {
-    application = startApp();
-  },
-  afterEach: function() {
-    destroyApp(application);
-  }
-});
+module('Acceptance: Relationships Tests', function(hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
-test('Check for expected url when filtering relationships', function(assert) {
-  server.loadFixtures('users');
-  visit('/');
+  test('Check for expected url when filtering relationships', async function(assert) {
+    server.loadFixtures('users');
+    await visit('/');
 
-  andThen(function() {
-    assert.equal(currentPath(), 'index');
+    assert.equal(currentURL(), '/');
 
     // Override first table column.property to be relationship
-    var controller = application.__container__.lookup('controller:index');
-    Ember.set(controller.columns[0], 'property', 'account.username');
-  });
-
-  andThen(function() {
-    click('.table-default table .btn-toggle-filter:eq(0)');
-    fillIn('.table-default table thead tr:eq(1) th:eq(0) input', 'Testing Relationships');
-    find('.table-default table thead tr:eq(1) th:eq(0) input').trigger('keyup');
-  });
-
-  andThen(function() {
-    var request = getLastPretenderRequest(server);
+    let controller = this.owner.lookup('controller:index');
+    set(controller.columns[0], 'property', 'account.username');
+    await click(find('.table-override-columns-template table .btn-toggle-filter'));
+    await fillIn(findAll('.table-override-columns-template table thead tr')[1].getElementsByTagName('input')[0], 'Testing');
+    let request = getLastPretenderRequest(server);
 
     assert.equal(request.status, 200);
     assert.equal(request.method, 'GET');
-    assert.equal(request.url, '/users?filter%5Baccount.username%5D=Testing%20Relationships&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'URL has relationship in dot notation');
-  });
-
-  andThen(function() {
+    assert.equal(request.url, '/users?filter%5Baccount.username%5D=Testing&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'URL has relationship in dot notation');
     // clear filter
-    click('.table-default table .clearFilter');
-  });
-
-  andThen(function() {
+    await click('.table-override-columns-template table .clearFilter');
     // make another request to the relationship
-    fillIn('.table-default table thead tr:eq(1) th:eq(0) input', 'Testing Relationships 2');
-    find('.table-default table thead tr:eq(1) th:eq(0) input').trigger('keyup');
-  });
+    await fillIn(findAll('.table-override-columns-template table thead tr')[1].getElementsByTagName('input')[0], 'Testing2');
+    let request2 = getLastPretenderRequest(server);
 
-  andThen(function() {
-    var request = getLastPretenderRequest(server);
-
-    assert.equal(request.status, 200);
-    assert.equal(request.method, 'GET');
-    assert.equal(request.url, '/users?filter%5Baccount.username%5D=Testing%20Relationships%202&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'URL has retained dot notation');
+    assert.equal(request2.status, 200);
+    assert.equal(request2.method, 'GET');
+    assert.equal(request2.url, '/users?filter%5Baccount.username%5D=Testing2&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=username', 'URL has retained dot notation');
   });
 });

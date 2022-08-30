@@ -1,140 +1,140 @@
 <h5>Example #1</h5>
 <h1>Table - Default</h1>
-{{#ember-tabular class="table-default" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" columns=columns modelName="user" record=users sort=sort as |section|}}
-    {{#if section.isBody}}
-        {{#each users as |row|}}
-            <tr>
-                <td>{{row.username}}</td>
-                <td>{{row.emailAddress}}</td>
-                <td>{{row.firstName}}</td>
-                <td>{{row.lastName}}</td>
-                <td>
-                    {{#if row.isAdmin}}
-                        Yes
-                    {{else}}
-                        No
-                    {{/if}}
-                </td>
-                <td>
-                    {{#if row.updatedAt}}
-                        {{moment-format row.updatedAt 'MM/DD/YYYY'}}
-                    {{else}}
-                        {{moment-format row.createdAt 'MM/DD/YYYY'}}
-                    {{/if}}
-                </td>
-                <td>
-                    {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
-                        Edit
-                    {{/link-to}}
-                </td>
-            </tr>
-        {{/each}}
-    {{/if}}
-{{/ember-tabular}}
-
-<h5>Example #1</h5>
-<h1>Table - Persist Filtering</h1>
-{{#ember-tabular class="table-persist" tableWrapperClass="table-wrapper" paginationWrapperClass="pagination-wrapper" columns=columns modelName="user" record=users4 filter=filter3 persistFiltering=true sort=sort1 as |section|}}
-    {{#if section.isBody}}
-        {{#each users4 as |row|}}
-            <tr>
-                <td>{{row.username}}</td>
-                <td>{{row.emailAddress}}</td>
-                <td>{{row.firstName}}</td>
-                <td>{{row.lastName}}</td>
-                <td>
-                    {{#if row.isAdmin}}
-                        Yes
-                    {{else}}
-                        No
-                    {{/if}}
-                </td>
-                <td>
-                    {{#if row.updatedAt}}
-                        {{moment-format row.updatedAt 'MM/DD/YYYY'}}
-                    {{else}}
-                        {{moment-format row.createdAt 'MM/DD/YYYY'}}
-                    {{/if}}
-                </td>
-                <td>
-                    {{#link-to "index" class="btn btn-default btn-xs" role="button"}}
-                        Edit
-                    {{/link-to}}
-                </td>
-            </tr>
-        {{/each}}
-    {{/if}}
-{{/ember-tabular}}
+<EmberTabular @class="table-default" @modelName="user" @sort={{this.sort2}} @isColumnSelect={{false}} @onFiltering={{this.onFiltering}} />
 
 <h5>Example #2</h5>
-<h1>Table - Basic - Global Filter</h1>
-{{#ember-tabular class="table-basic-global-filter" columns=columns2 modelName="user" record=users2 filter=filter as |section|}}
-    {{#if section.isHeader}}
-        {{ember-tabular-global-filter filter=filter filterProperty="username" filterPlaceholder="Search by Username"}}
-    {{else if section.isBody}}
-        {{#each users2 as |row|}}
-            <tr>
-                <td>{{row.username}}</td>
-                <td>{{row.emailAddress}}</td>
-                <td>{{row.firstName}}</td>
-                <td>{{row.lastName}}</td>
-                <td>
-                    {{#if row.updatedAt}}
-                        {{moment-format row.updatedAt 'MM/DD/YYYY'}}
-                    {{else}}
-                        {{moment-format row.createdAt 'MM/DD/YYYY'}}
-                    {{/if}}
-                </td>
-            </tr>
-        {{/each}}
-    {{/if}}
-{{/ember-tabular}}
+<h1>Table - Column Select</h1>
+<EmberTabular @class="table-column-select" @modelName="user" @sort={{this.sort1}} @columnOrder={{this.orderConfig}} as |et|>
+    {{#component et.column property="emailAddress" isCustom=true as |record column|}}
+        <a href="mailto:{{get record column.property}}">{{get record column.property}}</a>
+    {{/component}}
+    <!-- pass enum of dropdown filter values list=adminContent, works just like columns.list -->
+    {{#component et.column property="isAdmin" list=this.adminContent isCustom=true as |record|}}
+        {{#if record.isAdmin}}
+            Yes
+        {{else}}
+            No
+        {{/if}}
+    {{/component}}
+    {{component et.column property="password" isCustom=false filter=false sort=false}}
+    {{component et.column property="createdAt" isCustom=false filter=false sort=false}}
+    {{#component et.column property="updatedAt" label="Last Updated" isCustom=true type="date" as |record column|}}
+        {{#if record.updatedAt}}
+            {{moment-format record.updatedAt "MM/DD/YYYY"}}
+        {{else}}
+            {{moment-format record.createdAt "MM/DD/YYYY"}}
+        {{/if}}
+    {{/component}}
+    {{#component et.column
+        property="actions"
+        isCustom=true
+        filter=false
+        sort=false
+    }}
+        <LinkTo @route="index" class="btn btn-default btn-xs" role="button">
+            Edit
+        </LinkTo>
+    {{/component}}
+</EmberTabular>
 
 <h5>Example #3</h5>
-<h1>Table - Basic - Dropdown Filter / Date Filter</h1>
-{{#ember-tabular class="table-basic-global-date-filter" columns=columns2 modelName="user" record=users3 filter=filter2 as |section|}}
-    {{#if section.isHeader}}
-        <div class="row">
-            <div class="col-sm-6">
-                {{#ember-tabular-dropdown-filter filter=filter2 filterProperty="isAdmin" label="Is Admin" searchFilter=isAdminFilter}}
-                    {{#power-select
-                        options=adminContent
-                        selected=(find-by adminContent 'value' isAdminFilter)
-                        searchField="label"
-                        searchEnabled=false
-                        placeholder="Select to filter"
-                        triggerClass="ember-tabular-ember-power-select"
-                        allowClear=true
-                        onchange=(action "setIsAdminFilter")
-                        as |option|}}
-                            {{option.label}}
-                    {{/power-select}}
-                {{/ember-tabular-dropdown-filter}}
-            </div>
-            <div class="col-sm-6">
-                {{ember-tabular-date-filter filter=filter2 filterProperty="updatedAt" label="Last Updated"}}
-            </div>
-        </div>
-    {{else if section.isBody}}
-        {{#each users3 as |row|}}
-            <tr>
-                <td>{{row.username}}</td>
-                <td>{{row.emailAddress}}</td>
-                <td>{{row.firstName}}</td>
-                <td>{{row.lastName}}</td>
-                <td>
-                    {{#if row.updatedAt}}
-                        {{moment-format row.updatedAt 'MM/DD/YYYY'}}
-                    {{else}}
-                        {{moment-format row.createdAt 'MM/DD/YYYY'}}
-                    {{/if}}
-                </td>
-            </tr>
-        {{/each}}
-    {{/if}}
-{{/ember-tabular}}
+<h1>Table - Override Columns/Templates</h1>
+<EmberTabular @class="table-override-columns-template" @columns={{this.columns}} @modelName="user" @record={{this.users}} as |et|>
+    {{#component et.column property="username" as |record column|}}
+        {{record.username}}
+    {{/component}}
+    {{#component et.column property="emailAddress" as |record column|}}
+        {{record.emailAddress}}
+    {{/component}}
+    {{#component et.column property="firstName" as |record column|}}
+        {{record.firstName}}
+    {{/component}}
+    {{#component et.column property="lastName" as |record column|}}
+        {{record.lastName}}
+    {{/component}}
+    {{#component et.column property="isAdmin" as |record column|}}
+        {{#if record.isAdmin}}
+            Yes
+        {{else}}
+            No
+        {{/if}}
+    {{/component}}
+    {{#component et.column property="updatedAt" as |record column|}}
+        {{#if record.updatedAt}}
+            {{moment-format record.updatedAt "MM/DD/YYYY"}}
+        {{else}}
+            {{moment-format record.createdAt "MM/DD/YYYY"}}
+        {{/if}}
+    {{/component}}
+    <et.column @property="actions">
+        <LinkTo @route="index" class="btn btn-default btn-xs" role="button">
+            Edit
+        </LinkTo>
+    </et.column>
+</EmberTabular>
+
 
 <h5>Example #4</h5>
-{{#link-to 'example4' class="link-ex4"}}
+<h1>Table - Persist Filtering</h1>
+<EmberTabular @class="table-persist" @modelName="user" @record={{this.users4}} @filter={{this.filter3}} @persistFiltering={{true}} @isPersisting={{true}} @tableName="persistTable" @columnOrder={{this.orderConfig}} @sort={{this.sort4}} as |et|>
+    {{#component et.column property="isAdmin" isCustom=true as |record|}}
+        {{#if record.isAdmin}}
+            Yes
+        {{else}}
+            No
+        {{/if}}
+    {{/component}}
+    {{#component et.column property="updatedAt" isCustom=true as |record|}}
+        {{#if record.updatedAt}}
+            {{moment-format record.updatedAt "MM/DD/YYYY"}}
+        {{else}}
+            {{moment-format record.createdAt "MM/DD/YYYY"}}
+        {{/if}}
+    {{/component}}
+    {{#component et.column property="actions" isCustom=true as |record|}}
+        <LinkTo @route="index" class="btn btn-default btn-xs" role="button">
+            Edit
+        </LinkTo>
+    {{/component}}
+</EmberTabular>
+
+<h5>Example #5</h5>
+<h1>Table - Basic - Global Filter</h1>
+<EmberTabular @class="table-basic-global-filter" @modelName="user" @record={{this.users2}} @filter={{this.filter}} @columnOrder={{this.hideOmittedConfig}} as |et|>
+    {{#if et.isHeader}}
+        <EmberTabularGlobalFilter @filter={{this.filter}} @filterProperty="username" @filterPlaceholder="Search by Username" />
+    {{/if}}
+    {{component et.column property="username" isCustom=false filter=false sort=false}}
+    {{component et.column property="emailAddress" isCustom=false filter=false sort=false}}
+</EmberTabular>
+
+<h5>Example #6</h5>
+<h1>Table - Basic - Dropdown Filter / Date Filter</h1>
+<EmberTabular @class="table-basic-global-date-filter" @modelName="user" @record={{this.users3}} @filter={{this.filter2}} @columns={{this.columnsForDropdownFilter}} @isColumnSelect={{false}} as |et|>
+    {{#if et.isHeader}}
+        <div class="row">
+            <div class="col-sm-6">
+                <EmberTabularDropdownFilter @filter={{this.filter2}} @filterProperty="isAdmin" @label="Is Admin" @searchFilter={{this.isAdminFilter}}>
+                    <PowerSelect @options={{this.adminContent}} @selected={{find-by adminContent "value" this.isAdminFilter}} @searchField="label" @searchEnabled={{false}} @placeholder="Select to filter" @triggerClass="ember-tabular-ember-power-select" @allowClear={{true}} @onChange={{action "setIsAdminFilter"}} as |option|>
+                            {{option.label}}
+                    </PowerSelect>
+                </EmberTabularDropdownFilter>
+            </div>
+            <div class="col-sm-6">
+                <EmberTabularDateFilter @filter={{this.filter2}} @filterProperty="updatedAt" @label="Last Updated" />
+            </div>
+        </div>
+    {{/if}}
+</EmberTabular>
+
+<h5>Example #7</h5>
+<h1>Table - Select Row</h1>
+<EmberTabular @class="table-select-row" @modelName="user" @sort="username" @isColumnSelect={{false}} as |et|>
+    {{component et.column property="checked" selectable=true isCustom=false filter=false sort=false}}
+</EmberTabular>
+
+<h5>Example #8</h5>
+
+<LinkTo @route="example4" class="link-ex4">
     Route Binds Model to Table
-{{/link-to}}
+</LinkTo>

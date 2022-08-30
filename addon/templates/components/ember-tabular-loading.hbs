@@ -1,0 +1,10 @@
+<tr>
+    <td class="text-center td-loading" colspan="{{this.columnLength}}">
+        {{#if this.isRecordLoaded}}
+            {{this.tableLoadedMessage}}
+            <EmberTabularRegistry @registryComplete={{this.registryComplete}} />
+        {{else}}
+            Loading...
+        {{/if}}
+    </td>
+</tr>

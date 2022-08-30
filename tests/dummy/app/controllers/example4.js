@@ -1,30 +1,36 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   columns: [
     {
       property: 'username',
       label: 'Username',
+      isActive: true,
       filter: false,
     },
     {
-      property: 'email-address',
+      property: 'emailAddress',
       label: 'Email',
+      isActive: true,
       filter: false,
     },
     {
-      property: 'first-name',
+      property: 'firstName',
       label: 'First Name',
+      isActive: true,
       filter: false,
     },
     {
-      property: 'last-name',
+      property: 'lastName',
       label: 'Last Name',
+      isActive: true,
       filter: false,
     },
     {
-      property: 'updated-at',
+      property: 'updatedAt',
       label: 'Last Updated',
+      isActive: true,
+      isCustom: true,
       filter: false,
     },
   ],

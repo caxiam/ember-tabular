@@ -1,11 +1,51 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { debounce } from '@ember/runloop';
+import { on } from '@ember/object/evented';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
+import layout from 'ember-tabular/templates/components/ember-tabular-filter';
 
-export default Ember.Component.extend({
+/**
+* Filtering on a column by column basis within the component's `<table/>`.
+*
+* @class EmberTabularFilter
+*/
+export default Component.extend({
+  layout,
+  /**
+  * @property tagName
+  * @type String
+  * @default 'th'
+  */
   tagName: 'th',
   action: null,
+  /**
+  * Value of filter.
+  *
+  * @property headerFilter
+  * @type String
+  * @default ''
+  */
   headerFilter: '',
+  focusFilter: null,
 
+  'data-test-table-header-filter': readOnly('property'),
+
+  /**
+  * Pass the `query` object from the parent component if it is different or if used outside of the context of the component, otherwise `query` is optional and the component will attempt to grab within the context of the parent component.
+  *
+  * @property query
+  * @type Object
+  * @default null
+  */
   query: null,
+  /**
+  * Must expose the `filter` property on the parent ember-tabular component to be able to pass the filter object back and forth between parent and child components.
+  *
+  * @property filter
+  * @type Object
+  * @default null
+  */
   filter: null,
 
   actions: {
@@ -19,10 +59,15 @@ export default Ember.Component.extend({
         this.set('headerFilter', null);
       }
     },
+    focusFilter() {
+      if (this.focusFilter) {
+        this.focusFilter();
+      }
+    },
   },
-  setHeaderFilter: Ember.on('init', function () {
-    const filter = this.get('filter');
-    const property = this.get('property');
+  setHeaderFilter: on('init', function () {
+    const filter = this.filter;
+    const property = this.property;
 
     if (filter) {
       for (var i = filter.length - 1; i >= 0; i--) {
@@ -35,27 +80,40 @@ export default Ember.Component.extend({
     // to avoid multiple requests for properties that are set on init
     this.addObserver('headerFilter', this.filterBy);
   }),
-  // observable property is set during init
-  filterBy: Ember.observer(function () {
-    Ember.run.debounce(this, 'filterName', 750);
-  }),
-  isClearable: Ember.computed('headerFilter', function () {
-    if (this.get('headerFilter')) {
+  /**
+  * Debounce the `filterName` method.
+  * observable property is set during init
+  *
+  * @method filterBy
+  */
+  filterBy() {
+    debounce(this, 'filterName', 750);
+  },
+  /**
+  * @property isClearable
+  */
+  isClearable: computed('headerFilter', function () {
+    if (this.headerFilter) {
       return true;
     }
     return false;
   }),
-  inputPlaceholder: Ember.computed('header.type', function () {
+  inputPlaceholder: computed('header.type', function () {
     const type = this.get('header.type');
 
     if (type === 'date') {
       return 'YYYY-MM-DD';
     }
   }),
+  /**
+  * Constructs and sets the `filter` Object.
+  *
+  * @method filterName
+  */
   filterName() {
-    const query = this.get('query');
-    const property = this.get('property');
-    const value = this.get('headerFilter');
+    const query = this.query;
+    const property = this.property;
+    const value = this.headerFilter;
     let filter;
 
     // Set the query on the filter object

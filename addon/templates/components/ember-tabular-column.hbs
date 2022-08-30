@@ -1,0 +1,15 @@
+{{#if this.hasProperty}}
+  {{#if (has-block)}}
+    <td class="{{this.class}}" data-test-table-column="{{this.column.property}}">{{yield this.record this.column}}</td>
+  {{else if this.column.selectable}}
+    <td class="{{this.class}}" data-test-table-column="{{this.column.property}}">
+      <div class="checkbox-no-label checkbox-sm">
+          <EmberTabularRowCheckbox @name="checked" @model={{this.record}} @collection={{this.collection}} />
+      </div>
+    </td>
+  {{else}}
+    <td class="{{this.class}}" data-test-table-column="{{this.column.property}}">
+      {{get this.record this.column.property}}
+    </td>
+  {{/if}}
+{{/if}}

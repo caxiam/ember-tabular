@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { camelize } from '@ember/string';
 
 function filterObj(where, collection, query) {
   // Filter ?filter[property]=value => {property: value, property: value}
@@ -8,7 +8,7 @@ function filterObj(where, collection, query) {
       // Strip filter[] from key
       let filterKey = key.replace('filter[', '').replace(']', '');
 
-      query[Ember.String.camelize(filterKey)] = value;
+      query[camelize(filterKey)] = value;
     }
   }
 
@@ -17,6 +17,8 @@ function filterObj(where, collection, query) {
 
 export default function() {
   this.namespace = '';
+
+  this.passthrough('/write-coverage');
 
   /*
   Routes

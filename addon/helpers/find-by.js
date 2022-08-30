@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
+import { helper as buildHelper } from '@ember/component/helper';
 
-export default Ember.Helper.helper(function([collection, attrName, attrValue]) {
+export default buildHelper(function([collection, attrName, attrValue]) {
   if (collection) {
-    return collection.find(el => Ember.get(el, attrName) === attrValue);
+    return collection.find(el => get(el, attrName) === attrValue);
   }
 });

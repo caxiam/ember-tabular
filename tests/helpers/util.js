@@ -1,43 +1,55 @@
-import Ember from 'ember';
-
-export default function() {
-
-  Ember.Test.registerHelper('getLastPretenderRequest', function(app, server) {
+export const getLastPretenderRequest = (server) => {
     var requests = server.pretender.handledRequests;
     return requests[requests.length - 1];
-  });
+};
 
-  Ember.Test.registerHelper('getPretenderRequest', function(app, server, method, type) {
+export const getPretenderRequest = (server, method, type) => {
+    function isJson(str) {
+        try { JSON.parse(str); } catch (e) { return false; } return true;
+    }
+
     var requests = server.pretender.handledRequests,
-      pretenderRequests = [];
+        pretenderRequests = [];
 
     for (var i = requests.length - 1; i >= 0; i--) {
-      var requestBody = JSON.parse(requests[i].responseText).data;
-      if (type) {
-        if (requestBody.constructor === Array) {
-          if (requests[i].method === method && requestBody[0].type === type) {
-            pretenderRequests.push(requests[i]);
-          }
+        var requestBody = JSON.parse(requests[i].responseText);
+        if (requestBody.data) {
+            requestBody = requestBody.data;
         } else {
-          if (requests[i].method === method && requestBody.type === type) {
-            pretenderRequests.push(requests[i]);
-          }
+            if (isJson(requests[i].requestBody) && JSON.parse(requests[i].requestBody) && JSON.parse(requests[i].requestBody).data) {
+                requestBody = JSON.parse(requests[i].requestBody).data;
+            } else {
+                requestBody = requestBody.data;
+            }
         }
-      } else {
-        if (requests[i].method === method) {
-          pretenderRequests.push(requests[i]);
+        if (type) {
+            if (requestBody.constructor === Array) {
+                if (requests[i].method === method && requestBody[0] && requestBody[0].type === type) {
+                    pretenderRequests.push(requests[i]);
+                }
+            } else {
+                if (requests[i].method === method && requestBody && requestBody.type === type) {
+                    pretenderRequests.push(requests[i]);
+                }
+            }
+        } else {
+            if (requests[i].method === method) {
+                pretenderRequests.push(requests[i]);
+            }
         }
-      }
 
     }
     return pretenderRequests;
-  });
+};
 
-  Ember.Test.registerHelper('getPretenderRequestBody', function(app, request) {
+export const getPretenderRequestBody = (request) => {
     return JSON.parse(request.requestBody);
-  });
+};
 
-  Ember.Test.registerHelper('assertIn', function(app, assert, subject, value, description) {
-    return assert.equal(subject.indexOf(value) > -1, true, description);
-  });
-}
+export const getPretenderResponseBody = (request) => {
+    return JSON.parse(request.responseText);
+};
+
+export const assertIn = (assert, subject, value, description) => {
+  return assert.equal(subject.indexOf(value) > -1, true, description);
+};
